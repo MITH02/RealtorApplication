@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
