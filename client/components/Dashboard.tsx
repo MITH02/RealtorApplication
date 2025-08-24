@@ -188,10 +188,10 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
                     Task completed
                   </p>
-                  <p className="text-xs text-gray-500">2 hours ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -199,10 +199,10 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
                     New assignment
                   </p>
-                  <p className="text-xs text-gray-500">1 day ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -210,10 +210,10 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
                     Deadline reminder
                   </p>
-                  <p className="text-xs text-gray-500">2 days ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">2 days ago</p>
                 </div>
               </div>
             </div>
