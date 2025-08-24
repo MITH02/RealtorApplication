@@ -6,19 +6,22 @@ interface AdminScreenProps {
 
 export default function AdminScreen({ onLogin, onSignup, onBack }: AdminScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center p-8">
-      {/* Back Button */}
-      <button
-        onClick={onBack}
-        className="absolute top-8 left-8 flex items-center text-purple-600 hover:text-purple-800 transition-colors duration-200"
-      >
-        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-        Back
-      </button>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col">
+      {/* Header with Back Button */}
+      <div className="flex items-center justify-between p-4 sm:p-6">
+        <button
+          onClick={onBack}
+          className="flex items-center text-purple-600 active:text-purple-800 transition-colors duration-200 p-2 rounded-lg active:bg-purple-100"
+        >
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="font-medium">Back</span>
+        </button>
+      </div>
 
-      <div className="max-w-md w-full">
+      {/* Content */}
+      <div className="flex-1 flex flex-col px-4 pb-8">
         {/* Admin Card */}
         <div className="text-center mb-8">
           <div className="bg-white rounded-3xl shadow-2xl p-8 mb-6 border border-purple-100 relative overflow-hidden max-w-sm mx-auto">
