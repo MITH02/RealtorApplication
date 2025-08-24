@@ -71,9 +71,6 @@ const AppContent = () => {
 
   const renderCurrentScreen = () => {
     switch (appState) {
-      case "loading":
-        return <LoadingScreen onComplete={handleLoadingComplete} />;
-
       case "role-selection":
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
 
