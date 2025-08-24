@@ -70,105 +70,124 @@ export default function BuilderScreen({
         </div>
 
         {/* Features List */}
-        <div className="bg-white rounded-2xl shadow-lg p-5 mb-6 border border-blue-200 max-w-sm mx-auto w-full">
-          <h3 className="text-base font-semibold text-gray-800 mb-4">
+        <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-8 border border-white/50 dark:border-slate-700/50 max-w-md mx-auto w-full hover:shadow-3xl transition-all duration-500">
+          <h3 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
             What you can do:
           </h3>
-          <ul className="space-y-3">
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Create and manage building projects</span>
+          <ul className="space-y-4">
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 mr-3 mt-0.5 group-hover:from-blue-500/40 group-hover:to-cyan-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Create and manage building projects</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Oversee multiple construction sites</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 mr-3 mt-0.5 group-hover:from-blue-500/40 group-hover:to-cyan-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Oversee multiple construction sites</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Monitor contractor performance</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 mr-3 mt-0.5 group-hover:from-blue-500/40 group-hover:to-cyan-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Monitor contractor performance</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Generate progress reports</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 mr-3 mt-0.5 group-hover:from-blue-500/40 group-hover:to-cyan-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Generate progress reports</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Coordinate with teams and suppliers</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 mr-3 mt-0.5 group-hover:from-blue-500/40 group-hover:to-cyan-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-blue-600 dark:text-blue-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Coordinate with teams and suppliers</span>
             </li>
           </ul>
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-3 max-w-sm mx-auto w-full">
-          <button
-            onClick={onLogin}
-            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold active:from-blue-600 active:to-blue-700 transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
-          >
-            Login to Dashboard
-          </button>
+        <div className="space-y-4 max-w-md mx-auto w-full">
+          {/* Primary Button */}
+          <div className="relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-700"></div>
+            <button
+              onClick={onLogin}
+              className="relative w-full bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl py-4 px-8 rounded-2xl font-bold transition-all duration-500 shadow-2xl hover:shadow-3xl border border-white/50 dark:border-slate-700/50 hover:scale-105 hover:-translate-y-1 group"
+            >
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent text-lg">
+                Login to Dashboard
+              </span>
+            </button>
+          </div>
 
           <button
             onClick={onSignup}
-            className="w-full bg-white text-blue-600 py-3.5 px-6 rounded-xl font-semibold border-2 border-blue-200 active:border-blue-300 active:bg-blue-50 transition-all duration-300"
+            className="w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-700 dark:text-slate-300 py-4 px-8 rounded-2xl font-semibold border-2 border-white/60 dark:border-slate-700/60 hover:bg-white/95 dark:hover:bg-slate-800/95 hover:border-blue-300 dark:hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
           >
             Create Builder Account
           </button>
         </div>
 
-        <div className="mt-6 text-center px-4">
-          <p className="text-xs text-gray-500">
-            Professional project management tools for builders
-          </p>
+        <div className="mt-8 text-center px-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 animate-pulse"></div>
+            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+              Professional project management tools for builders
+            </p>
+          </div>
         </div>
       </div>
     </div>
