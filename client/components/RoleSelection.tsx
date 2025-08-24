@@ -1,3 +1,5 @@
+import { SimpleThemeToggle } from "@/components/theme-toggle";
+
 interface RoleSelectionProps {
   onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
 }
@@ -9,97 +11,119 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       title: "Builder",
       description:
         "Manage building projects and oversee construction development",
-      icon: "🏗️",
-      gradient: "from-blue-500 to-blue-600",
-      hoverGradient: "from-blue-600 to-blue-700",
-      bgAccent: "bg-blue-50",
-      textAccent: "text-blue-600",
+      image:
+        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
     {
       id: "contractor" as const,
       title: "Contractor",
       description: "Execute tasks and report project progress efficiently",
-      icon: "👷",
-      gradient: "from-orange-500 to-orange-600",
-      hoverGradient: "from-orange-600 to-orange-700",
-      bgAccent: "bg-orange-50",
-      textAccent: "text-orange-600",
+      image:
+        "https://images.pexels.com/photos/28196491/pexels-photo-28196491.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
     {
       id: "admin" as const,
       title: "Admin",
       description: "System administration and comprehensive user management",
-      icon: "⚙️",
-      gradient: "from-purple-500 to-purple-600",
-      hoverGradient: "from-purple-600 to-purple-700",
-      bgAccent: "bg-purple-50",
-      textAccent: "text-purple-600",
+      image:
+        "https://images.pexels.com/photos/8962457/pexels-photo-8962457.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative">
+    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 dark:from-orange-600 dark:via-red-600 dark:to-red-700 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0">
+        {/* Stars */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute text-white/60 animate-pulse"
+            style={{
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: `${12 + Math.random() * 8}px`,
+              animationDelay: `${Math.random() * 3}s`,
+            }}
+          >
+            ✦
+          </div>
+        ))}
+
+        {/* Clouds */}
+        <div className="absolute top-12 left-8 w-20 h-12 bg-orange-300/40 rounded-full"></div>
+        <div className="absolute top-16 left-12 w-16 h-8 bg-orange-200/50 rounded-full"></div>
+        <div className="absolute top-20 right-12 w-24 h-14 bg-orange-300/30 rounded-full"></div>
+        <div className="absolute top-24 right-16 w-18 h-10 bg-orange-200/40 rounded-full"></div>
+
+        {/* Additional small clouds */}
+        <div className="absolute top-32 left-1/4 w-12 h-6 bg-orange-200/50 rounded-full"></div>
+        <div className="absolute top-40 right-1/3 w-14 h-8 bg-orange-300/40 rounded-full"></div>
+      </div>
+
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col items-center justify-start px-4 py-8 sm:py-16">
-          {/* Header */}
-          <div className="text-center mb-8 sm:mb-12">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-4 font-serif leading-tight">
-              Welcome to ConstructPro
+        {/* Header */}
+        <div className="px-6 pt-12 sm:pt-16">
+          <div className="flex justify-end mb-4">
+            <SimpleThemeToggle />
+          </div>
+          <div className="text-center transition-all duration-1000 opacity-100 translate-y-0">
+            <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
+              ConstructPro
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 max-w-lg mx-auto leading-relaxed px-4">
-              Choose your role to access your personalized dashboard
+            <p className="text-lg text-white/90 font-medium drop-shadow">
+              Choose your role to access your dashboard
             </p>
           </div>
+        </div>
 
-          {/* Role Cards - Mobile First Stack */}
-          <div className="flex flex-col gap-6 w-full max-w-sm mx-auto">
+        {/* Role Cards */}
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+          <div className="flex flex-col gap-6 w-full max-w-lg mx-auto">
             {roles.map((role) => (
               <div
                 key={role.id}
                 onClick={() => onRoleSelect(role.id)}
-                className="group cursor-pointer transform transition-all duration-300 active:scale-95"
+                className="group cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                <div className="bg-white rounded-3xl shadow-lg active:shadow-xl p-6 border border-gray-100 transition-all duration-300 relative overflow-hidden">
-                  {/* Gradient Background Accent */}
-                  <div
-                    className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${role.gradient} rounded-t-3xl`}
-                  ></div>
+                <div className="bg-slate-800/90 dark:bg-slate-900/95 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/10 dark:border-white/20">
+                  <div className="flex">
+                    {/* Image Section */}
+                    <div className="w-32 sm:w-40 h-24 sm:h-28 flex-shrink-0">
+                      <img
+                        src={role.image}
+                        alt={role.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
 
-                  {/* Icon */}
-                  <div className="text-5xl mb-4 text-center">{role.icon}</div>
+                    {/* Content Section */}
+                    <div className="flex-1 p-4 sm:p-6 flex flex-col justify-center">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow">
+                        {role.title}
+                      </h3>
+                      <p className="text-white/80 text-sm leading-relaxed drop-shadow">
+                        {role.description}
+                      </p>
+                    </div>
 
-                  {/* Content */}
-                  <div className="text-center">
-                    <h3 className="text-2xl font-bold text-slate-800 mb-3">
-                      {role.title}
-                    </h3>
-                    <p className="text-slate-600 mb-6 leading-relaxed text-sm">
-                      {role.description}
-                    </p>
-
-                    {/* Action Button */}
-                    <button
-                      className={`w-full bg-gradient-to-r ${role.gradient} text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 shadow-md active:shadow-lg`}
-                    >
-                      <span className="flex items-center justify-center text-sm">
-                        Select Role
-                        <svg
-                          className="w-4 h-4 ml-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </span>
-                    </button>
+                    {/* Arrow */}
+                    <div className="flex items-center pr-4 sm:pr-6">
+                      <svg
+                        className="w-6 h-6 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -107,14 +131,13 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
           </div>
         </div>
 
-        {/* Footer with Construction Image */}
-        <div className="relative h-24 sm:h-32 mt-8">
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800')`,
-            }}
-          />
+        {/* Bottom Text */}
+        <div className="px-6 pb-12">
+          <div className="text-center transition-all duration-1000 delay-500 opacity-100 translate-y-0">
+            <p className="text-white/80 text-sm font-medium drop-shadow">
+              Professional Construction Management Platform
+            </p>
+          </div>
         </div>
       </div>
     </div>
