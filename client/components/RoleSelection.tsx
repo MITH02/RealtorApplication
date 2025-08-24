@@ -11,19 +11,22 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       title: "Builder",
       description:
         "Manage building projects and oversee construction development",
-      image: "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image:
+        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
     {
       id: "contractor" as const,
       title: "Contractor",
       description: "Execute tasks and report project progress efficiently",
-      image: "https://images.pexels.com/photos/28196491/pexels-photo-28196491.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image:
+        "https://images.pexels.com/photos/28196491/pexels-photo-28196491.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
     {
       id: "admin" as const,
       title: "Admin",
       description: "System administration and comprehensive user management",
-      image: "https://images.pexels.com/photos/8962457/pexels-photo-8962457.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+      image:
+        "https://images.pexels.com/photos/8962457/pexels-photo-8962457.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
     },
   ];
 

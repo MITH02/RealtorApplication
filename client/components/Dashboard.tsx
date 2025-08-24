@@ -101,20 +101,20 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                 onClick={onLogout}
                 className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200"
               >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-              Logout
+                <svg
+                  className="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                Logout
               </button>
             </div>
           </div>
@@ -124,7 +124,9 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{content.title}</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {content.title}
+          </h2>
           <p className="text-gray-600 dark:text-gray-300 mt-2">
             Welcome back! Here's what's happening with your projects.
           </p>
@@ -133,14 +135,19 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {content.stats.map((stat, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+            >
               <div className="flex items-center">
                 <div className="text-3xl mr-4">{stat.icon}</div>
                 <div>
                   <p className="text-2xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">{stat.label}</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    {stat.label}
+                  </p>
                 </div>
               </div>
             </div>
@@ -191,7 +198,9 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     Task completed
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    2 hours ago
+                  </p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -202,7 +211,9 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     New assignment
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    1 day ago
+                  </p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
@@ -213,7 +224,9 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
                     Deadline reminder
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">2 days ago</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    2 days ago
+                  </p>
                 </div>
               </div>
             </div>
