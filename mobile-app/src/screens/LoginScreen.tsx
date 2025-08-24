@@ -3,7 +3,10 @@ import { ScrollView, View, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from '../../App';
+import Toast from 'react-native-toast-message';
+
+import { RootStackParamList } from '../navigation/AppNavigator';
+import { useAuth } from '../context/AuthContext';
 import { colors, spacing } from '../styles/theme';
 import { Container, Title, BodyText, Button, ButtonText, Input, Card } from '../components/StyledComponents';
 import styled from '@emotion/native';
@@ -78,9 +81,9 @@ const LoadingCard = styled.View`
 
 export default function LoginScreen({ navigation, route }: Props) {
   const { role } = route.params;
+  const { login, isLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const roleConfig = {
     super_admin: {
@@ -107,28 +110,29 @@ export default function LoginScreen({ navigation, route }: Props) {
 
   const handleLogin = async () => {
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
+      Toast.show({
+        type: 'error',
+        text1: 'Validation Error',
+        text2: 'Please enter both email and password',
+      });
       return;
     }
 
-    setIsLoading(true);
-
-    // Simulate API call
-    try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Navigate to appropriate dashboard
-      const dashboardMap = {
-        super_admin: 'SuperAdminDashboard',
-        admin: 'AdminDashboard',
-        contractor: 'ContractorDashboard',
-      };
-
-      navigation.navigate(dashboardMap[role] as keyof RootStackParamList);
-    } catch (error) {
-      Alert.alert('Login Failed', 'Please check your credentials and try again');
-    } finally {
-      setIsLoading(false);
+    const success = await login(email, password);
+    
+    if (success) {
+      Toast.show({
+        type: 'success',
+        text1: 'Login Successful',
+        text2: 'Welcome back!',
+      });
+      // Navigation will be handled automatically by AppNavigator based on auth state
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Failed',
+        text2: 'Please check your credentials and try again',
+      });
     }
   };
 
@@ -181,6 +185,7 @@ export default function LoginScreen({ navigation, route }: Props) {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   autoCorrect={false}
+                  editable={!isLoading}
                 />
 
                 <BodyText style={{ 
@@ -198,6 +203,7 @@ export default function LoginScreen({ navigation, route }: Props) {
                   secureTextEntry
                   autoCapitalize="none"
                   autoCorrect={false}
+                  editable={!isLoading}
                 />
 
                 <Button 
@@ -227,6 +233,7 @@ export default function LoginScreen({ navigation, route }: Props) {
                       backgroundColor: 'transparent',
                       borderColor: config.color,
                     }}
+                    disabled={isLoading}
                   >
                     <ButtonText variant="outline" style={{ color: config.color }}>
                       Forgot Password?
@@ -247,7 +254,7 @@ export default function LoginScreen({ navigation, route }: Props) {
               </BodyText>
               <BodyText style={{ color: colors.textSecondary, lineHeight: 22 }}>
                 For testing purposes, you can use any email and password combination. 
-                The authentication is currently simulated.
+                The authentication connects to the Spring Boot backend.
               </BodyText>
             </Card>
           </ScrollView>
