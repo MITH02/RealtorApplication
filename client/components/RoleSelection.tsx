@@ -38,7 +38,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative">
+    <div className="min-h-screen bg-white relative">
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Main Content Area */}
