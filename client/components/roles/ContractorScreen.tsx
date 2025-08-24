@@ -19,15 +19,27 @@ export default function ContractorScreen({ onLogin, onSignup, onBack }: Contract
       </button>
 
       <div className="max-w-md w-full">
-        {/* Contractor Icon */}
+        {/* Contractor Card */}
         <div className="text-center mb-8">
-          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center shadow-xl">
-            <img 
-              src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F49e829fd851d42a691685962b579ec5a?format=webp&width=800" 
-              alt="Contractor" 
-              className="w-24 h-24 rounded-full object-cover"
-            />
+          <div className="bg-white rounded-3xl shadow-2xl p-8 mb-6 border border-orange-100 relative overflow-hidden max-w-sm mx-auto">
+            {/* Gradient accent */}
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-400 to-orange-600"></div>
+
+            {/* Image */}
+            <div className="mb-6">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F49e829fd851d42a691685962b579ec5a?format=webp&width=800"
+                alt="Contractor"
+                className="w-32 h-32 mx-auto rounded-2xl object-cover shadow-lg"
+              />
+            </div>
+
+            {/* Role Badge */}
+            <div className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold mb-4">
+              👷 Contractor Role
+            </div>
           </div>
+
           <h1 className="text-4xl font-bold text-orange-800 mb-2">Contractor Portal</h1>
           <p className="text-orange-600 text-lg">
             Manage your assigned tasks and track project progress
