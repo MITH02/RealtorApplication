@@ -92,9 +92,12 @@ export default function VideoLoaderScreen({
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="relative max-w-sm sm:max-w-md mx-auto">
+            <div className="relative max-w-sm sm:max-w-md mx-auto group">
+              {/* Floating background elements */}
+              <div className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-indigo-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
+
               {/* Main video card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
+              <div className="relative bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden border border-white/50 dark:border-slate-700/50 transition-all duration-700 hover:scale-[1.02] hover:-translate-y-2">
                 {/* Video */}
                 <div className="relative">
                   <video
