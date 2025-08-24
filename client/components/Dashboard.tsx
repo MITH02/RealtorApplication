@@ -130,14 +130,16 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8 text-center">
+          <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-4">
             {content.title}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mt-2">
-            Welcome back! Here's what's happening with your projects.
-          </p>
+          <div className="inline-block px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/50 dark:border-slate-700/50 shadow-lg">
+            <p className="text-slate-700 dark:text-slate-300 font-semibold">
+              Welcome back! Here's what's happening with your projects.
+            </p>
+          </div>
         </div>
 
         {/* Stats Grid */}
@@ -145,15 +147,18 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
           {content.stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6"
+              className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-xl hover:shadow-2xl p-6 border border-white/50 dark:border-slate-700/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
+              style={{
+                animationDelay: `${index * 100}ms`,
+              }}
             >
               <div className="flex items-center">
-                <div className="text-3xl mr-4">{stat.icon}</div>
+                <div className="text-4xl mr-4 group-hover:scale-110 transition-transform duration-300">{stat.icon}</div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
                     {stat.value}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">
+                  <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
                     {stat.label}
                   </p>
                 </div>
