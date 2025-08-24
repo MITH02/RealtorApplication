@@ -55,14 +55,12 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div
-      className={`min-h-screen bg-gradient-to-br ${config.lightGradient} flex flex-col`}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 flex flex-col">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
         <button
           onClick={onBack}
-          className={`flex items-center ${config.accent} active:opacity-70 transition-all duration-200 p-2 rounded-lg ${config.bgAccent}`}
+          className="flex items-center text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:scale-105"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -91,17 +89,17 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           >
             <span className="text-3xl">{config.icon}</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">
             {isLogin ? "Welcome Back!" : "Create Account"}
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-slate-600 dark:text-slate-400 text-sm">
             {isLogin ? `Sign in to your ${role} account` : `Join as a ${role}`}
           </p>
         </div>
 
         {/* Form Container */}
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl p-6 border border-white/50 dark:border-slate-700/50">
             <form onSubmit={handleSubmit} className="space-y-5">
               {!isLogin && (
                 <div>
