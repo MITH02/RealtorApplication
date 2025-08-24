@@ -95,10 +95,12 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                 {role.charAt(0).toUpperCase() + role.slice(1)}
               </span>
             </div>
-            <button
-              onClick={onLogout}
-              className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200"
-            >
+            <div className="flex items-center space-x-3">
+              <SimpleThemeToggle />
+              <button
+                onClick={onLogout}
+                className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200"
+              >
               <svg
                 className="w-4 h-4 mr-2"
                 fill="none"
@@ -113,7 +115,8 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                 />
               </svg>
               Logout
-            </button>
+              </button>
+            </div>
           </div>
         </div>
       </header>
