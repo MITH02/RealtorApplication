@@ -124,8 +124,8 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">{content.title}</h2>
-          <p className="text-gray-600 mt-2">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">{content.title}</h2>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
             Welcome back! Here's what's happening with your projects.
           </p>
         </div>
@@ -133,14 +133,14 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {content.stats.map((stat, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-md p-6">
+            <div key={index} className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
               <div className="flex items-center">
                 <div className="text-3xl mr-4">{stat.icon}</div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
-                  <p className="text-gray-600 text-sm">{stat.label}</p>
+                  <p className="text-gray-600 dark:text-gray-300 text-sm">{stat.label}</p>
                 </div>
               </div>
             </div>
