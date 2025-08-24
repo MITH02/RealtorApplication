@@ -147,11 +147,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               className="bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 h-full rounded-full transition-all duration-300 ease-out relative"
               style={{ width: `${progress}%` }}
             >
-              <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>
+              {progressStarted && <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>}
             </div>
           </div>
           <p className="text-slate-600 mt-4 text-sm font-medium">
-            Building your workspace... {Math.round(progress)}%
+            {!progressStarted
+              ? "Loading workspace..."
+              : `Building your workspace... ${Math.round(progress)}%`
+            }
           </p>
         </div>
 
