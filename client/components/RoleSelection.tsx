@@ -26,7 +26,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       title: "Admin",
       description: "System administration and comprehensive user management",
       image:
-        "https://images.pexels.com/photos/590016/pexels-photo-590016.jpg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
+        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
     },
   ];
 
