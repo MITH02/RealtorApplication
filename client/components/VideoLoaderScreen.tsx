@@ -39,7 +39,7 @@ export default function VideoLoaderScreen({
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-white/60 animate-pulse"
+            className="absolute text-blue-400/70 dark:text-blue-300/50 animate-pulse"
             style={{
               left: `${10 + Math.random() * 80}%`,
               top: `${10 + Math.random() * 80}%`,
