@@ -7,7 +7,6 @@ interface LoadingScreenProps {
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(false);
-  const [buildingHeight, setBuildingHeight] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,16 +15,15 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
     const progressTimer = setInterval(() => {
       setProgress((prev) => {
-        const newProgress = prev + 1.5;
-        setBuildingHeight(newProgress);
+        const newProgress = prev + 2.5; // Adjusted for 5-second timing
         if (newProgress >= 100) {
           clearInterval(progressTimer);
-          setTimeout(onComplete, 800);
+          setTimeout(onComplete, 300);
           return 100;
         }
         return newProgress;
       });
-    }, 60);
+    }, 50); // Adjusted interval for 5-second timing
 
     return () => {
       clearTimeout(timer);
