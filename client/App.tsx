@@ -18,134 +18,134 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-type AppState = 
-  | 'loading'
-  | 'role-selection'
-  | 'contractor-info'
-  | 'builder-info'
-  | 'admin-info'
-  | 'contractor-login'
-  | 'builder-login'
-  | 'admin-login'
-  | 'contractor-dashboard'
-  | 'builder-dashboard'
-  | 'admin-dashboard';
+type AppState =
+  | "loading"
+  | "role-selection"
+  | "contractor-info"
+  | "builder-info"
+  | "admin-info"
+  | "contractor-login"
+  | "builder-login"
+  | "admin-login"
+  | "contractor-dashboard"
+  | "builder-dashboard"
+  | "admin-dashboard";
 
 const AppContent = () => {
-  const [appState, setAppState] = useState<AppState>('loading');
+  const [appState, setAppState] = useState<AppState>("loading");
 
   const handleLoadingComplete = () => {
-    setAppState('role-selection');
+    setAppState("role-selection");
   };
 
-  const handleRoleSelect = (role: 'builder' | 'contractor' | 'admin') => {
+  const handleRoleSelect = (role: "builder" | "contractor" | "admin") => {
     setAppState(`${role}-info` as AppState);
   };
 
-  const handleLogin = (role: 'builder' | 'contractor' | 'admin') => {
+  const handleLogin = (role: "builder" | "contractor" | "admin") => {
     setAppState(`${role}-login` as AppState);
   };
 
-  const handleLoginSuccess = (role: 'builder' | 'contractor' | 'admin') => {
+  const handleLoginSuccess = (role: "builder" | "contractor" | "admin") => {
     setAppState(`${role}-dashboard` as AppState);
   };
 
   const handleBack = () => {
     switch (appState) {
-      case 'contractor-info':
-      case 'builder-info':
-      case 'admin-info':
-        setAppState('role-selection');
+      case "contractor-info":
+      case "builder-info":
+      case "admin-info":
+        setAppState("role-selection");
         break;
-      case 'contractor-login':
-        setAppState('contractor-info');
+      case "contractor-login":
+        setAppState("contractor-info");
         break;
-      case 'builder-login':
-        setAppState('builder-info');
+      case "builder-login":
+        setAppState("builder-info");
         break;
-      case 'admin-login':
-        setAppState('admin-info');
+      case "admin-login":
+        setAppState("admin-info");
         break;
       default:
-        setAppState('role-selection');
+        setAppState("role-selection");
     }
   };
 
   const handleLogout = () => {
-    setAppState('role-selection');
+    setAppState("role-selection");
   };
 
   const renderCurrentScreen = () => {
     switch (appState) {
-      case 'loading':
+      case "loading":
         return <LoadingScreen onComplete={handleLoadingComplete} />;
-      
-      case 'role-selection':
+
+      case "role-selection":
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
-      
-      case 'contractor-info':
+
+      case "contractor-info":
         return (
           <ContractorScreen
-            onLogin={() => handleLogin('contractor')}
-            onSignup={() => handleLogin('contractor')}
+            onLogin={() => handleLogin("contractor")}
+            onSignup={() => handleLogin("contractor")}
             onBack={handleBack}
           />
         );
-      
-      case 'builder-info':
+
+      case "builder-info":
         return (
           <BuilderScreen
-            onLogin={() => handleLogin('builder')}
-            onSignup={() => handleLogin('builder')}
+            onLogin={() => handleLogin("builder")}
+            onSignup={() => handleLogin("builder")}
             onBack={handleBack}
           />
         );
-      
-      case 'admin-info':
+
+      case "admin-info":
         return (
           <AdminScreen
-            onLogin={() => handleLogin('admin')}
-            onSignup={() => handleLogin('admin')}
+            onLogin={() => handleLogin("admin")}
+            onSignup={() => handleLogin("admin")}
             onBack={handleBack}
           />
         );
-      
-      case 'contractor-login':
+
+      case "contractor-login":
         return (
           <LoginForm
             role="contractor"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess('contractor')}
+            onSuccess={() => handleLoginSuccess("contractor")}
           />
         );
-      
-      case 'builder-login':
+
+      case "builder-login":
         return (
           <LoginForm
             role="builder"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess('builder')}
+            onSuccess={() => handleLoginSuccess("builder")}
           />
         );
-      
-      case 'admin-login':
+
+      case "admin-login":
         return (
           <LoginForm
             role="admin"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess('admin')}
+            onSuccess={() => handleLoginSuccess("admin")}
           />
         );
-      
-      case 'contractor-dashboard':
+
+      case "contractor-dashboard":
         return <Dashboard role="contractor" onLogout={handleLogout} />;
-      
-      case 'builder-dashboard':
+
+      case "builder-dashboard":
         return <Dashboard role="builder" onLogout={handleLogout} />;
-      
-      case 'admin-dashboard':
+
+      case "admin-dashboard":
         return <Dashboard role="admin" onLogout={handleLogout} />;
-      
+
       default:
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
     }

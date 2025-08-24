@@ -4,7 +4,11 @@ interface ContractorScreenProps {
   onBack: () => void;
 }
 
-export default function ContractorScreen({ onLogin, onSignup, onBack }: ContractorScreenProps) {
+export default function ContractorScreen({
+  onLogin,
+  onSignup,
+  onBack,
+}: ContractorScreenProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex flex-col">
       {/* Header with Back Button */}
@@ -13,8 +17,18 @@ export default function ContractorScreen({ onLogin, onSignup, onBack }: Contract
           onClick={onBack}
           className="flex items-center text-orange-600 active:text-orange-800 transition-colors duration-200 p-2 rounded-lg active:bg-orange-100"
         >
-          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
           <span className="font-medium">Back</span>
         </button>
@@ -36,7 +50,9 @@ export default function ContractorScreen({ onLogin, onSignup, onBack }: Contract
             />
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-orange-800 mb-2">Contractor Portal</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-orange-800 mb-2">
+            Contractor Portal
+          </h1>
           <p className="text-orange-600 text-sm sm:text-base px-4">
             Manage your assigned tasks and track project progress
           </p>
@@ -44,29 +60,63 @@ export default function ContractorScreen({ onLogin, onSignup, onBack }: Contract
 
         {/* Features List */}
         <div className="bg-white rounded-2xl shadow-lg p-5 mb-6 border border-orange-200 max-w-sm mx-auto w-full">
-          <h3 className="text-base font-semibold text-gray-800 mb-4">What you can do:</h3>
+          <h3 className="text-base font-semibold text-gray-800 mb-4">
+            What you can do:
+          </h3>
           <ul className="space-y-3">
             <li className="flex items-start text-gray-700 text-sm">
-              <svg className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>View assigned building projects</span>
             </li>
             <li className="flex items-start text-gray-700 text-sm">
-              <svg className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>Track task deadlines and progress</span>
             </li>
             <li className="flex items-start text-gray-700 text-sm">
-              <svg className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>Mark tasks as completed</span>
             </li>
             <li className="flex items-start text-gray-700 text-sm">
-              <svg className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="w-4 h-4 text-orange-500 mr-3 mt-0.5 flex-shrink-0"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
               <span>Upload progress photos and reports</span>
             </li>

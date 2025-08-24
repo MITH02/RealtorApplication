@@ -76,7 +76,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 className="w-full h-8 border border-slate-300 bg-gradient-to-r from-slate-200 to-slate-300 relative animate-fadeIn"
                 style={{
                   animationDelay: `${i * 0.3}s`,
-                  marginBottom: '1px'
+                  marginBottom: "1px",
                 }}
               >
                 {/* Windows */}
@@ -97,12 +97,18 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               {/* Crane arm */}
               <div className="absolute top-2 left-3 w-12 h-1 bg-orange-400 origin-left animate-pulse"></div>
               {/* Hook */}
-              <div className="absolute top-3 right-0 w-1 h-4 bg-gray-600 animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+              <div
+                className="absolute top-3 right-0 w-1 h-4 bg-gray-600 animate-bounce"
+                style={{ animationDelay: "0.5s" }}
+              ></div>
             </div>
           </div>
 
           {/* Builder Character */}
-          <div className="absolute bottom-6 left-8 animate-bounce" style={{ animationDelay: '1s' }}>
+          <div
+            className="absolute bottom-6 left-8 animate-bounce"
+            style={{ animationDelay: "1s" }}
+          >
             <div className="relative">
               {/* Body */}
               <div className="w-4 h-6 bg-gradient-to-b from-blue-400 to-blue-500 rounded-t-full"></div>
@@ -123,7 +129,9 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         </div>
 
         {/* App title with typewriter effect */}
-        <div className={`transition-all duration-1000 ${showText ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        <div
+          className={`transition-all duration-1000 ${showText ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
           <h1 className="text-5xl font-bold text-slate-700 mb-4 font-serif">
             ConstructPro
           </h1>
@@ -151,10 +159,16 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         <div className="absolute top-1/4 left-1/4 animate-float">
           <div className="w-3 h-3 bg-orange-300 opacity-60 rotate-45"></div>
         </div>
-        <div className="absolute top-1/3 right-1/4 animate-float" style={{ animationDelay: '1s' }}>
+        <div
+          className="absolute top-1/3 right-1/4 animate-float"
+          style={{ animationDelay: "1s" }}
+        >
           <div className="w-2 h-6 bg-yellow-400 opacity-60"></div>
         </div>
-        <div className="absolute bottom-1/3 left-1/3 animate-float" style={{ animationDelay: '2s' }}>
+        <div
+          className="absolute bottom-1/3 left-1/3 animate-float"
+          style={{ animationDelay: "2s" }}
+        >
           <div className="w-4 h-2 bg-gray-400 opacity-60 rounded"></div>
         </div>
       </div>

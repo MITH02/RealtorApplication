@@ -80,7 +80,7 @@ export default {
             height: "0",
           },
         },
-        "float": {
+        float: {
           "0%, 100%": {
             transform: "translateY(0px)",
           },
@@ -88,7 +88,7 @@ export default {
             transform: "translateY(-20px)",
           },
         },
-        "fadeIn": {
+        fadeIn: {
           "0%": {
             opacity: "0",
             transform: "translateY(10px)",
@@ -102,8 +102,8 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float": "float 3s ease-in-out infinite",
-        "fadeIn": "fadeIn 0.6s ease-out forwards",
+        float: "float 3s ease-in-out infinite",
+        fadeIn: "fadeIn 0.6s ease-out forwards",
       },
     },
   },

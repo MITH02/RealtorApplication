@@ -1,39 +1,40 @@
 interface RoleSelectionProps {
-  onRoleSelect: (role: 'builder' | 'contractor' | 'admin') => void;
+  onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
 }
 
 export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   const roles = [
     {
-      id: 'builder' as const,
-      title: 'Builder',
-      description: 'Manage building projects and oversee construction development',
-      icon: '🏗️',
-      gradient: 'from-blue-500 to-blue-600',
-      hoverGradient: 'from-blue-600 to-blue-700',
-      bgAccent: 'bg-blue-50',
-      textAccent: 'text-blue-600'
+      id: "builder" as const,
+      title: "Builder",
+      description:
+        "Manage building projects and oversee construction development",
+      icon: "🏗️",
+      gradient: "from-blue-500 to-blue-600",
+      hoverGradient: "from-blue-600 to-blue-700",
+      bgAccent: "bg-blue-50",
+      textAccent: "text-blue-600",
     },
     {
-      id: 'contractor' as const,
-      title: 'Contractor',
-      description: 'Execute tasks and report project progress efficiently',
-      icon: '👷',
-      gradient: 'from-orange-500 to-orange-600',
-      hoverGradient: 'from-orange-600 to-orange-700',
-      bgAccent: 'bg-orange-50',
-      textAccent: 'text-orange-600'
+      id: "contractor" as const,
+      title: "Contractor",
+      description: "Execute tasks and report project progress efficiently",
+      icon: "👷",
+      gradient: "from-orange-500 to-orange-600",
+      hoverGradient: "from-orange-600 to-orange-700",
+      bgAccent: "bg-orange-50",
+      textAccent: "text-orange-600",
     },
     {
-      id: 'admin' as const,
-      title: 'Admin',
-      description: 'System administration and comprehensive user management',
-      icon: '⚙️',
-      gradient: 'from-purple-500 to-purple-600',
-      hoverGradient: 'from-purple-600 to-purple-700',
-      bgAccent: 'bg-purple-50',
-      textAccent: 'text-purple-600'
-    }
+      id: "admin" as const,
+      title: "Admin",
+      description: "System administration and comprehensive user management",
+      icon: "⚙️",
+      gradient: "from-purple-500 to-purple-600",
+      hoverGradient: "from-purple-600 to-purple-700",
+      bgAccent: "bg-purple-50",
+      textAccent: "text-purple-600",
+    },
   ];
 
   return (
@@ -62,12 +63,12 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
               >
                 <div className="bg-white rounded-3xl shadow-lg active:shadow-xl p-6 border border-gray-100 transition-all duration-300 relative overflow-hidden">
                   {/* Gradient Background Accent */}
-                  <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${role.gradient} rounded-t-3xl`}></div>
+                  <div
+                    className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${role.gradient} rounded-t-3xl`}
+                  ></div>
 
                   {/* Icon */}
-                  <div className="text-5xl mb-4 text-center">
-                    {role.icon}
-                  </div>
+                  <div className="text-5xl mb-4 text-center">{role.icon}</div>
 
                   {/* Content */}
                   <div className="text-center">
@@ -79,11 +80,23 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                     </p>
 
                     {/* Action Button */}
-                    <button className={`w-full bg-gradient-to-r ${role.gradient} text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 shadow-md active:shadow-lg`}>
+                    <button
+                      className={`w-full bg-gradient-to-r ${role.gradient} text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 shadow-md active:shadow-lg`}
+                    >
                       <span className="flex items-center justify-center text-sm">
                         Select Role
-                        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        <svg
+                          className="w-4 h-4 ml-2"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
                         </svg>
                       </span>
                     </button>
@@ -99,7 +112,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800')`
+              backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800')`,
             }}
           />
         </div>
