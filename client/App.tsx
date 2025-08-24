@@ -67,7 +67,7 @@ const AppContent = () => {
         setAppState("admin-info");
         break;
       default:
-        setAppState("role-selection");
+        setAppState("role-selection"); // Never go back to video-intro
     }
   };
 
