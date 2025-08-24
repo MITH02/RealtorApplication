@@ -90,11 +90,11 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                 <div className="bg-slate-800/90 dark:bg-slate-900/95 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/10 dark:border-white/20">
                   <div className="flex">
                     {/* Image Section */}
-                    <div className="w-32 sm:w-40 h-24 sm:h-28 flex-shrink-0">
+                    <div className="w-36 sm:w-44 h-28 sm:h-32 flex-shrink-0 overflow-hidden">
                       <img
                         src={role.image}
                         alt={role.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                     </div>
 
