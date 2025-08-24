@@ -149,7 +149,9 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center">
                     <input type="checkbox" className="mr-2 rounded" />
-                    <span className="text-slate-600 dark:text-slate-400">Remember me</span>
+                    <span className="text-slate-600 dark:text-slate-400">
+                      Remember me
+                    </span>
                   </label>
                   <button
                     type="button"
