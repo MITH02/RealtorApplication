@@ -77,6 +77,9 @@ const AppContent = () => {
 
   const renderCurrentScreen = () => {
     switch (appState) {
+      case "video-intro":
+        return <VideoIntro onComplete={handleVideoComplete} />;
+
       case "role-selection":
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
 
