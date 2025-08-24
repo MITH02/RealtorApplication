@@ -84,14 +84,22 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
   const content = getDashboardContent();
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
+      {/* Floating background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-2xl animate-float"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-gradient-to-br from-cyan-400/15 to-indigo-400/15 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-32 left-32 w-28 h-28 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-lg animate-float" style={{animationDelay: '2s'}}></div>
+      </div>
       {/* Header */}
-      <header className={`${colors.primary} text-white shadow-lg`}>
+      <header className="relative z-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-b border-white/50 dark:border-slate-700/50 shadow-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold">ConstructPro</h1>
-              <span className="ml-4 px-3 py-1 bg-white/20 rounded-full text-sm">
+              <h1 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                ConstructPro
+              </h1>
+              <span className={`ml-4 px-4 py-2 bg-gradient-to-r ${colors.primary === 'bg-blue-600' ? 'from-blue-500/20 to-blue-600/20' : colors.primary === 'bg-orange-600' ? 'from-orange-500/20 to-orange-600/20' : 'from-purple-500/20 to-purple-600/20'} backdrop-blur-sm rounded-full text-sm font-semibold ${colors.accent} border border-white/30 dark:border-slate-700/30`}>
                 {role.charAt(0).toUpperCase() + role.slice(1)}
               </span>
             </div>
@@ -99,7 +107,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
               <SimpleThemeToggle />
               <button
                 onClick={onLogout}
-                className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200"
+                className="flex items-center px-4 py-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-slate-800/90 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-white/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:scale-105"
               >
                 <svg
                   className="w-4 h-4 mr-2"
