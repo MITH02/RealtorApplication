@@ -74,12 +74,14 @@ export default function VideoLoaderScreen({
                 : "opacity-0 translate-y-4"
             }`}
           >
-            <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
+            <h1 className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent mb-4 tracking-tight">
               Builder Pro
             </h1>
-            <p className="text-lg text-white/90 font-medium drop-shadow">
-              Professional Construction Management
-            </p>
+            <div className="inline-block px-6 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/60 dark:border-slate-700/60 shadow-lg">
+              <p className="text-lg text-slate-700 dark:text-slate-200 font-semibold">
+                Professional Construction Management
+              </p>
+            </div>
           </div>
         </div>
 
