@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface LoginFormProps {
   role: "builder" | "contractor" | "admin";
@@ -54,14 +55,12 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div
-      className={`min-h-screen bg-gradient-to-br ${config.lightGradient} flex flex-col`}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 flex flex-col">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
         <button
           onClick={onBack}
-          className={`flex items-center ${config.accent} active:opacity-70 transition-all duration-200 p-2 rounded-lg ${config.bgAccent}`}
+          className="flex items-center text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:scale-105"
         >
           <svg
             className="w-5 h-5 mr-2"
@@ -78,6 +77,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           </svg>
           <span className="font-medium">Back</span>
         </button>
+        <SimpleThemeToggle />
       </div>
 
       {/* Content */}
@@ -89,28 +89,28 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           >
             <span className="text-3xl">{config.icon}</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">
             {isLogin ? "Welcome Back!" : "Create Account"}
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p className="text-slate-600 dark:text-slate-400 text-sm">
             {isLogin ? `Sign in to your ${role} account` : `Join as a ${role}`}
           </p>
         </div>
 
         {/* Form Container */}
         <div className="w-full max-w-sm">
-          <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
+          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl p-6 border border-white/50 dark:border-slate-700/50">
             <form onSubmit={handleSubmit} className="space-y-5">
               {!isLogin && (
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Full Name
                   </label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
+                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your full name"
                     required
                   />
@@ -118,28 +118,28 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               )}
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Email Address
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your email"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Password
                 </label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
+                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your password"
                   required
                 />
@@ -149,11 +149,13 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                 <div className="flex items-center justify-between text-sm">
                   <label className="flex items-center">
                     <input type="checkbox" className="mr-2 rounded" />
-                    <span className="text-gray-600">Remember me</span>
+                    <span className="text-slate-600 dark:text-slate-400">
+                      Remember me
+                    </span>
                   </label>
                   <button
                     type="button"
-                    className={`${config.accent} hover:underline font-medium`}
+                    className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
                   >
                     Forgot password?
                   </button>
@@ -183,34 +185,26 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
             {/* Toggle between login/signup */}
             <div className="mt-6 text-center">
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-600 dark:text-slate-400 text-sm">
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </p>
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className={`${config.accent} hover:underline font-semibold text-sm mt-1`}
+                className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm mt-1"
               >
                 {isLogin ? "Create one now" : "Sign in instead"}
               </button>
             </div>
           </div>
 
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500 px-4 leading-relaxed">
-              By continuing, you agree to our Terms of Service and Privacy
-              Policy. Your data is secure and encrypted.
-            </p>
-          </div>
-
           {/* Features Preview */}
-          <div className={`mt-6 ${config.bgAccent} rounded-2xl p-4`}>
-            <h4 className={`text-sm font-semibold ${config.accent} mb-2`}>
+          <div className="mt-6 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50 dark:border-slate-700/50">
+            <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
               What's waiting for you:
             </h4>
-            <ul className="text-xs text-gray-600 space-y-1">
+            <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
               {role === "admin" && (
                 <>
                   <li>• Complete project oversight</li>

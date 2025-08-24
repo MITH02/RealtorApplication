@@ -1,3 +1,5 @@
+import { SimpleThemeToggle } from "@/components/theme-toggle";
+
 interface BuilderScreenProps {
   onLogin: () => void;
   onSignup: () => void;
@@ -44,6 +46,7 @@ export default function BuilderScreen({
           </svg>
           <span className="font-medium">Back</span>
         </button>
+        <SimpleThemeToggle />
       </div>
 
       {/* Content */}
