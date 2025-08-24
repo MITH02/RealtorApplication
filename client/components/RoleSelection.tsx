@@ -141,9 +141,12 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {/* Bottom Text */}
         <div className="px-6 pb-12">
           <div className="text-center transition-all duration-1000 delay-500 opacity-100 translate-y-0">
-            <p className="text-slate-700 dark:text-white/80 text-sm font-medium drop-shadow">
-              Professional Construction Management Platform
-            </p>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
+              <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
+              <p className="text-slate-600 dark:text-slate-300 text-sm font-semibold">
+                Professional Construction Management Platform
+              </p>
+            </div>
           </div>
         </div>
       </div>
