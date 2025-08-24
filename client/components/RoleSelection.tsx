@@ -31,7 +31,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 dark:from-orange-600 dark:via-red-600 dark:to-red-700 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-200 dark:from-blue-800 dark:via-blue-900 dark:to-cyan-900 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
         {/* Stars */}
@@ -51,14 +51,14 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         ))}
 
         {/* Clouds */}
-        <div className="absolute top-12 left-8 w-20 h-12 bg-orange-300/40 rounded-full"></div>
-        <div className="absolute top-16 left-12 w-16 h-8 bg-orange-200/50 rounded-full"></div>
-        <div className="absolute top-20 right-12 w-24 h-14 bg-orange-300/30 rounded-full"></div>
-        <div className="absolute top-24 right-16 w-18 h-10 bg-orange-200/40 rounded-full"></div>
+        <div className="absolute top-12 left-8 w-20 h-12 bg-blue-300/40 rounded-full"></div>
+        <div className="absolute top-16 left-12 w-16 h-8 bg-cyan-200/50 rounded-full"></div>
+        <div className="absolute top-20 right-12 w-24 h-14 bg-blue-300/30 rounded-full"></div>
+        <div className="absolute top-24 right-16 w-18 h-10 bg-cyan-200/40 rounded-full"></div>
 
         {/* Additional small clouds */}
-        <div className="absolute top-32 left-1/4 w-12 h-6 bg-orange-200/50 rounded-full"></div>
-        <div className="absolute top-40 right-1/3 w-14 h-8 bg-orange-300/40 rounded-full"></div>
+        <div className="absolute top-32 left-1/4 w-12 h-6 bg-cyan-200/50 rounded-full"></div>
+        <div className="absolute top-40 right-1/3 w-14 h-8 bg-blue-300/40 rounded-full"></div>
       </div>
 
       {/* Content */}
