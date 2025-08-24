@@ -24,12 +24,21 @@ export default function Index() {
       {/* Floating background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full blur-2xl animate-float"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float" style={{animationDelay: '2s'}}></div>
+        <div
+          className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
 
         {/* Geometric accents */}
         <div className="absolute top-1/4 left-1/4 w-1 h-12 bg-gradient-to-b from-blue-500/30 to-transparent rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-12 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div
+          className="absolute bottom-1/4 right-1/4 w-12 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       <div className="text-center relative z-10">
@@ -71,8 +80,8 @@ export default function Index() {
         </div>
         <div className="mt-6 inline-block px-6 py-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
           <p className="text-slate-700 dark:text-slate-300 max-w-md font-medium">
-            Watch the chat on the left for updates that might need your attention
-            to finish generating
+            Watch the chat on the left for updates that might need your
+            attention to finish generating
           </p>
         </div>
         <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>

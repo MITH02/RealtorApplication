@@ -53,14 +53,29 @@ export default function VideoLoaderScreen({
 
         {/* Modern Floating Elements */}
         <div className="absolute top-16 left-8 w-40 h-40 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full blur-2xl animate-float"></div>
-        <div className="absolute top-32 right-12 w-32 h-32 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '1.5s'}}></div>
-        <div className="absolute bottom-40 left-16 w-28 h-28 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float" style={{animationDelay: '3s'}}></div>
-        <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-gradient-to-br from-indigo-400/25 to-blue-400/25 rounded-full blur-md animate-float" style={{animationDelay: '0.5s'}}></div>
+        <div
+          className="absolute top-32 right-12 w-32 h-32 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float"
+          style={{ animationDelay: "1.5s" }}
+        ></div>
+        <div
+          className="absolute bottom-40 left-16 w-28 h-28 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "3s" }}
+        ></div>
+        <div
+          className="absolute top-1/2 right-1/4 w-24 h-24 bg-gradient-to-br from-indigo-400/25 to-blue-400/25 rounded-full blur-md animate-float"
+          style={{ animationDelay: "0.5s" }}
+        ></div>
 
         {/* Geometric Accents */}
         <div className="absolute top-20 left-1/3 w-1 h-16 bg-gradient-to-b from-blue-500/30 to-transparent rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-32 right-1/3 w-16 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/3 left-1/4 w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+        <div
+          className="absolute bottom-32 right-1/3 w-16 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute top-1/3 left-1/4 w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       {/* Content */}

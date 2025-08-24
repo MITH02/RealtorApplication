@@ -14,8 +14,14 @@ export default function ContractorScreen({
       {/* Floating background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-16 w-32 h-32 bg-gradient-to-br from-orange-400/15 to-amber-400/15 rounded-full blur-2xl animate-float"></div>
-        <div className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-32 left-24 w-20 h-20 bg-gradient-to-br from-yellow-400/15 to-orange-400/15 rounded-full blur-lg animate-float" style={{animationDelay: '2s'}}></div>
+        <div
+          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-float"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-32 left-24 w-20 h-20 bg-gradient-to-br from-yellow-400/15 to-orange-400/15 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
       </div>
       {/* Header with Back Button */}
       <div className="relative z-10 flex items-center justify-between p-4 sm:p-6">
@@ -89,7 +95,9 @@ export default function ContractorScreen({
                   />
                 </svg>
               </div>
-              <span className="font-medium">View assigned building projects</span>
+              <span className="font-medium">
+                View assigned building projects
+              </span>
             </li>
             <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
               <div className="p-1.5 rounded-full bg-gradient-to-r from-orange-500/20 to-amber-500/20 mr-3 mt-0.5 group-hover:from-orange-500/40 group-hover:to-amber-500/40 transition-all duration-300">
@@ -105,7 +113,9 @@ export default function ContractorScreen({
                   />
                 </svg>
               </div>
-              <span className="font-medium">Track task deadlines and progress</span>
+              <span className="font-medium">
+                Track task deadlines and progress
+              </span>
             </li>
             <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
               <div className="p-1.5 rounded-full bg-gradient-to-r from-orange-500/20 to-amber-500/20 mr-3 mt-0.5 group-hover:from-orange-500/40 group-hover:to-amber-500/40 transition-all duration-300">
@@ -137,7 +147,9 @@ export default function ContractorScreen({
                   />
                 </svg>
               </div>
-              <span className="font-medium">Upload progress photos and reports</span>
+              <span className="font-medium">
+                Upload progress photos and reports
+              </span>
             </li>
           </ul>
         </div>

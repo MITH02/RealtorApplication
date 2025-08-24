@@ -52,13 +52,25 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
 
         {/* Modern Floating Elements */}
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"></div>
-        <div className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-cyan-400/25 to-blue-400/25 rounded-full blur-lg animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-indigo-400/30 to-cyan-400/30 rounded-full blur-md animate-float" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-lg animate-float" style={{animationDelay: '0.5s'}}></div>
+        <div
+          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-cyan-400/25 to-blue-400/25 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-indigo-400/30 to-cyan-400/30 rounded-full blur-md animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "0.5s" }}
+        ></div>
 
         {/* Geometric Shapes */}
         <div className="absolute top-32 left-1/3 w-2 h-12 bg-gradient-to-b from-blue-400/40 to-transparent rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-40 right-1/3 w-12 h-2 bg-gradient-to-r from-cyan-400/40 to-transparent -rotate-12 animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div
+          className="absolute bottom-40 right-1/3 w-12 h-2 bg-gradient-to-r from-cyan-400/40 to-transparent -rotate-12 animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       {/* Content */}

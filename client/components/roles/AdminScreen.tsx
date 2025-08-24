@@ -14,8 +14,14 @@ export default function AdminScreen({
       {/* Floating background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-16 w-32 h-32 bg-gradient-to-br from-purple-400/15 to-indigo-400/15 rounded-full blur-2xl animate-float"></div>
-        <div className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float" style={{animationDelay: '1s'}}></div>
-        <div className="absolute bottom-32 left-24 w-20 h-20 bg-gradient-to-br from-indigo-400/15 to-cyan-400/15 rounded-full blur-lg animate-float" style={{animationDelay: '2s'}}></div>
+        <div
+          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-32 left-24 w-20 h-20 bg-gradient-to-br from-indigo-400/15 to-cyan-400/15 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
       </div>
       {/* Header with Back Button */}
       <div className="relative z-10 flex items-center justify-between p-4 sm:p-6">
@@ -153,7 +159,9 @@ export default function AdminScreen({
                   />
                 </svg>
               </div>
-              <span className="font-medium">Monitor project alerts and deadlines</span>
+              <span className="font-medium">
+                Monitor project alerts and deadlines
+              </span>
             </li>
             <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
               <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
@@ -169,7 +177,9 @@ export default function AdminScreen({
                   />
                 </svg>
               </div>
-              <span className="font-medium">Generate comprehensive reports</span>
+              <span className="font-medium">
+                Generate comprehensive reports
+              </span>
             </li>
           </ul>
         </div>
