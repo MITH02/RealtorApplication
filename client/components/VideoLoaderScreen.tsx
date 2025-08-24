@@ -57,11 +57,11 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="bg-sky-200/50 backdrop-blur-sm rounded-3xl shadow-lg p-2 sm:p-3 border border-sky-300/30 max-w-lg sm:max-w-xl lg:max-w-2xl mx-auto">
+            <div className="bg-sky-200/50 backdrop-blur-sm rounded-3xl shadow-lg border border-sky-300/30 max-w-lg sm:max-w-xl lg:max-w-2xl mx-auto overflow-hidden">
               {/* Video */}
-              <div className="relative overflow-hidden rounded-2xl bg-sky-200">
+              <div className="relative bg-sky-200">
                 <video
-                  className="w-full h-auto min-h-96 max-h-[32rem] sm:min-h-[28rem] sm:max-h-[36rem] md:max-h-[40rem] object-contain"
+                  className="w-full h-auto min-h-96 max-h-[32rem] sm:min-h-[28rem] sm:max-h-[36rem] md:max-h-[40rem] object-contain block"
                   autoPlay
                   muted
                   loop
