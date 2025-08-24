@@ -1,3 +1,5 @@
+import { SimpleThemeToggle } from "@/components/theme-toggle";
+
 interface RoleSelectionProps {
   onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
 }
