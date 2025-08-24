@@ -38,7 +38,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-white/60 animate-pulse"
+            className="absolute text-slate-600/80 dark:text-white/60 animate-pulse"
             style={{
               left: `${10 + Math.random() * 80}%`,
               top: `${10 + Math.random() * 80}%`,
@@ -134,7 +134,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {/* Bottom Text */}
         <div className="px-6 pb-12">
           <div className="text-center transition-all duration-1000 delay-500 opacity-100 translate-y-0">
-            <p className="text-white/80 text-sm font-medium drop-shadow">
+            <p className="text-slate-700 dark:text-white/80 text-sm font-medium drop-shadow">
               Professional Construction Management Platform
             </p>
           </div>
