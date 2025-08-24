@@ -24,23 +24,16 @@ export default function BuilderScreen({ onLogin, onSignup, onBack }: BuilderScre
       <div className="flex-1 flex flex-col px-4 pb-8">
         {/* Builder Card */}
         <div className="text-center mb-6">
-          <div className="bg-white rounded-3xl shadow-lg p-6 mb-4 border border-blue-100 relative overflow-hidden max-w-xs mx-auto">
+          <div className="bg-white rounded-3xl shadow-lg mb-4 border border-blue-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-400 to-blue-600"></div>
 
-            {/* Image */}
-            <div className="mb-4">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F4e35a47e90ed4fd380e7c0f90d9855f1?format=webp&width=800"
-                alt="Builder"
-                className="w-24 h-24 mx-auto rounded-xl object-cover shadow-md"
-              />
-            </div>
-
-            {/* Role Badge */}
-            <div className="inline-flex items-center px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">
-              🏗️ Builder Role
-            </div>
+            {/* Full Image */}
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F4e35a47e90ed4fd380e7c0f90d9855f1?format=webp&width=800"
+              alt="Builder"
+              className="w-full h-48 object-cover"
+            />
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">Builder Portal</h1>
