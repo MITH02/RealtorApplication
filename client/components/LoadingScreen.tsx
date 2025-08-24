@@ -6,7 +6,7 @@ interface LoadingScreenProps {
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
-  const [showText, setShowText] = useState(false);
+  const [showText, setShowText] = useState(true); // Show text immediately
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
 
