@@ -58,7 +58,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br ${config.lightGradient} flex flex-col`}
+      className={`min-h-screen ${config.bgColor} flex flex-col`}
     >
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
@@ -88,7 +88,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
         {/* Logo/Icon Section */}
         <div className="text-center mb-8">
           <div
-            className={`w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${config.gradient} rounded-2xl flex items-center justify-center shadow-lg`}
+            className={`w-20 h-20 mx-auto mb-4 ${config.color} rounded-2xl flex items-center justify-center shadow-lg`}
           >
             <span className="text-3xl">{config.icon}</span>
           </div>
@@ -166,7 +166,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-gradient-to-r ${config.gradient} text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
+                className={`w-full ${config.color} ${config.hoverColor} text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
               >
                 {isLoading ? (
                   <>
