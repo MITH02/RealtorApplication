@@ -23,94 +23,94 @@ export default function AdminScreen({ onLogin, onSignup, onBack }: AdminScreenPr
       {/* Content */}
       <div className="flex-1 flex flex-col px-4 pb-8">
         {/* Admin Card */}
-        <div className="text-center mb-8">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 mb-6 border border-purple-100 relative overflow-hidden max-w-sm mx-auto">
+        <div className="text-center mb-6">
+          <div className="bg-white rounded-3xl shadow-lg p-6 mb-4 border border-purple-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-400 to-purple-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-400 to-purple-600"></div>
 
             {/* Image */}
-            <div className="mb-6">
+            <div className="mb-4">
               <img
                 src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2Fef4d01b439c041bc9a1546a4ea50eb7f?format=webp&width=800"
                 alt="Admin"
-                className="w-32 h-32 mx-auto rounded-2xl object-cover shadow-lg"
+                className="w-24 h-24 mx-auto rounded-xl object-cover shadow-md"
               />
             </div>
 
             {/* Role Badge */}
-            <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold mb-4">
+            <div className="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
               ⚙️ Admin Role
             </div>
           </div>
 
-          <h1 className="text-4xl font-bold text-purple-800 mb-2">Admin Portal</h1>
-          <p className="text-purple-600 text-lg">
+          <h1 className="text-2xl sm:text-3xl font-bold text-purple-800 mb-2">Admin Portal</h1>
+          <p className="text-purple-600 text-sm sm:text-base px-4">
             System administration and comprehensive management
           </p>
         </div>
 
         {/* Features List */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-purple-200">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Admin Capabilities:</h3>
+        <div className="bg-white rounded-2xl shadow-lg p-5 mb-6 border border-purple-200 max-w-sm mx-auto w-full">
+          <h3 className="text-base font-semibold text-gray-800 mb-4">Admin Capabilities:</h3>
           <ul className="space-y-3">
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Create and manage buildings
+              <span>Create and manage buildings</span>
             </li>
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Assign tasks to contractors
+              <span>Assign tasks to contractors</span>
             </li>
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Set deadlines and milestones
+              <span>Set deadlines and milestones</span>
             </li>
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Approve task completions
+              <span>Approve task completions</span>
             </li>
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Monitor project alerts and deadlines
+              <span>Monitor project alerts and deadlines</span>
             </li>
-            <li className="flex items-center text-gray-700">
-              <svg className="w-5 h-5 text-purple-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+            <li className="flex items-start text-gray-700 text-sm">
+              <svg className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
-              Generate comprehensive reports
+              <span>Generate comprehensive reports</span>
             </li>
           </ul>
         </div>
 
         {/* Action Buttons */}
-        <div className="space-y-4">
+        <div className="space-y-3 max-w-sm mx-auto w-full">
           <button
             onClick={onLogin}
-            className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3.5 px-6 rounded-xl font-semibold active:from-purple-600 active:to-purple-700 transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
           >
             Login to Admin Panel
           </button>
-          
+
           <button
             onClick={onSignup}
-            className="w-full bg-white text-purple-600 py-4 px-6 rounded-xl font-semibold text-lg border-2 border-purple-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-300"
+            className="w-full bg-white text-purple-600 py-3.5 px-6 rounded-xl font-semibold border-2 border-purple-200 active:border-purple-300 active:bg-purple-50 transition-all duration-300"
           >
             Request Admin Access
           </button>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
+        <div className="mt-6 text-center px-4">
+          <p className="text-xs text-gray-500">
             Complete system control and project oversight
           </p>
         </div>
