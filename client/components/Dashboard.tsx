@@ -1,3 +1,5 @@
+import { SimpleThemeToggle } from "@/components/theme-toggle";
+
 interface DashboardProps {
   role: "builder" | "contractor" | "admin";
   onLogout: () => void;
