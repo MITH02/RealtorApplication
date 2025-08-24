@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useState } from "react";
 
 interface LoginFormProps {
@@ -5,6 +7,292 @@ interface LoginFormProps {
   onBack: () => void;
   onSuccess: () => void;
 }
+
+const containerStyle = (bgColor: string) => css`
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: ${bgColor};
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+`;
+
+const headerStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+`;
+
+const backButtonStyle = (color: string, bgColor: string) => css`
+  display: flex;
+  align-items: center;
+  color: ${color};
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: ${bgColor};
+  
+  &:active {
+    opacity: 0.7;
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  span {
+    font-weight: 500;
+  }
+`;
+
+const contentStyle = css`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px;
+`;
+
+const logoSectionStyle = css`
+  text-align: center;
+  margin-bottom: 32px;
+`;
+
+const iconContainerStyle = (bgColor: string) => css`
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 16px;
+  background-color: ${bgColor};
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  span {
+    font-size: 30px;
+  }
+`;
+
+const titleStyle = css`
+  font-size: 24px;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 8px;
+  margin: 0 0 8px 0;
+`;
+
+const subtitleStyle = css`
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+`;
+
+const formContainerStyle = css`
+  width: 100%;
+  max-width: 384px;
+`;
+
+const formCardStyle = css`
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  border: 1px solid #f1f5f9;
+`;
+
+const formStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const fieldStyle = css`
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background-color: #f9fafb;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    
+    &:focus {
+      outline: none;
+      ring: 2px solid #3b82f6;
+      border-color: transparent;
+      background-color: #ffffff;
+    }
+    
+    &::placeholder {
+      color: #9ca3af;
+    }
+  }
+`;
+
+const checkboxRowStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  
+  label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    
+    input {
+      margin-right: 8px;
+      border-radius: 4px;
+      width: auto;
+      padding: 0;
+      background: none;
+    }
+    
+    span {
+      color: #6b7280;
+    }
+  }
+`;
+
+const forgotButtonStyle = (color: string) => css`
+  color: ${color};
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const submitButtonStyle = (bgColor: string, hoverColor: string) => css`
+  width: 100%;
+  background-color: ${bgColor};
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+  
+  &:active {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: scale(0.95);
+    background-color: ${hoverColor};
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+`;
+
+const toggleSectionStyle = css`
+  margin-top: 24px;
+  text-align: center;
+  
+  p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0 0 4px 0;
+  }
+`;
+
+const toggleButtonStyle = (color: string) => css`
+  color: ${color};
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const additionalInfoStyle = css`
+  margin-top: 24px;
+  text-align: center;
+  
+  p {
+    font-size: 12px;
+    color: #6b7280;
+    padding: 0 16px;
+    line-height: 1.5;
+    margin: 0;
+  }
+`;
+
+const previewCardStyle = (bgColor: string) => css`
+  margin-top: 24px;
+  background-color: ${bgColor};
+  border-radius: 16px;
+  padding: 16px;
+  
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    margin: 0 0 8px 0;
+  }
+  
+  ul {
+    font-size: 12px;
+    color: #6b7280;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: 4px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+`;
 
 export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,29 +303,29 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
   const roleConfig = {
     builder: {
-      color: "bg-blue-600",
-      hoverColor: "hover:bg-blue-700",
-      bgColor: "bg-blue-50",
-      accent: "text-blue-600",
-      bgAccent: "bg-blue-50",
+      color: "#2563eb",
+      hoverColor: "#1d4ed8",
+      bgColor: "#eff6ff",
+      bgAccent: "#dbeafe",
+      accent: "#2563eb",
       icon: "🏗️",
       title: "Builder Portal",
     },
     contractor: {
-      color: "bg-orange-600",
-      hoverColor: "hover:bg-orange-700",
-      bgColor: "bg-orange-50",
-      accent: "text-orange-600",
-      bgAccent: "bg-orange-50",
+      color: "#ea580c",
+      hoverColor: "#c2410c",
+      bgColor: "#fff7ed",
+      bgAccent: "#fed7aa",
+      accent: "#ea580c",
       icon: "👷",
       title: "Contractor Portal",
     },
     admin: {
-      color: "bg-purple-600",
-      hoverColor: "hover:bg-purple-700",
-      bgColor: "bg-purple-50",
-      accent: "text-purple-600",
-      bgAccent: "bg-purple-50",
+      color: "#9333ea",
+      hoverColor: "#7c3aed",
+      bgColor: "#faf5ff",
+      bgAccent: "#e9d5ff",
+      accent: "#9333ea",
       icon: "⚙️",
       title: "Admin Portal",
     },
@@ -57,21 +345,10 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div
-      className={`min-h-screen ${config.bgColor} flex flex-col`}
-    >
-      {/* Header with Back Button */}
-      <div className="flex items-center justify-between p-4 sm:p-6">
-        <button
-          onClick={onBack}
-          className={`flex items-center ${config.accent} active:opacity-70 transition-all duration-200 p-2 rounded-lg ${config.bgAccent}`}
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+    <div css={containerStyle(config.bgColor)}>
+      <div css={headerStyle}>
+        <button css={backButtonStyle(config.accent, config.bgAccent)} onClick={onBack}>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -79,84 +356,70 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          <span className="font-medium">Back</span>
+          <span>Back</span>
         </button>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
-        {/* Logo/Icon Section */}
-        <div className="text-center mb-8">
-          <div
-            className={`w-20 h-20 mx-auto mb-4 ${config.color} rounded-2xl flex items-center justify-center shadow-lg`}
-          >
-            <span className="text-3xl">{config.icon}</span>
+      <div css={contentStyle}>
+        <div css={logoSectionStyle}>
+          <div css={iconContainerStyle(config.color)}>
+            <span>{config.icon}</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+          <h1 css={titleStyle}>
             {isLogin ? "Welcome Back!" : "Create Account"}
           </h1>
-          <p className="text-gray-600 text-sm">
+          <p css={subtitleStyle}>
             {isLogin ? `Sign in to your ${role} account` : `Join as a ${role}`}
           </p>
         </div>
 
-        {/* Form Container */}
-        <div className="w-full max-w-sm">
-          <div className="bg-white rounded-3xl shadow-xl p-6 border border-gray-100">
-            <form onSubmit={handleSubmit} className="space-y-5">
+        <div css={formContainerStyle}>
+          <div css={formCardStyle}>
+            <form onSubmit={handleSubmit} css={formStyle}>
               {!isLogin && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
-                  </label>
+                <div css={fieldStyle}>
+                  <label>Full Name</label>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
                     placeholder="Enter your full name"
                     required
                   />
                 </div>
               )}
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
-                </label>
+              <div css={fieldStyle}>
+                <label>Email Address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
                   placeholder="Enter your email"
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Password
-                </label>
+              <div css={fieldStyle}>
+                <label>Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200"
                   placeholder="Enter your password"
                   required
                 />
               </div>
 
               {isLogin && (
-                <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2 rounded" />
-                    <span className="text-gray-600">Remember me</span>
+                <div css={checkboxRowStyle}>
+                  <label>
+                    <input type="checkbox" />
+                    <span>Remember me</span>
                   </label>
                   <button
                     type="button"
-                    className={`${config.accent} hover:underline font-medium`}
+                    css={forgotButtonStyle(config.accent)}
                   >
                     Forgot password?
                   </button>
@@ -166,28 +429,24 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full ${config.color} ${config.hoverColor} text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
+                css={submitButtonStyle(config.color, config.hoverColor)}
               >
                 {isLoading ? (
                   <>
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg fill="none" viewBox="0 0 24 24">
                       <circle
-                        className="opacity-25"
                         cx="12"
                         cy="12"
                         r="10"
                         stroke="currentColor"
                         strokeWidth="4"
-                      ></circle>
+                        opacity="0.25"
+                      />
                       <path
-                        className="opacity-75"
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                        opacity="0.75"
+                      />
                     </svg>
                     {isLogin ? "Signing In..." : "Creating Account..."}
                   </>
@@ -199,36 +458,31 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               </button>
             </form>
 
-            {/* Toggle between login/signup */}
-            <div className="mt-6 text-center">
-              <p className="text-gray-600 text-sm">
+            <div css={toggleSectionStyle}>
+              <p>
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </p>
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className={`${config.accent} hover:underline font-semibold text-sm mt-1`}
+                css={toggleButtonStyle(config.accent)}
               >
                 {isLogin ? "Create one now" : "Sign in instead"}
               </button>
             </div>
           </div>
 
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500 px-4 leading-relaxed">
+          <div css={additionalInfoStyle}>
+            <p>
               By continuing, you agree to our Terms of Service and Privacy
               Policy. Your data is secure and encrypted.
             </p>
           </div>
 
-          {/* Features Preview */}
-          <div className={`mt-6 ${config.bgAccent} rounded-2xl p-4`}>
-            <h4 className={`text-sm font-semibold ${config.accent} mb-2`}>
-              What's waiting for you:
-            </h4>
-            <ul className="text-xs text-gray-600 space-y-1">
+          <div css={previewCardStyle(config.bgAccent)}>
+            <h4 css={css`color: ${config.accent};`}>What's waiting for you:</h4>
+            <ul>
               {role === "admin" && (
                 <>
                   <li>• Complete project oversight</li>
