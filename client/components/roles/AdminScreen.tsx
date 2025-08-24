@@ -91,75 +91,85 @@ export default function AdminScreen({
               </div>
               <span className="font-medium">Create and manage buildings</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Assign tasks to contractors</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Assign tasks to contractors</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Set deadlines and milestones</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Set deadlines and milestones</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Approve task completions</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Approve task completions</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Monitor project alerts and deadlines</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Monitor project alerts and deadlines</span>
             </li>
-            <li className="flex items-start text-gray-700 text-sm">
-              <svg
-                className="w-4 h-4 text-purple-500 mr-3 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>Generate comprehensive reports</span>
+            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
+              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+                <svg
+                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span className="font-medium">Generate comprehensive reports</span>
             </li>
           </ul>
         </div>
