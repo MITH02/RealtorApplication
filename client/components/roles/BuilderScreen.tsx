@@ -54,8 +54,6 @@ export default function BuilderScreen({
             {/* Floating background element */}
             <div className="absolute -inset-2 bg-gradient-to-r from-blue-400/20 via-cyan-400/20 to-indigo-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
 
-            {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500"></div>
 
             {/* Full Image */}
             <img
@@ -187,12 +185,18 @@ export default function BuilderScreen({
             </button>
           </div>
 
-          <button
-            onClick={onSignup}
-            className="w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-700 dark:text-slate-300 py-4 px-8 rounded-2xl font-semibold border-2 border-white/60 dark:border-slate-700/60 hover:bg-white/95 dark:hover:bg-slate-800/95 hover:border-blue-300 dark:hover:border-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-          >
-            Create Builder Account
-          </button>
+          {/* Secondary Button */}
+          <div className="relative">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/40 via-cyan-400/40 to-indigo-400/40 rounded-2xl blur opacity-40 group-hover:opacity-80 transition duration-700"></div>
+            <button
+              onClick={onSignup}
+              className="relative w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl text-slate-700 dark:text-slate-300 py-4 px-8 rounded-2xl font-bold transition-all duration-500 shadow-xl hover:shadow-2xl border border-white/60 dark:border-slate-700/60 hover:scale-105 hover:-translate-y-1 group"
+            >
+              <span className="bg-gradient-to-r from-blue-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent text-lg">
+                Create Builder Account
+              </span>
+            </button>
+          </div>
         </div>
 
         <div className="mt-8 text-center px-4">
