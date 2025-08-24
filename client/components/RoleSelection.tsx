@@ -88,9 +88,9 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                 className="group cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <div className="bg-slate-800/95 dark:bg-slate-900/98 backdrop-blur-sm rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/20 dark:border-white/30">
-                  <div className="flex h-36 sm:h-40">
+                  <div className="flex h-44 sm:h-48">
                     {/* Image Section */}
-                    <div className="w-40 sm:w-48 flex-shrink-0 overflow-hidden">
+                    <div className="w-44 sm:w-52 flex-shrink-0 overflow-hidden">
                       <img
                         src={role.image}
                         alt={role.title}
