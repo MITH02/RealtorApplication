@@ -10,7 +10,7 @@ export default function BuilderScreen({
   onBack,
 }: BuilderScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 flex flex-col">
+    <div className="min-h-screen bg-blue-50 flex flex-col">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
         <button
@@ -40,7 +40,7 @@ export default function BuilderScreen({
         <div className="text-center mb-6">
           <div className="bg-white rounded-3xl shadow-lg mb-4 border border-blue-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-blue-600"></div>
 
             {/* Full Image */}
             <img
@@ -141,7 +141,7 @@ export default function BuilderScreen({
         <div className="space-y-3 max-w-sm mx-auto w-full">
           <button
             onClick={onLogin}
-            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold active:from-blue-600 active:to-blue-700 transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
           >
             Login to Dashboard
           </button>

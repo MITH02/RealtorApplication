@@ -10,7 +10,7 @@ export default function ContractorScreen({
   onBack,
 }: ContractorScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex flex-col">
+    <div className="min-h-screen bg-orange-50 flex flex-col">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
         <button
@@ -40,7 +40,7 @@ export default function ContractorScreen({
         <div className="text-center mb-6">
           <div className="bg-white rounded-3xl shadow-lg mb-4 border border-orange-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-400 to-orange-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-orange-600"></div>
 
             {/* Full Image */}
             <img
@@ -127,7 +127,7 @@ export default function ContractorScreen({
         <div className="space-y-3 max-w-sm mx-auto w-full">
           <button
             onClick={onLogin}
-            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3.5 px-6 rounded-xl font-semibold active:from-orange-600 active:to-orange-700 transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
+            className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
           >
             Login to Dashboard
           </button>

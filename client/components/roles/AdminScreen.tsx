@@ -10,7 +10,7 @@ export default function AdminScreen({
   onBack,
 }: AdminScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-purple-100 flex flex-col">
+    <div className="min-h-screen bg-purple-50 flex flex-col">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between p-4 sm:p-6">
         <button
@@ -40,7 +40,7 @@ export default function AdminScreen({
         <div className="text-center mb-6">
           <div className="bg-white rounded-3xl shadow-lg mb-4 border border-purple-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-400 to-purple-600"></div>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-purple-600"></div>
 
             {/* Full Image */}
             <img
@@ -155,7 +155,7 @@ export default function AdminScreen({
         <div className="space-y-3 max-w-sm mx-auto w-full">
           <button
             onClick={onLogin}
-            className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-3.5 px-6 rounded-xl font-semibold active:from-purple-600 active:to-purple-700 transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
+            className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-md active:shadow-lg active:scale-95"
           >
             Login to Admin Panel
           </button>
