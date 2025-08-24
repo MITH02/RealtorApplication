@@ -36,7 +36,7 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
           style={{
             width: 'auto',
             height: 'auto',
-            imageRendering: 'crisp-edges'
+            imageRendering: 'pixelated'
           }}
           onError={handleVideoError}
           onEnded={handleVideoEnded}
