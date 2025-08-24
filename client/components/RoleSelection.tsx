@@ -97,22 +97,11 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {/* Footer with Construction Image */}
         <div className="relative h-24 sm:h-32 mt-8">
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
               backgroundImage: `url('https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800')`
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-slate-900/40"></div>
-          <div className="relative z-10 flex items-center justify-center h-full px-4">
-            <div className="text-center">
-              <p className="text-white text-sm sm:text-base font-semibold mb-1">
-                Secure • Professional • Efficient
-              </p>
-              <p className="text-white/80 text-xs sm:text-sm">
-                Powering construction management worldwide
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
