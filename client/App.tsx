@@ -1,13 +1,12 @@
 import "./global.css";
 
 import { Toaster } from "@/components/ui/toaster";
-import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import LoadingScreen from "./components/LoadingScreen";
+import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
 import BuilderScreen from "./components/roles/BuilderScreen";
@@ -19,7 +18,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 type AppState =
-  | "loading"
+  | "video-loader"
   | "role-selection"
   | "contractor-info"
   | "builder-info"
@@ -32,9 +31,9 @@ type AppState =
   | "admin-dashboard";
 
 const AppContent = () => {
-  const [appState, setAppState] = useState<AppState>("loading");
+  const [appState, setAppState] = useState<AppState>("video-loader");
 
-  const handleLoadingComplete = () => {
+  const handleGetStarted = () => {
     setAppState("role-selection");
   };
 
@@ -77,8 +76,8 @@ const AppContent = () => {
 
   const renderCurrentScreen = () => {
     switch (appState) {
-      case "loading":
-        return <LoadingScreen onComplete={handleLoadingComplete} />;
+      case "video-loader":
+        return <VideoLoaderScreen onGetStarted={handleGetStarted} />;
 
       case "role-selection":
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
@@ -169,4 +168,4 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+export default App;
