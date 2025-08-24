@@ -69,10 +69,10 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
             <SimpleThemeToggle />
           </div>
           <div className="text-center transition-all duration-1000 opacity-100 translate-y-0">
-            <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white mb-2 tracking-tight drop-shadow-lg">
               ConstructPro
             </h1>
-            <p className="text-lg text-white/90 font-medium drop-shadow">
+            <p className="text-lg text-slate-700 dark:text-white/90 font-medium drop-shadow">
               Choose your role to access your dashboard
             </p>
           </div>
