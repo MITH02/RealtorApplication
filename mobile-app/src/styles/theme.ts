@@ -1,29 +1,29 @@
-import { css } from '@emotion/native';
+import { css } from "@emotion/native";
 
 export const colors = {
-  primary: '#3B82F6',
-  primaryDark: '#1D4ED8',
-  secondary: '#10B981',
-  background: '#F8FAFC',
-  backgroundDark: '#0F172A',
-  surface: '#FFFFFF',
-  surfaceDark: '#1E293B',
-  text: '#1F2937',
-  textDark: '#F9FAFB',
-  textSecondary: '#6B7280',
-  border: '#E5E7EB',
-  borderDark: '#374151',
-  error: '#EF4444',
-  warning: '#F59E0B',
-  success: '#10B981',
-  superAdmin: '#8B5CF6',
-  admin: '#3B82F6',
-  contractor: '#F59E0B',
+  primary: "#3B82F6",
+  primaryDark: "#1D4ED8",
+  secondary: "#10B981",
+  background: "#F8FAFC",
+  backgroundDark: "#0F172A",
+  surface: "#FFFFFF",
+  surfaceDark: "#1E293B",
+  text: "#1F2937",
+  textDark: "#F9FAFB",
+  textSecondary: "#6B7280",
+  border: "#E5E7EB",
+  borderDark: "#374151",
+  error: "#EF4444",
+  warning: "#F59E0B",
+  success: "#10B981",
+  superAdmin: "#8B5CF6",
+  admin: "#3B82F6",
+  contractor: "#F59E0B",
   gradient: {
-    primary: ['#3B82F6', '#8B5CF6'],
-    secondary: ['#10B981', '#059669'],
-    danger: ['#EF4444', '#DC2626'],
-  }
+    primary: ["#3B82F6", "#8B5CF6"],
+    secondary: ["#10B981", "#059669"],
+    danger: ["#EF4444", "#DC2626"],
+  },
 };
 
 export const spacing = {
@@ -45,21 +45,21 @@ export const borderRadius = {
 
 export const shadows = {
   sm: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
   },
   md: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 4,
   },
   lg: {
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.15,
     shadowRadius: 16,

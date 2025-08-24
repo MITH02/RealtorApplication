@@ -1,13 +1,19 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { apiService } from '../services/api';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { apiService } from "../services/api";
 
 interface User {
   id: number;
   email: string;
   firstName: string;
   lastName: string;
-  role: 'SUPER_ADMIN' | 'ADMIN' | 'CONTRACTOR';
+  role: "SUPER_ADMIN" | "ADMIN" | "CONTRACTOR";
 }
 
 interface AuthContextType {
@@ -24,7 +30,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -46,9 +52,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkAuthState = async () => {
     try {
       setIsLoading(true);
-      
+
       // Check if we have stored tokens
-      const tokens = await AsyncStorage.getItem('auth_tokens');
+      const tokens = await AsyncStorage.getItem("auth_tokens");
       if (!tokens) {
         setIsLoading(false);
         return;
@@ -66,11 +72,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
       } else {
         // Invalid token, clear storage
-        await AsyncStorage.removeItem('auth_tokens');
+        await AsyncStorage.removeItem("auth_tokens");
       }
     } catch (error) {
-      console.error('Auth state check failed:', error);
-      await AsyncStorage.removeItem('auth_tokens');
+      console.error("Auth state check failed:", error);
+      await AsyncStorage.removeItem("auth_tokens");
     } finally {
       setIsLoading(false);
     }
@@ -79,9 +85,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setIsLoading(true);
-      
+
       const response = await apiService.login(email, password);
-      
+
       if (response.data && !response.error) {
         setUser({
           id: response.data.id,
@@ -92,11 +98,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
         return true;
       } else {
-        console.error('Login failed:', response.error);
+        console.error("Login failed:", response.error);
         return false;
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       return false;
     } finally {
       setIsLoading(false);
@@ -108,7 +114,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       await apiService.logout();
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       setUser(null);
       setIsLoading(false);
@@ -118,17 +124,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (userData: any): Promise<boolean> => {
     try {
       setIsLoading(true);
-      
+
       const response = await apiService.register(userData);
-      
+
       if (response.data && !response.error) {
         return true;
       } else {
-        console.error('Registration failed:', response.error);
+        console.error("Registration failed:", response.error);
         return false;
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error("Registration error:", error);
       return false;
     } finally {
       setIsLoading(false);
@@ -144,9 +150,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     register,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

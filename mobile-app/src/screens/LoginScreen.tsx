@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Alert } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
+import React, { useState } from "react";
+import { ScrollView, View, Alert } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RouteProp } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
-import { RootStackParamList } from '../navigation/AppNavigator';
-import { useAuth } from '../context/AuthContext';
-import { colors, spacing } from '../styles/theme';
-import { Container, Title, BodyText, Button, ButtonText, Input, Card } from '../components/StyledComponents';
-import styled from '@emotion/native';
+import { RootStackParamList } from "../navigation/AppNavigator";
+import { useAuth } from "../context/AuthContext";
+import { colors, spacing } from "../styles/theme";
+import {
+  Container,
+  Title,
+  BodyText,
+  Button,
+  ButtonText,
+  Input,
+  Card,
+} from "../components/StyledComponents";
+import styled from "@emotion/native";
 
-type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
-type LoginScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "Login"
+>;
+type LoginScreenRouteProp = RouteProp<RootStackParamList, "Login">;
 
 interface Props {
   navigation: LoginScreenNavigationProp;
@@ -34,7 +45,7 @@ const IconContainer = styled.View<{ roleColor: string }>`
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  background-color: ${props => props.roleColor};
+  background-color: ${(props) => props.roleColor};
   justify-content: center;
   align-items: center;
   margin-bottom: ${spacing.lg}px;
@@ -82,27 +93,27 @@ const LoadingCard = styled.View`
 export default function LoginScreen({ navigation, route }: Props) {
   const { role } = route.params;
   const { login, isLoading } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const roleConfig = {
     super_admin: {
-      title: 'Super Admin Login',
-      icon: '👑',
+      title: "Super Admin Login",
+      icon: "👑",
       color: colors.superAdmin,
-      gradientColors: [colors.superAdmin, '#6D28D9'],
+      gradientColors: [colors.superAdmin, "#6D28D9"],
     },
     admin: {
-      title: 'Admin Login',
-      icon: '🏗️',
+      title: "Admin Login",
+      icon: "🏗️",
       color: colors.admin,
-      gradientColors: [colors.admin, '#1E40AF'],
+      gradientColors: [colors.admin, "#1E40AF"],
     },
     contractor: {
-      title: 'Contractor Login',
-      icon: '👷',
+      title: "Contractor Login",
+      icon: "👷",
       color: colors.contractor,
-      gradientColors: [colors.contractor, '#D97706'],
+      gradientColors: [colors.contractor, "#D97706"],
     },
   };
 
@@ -111,27 +122,27 @@ export default function LoginScreen({ navigation, route }: Props) {
   const handleLogin = async () => {
     if (!email || !password) {
       Toast.show({
-        type: 'error',
-        text1: 'Validation Error',
-        text2: 'Please enter both email and password',
+        type: "error",
+        text1: "Validation Error",
+        text2: "Please enter both email and password",
       });
       return;
     }
 
     const success = await login(email, password);
-    
+
     if (success) {
       Toast.show({
-        type: 'success',
-        text1: 'Login Successful',
-        text2: 'Welcome back!',
+        type: "success",
+        text1: "Login Successful",
+        text2: "Welcome back!",
       });
       // Navigation will be handled automatically by AppNavigator based on auth state
     } else {
       Toast.show({
-        type: 'error',
-        text1: 'Login Failed',
-        text2: 'Please check your credentials and try again',
+        type: "error",
+        text1: "Login Failed",
+        text2: "Please check your credentials and try again",
       });
     }
   };
@@ -141,7 +152,10 @@ export default function LoginScreen({ navigation, route }: Props) {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert('Forgot Password', 'Password reset functionality will be available soon');
+    Alert.alert(
+      "Forgot Password",
+      "Password reset functionality will be available soon",
+    );
   };
 
   return (
@@ -160,22 +174,32 @@ export default function LoginScreen({ navigation, route }: Props) {
           <ScrollView showsVerticalScrollIndicator={false}>
             <Header>
               <IconContainer roleColor={config.color}>
-                <BodyText style={{ fontSize: 32, color: colors.surface }}>{config.icon}</BodyText>
+                <BodyText style={{ fontSize: 32, color: colors.surface }}>
+                  {config.icon}
+                </BodyText>
               </IconContainer>
               <Title style={{ color: colors.surface }}>{config.title}</Title>
-              <BodyText style={{ color: colors.surface, textAlign: 'center', opacity: 0.9 }}>
+              <BodyText
+                style={{
+                  color: colors.surface,
+                  textAlign: "center",
+                  opacity: 0.9,
+                }}
+              >
                 Enter your credentials to access your dashboard
               </BodyText>
             </Header>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
               <FormContainer>
-                <BodyText style={{ 
-                  fontSize: 16, 
-                  fontWeight: '600', 
-                  color: colors.text, 
-                  marginBottom: spacing.sm 
-                }}>
+                <BodyText
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "600",
+                    color: colors.text,
+                    marginBottom: spacing.sm,
+                  }}
+                >
                   Email Address
                 </BodyText>
                 <Input
@@ -188,12 +212,14 @@ export default function LoginScreen({ navigation, route }: Props) {
                   editable={!isLoading}
                 />
 
-                <BodyText style={{ 
-                  fontSize: 16, 
-                  fontWeight: '600', 
-                  color: colors.text, 
-                  marginBottom: spacing.sm 
-                }}>
+                <BodyText
+                  style={{
+                    fontSize: 16,
+                    fontWeight: "600",
+                    color: colors.text,
+                    marginBottom: spacing.sm,
+                  }}
+                >
                   Password
                 </BodyText>
                 <Input
@@ -206,7 +232,7 @@ export default function LoginScreen({ navigation, route }: Props) {
                   editable={!isLoading}
                 />
 
-                <Button 
+                <Button
                   onPress={handleLogin}
                   disabled={isLoading}
                   style={{
@@ -215,27 +241,32 @@ export default function LoginScreen({ navigation, route }: Props) {
                   }}
                 >
                   <ButtonText>
-                    {isLoading ? 'Signing In...' : 'Sign In'}
+                    {isLoading ? "Signing In..." : "Sign In"}
                   </ButtonText>
                 </Button>
 
-                <View style={{ 
-                  alignItems: 'center', 
-                  marginTop: spacing.lg,
-                  paddingTop: spacing.md,
-                  borderTopWidth: 1,
-                  borderTopColor: colors.border 
-                }}>
-                  <Button 
-                    variant="outline" 
+                <View
+                  style={{
+                    alignItems: "center",
+                    marginTop: spacing.lg,
+                    paddingTop: spacing.md,
+                    borderTopWidth: 1,
+                    borderTopColor: colors.border,
+                  }}
+                >
+                  <Button
+                    variant="outline"
                     onPress={handleForgotPassword}
                     style={{
-                      backgroundColor: 'transparent',
+                      backgroundColor: "transparent",
                       borderColor: config.color,
                     }}
                     disabled={isLoading}
                   >
-                    <ButtonText variant="outline" style={{ color: config.color }}>
+                    <ButtonText
+                      variant="outline"
+                      style={{ color: config.color }}
+                    >
                       Forgot Password?
                     </ButtonText>
                   </Button>
@@ -243,18 +274,26 @@ export default function LoginScreen({ navigation, route }: Props) {
               </FormContainer>
             </Card>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', marginTop: spacing.lg }}>
-              <BodyText style={{ 
-                fontSize: 16, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.sm 
-              }}>
+            <Card
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                marginTop: spacing.lg,
+              }}
+            >
+              <BodyText
+                style={{
+                  fontSize: 16,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.sm,
+                }}
+              >
                 Demo Credentials
               </BodyText>
               <BodyText style={{ color: colors.textSecondary, lineHeight: 22 }}>
-                For testing purposes, you can use any email and password combination. 
-                The authentication connects to the Spring Boot backend.
+                For testing purposes, you can use any email and password
+                combination. The authentication connects to the Spring Boot
+                backend.
               </BodyText>
             </Card>
           </ScrollView>
@@ -263,12 +302,14 @@ export default function LoginScreen({ navigation, route }: Props) {
         {isLoading && (
           <LoadingOverlay>
             <LoadingCard>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text,
-                marginBottom: spacing.md 
-              }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Signing In...
               </BodyText>
               <BodyText style={{ color: colors.textSecondary }}>

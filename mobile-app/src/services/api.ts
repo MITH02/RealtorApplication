@@ -1,6 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_BASE_URL = 'http://localhost:8080/api'; // Update this for production
+const API_BASE_URL = "http://localhost:8080/api"; // Update this for production
 
 interface AuthTokens {
   accessToken: string;
@@ -23,10 +23,10 @@ class ApiService {
   // Helper method to get stored tokens
   private async getTokens(): Promise<AuthTokens | null> {
     try {
-      const tokens = await AsyncStorage.getItem('auth_tokens');
+      const tokens = await AsyncStorage.getItem("auth_tokens");
       return tokens ? JSON.parse(tokens) : null;
     } catch (error) {
-      console.error('Error getting tokens:', error);
+      console.error("Error getting tokens:", error);
       return null;
     }
   }
@@ -34,30 +34,30 @@ class ApiService {
   // Helper method to store tokens
   private async storeTokens(tokens: AuthTokens): Promise<void> {
     try {
-      await AsyncStorage.setItem('auth_tokens', JSON.stringify(tokens));
+      await AsyncStorage.setItem("auth_tokens", JSON.stringify(tokens));
     } catch (error) {
-      console.error('Error storing tokens:', error);
+      console.error("Error storing tokens:", error);
     }
   }
 
   // Helper method to clear tokens
   private async clearTokens(): Promise<void> {
     try {
-      await AsyncStorage.removeItem('auth_tokens');
+      await AsyncStorage.removeItem("auth_tokens");
     } catch (error) {
-      console.error('Error clearing tokens:', error);
+      console.error("Error clearing tokens:", error);
     }
   }
 
   // Helper method to make authenticated requests
   private async makeRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<ApiResponse<T>> {
     try {
       const tokens = await this.getTokens();
       const headers: HeadersInit = {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         ...options.headers,
       };
 
@@ -84,27 +84,29 @@ class ApiService {
         } else {
           // Refresh failed, clear tokens and redirect to login
           await this.clearTokens();
-          throw new Error('Authentication failed');
+          throw new Error("Authentication failed");
         }
       }
 
       const data = await response.json();
-      
+
       if (!response.ok) {
-        throw new Error(data.message || 'Request failed');
+        throw new Error(data.message || "Request failed");
       }
 
       return { data };
     } catch (error) {
-      console.error('API request failed:', error);
-      return { error: error instanceof Error ? error.message : 'Unknown error' };
+      console.error("API request failed:", error);
+      return {
+        error: error instanceof Error ? error.message : "Unknown error",
+      };
     }
   }
 
   // Authentication methods
   async login(email: string, password: string): Promise<ApiResponse<any>> {
-    const response = await this.makeRequest('/auth/login', {
-      method: 'POST',
+    const response = await this.makeRequest("/auth/login", {
+      method: "POST",
       body: JSON.stringify({ email, password }),
     });
 
@@ -129,8 +131,8 @@ class ApiService {
     yearsOfExperience?: number;
     certificationDetails?: string;
   }): Promise<ApiResponse<any>> {
-    return this.makeRequest('/auth/register', {
-      method: 'POST',
+    return this.makeRequest("/auth/register", {
+      method: "POST",
       body: JSON.stringify(userData),
     });
   }
@@ -141,8 +143,8 @@ class ApiService {
       if (!tokens) return null;
 
       const response = await fetch(`${this.baseURL}/auth/refresh-token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tokens.refreshToken),
       });
 
@@ -155,23 +157,23 @@ class ApiService {
         return newTokens;
       }
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error("Token refresh failed:", error);
     }
     return null;
   }
 
   async logout(): Promise<void> {
-    await this.makeRequest('/auth/logout', { method: 'POST' });
+    await this.makeRequest("/auth/logout", { method: "POST" });
     await this.clearTokens();
   }
 
   async getCurrentUser(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/auth/me');
+    return this.makeRequest("/auth/me");
   }
 
   // Building methods
   async getBuildings(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/buildings');
+    return this.makeRequest("/buildings");
   }
 
   async getBuildingById(id: number): Promise<ApiResponse<any>> {
@@ -194,35 +196,41 @@ class ApiService {
     expectedCompletionDate?: string;
     projectManagerId?: number;
   }): Promise<ApiResponse<any>> {
-    return this.makeRequest('/buildings', {
-      method: 'POST',
+    return this.makeRequest("/buildings", {
+      method: "POST",
       body: JSON.stringify(buildingData),
     });
   }
 
-  async updateBuilding(id: number, buildingData: any): Promise<ApiResponse<any>> {
+  async updateBuilding(
+    id: number,
+    buildingData: any,
+  ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/buildings/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(buildingData),
     });
   }
 
-  async updateBuildingStatus(id: number, status: string): Promise<ApiResponse<any>> {
+  async updateBuildingStatus(
+    id: number,
+    status: string,
+  ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/buildings/${id}/status?status=${status}`, {
-      method: 'PATCH',
+      method: "PATCH",
     });
   }
 
   async deleteBuilding(id: number): Promise<ApiResponse<any>> {
-    return this.makeRequest(`/buildings/${id}`, { method: 'DELETE' });
+    return this.makeRequest(`/buildings/${id}`, { method: "DELETE" });
   }
 
   async getMyBuildings(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/buildings/my-buildings');
+    return this.makeRequest("/buildings/my-buildings");
   }
 
   async getOverdueBuildings(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/buildings/overdue');
+    return this.makeRequest("/buildings/overdue");
   }
 
   async searchBuildings(query: string): Promise<ApiResponse<any[]>> {
@@ -231,15 +239,15 @@ class ApiService {
 
   // Task methods
   async getTasks(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/tasks/admin/all');
+    return this.makeRequest("/tasks/admin/all");
   }
 
   async getMyTasks(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/tasks/my-tasks');
+    return this.makeRequest("/tasks/my-tasks");
   }
 
   async getMyActiveTasks(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/tasks/my-tasks/active');
+    return this.makeRequest("/tasks/my-tasks/active");
   }
 
   async getTaskById(id: number): Promise<ApiResponse<any>> {
@@ -263,8 +271,8 @@ class ApiService {
     contractorId: number;
     dependencyTaskIds?: string[];
   }): Promise<ApiResponse<any>> {
-    return this.makeRequest('/tasks', {
-      method: 'POST',
+    return this.makeRequest("/tasks", {
+      method: "POST",
       body: JSON.stringify(taskData),
     });
   }
@@ -272,57 +280,63 @@ class ApiService {
   async updateTaskProgress(
     id: number,
     progress: number,
-    notes?: string
+    notes?: string,
   ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/tasks/${id}/progress`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify({ progress, notes }),
     });
   }
 
   async markTaskAsCompleted(
     id: number,
-    completionNotes?: string
+    completionNotes?: string,
   ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/tasks/${id}/complete`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify({ completionNotes }),
     });
   }
 
   async approveTask(id: number): Promise<ApiResponse<any>> {
-    return this.makeRequest(`/tasks/${id}/approve`, { method: 'PATCH' });
+    return this.makeRequest(`/tasks/${id}/approve`, { method: "PATCH" });
   }
 
-  async rejectTask(id: number, rejectionReason: string): Promise<ApiResponse<any>> {
+  async rejectTask(
+    id: number,
+    rejectionReason: string,
+  ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/tasks/${id}/reject`, {
-      method: 'PATCH',
+      method: "PATCH",
       body: JSON.stringify({ rejectionReason }),
     });
   }
 
-  async updateTaskStatus(id: number, status: string): Promise<ApiResponse<any>> {
+  async updateTaskStatus(
+    id: number,
+    status: string,
+  ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/tasks/${id}/status?status=${status}`, {
-      method: 'PATCH',
+      method: "PATCH",
     });
   }
 
   async getTasksPendingApproval(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/tasks/pending-approval');
+    return this.makeRequest("/tasks/pending-approval");
   }
 
   async getOverdueTasks(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/tasks/overdue');
+    return this.makeRequest("/tasks/overdue");
   }
 
   async addTaskUpdate(
     id: number,
     message: string,
     updateType: string,
-    imageUrls?: string[]
+    imageUrls?: string[],
   ): Promise<ApiResponse<any>> {
     return this.makeRequest(`/tasks/${id}/updates`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ message, updateType, imageUrls }),
     });
   }
@@ -332,37 +346,41 @@ class ApiService {
   }
 
   async deleteTask(id: number): Promise<ApiResponse<any>> {
-    return this.makeRequest(`/tasks/${id}`, { method: 'DELETE' });
+    return this.makeRequest(`/tasks/${id}`, { method: "DELETE" });
   }
 
   // Notification methods
   async getNotifications(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/notifications');
+    return this.makeRequest("/notifications");
   }
 
   async getUnreadNotifications(): Promise<ApiResponse<any[]>> {
-    return this.makeRequest('/notifications/unread');
+    return this.makeRequest("/notifications/unread");
   }
 
   async getUnreadNotificationCount(): Promise<ApiResponse<number>> {
-    return this.makeRequest('/notifications/unread/count');
+    return this.makeRequest("/notifications/unread/count");
   }
 
   async markNotificationAsRead(id: number): Promise<ApiResponse<any>> {
-    return this.makeRequest(`/notifications/${id}/read`, { method: 'PATCH' });
+    return this.makeRequest(`/notifications/${id}/read`, { method: "PATCH" });
   }
 
   async markAllNotificationsAsRead(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/notifications/mark-all-read', { method: 'PATCH' });
+    return this.makeRequest("/notifications/mark-all-read", {
+      method: "PATCH",
+    });
   }
 
   async deleteNotification(id: number): Promise<ApiResponse<any>> {
-    return this.makeRequest(`/notifications/${id}`, { method: 'DELETE' });
+    return this.makeRequest(`/notifications/${id}`, { method: "DELETE" });
   }
 
   // Statistics methods
   async getBuildingCountByStatus(status: string): Promise<ApiResponse<number>> {
-    return this.makeRequest(`/buildings/stats/count-by-status?status=${status}`);
+    return this.makeRequest(
+      `/buildings/stats/count-by-status?status=${status}`,
+    );
   }
 
   async getTaskCountByStatus(status: string): Promise<ApiResponse<number>> {

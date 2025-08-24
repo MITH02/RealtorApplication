@@ -1,13 +1,23 @@
-import React from 'react';
-import { ScrollView, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../App';
-import { colors, spacing } from '../../styles/theme';
-import { Container, Title, BodyText, Button, ButtonText, Card } from '../../components/StyledComponents';
-import styled from '@emotion/native';
+import React from "react";
+import { ScrollView, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../App";
+import { colors, spacing } from "../../styles/theme";
+import {
+  Container,
+  Title,
+  BodyText,
+  Button,
+  ButtonText,
+  Card,
+} from "../../components/StyledComponents";
+import styled from "@emotion/native";
 
-type AdminInfoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'AdminInfo'>;
+type AdminInfoScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "AdminInfo"
+>;
 
 interface Props {
   navigation: AdminInfoScreenNavigationProp;
@@ -76,25 +86,25 @@ const BackButton = styled.TouchableOpacity`
 
 export default function AdminInfoScreen({ navigation }: Props) {
   const features = [
-    { icon: '🏢', text: 'Create and manage unlimited buildings' },
-    { icon: '👷', text: 'Assign contractors to specific projects' },
-    { icon: '📋', text: 'Define custom task workflows' },
-    { icon: '⏰', text: 'Set deadlines and track progress' },
-    { icon: '✅', text: 'Approve or reject contractor work' },
-    { icon: '📊', text: 'Generate detailed project reports' },
+    { icon: "🏢", text: "Create and manage unlimited buildings" },
+    { icon: "👷", text: "Assign contractors to specific projects" },
+    { icon: "📋", text: "Define custom task workflows" },
+    { icon: "⏰", text: "Set deadlines and track progress" },
+    { icon: "✅", text: "Approve or reject contractor work" },
+    { icon: "📊", text: "Generate detailed project reports" },
   ];
 
   const workflowSteps = [
-    'Civil work foundation and structure',
-    'Electrical wiring and systems',
-    'Plumbing installation',
-    'Tiling and flooring',
-    'Painting and finishing',
-    'Final inspections and handover',
+    "Civil work foundation and structure",
+    "Electrical wiring and systems",
+    "Plumbing installation",
+    "Tiling and flooring",
+    "Painting and finishing",
+    "Final inspections and handover",
   ];
 
   const handleLogin = () => {
-    navigation.navigate('Login', { role: 'admin' });
+    navigation.navigate("Login", { role: "admin" });
   };
 
   const handleBack = () => {
@@ -104,7 +114,7 @@ export default function AdminInfoScreen({ navigation }: Props) {
   return (
     <Container>
       <LinearGradient
-        colors={[colors.admin, '#1E40AF']}
+        colors={[colors.admin, "#1E40AF"]}
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -116,22 +126,33 @@ export default function AdminInfoScreen({ navigation }: Props) {
         <Content>
           <Header>
             <IconContainer>
-              <BodyText style={{ fontSize: 32, color: colors.surface }}>🏗️</BodyText>
+              <BodyText style={{ fontSize: 32, color: colors.surface }}>
+                🏗️
+              </BodyText>
             </IconContainer>
             <Title style={{ color: colors.surface }}>Admin</Title>
-            <BodyText style={{ color: colors.surface, textAlign: 'center', opacity: 0.9 }}>
-              Central control for building management, task assignment, and project oversight
+            <BodyText
+              style={{
+                color: colors.surface,
+                textAlign: "center",
+                opacity: 0.9,
+              }}
+            >
+              Central control for building management, task assignment, and
+              project oversight
             </BodyText>
           </Header>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Core Capabilities
               </BodyText>
               {features.map((feature, index) => (
@@ -144,70 +165,90 @@ export default function AdminInfoScreen({ navigation }: Props) {
               ))}
             </Card>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Typical Workflow Steps
               </BodyText>
               {workflowSteps.map((step, index) => (
-                <View key={index} style={{ 
-                  flexDirection: 'row', 
-                  marginBottom: spacing.sm,
-                  alignItems: 'center'
-                }}>
-                  <View style={{
-                    width: 24,
-                    height: 24,
-                    borderRadius: 12,
-                    backgroundColor: colors.admin,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginRight: spacing.md
-                  }}>
-                    <BodyText style={{ 
-                      color: colors.surface, 
-                      fontSize: 12,
-                      fontWeight: '600'
-                    }}>
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    marginBottom: spacing.sm,
+                    alignItems: "center",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: 12,
+                      backgroundColor: colors.admin,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginRight: spacing.md,
+                    }}
+                  >
+                    <BodyText
+                      style={{
+                        color: colors.surface,
+                        fontSize: 12,
+                        fontWeight: "600",
+                      }}
+                    >
                       {index + 1}
                     </BodyText>
                   </View>
-                  <BodyText style={{ 
-                    flex: 1, 
-                    color: colors.text,
-                    lineHeight: 22
-                  }}>
+                  <BodyText
+                    style={{
+                      flex: 1,
+                      color: colors.text,
+                      lineHeight: 22,
+                    }}
+                  >
                     {step}
                   </BodyText>
                 </View>
               ))}
             </Card>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Approval Workflow
               </BodyText>
-              <BodyText style={{ 
-                color: colors.textSecondary,
-                lineHeight: 22,
-                marginBottom: spacing.md
-              }}>
-                When contractors complete tasks, you'll receive approval requests. You can:
+              <BodyText
+                style={{
+                  color: colors.textSecondary,
+                  lineHeight: 22,
+                  marginBottom: spacing.md,
+                }}
+              >
+                When contractors complete tasks, you'll receive approval
+                requests. You can:
               </BodyText>
               <View style={{ marginLeft: spacing.md }}>
-                <BodyText style={{ color: colors.success, marginBottom: spacing.xs }}>
+                <BodyText
+                  style={{ color: colors.success, marginBottom: spacing.xs }}
+                >
                   ✅ Approve - Task moves to completed status
                 </BodyText>
-                <BodyText style={{ color: colors.error, marginBottom: spacing.xs }}>
+                <BodyText
+                  style={{ color: colors.error, marginBottom: spacing.xs }}
+                >
                   ❌ Reject - Task returns to pending with feedback
                 </BodyText>
               </View>

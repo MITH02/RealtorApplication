@@ -1,6 +1,12 @@
-import styled from '@emotion/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { colors, spacing, borderRadius, shadows, typography } from '../styles/theme';
+import styled from "@emotion/native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  colors,
+  spacing,
+  borderRadius,
+  shadows,
+  typography,
+} from "../styles/theme";
 
 export const Container = styled.View`
   flex: 1;
@@ -19,12 +25,17 @@ export const Card = styled.View`
   elevation: 4;
 `;
 
-export const Button = styled.TouchableOpacity<{ variant?: 'primary' | 'secondary' | 'outline' }>`
-  background-color: ${props => 
-    props.variant === 'secondary' ? colors.secondary :
-    props.variant === 'outline' ? 'transparent' : colors.primary
-  };
-  border: ${props => props.variant === 'outline' ? `2px solid ${colors.primary}` : 'none'};
+export const Button = styled.TouchableOpacity<{
+  variant?: "primary" | "secondary" | "outline";
+}>`
+  background-color: ${(props) =>
+    props.variant === "secondary"
+      ? colors.secondary
+      : props.variant === "outline"
+        ? "transparent"
+        : colors.primary};
+  border: ${(props) =>
+    props.variant === "outline" ? `2px solid ${colors.primary}` : "none"};
   padding: ${spacing.md}px ${spacing.lg}px;
   border-radius: ${borderRadius.md}px;
   align-items: center;
@@ -33,8 +44,11 @@ export const Button = styled.TouchableOpacity<{ variant?: 'primary' | 'secondary
   margin-vertical: ${spacing.xs}px;
 `;
 
-export const ButtonText = styled.Text<{ variant?: 'primary' | 'secondary' | 'outline' }>`
-  color: ${props => props.variant === 'outline' ? colors.primary : colors.surface};
+export const ButtonText = styled.Text<{
+  variant?: "primary" | "secondary" | "outline";
+}>`
+  color: ${(props) =>
+    props.variant === "outline" ? colors.primary : colors.surface};
   font-size: 16px;
   font-weight: 600;
 `;
@@ -110,7 +124,7 @@ export const RoleCard = styled.TouchableOpacity<{ roleColor: string }>`
   padding: ${spacing.xl}px;
   margin: ${spacing.md}px;
   align-items: center;
-  border: 2px solid ${props => props.roleColor};
+  border: 2px solid ${(props) => props.roleColor};
   shadow-color: #000;
   shadow-offset: 0px 4px;
   shadow-opacity: 0.1;
@@ -121,7 +135,7 @@ export const RoleCard = styled.TouchableOpacity<{ roleColor: string }>`
 export const RoleTitle = styled.Text<{ roleColor: string }>`
   font-size: 20px;
   font-weight: 600;
-  color: ${props => props.roleColor};
+  color: ${(props) => props.roleColor};
   margin-bottom: ${spacing.sm}px;
 `;
 

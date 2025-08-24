@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, Animated } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../App';
-import { colors, spacing } from '../styles/theme';
-import { Button, ButtonText, Title, BodyText } from '../components/StyledComponents';
-import styled from '@emotion/native';
+import React, { useEffect, useState } from "react";
+import { View, Text, Animated } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../App";
+import { colors, spacing } from "../styles/theme";
+import {
+  Button,
+  ButtonText,
+  Title,
+  BodyText,
+} from "../components/StyledComponents";
+import styled from "@emotion/native";
 
-type VideoLoaderScreenNavigationProp = StackNavigationProp<RootStackParamList, 'VideoLoader'>;
+type VideoLoaderScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "VideoLoader"
+>;
 
 interface Props {
   navigation: VideoLoaderScreenNavigationProp;
@@ -125,7 +133,7 @@ export default function VideoLoaderScreen({ navigation }: Props) {
 
   const logoRotation = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    outputRange: ["0deg", "360deg"],
   });
 
   const contentOpacity = animatedValue.interpolate({
@@ -134,15 +142,15 @@ export default function VideoLoaderScreen({ navigation }: Props) {
   });
 
   const features = [
-    { icon: '🏗️', text: 'Manage multiple construction projects' },
-    { icon: '👷', text: 'Assign tasks to contractors efficiently' },
-    { icon: '📋', text: 'Track progress and deadlines' },
-    { icon: '✅', text: 'Approve work completions' },
-    { icon: '📱', text: 'Real-time notifications and updates' },
+    { icon: "🏗️", text: "Manage multiple construction projects" },
+    { icon: "👷", text: "Assign tasks to contractors efficiently" },
+    { icon: "📋", text: "Track progress and deadlines" },
+    { icon: "✅", text: "Approve work completions" },
+    { icon: "📱", text: "Real-time notifications and updates" },
   ];
 
   const handleGetStarted = () => {
-    navigation.navigate('RoleSelection');
+    navigation.navigate("RoleSelection");
   };
 
   return (
@@ -156,19 +164,19 @@ export default function VideoLoaderScreen({ navigation }: Props) {
         <Content>
           <AnimatedLogo
             style={{
-              transform: [
-                { scale: logoScale },
-                { rotate: logoRotation }
-              ],
+              transform: [{ scale: logoScale }, { rotate: logoRotation }],
             }}
           >
             <LogoText>CP</LogoText>
           </AnimatedLogo>
 
-          <Animated.View style={{ opacity: contentOpacity, alignItems: 'center' }}>
+          <Animated.View
+            style={{ opacity: contentOpacity, alignItems: "center" }}
+          >
             <AppTitle>ConstructPro</AppTitle>
             <Tagline>
-              Streamline your construction projects with powerful project management tools
+              Streamline your construction projects with powerful project
+              management tools
             </Tagline>
 
             {showContent && (

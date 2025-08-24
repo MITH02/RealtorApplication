@@ -7,12 +7,14 @@ A comprehensive construction project management system with React Native mobile 
 ConstructPro is designed around three primary user roles with distinct responsibilities:
 
 ### 👑 Super Admin
+
 - **Limited Role**: Focused on system administration
 - **Responsibilities**: Configure and manage Admin accounts only
 - **Access**: User management, system configuration, high-level analytics
 - **No involvement**: Daily project operations or task assignments
 
-### 🏗️ Admin  
+### 🏗️ Admin
+
 - **Central Controller**: Manages all building and task operations
 - **Responsibilities**:
   - Create and manage unlimited buildings
@@ -23,6 +25,7 @@ ConstructPro is designed around three primary user roles with distinct responsib
   - Generate project reports
 
 ### 👷 Contractor
+
 - **Task Executor**: Completes assigned tasks efficiently
 - **Responsibilities**:
   - View assigned tasks and deadlines
@@ -34,11 +37,13 @@ ConstructPro is designed around three primary user roles with distinct responsib
 ## 🚨 Task Monitoring & Status Tracking
 
 ### Deadline Management
+
 - **Red Alerts**: Overdue tasks automatically highlighted (Building + Contractor + Task)
 - **Green Status**: Completed on-time tasks marked as successful
 - **Automated Notifications**: Real-time deadline reminders and overdue alerts
 
 ### Approval Workflow
+
 1. Contractor completes task → Requests approval
 2. Admin reviews submission → Approves or Rejects
 3. **If Approved**: Task moves to Completed State
@@ -47,6 +52,7 @@ ConstructPro is designed around three primary user roles with distinct responsib
 ## 🛠️ Technology Stack
 
 ### Mobile App (React Native)
+
 - **Framework**: React Native with Expo
 - **Navigation**: React Navigation 6
 - **Styling**: Emotion CSS for React Native
@@ -55,6 +61,7 @@ ConstructPro is designed around three primary user roles with distinct responsib
 - **Platforms**: iOS and Android
 
 ### Backend (Spring Boot)
+
 - **Framework**: Spring Boot 3.2.1 with Java 17
 - **Database**: PostgreSQL with JPA/Hibernate
 - **Authentication**: JWT with Spring Security
@@ -63,6 +70,7 @@ ConstructPro is designed around three primary user roles with distinct responsib
 - **Scheduling**: Spring Scheduler for deadline tracking
 
 ### Key Features
+
 - **Role-based Authentication** with JWT tokens
 - **Real-time Notifications** for task updates and deadlines
 - **File Upload Support** for progress photos
@@ -138,6 +146,7 @@ backend/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - **Node.js** 18+ and npm/yarn
 - **Java** 17+
 - **PostgreSQL** 12+
@@ -147,12 +156,14 @@ backend/
 ### Backend Setup
 
 1. **Clone the repository**
+
 ```bash
 git clone <repository-url>
 cd constructpro
 ```
 
 2. **Set up PostgreSQL database**
+
 ```sql
 CREATE DATABASE constructpro;
 CREATE USER constructpro WITH PASSWORD 'password';
@@ -160,12 +171,14 @@ GRANT ALL PRIVILEGES ON DATABASE constructpro TO constructpro;
 ```
 
 3. **Configure application properties**
+
 ```bash
 cd backend
 # Update src/main/resources/application.yml with your database credentials
 ```
 
 4. **Run the Spring Boot application**
+
 ```bash
 mvn clean install
 mvn spring-boot:run
@@ -178,34 +191,39 @@ The backend will start on `http://localhost:8080`
 ### Mobile App Setup
 
 1. **Install dependencies**
+
 ```bash
 cd mobile-app
 npm install
 ```
 
 2. **Update API configuration**
+
 ```typescript
 // src/services/api.ts
-const API_BASE_URL = 'http://localhost:8080/api'; // Update for your environment
+const API_BASE_URL = "http://localhost:8080/api"; // Update for your environment
 ```
 
 3. **Start the development server**
+
 ```bash
 npm start
 ```
 
 4. **Run on device/emulator**
+
 ```bash
 # For iOS
 npm run ios
 
-# For Android  
+# For Android
 npm run android
 ```
 
 ## 📋 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/login` - User login
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/refresh-token` - Refresh JWT token
@@ -213,6 +231,7 @@ npm run android
 - `GET /api/auth/me` - Get current user
 
 ### Buildings (Admin/Super Admin only)
+
 - `GET /api/buildings` - Get all buildings
 - `POST /api/buildings` - Create new building
 - `GET /api/buildings/{id}` - Get building by ID
@@ -221,6 +240,7 @@ npm run android
 - `DELETE /api/buildings/{id}` - Delete building
 
 ### Tasks
+
 - `GET /api/tasks/my-tasks` - Get contractor's tasks
 - `GET /api/tasks/admin/all` - Get admin's tasks
 - `POST /api/tasks` - Create new task (Admin only)
@@ -230,6 +250,7 @@ npm run android
 - `PATCH /api/tasks/{id}/reject` - Reject task (Admin only)
 
 ### Notifications
+
 - `GET /api/notifications` - Get user notifications
 - `GET /api/notifications/unread` - Get unread notifications
 - `PATCH /api/notifications/{id}/read` - Mark as read
@@ -247,6 +268,7 @@ npm run android
 ## 📊 Automated Scheduling
 
 The system includes automated scheduling for:
+
 - **Overdue Task Checks**: Every hour
 - **Deadline Reminders**: Daily at 9 AM (1-3 days before deadline)
 - **Urgent Reminders**: Daily at 6 PM (tasks due tomorrow)
@@ -256,18 +278,21 @@ The system includes automated scheduling for:
 ## 🎯 Key Features Implemented
 
 ### ✅ Authentication & Authorization
+
 - [x] JWT-based authentication
 - [x] Role-based access control
 - [x] Secure password handling
 - [x] Token refresh mechanism
 
 ### ✅ Building Management
+
 - [x] Create/edit/delete buildings
 - [x] Project status tracking
 - [x] Contractor assignment
 - [x] Progress monitoring
 
 ### ✅ Task Management
+
 - [x] Task creation and assignment
 - [x] Progress tracking with photos
 - [x] Completion workflow
@@ -275,12 +300,14 @@ The system includes automated scheduling for:
 - [x] Dependency management
 
 ### ✅ Notifications & Alerts
+
 - [x] Real-time notifications
 - [x] Deadline reminders
 - [x] Overdue alerts
 - [x] Push notification support
 
 ### ✅ Mobile App
+
 - [x] Cross-platform (iOS/Android)
 - [x] Offline-capable authentication
 - [x] Role-based navigation
@@ -299,6 +326,7 @@ The system includes automated scheduling for:
 ## 🚀 Production Deployment
 
 ### Backend Deployment
+
 - Configure production database
 - Update CORS settings for production domain
 - Set secure JWT secrets
@@ -306,6 +334,7 @@ The system includes automated scheduling for:
 - Configure logging and monitoring
 
 ### Mobile App Deployment
+
 - Build production APK/IPA
 - Update API endpoints to production URLs
 - Configure push notifications

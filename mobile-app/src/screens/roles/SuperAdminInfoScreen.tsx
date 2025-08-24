@@ -1,13 +1,23 @@
-import React from 'react';
-import { ScrollView, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../App';
-import { colors, spacing } from '../../styles/theme';
-import { Container, Title, BodyText, Button, ButtonText, Card } from '../../components/StyledComponents';
-import styled from '@emotion/native';
+import React from "react";
+import { ScrollView, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../../App";
+import { colors, spacing } from "../../styles/theme";
+import {
+  Container,
+  Title,
+  BodyText,
+  Button,
+  ButtonText,
+  Card,
+} from "../../components/StyledComponents";
+import styled from "@emotion/native";
 
-type SuperAdminInfoScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SuperAdminInfo'>;
+type SuperAdminInfoScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "SuperAdminInfo"
+>;
 
 interface Props {
   navigation: SuperAdminInfoScreenNavigationProp;
@@ -76,23 +86,23 @@ const BackButton = styled.TouchableOpacity`
 
 export default function SuperAdminInfoScreen({ navigation }: Props) {
   const features = [
-    { icon: '👥', text: 'Configure and manage Admin accounts' },
-    { icon: '⚙️', text: 'System-level configuration access' },
-    { icon: '🔐', text: 'User role and permission management' },
-    { icon: '📊', text: 'High-level system analytics' },
-    { icon: '🛡️', text: 'Security and compliance oversight' },
+    { icon: "👥", text: "Configure and manage Admin accounts" },
+    { icon: "⚙️", text: "System-level configuration access" },
+    { icon: "🔐", text: "User role and permission management" },
+    { icon: "📊", text: "High-level system analytics" },
+    { icon: "🛡️", text: "Security and compliance oversight" },
   ];
 
   const responsibilities = [
-    'Create and configure Admin user accounts',
-    'Set system-wide permissions and policies',
-    'Monitor overall system health and usage',
-    'Manage organizational settings and preferences',
-    'Limited involvement in daily project operations',
+    "Create and configure Admin user accounts",
+    "Set system-wide permissions and policies",
+    "Monitor overall system health and usage",
+    "Manage organizational settings and preferences",
+    "Limited involvement in daily project operations",
   ];
 
   const handleLogin = () => {
-    navigation.navigate('Login', { role: 'super_admin' });
+    navigation.navigate("Login", { role: "super_admin" });
   };
 
   const handleBack = () => {
@@ -102,7 +112,7 @@ export default function SuperAdminInfoScreen({ navigation }: Props) {
   return (
     <Container>
       <LinearGradient
-        colors={[colors.superAdmin, '#6D28D9']}
+        colors={[colors.superAdmin, "#6D28D9"]}
         style={{ flex: 1 }}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -114,22 +124,33 @@ export default function SuperAdminInfoScreen({ navigation }: Props) {
         <Content>
           <Header>
             <IconContainer>
-              <BodyText style={{ fontSize: 32, color: colors.surface }}>👑</BodyText>
+              <BodyText style={{ fontSize: 32, color: colors.surface }}>
+                👑
+              </BodyText>
             </IconContainer>
             <Title style={{ color: colors.surface }}>Super Admin</Title>
-            <BodyText style={{ color: colors.surface, textAlign: 'center', opacity: 0.9 }}>
-              High-level system administration with focus on user management and system configuration
+            <BodyText
+              style={{
+                color: colors.surface,
+                textAlign: "center",
+                opacity: 0.9,
+              }}
+            >
+              High-level system administration with focus on user management and
+              system configuration
             </BodyText>
           </Header>
 
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Key Features
               </BodyText>
               {features.map((feature, index) => (
@@ -142,55 +163,69 @@ export default function SuperAdminInfoScreen({ navigation }: Props) {
               ))}
             </Card>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Your Responsibilities
               </BodyText>
               {responsibilities.map((responsibility, index) => (
-                <View key={index} style={{ 
-                  flexDirection: 'row', 
-                  marginBottom: spacing.sm,
-                  alignItems: 'flex-start'
-                }}>
-                  <BodyText style={{ 
-                    color: colors.superAdmin, 
-                    marginRight: spacing.sm,
-                    fontSize: 16
-                  }}>
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    marginBottom: spacing.sm,
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <BodyText
+                    style={{
+                      color: colors.superAdmin,
+                      marginRight: spacing.sm,
+                      fontSize: 16,
+                    }}
+                  >
                     •
                   </BodyText>
-                  <BodyText style={{ 
-                    flex: 1, 
-                    color: colors.text,
-                    lineHeight: 22
-                  }}>
+                  <BodyText
+                    style={{
+                      flex: 1,
+                      color: colors.text,
+                      lineHeight: 22,
+                    }}
+                  >
                     {responsibility}
                   </BodyText>
                 </View>
               ))}
             </Card>
 
-            <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)' }}>
-              <BodyText style={{ 
-                fontSize: 18, 
-                fontWeight: '600', 
-                color: colors.text, 
-                marginBottom: spacing.md 
-              }}>
+            <Card style={{ backgroundColor: "rgba(255, 255, 255, 0.95)" }}>
+              <BodyText
+                style={{
+                  fontSize: 18,
+                  fontWeight: "600",
+                  color: colors.text,
+                  marginBottom: spacing.md,
+                }}
+              >
                 Important Note
               </BodyText>
-              <BodyText style={{ 
-                color: colors.textSecondary,
-                lineHeight: 22,
-                fontStyle: 'italic'
-              }}>
-                As a Super Admin, your role is focused on system administration and user management. 
-                Daily project operations, building management, and task assignments are handled by Admin users.
+              <BodyText
+                style={{
+                  color: colors.textSecondary,
+                  lineHeight: 22,
+                  fontStyle: "italic",
+                }}
+              >
+                As a Super Admin, your role is focused on system administration
+                and user management. Daily project operations, building
+                management, and task assignments are handled by Admin users.
               </BodyText>
             </Card>
 
