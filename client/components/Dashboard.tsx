@@ -204,42 +204,42 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
               Recent Activity
             </h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+            <div className="space-y-6">
+              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-4 h-4 bg-white rounded-full animate-pulse"></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     Task completed
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                     2 hours ago
                   </p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-4 h-4 bg-white rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     New assignment
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                     1 day ago
                   </p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
+                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
+                  <div className="w-4 h-4 bg-white rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
                     Deadline reminder
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
                     2 days ago
                   </p>
                 </div>
@@ -249,26 +249,28 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </div>
 
         {/* Placeholder message */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
-          <div className="flex items-center">
-            <svg
-              className="w-6 h-6 text-blue-600 mr-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <div>
-              <h4 className="text-lg font-semibold text-blue-900">
+        <div className="mt-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 shadow-2xl">
+          <div className="flex items-center justify-center">
+            <div className="p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl mr-4">
+              <svg
+                className="w-8 h-8 text-blue-600 dark:text-blue-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <div className="text-center">
+              <h4 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">
                 Dashboard Preview
               </h4>
-              <p className="text-blue-700">
+              <p className="text-slate-700 dark:text-slate-300 max-w-2xl">
                 This is a preview of your {role} dashboard. Full functionality
                 including task management, project creation, and approval
                 workflows will be implemented in the next phase.
