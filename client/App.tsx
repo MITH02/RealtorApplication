@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
+import VideoIntro from "./components/VideoIntro";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
 import BuilderScreen from "./components/roles/BuilderScreen";
@@ -18,6 +19,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 type AppState =
+  | "video-intro"
   | "role-selection"
   | "contractor-info"
   | "builder-info"
@@ -30,7 +32,11 @@ type AppState =
   | "admin-dashboard";
 
 const AppContent = () => {
-  const [appState, setAppState] = useState<AppState>("role-selection");
+  const [appState, setAppState] = useState<AppState>("video-intro");
+
+  const handleVideoComplete = () => {
+    setAppState("role-selection");
+  };
 
   const handleRoleSelect = (role: "builder" | "contractor" | "admin") => {
     setAppState(`${role}-info` as AppState);
