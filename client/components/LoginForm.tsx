@@ -183,14 +183,14 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
             {/* Toggle between login/signup */}
             <div className="mt-6 text-center">
-              <p className="text-gray-600 text-sm">
+              <p className="text-slate-600 dark:text-slate-400 text-sm">
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </p>
               <button
                 onClick={() => setIsLogin(!isLogin)}
-                className={`${config.accent} hover:underline font-semibold text-sm mt-1`}
+                className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm mt-1"
               >
                 {isLogin ? "Create one now" : "Sign in instead"}
               </button>
@@ -199,18 +199,18 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
           {/* Additional Info */}
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-500 px-4 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-400 px-4 leading-relaxed">
               By continuing, you agree to our Terms of Service and Privacy
               Policy. Your data is secure and encrypted.
             </p>
           </div>
 
           {/* Features Preview */}
-          <div className={`mt-6 ${config.bgAccent} rounded-2xl p-4`}>
-            <h4 className={`text-sm font-semibold ${config.accent} mb-2`}>
+          <div className="mt-6 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50 dark:border-slate-700/50">
+            <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
               What's waiting for you:
             </h4>
-            <ul className="text-xs text-gray-600 space-y-1">
+            <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
               {role === "admin" && (
                 <>
                   <li>• Complete project oversight</li>
