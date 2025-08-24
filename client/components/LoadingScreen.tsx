@@ -5,46 +5,30 @@ interface LoadingScreenProps {
 }
 
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
-  const [progress, setProgress] = useState(0);
-  const [showText, setShowText] = useState(true); // Show text immediately
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const [progressStarted, setProgressStarted] = useState(false);
 
-  // Start progress timer when video loads, video errors, or after timeout for fallback
+  // Complete loading after 5 seconds when video starts playing or error occurs
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
-    // If video doesn't load within 2 seconds, start progress with fallback
-    if (!videoLoaded && !videoError && !progressStarted) {
+    // If video doesn't load within 2 seconds, show fallback
+    if (!videoLoaded && !videoError) {
       timeoutId = setTimeout(() => {
         if (!videoLoaded && !videoError) {
-          setVideoError(true); // Trigger fallback animation
+          setVideoError(true);
         }
       }, 2000);
     }
 
-    if (!progressStarted && (videoLoaded || videoError)) {
-      setProgressStarted(true);
-
-      const loadingDuration = 4500; // 4.5 seconds
-      const interval = 50; // Update every 50ms
-      const increment = 100 / (loadingDuration / interval); // Calculate increment for smooth progress
-
-      const progressTimer = setInterval(() => {
-        setProgress((prev) => {
-          const newProgress = prev + increment;
-          if (newProgress >= 100) {
-            clearInterval(progressTimer);
-            setTimeout(onComplete, 200);
-            return 100;
-          }
-          return newProgress;
-        });
-      }, interval);
+    // Start 5-second timer when video loads or error occurs
+    if (videoLoaded || videoError) {
+      const loadingTimer = setTimeout(() => {
+        onComplete();
+      }, 5000);
 
       return () => {
-        clearInterval(progressTimer);
+        clearTimeout(loadingTimer);
         if (timeoutId) clearTimeout(timeoutId);
       };
     }
@@ -52,7 +36,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [videoLoaded, videoError, progressStarted, onComplete]);
+  }, [videoLoaded, videoError, onComplete]);
 
   const handleVideoError = () => {
     setVideoError(true);
