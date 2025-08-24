@@ -87,9 +87,12 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
               <div
                 key={role.id}
                 onClick={() => onRoleSelect(role.id)}
-                className="group cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
+                className="group cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95"
+                style={{
+                  animationDelay: `${roles.indexOf(role) * 200}ms`,
+                }}
               >
-                <div className="bg-slate-800/95 dark:bg-slate-900/98 backdrop-blur-sm rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/20 dark:border-white/30">
+                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 border border-white/50 dark:border-slate-700/50 hover:border-blue-300/60 dark:hover:border-blue-400/60 relative group-hover:bg-white/95 dark:group-hover:bg-slate-800/95">
                   <div className="flex h-44 sm:h-48">
                     {/* Image Section */}
                     <div className="w-44 sm:w-52 flex-shrink-0 overflow-hidden">
