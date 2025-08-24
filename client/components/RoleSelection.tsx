@@ -62,6 +62,9 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
         <div className="px-6 pt-12 sm:pt-16">
+          <div className="flex justify-end mb-4">
+            <SimpleThemeToggle />
+          </div>
           <div className="text-center transition-all duration-1000 opacity-100 translate-y-0">
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
               ConstructPro
