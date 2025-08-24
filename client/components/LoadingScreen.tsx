@@ -78,22 +78,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           </p>
         </div>
 
-        {/* Construction materials floating */}
-        <div className="absolute top-1/4 left-1/4 animate-float">
-          <div className="w-3 h-3 bg-orange-300 opacity-60 rotate-45"></div>
-        </div>
-        <div
-          className="absolute top-1/3 right-1/4 animate-float"
-          style={{ animationDelay: "1s" }}
-        >
-          <div className="w-2 h-6 bg-yellow-400 opacity-60"></div>
-        </div>
-        <div
-          className="absolute bottom-1/3 left-1/3 animate-float"
-          style={{ animationDelay: "2s" }}
-        >
-          <div className="w-4 h-2 bg-gray-400 opacity-60 rounded"></div>
-        </div>
       </div>
     </div>
   );
