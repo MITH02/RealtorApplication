@@ -54,7 +54,6 @@ export default function BuilderScreen({
             {/* Floating background element */}
             <div className="absolute -inset-2 bg-gradient-to-r from-blue-400/20 via-cyan-400/20 to-indigo-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
 
-
             {/* Full Image */}
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F4e35a47e90ed4fd380e7c0f90d9855f1?format=webp&width=800"

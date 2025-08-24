@@ -57,7 +57,6 @@ export default function AdminScreen({
             {/* Floating background element */}
             <div className="absolute -inset-2 bg-gradient-to-r from-purple-400/20 via-indigo-400/20 to-blue-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
 
-
             {/* Full Image */}
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2Fef4d01b439c041bc9a1546a4ea50eb7f?format=webp&width=800"

@@ -54,7 +54,6 @@ export default function ContractorScreen({
             {/* Floating background element */}
             <div className="absolute -inset-2 bg-gradient-to-r from-orange-400/20 via-amber-400/20 to-yellow-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
 
-
             {/* Full Image */}
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F49e829fd851d42a691685962b579ec5a?format=webp&width=800"
