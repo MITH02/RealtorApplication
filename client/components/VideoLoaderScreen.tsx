@@ -72,7 +72,8 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
                 {/* Video */}
                 <div className="relative">
                   <video
-                    className="w-full h-auto aspect-video object-cover"
+                    className="w-full h-auto object-cover"
+                    style={{ aspectRatio: '16/36' }}
                     autoPlay
                     muted
                     loop
