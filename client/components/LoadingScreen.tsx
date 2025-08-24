@@ -45,20 +45,68 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center relative overflow-hidden">
       {/* Main content */}
       <div className="text-center z-10 relative">
-        {/* Video */}
+        {/* Video or Fallback Animation */}
         <div className="mb-8 relative mx-auto w-80 h-80 flex items-center justify-center">
-          <video
-            autoPlay
-            muted
-            loop
-            className="w-full h-full object-cover rounded-lg shadow-lg"
-          >
-            <source
-              src="https://cdn.builder.io/o/assets%2Fac95effc357b4c1ca968fe43de8cc048%2Fe44dedf07a3d4f8d99742988f53920a4?alt=media&token=7d8869d2-ce33-4826-919e-023a600337be&apiKey=ac95effc357b4c1ca968fe43de8cc048"
-              type="video/mp4"
-            />
-            Your browser does not support the video tag.
-          </video>
+          {!videoError ? (
+            <video
+              autoPlay
+              muted
+              loop
+              className="w-full h-full object-cover rounded-lg shadow-lg"
+              onError={handleVideoError}
+              onLoadedData={handleVideoLoad}
+              style={{ display: videoLoaded ? 'block' : 'none' }}
+            >
+              <source
+                src="https://cdn.builder.io/o/assets%2Fac95effc357b4c1ca968fe43de8cc048%2Fe44dedf07a3d4f8d99742988f53920a4?alt=media&token=7d8869d2-ce33-4826-919e-023a600337be&apiKey=ac95effc357b4c1ca968fe43de8cc048"
+                type="video/mp4"
+              />
+              Your browser does not support the video tag.
+            </video>
+          ) : null}
+
+          {/* Fallback Animation - shows if video fails or while loading */}
+          {(videoError || !videoLoaded) && (
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="relative">
+                {/* Animated Building Icon */}
+                <div className="w-24 h-32 relative">
+                  {/* Building base */}
+                  <div className="absolute bottom-0 w-full h-8 bg-gradient-to-t from-slate-400 to-slate-300 rounded-t-lg"></div>
+
+                  {/* Building floors with animation */}
+                  {[...Array(6)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute w-full h-4 bg-gradient-to-r from-blue-200 to-blue-300 border border-slate-300 animate-fadeIn"
+                      style={{
+                        bottom: `${32 + i * 16}px`,
+                        animationDelay: `${i * 0.3}s`,
+                      }}
+                    >
+                      {/* Windows */}
+                      <div className="flex justify-around items-center h-full px-1">
+                        <div className="w-1 h-1 bg-yellow-300 rounded-sm"></div>
+                        <div className="w-1 h-1 bg-yellow-300 rounded-sm"></div>
+                        <div className="w-1 h-1 bg-yellow-300 rounded-sm"></div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Construction crane */}
+                  <div className="absolute -right-8 top-4">
+                    <div className="w-1 h-16 bg-orange-400 animate-pulse"></div>
+                    <div className="absolute top-2 left-1 w-8 h-0.5 bg-orange-400"></div>
+                  </div>
+                </div>
+
+                {/* Rotating gears */}
+                <div className="absolute -top-4 -right-4 w-8 h-8 border-2 border-slate-400 rounded-full animate-spin">
+                  <div className="absolute inset-1 border border-slate-300 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* App title with typewriter effect */}
