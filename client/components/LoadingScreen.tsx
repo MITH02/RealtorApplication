@@ -79,7 +79,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               style={{ display: videoLoaded ? 'block' : 'none' }}
             >
               <source
-                src="https://cdn.builder.io/o/assets%2Fac95effc357b4c1ca968fe43de8cc048%2Fe44dedf07a3d4f8d99742988f53920a4?alt=media&token=7d8869d2-ce33-4826-919e-023a600337be&apiKey=ac95effc357b4c1ca968fe43de8cc048"
+                src="https://cdn.builder.io/o/assets%2Fac95effc357b4c1ca968fe43de8cc048%2Fe413d1a96761499695f3ecffff9fcfc5?alt=media&token=6450c228-0874-401e-b598-5ed7890a7c5c&apiKey=ac95effc357b4c1ca968fe43de8cc048"
                 type="video/mp4"
               />
               Your browser does not support the video tag.
