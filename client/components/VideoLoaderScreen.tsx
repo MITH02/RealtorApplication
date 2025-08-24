@@ -30,12 +30,12 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative">
+    <div className="min-h-screen bg-sky-200 relative">
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        
+
         {/* Header */}
-        <div className="px-4 pt-6 sm:pt-8 pb-4">
+        <div className="px-4 pt-6 sm:pt-8 pb-2">
           <div
             className={`text-center transition-all duration-1000 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -44,24 +44,24 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 mb-2 font-serif leading-tight">
               Builder Pro
             </h1>
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
               Professional Construction Management
             </p>
           </div>
         </div>
 
         {/* Video Container - Center */}
-        <div className="flex-1 flex items-center justify-center px-4 py-2">
+        <div className="flex-1 flex items-center justify-center px-4 py-1">
           <div
             className={`w-full transition-all duration-1000 delay-300 ${
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 max-w-lg sm:max-w-xl lg:max-w-2xl mx-auto">
+            <div className="bg-sky-200/50 backdrop-blur-sm rounded-3xl shadow-lg p-2 sm:p-3 border border-sky-300/30 max-w-lg sm:max-w-xl lg:max-w-2xl mx-auto">
               {/* Video */}
-              <div className="relative overflow-hidden rounded-2xl bg-slate-100">
+              <div className="relative overflow-hidden rounded-2xl bg-sky-200">
                 <video
-                  className="w-full h-auto min-h-80 max-h-96 sm:min-h-96 sm:max-h-[28rem] md:max-h-[32rem] object-contain"
+                  className="w-full h-auto min-h-96 max-h-[32rem] sm:min-h-[28rem] sm:max-h-[36rem] md:max-h-[40rem] object-contain"
                   autoPlay
                   muted
                   loop
@@ -75,7 +75,7 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
                     src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
                     type="video/mp4"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-slate-200">
+                  <div className="absolute inset-0 flex items-center justify-center bg-sky-200">
                     <div className="text-6xl">🏗️</div>
                   </div>
                 </video>
@@ -85,31 +85,31 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
         </div>
 
         {/* Loading Section - Below Video */}
-        <div className="px-4 pb-4">
-          <div 
+        <div className="px-4 pb-2">
+          <div
             className={`text-center transition-all duration-1000 delay-500 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             {/* Progress Bar */}
             <div className="max-w-xs mx-auto mb-4">
-              <div className="bg-white rounded-full h-3 shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-sky-100/80 backdrop-blur-sm rounded-full h-3 shadow-sm border border-sky-300/50 overflow-hidden">
                 <div
                   className="bg-gradient-to-r from-blue-500 to-blue-600 h-full rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
-            
+
             {/* Loading Text */}
-            <p className="text-slate-600 text-sm font-medium mb-8">
+            <p className="text-slate-700 text-sm font-medium mb-6">
               Preparing your workspace... {Math.round(progress)}%
             </p>
           </div>
         </div>
 
         {/* Get Started Button - Bottom */}
-        <div className="px-4 pb-6 sm:pb-8">
+        <div className="px-4 pb-4 sm:pb-6">
           <div 
             className={`transition-all duration-1000 delay-700 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
