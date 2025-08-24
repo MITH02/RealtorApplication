@@ -149,15 +149,15 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
 
         {/* Action Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Quick Actions
             </h3>
             <div className="space-y-3">
               {content.actions.map((action, index) => (
                 <button
                   key={index}
-                  className={`w-full text-left px-4 py-3 rounded-lg border-2 border-gray-200 hover:border-gray-300 hover:${colors.bg} transition-all duration-200 flex items-center justify-between`}
+                  className={`w-full text-left px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 hover:${colors.bg} dark:hover:bg-gray-700 transition-all duration-200 flex items-center justify-between text-gray-900 dark:text-white`}
                 >
                   <span>{action}</span>
                   <svg
@@ -178,8 +178,8 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Recent Activity
             </h3>
             <div className="space-y-4">
