@@ -168,38 +168,40 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </div>
 
         {/* Action Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 hover:scale-[1.02]">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
               Quick Actions
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {content.actions.map((action, index) => (
                 <button
                   key={index}
-                  className={`w-full text-left px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 hover:${colors.bg} dark:hover:bg-gray-700 transition-all duration-200 flex items-center justify-between text-gray-900 dark:text-white`}
+                  className="group w-full text-left px-6 py-4 rounded-xl bg-white/70 dark:bg-slate-700/70 backdrop-blur-sm border border-white/60 dark:border-slate-600/60 hover:bg-white/90 dark:hover:bg-slate-700/90 hover:shadow-lg transition-all duration-300 flex items-center justify-between text-slate-800 dark:text-slate-200 hover:scale-[1.02]"
                 >
-                  <span>{action}</span>
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
+                  <span className="font-medium">{action}</span>
+                  <div className="p-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300">
+                    <svg
+                      className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 hover:scale-[1.02]">
+            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
               Recent Activity
             </h3>
             <div className="space-y-4">
