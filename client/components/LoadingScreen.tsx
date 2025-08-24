@@ -11,8 +11,19 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [progressStarted, setProgressStarted] = useState(false);
 
-  // Start progress timer only when video loads or error occurs
+  // Start progress timer when video loads, video errors, or after timeout for fallback
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    // If video doesn't load within 2 seconds, start progress with fallback
+    if (!videoLoaded && !videoError && !progressStarted) {
+      timeoutId = setTimeout(() => {
+        if (!videoLoaded && !videoError) {
+          setVideoError(true); // Trigger fallback animation
+        }
+      }, 2000);
+    }
+
     if (!progressStarted && (videoLoaded || videoError)) {
       setProgressStarted(true);
 
@@ -34,8 +45,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
 
       return () => {
         clearInterval(progressTimer);
+        if (timeoutId) clearTimeout(timeoutId);
       };
     }
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [videoLoaded, videoError, progressStarted, onComplete]);
 
   const handleVideoError = () => {
