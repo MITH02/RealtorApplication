@@ -62,9 +62,9 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                 className="group cursor-pointer transform transition-all duration-300 active:scale-95"
               >
                 <div className="bg-white rounded-3xl shadow-lg active:shadow-xl p-6 border border-gray-100 transition-all duration-300 relative overflow-hidden">
-                  {/* Gradient Background Accent */}
+                  {/* Solid Color Accent */}
                   <div
-                    className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${role.gradient} rounded-t-3xl`}
+                    className={`absolute top-0 left-0 right-0 h-1.5 ${role.color} rounded-t-3xl`}
                   ></div>
 
                   {/* Icon */}
