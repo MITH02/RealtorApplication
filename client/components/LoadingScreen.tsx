@@ -9,24 +9,34 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [showText, setShowText] = useState(true); // Show text immediately
   const [videoError, setVideoError] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [progressStarted, setProgressStarted] = useState(false);
 
+  // Start progress timer only when video loads or error occurs
   useEffect(() => {
-    const progressTimer = setInterval(() => {
-      setProgress((prev) => {
-        const newProgress = prev + 2.5; // Adjusted for 5-second timing
-        if (newProgress >= 100) {
-          clearInterval(progressTimer);
-          setTimeout(onComplete, 300);
-          return 100;
-        }
-        return newProgress;
-      });
-    }, 50); // Adjusted interval for 5-second timing
+    if (!progressStarted && (videoLoaded || videoError)) {
+      setProgressStarted(true);
 
-    return () => {
-      clearInterval(progressTimer);
-    };
-  }, [onComplete]);
+      const loadingDuration = 4500; // 4.5 seconds
+      const interval = 50; // Update every 50ms
+      const increment = 100 / (loadingDuration / interval); // Calculate increment for smooth progress
+
+      const progressTimer = setInterval(() => {
+        setProgress((prev) => {
+          const newProgress = prev + increment;
+          if (newProgress >= 100) {
+            clearInterval(progressTimer);
+            setTimeout(onComplete, 200);
+            return 100;
+          }
+          return newProgress;
+        });
+      }, interval);
+
+      return () => {
+        clearInterval(progressTimer);
+      };
+    }
+  }, [videoLoaded, videoError, progressStarted, onComplete]);
 
   const handleVideoError = () => {
     setVideoError(true);
