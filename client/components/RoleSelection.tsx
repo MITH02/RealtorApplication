@@ -104,11 +104,11 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                     </div>
 
                     {/* Content Section */}
-                    <div className="flex-1 p-4 sm:p-6 flex flex-col justify-center">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                    <div className="flex-1 p-5 sm:p-7 flex flex-col justify-center relative">
+                      <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-3 group-hover:from-blue-600 group-hover:to-purple-600 dark:group-hover:from-blue-400 dark:group-hover:to-purple-400 transition-all duration-500">
                         {role.title}
                       </h3>
-                      <p className="text-white/90 text-sm sm:text-base leading-relaxed drop-shadow">
+                      <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
                         {role.description}
                       </p>
                     </div>
