@@ -104,10 +104,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           )}
         </div>
 
-        {/* App title with typewriter effect */}
-        <div
-          className={`transition-all duration-1000 ${showText ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-        >
+        {/* App title */}
+        <div className="opacity-100 translate-y-0">
           <h1 className="text-5xl font-bold text-slate-700 mb-4 font-serif">
             ConstructPro
           </h1>
