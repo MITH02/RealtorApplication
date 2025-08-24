@@ -12,33 +12,33 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       description:
         "Manage building projects and oversee construction development",
       image:
-        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
     },
     {
       id: "contractor" as const,
       title: "Contractor",
       description: "Execute tasks and report project progress efficiently",
       image:
-        "https://images.pexels.com/photos/28196491/pexels-photo-28196491.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
     },
     {
       id: "admin" as const,
       title: "Admin",
       description: "System administration and comprehensive user management",
       image:
-        "https://images.pexels.com/photos/8962457/pexels-photo-8962457.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop",
+        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 dark:from-orange-600 dark:via-red-600 dark:to-red-700 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
         {/* Stars */}
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-white/60 animate-pulse"
+            className="absolute text-blue-400/60 dark:text-blue-300/40 animate-pulse"
             style={{
               left: `${10 + Math.random() * 80}%`,
               top: `${10 + Math.random() * 80}%`,
@@ -50,15 +50,27 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
           </div>
         ))}
 
-        {/* Clouds */}
-        <div className="absolute top-12 left-8 w-20 h-12 bg-orange-300/40 rounded-full"></div>
-        <div className="absolute top-16 left-12 w-16 h-8 bg-orange-200/50 rounded-full"></div>
-        <div className="absolute top-20 right-12 w-24 h-14 bg-orange-300/30 rounded-full"></div>
-        <div className="absolute top-24 right-16 w-18 h-10 bg-orange-200/40 rounded-full"></div>
+        {/* Modern Floating Elements */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"></div>
+        <div
+          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-cyan-400/25 to-blue-400/25 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "1s" }}
+        ></div>
+        <div
+          className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-indigo-400/30 to-cyan-400/30 rounded-full blur-md animate-float"
+          style={{ animationDelay: "2s" }}
+        ></div>
+        <div
+          className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-lg animate-float"
+          style={{ animationDelay: "0.5s" }}
+        ></div>
 
-        {/* Additional small clouds */}
-        <div className="absolute top-32 left-1/4 w-12 h-6 bg-orange-200/50 rounded-full"></div>
-        <div className="absolute top-40 right-1/3 w-14 h-8 bg-orange-300/40 rounded-full"></div>
+        {/* Geometric Shapes */}
+        <div className="absolute top-32 left-1/3 w-2 h-12 bg-gradient-to-b from-blue-400/40 to-transparent rotate-12 animate-pulse"></div>
+        <div
+          className="absolute bottom-40 right-1/3 w-12 h-2 bg-gradient-to-r from-cyan-400/40 to-transparent -rotate-12 animate-pulse"
+          style={{ animationDelay: "1s" }}
+        ></div>
       </div>
 
       {/* Content */}
@@ -69,12 +81,14 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
             <SimpleThemeToggle />
           </div>
           <div className="text-center transition-all duration-1000 opacity-100 translate-y-0">
-            <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
+            <h1 className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent mb-4 tracking-tight animate-fadeIn">
               ConstructPro
             </h1>
-            <p className="text-lg text-white/90 font-medium drop-shadow">
-              Choose your role to access your dashboard
-            </p>
+            <div className="inline-block px-6 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/60 dark:border-slate-700/60 shadow-lg">
+              <p className="text-lg text-slate-700 dark:text-slate-200 font-semibold">
+                Choose your role to access your dashboard
+              </p>
+            </div>
           </div>
         </div>
 
@@ -85,44 +99,49 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
               <div
                 key={role.id}
                 onClick={() => onRoleSelect(role.id)}
-                className="group cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
+                className="group cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95"
+                style={{
+                  animationDelay: `${roles.indexOf(role) * 200}ms`,
+                }}
               >
-                <div className="bg-slate-800/90 dark:bg-slate-900/95 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/10 dark:border-white/20">
-                  <div className="flex">
+                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 border border-white/50 dark:border-slate-700/50 hover:border-blue-300/60 dark:hover:border-blue-400/60 relative group-hover:bg-white/95 dark:group-hover:bg-slate-800/95">
+                  <div className="flex h-44 sm:h-48">
                     {/* Image Section */}
-                    <div className="w-32 sm:w-40 h-24 sm:h-28 flex-shrink-0">
+                    <div className="w-44 sm:w-52 flex-shrink-0 overflow-hidden">
                       <img
                         src={role.image}
                         alt={role.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
 
                     {/* Content Section */}
-                    <div className="flex-1 p-4 sm:p-6 flex flex-col justify-center">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow">
+                    <div className="flex-1 p-5 sm:p-7 flex flex-col justify-center relative">
+                      <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-3 group-hover:from-blue-600 group-hover:to-purple-600 dark:group-hover:from-blue-400 dark:group-hover:to-purple-400 transition-all duration-500">
                         {role.title}
                       </h3>
-                      <p className="text-white/80 text-sm leading-relaxed drop-shadow">
+                      <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
                         {role.description}
                       </p>
                     </div>
 
                     {/* Arrow */}
-                    <div className="flex items-center pr-4 sm:pr-6">
-                      <svg
-                        className="w-6 h-6 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                    <div className="flex items-center pr-5 sm:pr-6">
+                      <div className="p-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300 group-hover:scale-110">
+                        <svg
+                          className="w-6 h-6 text-slate-600 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2.5}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -134,9 +153,12 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {/* Bottom Text */}
         <div className="px-6 pb-12">
           <div className="text-center transition-all duration-1000 delay-500 opacity-100 translate-y-0">
-            <p className="text-white/80 text-sm font-medium drop-shadow">
-              Professional Construction Management Platform
-            </p>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
+              <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
+              <p className="text-slate-600 dark:text-slate-300 text-sm font-semibold">
+                Professional Construction Management Platform
+              </p>
+            </div>
           </div>
         </div>
       </div>
