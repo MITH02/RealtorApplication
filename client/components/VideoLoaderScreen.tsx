@@ -35,8 +35,8 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
       <div className="relative z-10 min-h-screen flex flex-col">
         
         {/* Header */}
-        <div className="px-4 pt-8 sm:pt-12 pb-6">
-          <div 
+        <div className="px-4 pt-6 sm:pt-8 pb-4">
+          <div
             className={`text-center transition-all duration-1000 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
@@ -51,28 +51,28 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
         </div>
 
         {/* Video Container - Center */}
-        <div className="flex-1 flex items-center justify-center px-4 py-6">
-          <div 
-            className={`transition-all duration-1000 delay-300 ${
+        <div className="flex-1 flex items-center justify-center px-4 py-2">
+          <div
+            className={`w-full transition-all duration-1000 delay-300 ${
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 max-w-sm sm:max-w-md mx-auto">
+            <div className="bg-white rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-100 max-w-lg sm:max-w-xl lg:max-w-2xl mx-auto">
               {/* Video */}
               <div className="relative overflow-hidden rounded-2xl bg-slate-100">
                 <video
-                  className="w-full h-auto max-h-64 sm:max-h-80 object-contain"
+                  className="w-full h-auto min-h-80 max-h-96 sm:min-h-96 sm:max-h-[28rem] md:max-h-[32rem] object-contain"
                   autoPlay
                   muted
                   loop
                   playsInline
                 >
-                  <source 
-                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e" 
+                  <source
+                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
                     type="video/mov"
                   />
-                  <source 
-                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e" 
+                  <source
+                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
                     type="video/mp4"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-slate-200">
@@ -85,7 +85,7 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
         </div>
 
         {/* Loading Section - Below Video */}
-        <div className="px-4 pb-6">
+        <div className="px-4 pb-4">
           <div 
             className={`text-center transition-all duration-1000 delay-500 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -109,7 +109,7 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
         </div>
 
         {/* Get Started Button - Bottom */}
-        <div className="px-4 pb-8 sm:pb-12">
+        <div className="px-4 pb-6 sm:pb-8">
           <div 
             className={`transition-all duration-1000 delay-700 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
