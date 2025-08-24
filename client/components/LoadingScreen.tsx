@@ -135,30 +135,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
           <h1 className="text-5xl font-bold text-slate-700 mb-4 font-serif">
             ConstructPro
           </h1>
-          <p className="text-xl text-slate-600 mb-8 font-light">
+          <p className="text-xl text-slate-600 font-light">
             Building Excellence, Managing Success
-          </p>
-        </div>
-
-        {/* Progress bar */}
-        <div className="w-80 mx-auto">
-          <div className={`bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner ${
-            !progressStarted ? 'animate-pulse' : ''
-          }`}>
-            <div
-              className={`bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 h-full rounded-full transition-all duration-300 ease-out relative ${
-                progressStarted ? 'opacity-100' : 'opacity-0'
-              }`}
-              style={{ width: `${progress}%` }}
-            >
-              {progressStarted && <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>}
-            </div>
-          </div>
-          <p className="text-slate-600 mt-4 text-sm font-medium">
-            {!progressStarted
-              ? "Loading workspace..."
-              : `Building your workspace... ${Math.round(progress)}%`
-            }
           </p>
         </div>
 
