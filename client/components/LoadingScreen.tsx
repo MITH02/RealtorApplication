@@ -160,7 +160,9 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         <div className="w-80 mx-auto">
           <div className="bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
             <div
-              className="bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 h-full rounded-full transition-all duration-300 ease-out relative"
+              className={`bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-500 h-full rounded-full transition-all duration-300 ease-out relative ${
+                progressStarted ? 'opacity-100' : 'opacity-0'
+              }`}
               style={{ width: `${progress}%` }}
             >
               {progressStarted && <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>}
