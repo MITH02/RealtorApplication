@@ -30,45 +30,65 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 relative">
-      {/* Subtle animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100/30 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-cyan-100/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 relative overflow-hidden">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0">
+        {/* Stars */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute text-white/60 animate-pulse"
+            style={{
+              left: `${10 + Math.random() * 80}%`,
+              top: `${10 + Math.random() * 80}%`,
+              fontSize: `${12 + Math.random() * 8}px`,
+              animationDelay: `${Math.random() * 3}s`,
+            }}
+          >
+            ✦
+          </div>
+        ))}
+        
+        {/* Clouds */}
+        <div className="absolute top-12 left-8 w-20 h-12 bg-orange-300/40 rounded-full"></div>
+        <div className="absolute top-16 left-12 w-16 h-8 bg-orange-200/50 rounded-full"></div>
+        <div className="absolute top-20 right-12 w-24 h-14 bg-orange-300/30 rounded-full"></div>
+        <div className="absolute top-24 right-16 w-18 h-10 bg-orange-200/40 rounded-full"></div>
+        
+        {/* Additional small clouds */}
+        <div className="absolute top-32 left-1/4 w-12 h-6 bg-orange-200/50 rounded-full"></div>
+        <div className="absolute top-40 right-1/3 w-14 h-8 bg-orange-300/40 rounded-full"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         
         {/* Header */}
-        <div className="px-6 pt-8 sm:pt-12 pb-6">
+        <div className="px-6 pt-12 sm:pt-16">
           <div 
             className={`text-center transition-all duration-1000 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 mb-3 tracking-tight">
+            <h1 className="text-4xl sm:text-5xl font-black text-white mb-2 tracking-tight drop-shadow-lg">
               Builder Pro
             </h1>
-            <p className="text-lg sm:text-xl text-slate-600 font-medium">
+            <p className="text-lg text-white/90 font-medium drop-shadow">
               Professional Construction Management
             </p>
           </div>
         </div>
 
         {/* Video Container - Center */}
-        <div className="flex-1 flex items-center justify-center px-6 py-4">
+        <div className="flex-1 flex items-center justify-center px-6 py-6">
           <div 
             className={`w-full transition-all duration-1000 delay-300 ${
               showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <div className="relative max-w-md sm:max-w-lg lg:max-w-xl mx-auto">
-              {/* Glow effect behind card */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 via-cyan-500/20 to-blue-500/20 rounded-3xl blur-2xl" />
-              
+            <div className="relative max-w-sm sm:max-w-md mx-auto">              
               {/* Main video card */}
-              <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-white/20">
+              <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
                 {/* Video */}
                 <div className="relative">
                   <video
@@ -91,57 +111,57 @@ export default function VideoLoaderScreen({ onGetStarted }: VideoLoaderScreenPro
                       <div className="text-6xl">🏗️</div>
                     </div>
                   </video>
-                  
-                  {/* Subtle overlay for video */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent" />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Loading Section */}
-        <div className="px-6 pb-6">
+        {/* Bottom Section with Text and Button */}
+        <div className="px-6 pb-12">
           <div 
             className={`text-center transition-all duration-1000 delay-500 ${
               showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
+            {/* Main Text */}
+            <div className="mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight drop-shadow-lg">
+                Build projects for
+                <br />
+                every step you take.
+              </h2>
+              <p className="text-white/90 text-base font-medium drop-shadow">
+                More than tracking, transform
+                <br />
+                planning into building.
+              </p>
+            </div>
+
             {/* Progress Bar */}
             <div className="max-w-sm mx-auto mb-6">
-              <div className="bg-slate-200/80 rounded-full h-2 shadow-inner overflow-hidden">
+              <div className="bg-white/20 backdrop-blur-sm rounded-full h-2 shadow-inner overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-blue-500 to-cyan-500 h-full rounded-full transition-all duration-300 ease-out relative"
+                  className="bg-white h-full rounded-full transition-all duration-300 ease-out relative"
                   style={{ width: `${progress}%` }}
                 >
-                  <div className="absolute inset-0 bg-white/30 rounded-full animate-pulse" />
+                  <div className="absolute inset-0 bg-white/50 rounded-full animate-pulse" />
                 </div>
               </div>
               
               {/* Loading Text */}
-              <p className="text-slate-600 text-sm font-medium mt-3">
+              <p className="text-white/80 text-sm font-medium mt-3 drop-shadow">
                 Preparing your workspace... {Math.round(progress)}%
               </p>
             </div>
-          </div>
-        </div>
 
-        {/* Get Started Button */}
-        <div className="px-6 pb-10 sm:pb-12">
-          <div 
-            className={`transition-all duration-1000 delay-700 ${
-              showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
+            {/* Get Started Button */}
             <div className="max-w-sm mx-auto">
               <Button
                 onClick={onGetStarted}
-                className="w-full relative group bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 border-0"
+                className="w-full relative group bg-white hover:bg-gray-50 text-orange-600 font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl border-0"
                 size="lg"
               >
-                {/* Button shine effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                
                 <span className="relative flex items-center justify-center">
                   Get Started
                   <svg 
