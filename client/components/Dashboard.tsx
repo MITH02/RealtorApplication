@@ -1,24 +1,317 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+
 interface DashboardProps {
   role: "builder" | "contractor" | "admin";
   onLogout: () => void;
 }
 
+const containerStyle = css`
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #f9fafb;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+`;
+
+const headerStyle = (bgColor: string) => css`
+  background-color: ${bgColor};
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+`;
+
+const headerInnerStyle = css`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 16px;
+  
+  @media (min-width: 640px) {
+    padding: 0 24px;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 0 32px;
+  }
+`;
+
+const headerContentStyle = css`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+`;
+
+const headerLeftStyle = css`
+  display: flex;
+  align-items: center;
+  
+  h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  span {
+    margin-left: 16px;
+    padding: 4px 12px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    font-size: 14px;
+  }
+`;
+
+const logoutButtonStyle = css`
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  color: white;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+  }
+`;
+
+const mainStyle = css`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  
+  @media (min-width: 640px) {
+    padding: 32px 24px;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 32px 32px;
+  }
+`;
+
+const titleSectionStyle = css`
+  margin-bottom: 32px;
+  
+  h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #111827;
+    margin: 0 0 8px 0;
+    
+    @media (min-width: 640px) {
+      font-size: 30px;
+    }
+  }
+  
+  p {
+    color: #6b7280;
+    margin: 0;
+  }
+`;
+
+const statsGridStyle = css`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+  
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
+
+const statCardStyle = css`
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  
+  .content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    font-size: 30px;
+    margin-right: 16px;
+  }
+  
+  .value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #111827;
+    margin: 0 0 4px 0;
+  }
+  
+  .label {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+  }
+`;
+
+const cardsGridStyle = css`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const cardStyle = css`
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  
+  h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 16px 0;
+  }
+`;
+
+const actionsStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const actionButtonStyle = (hoverBg: string) => css`
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: #d1d5db;
+    background-color: ${hoverBg};
+  }
+  
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const activityStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const activityItemStyle = css`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  
+  .dot-container {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  
+  .content {
+    flex: 1;
+  }
+  
+  .title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    margin: 0 0 2px 0;
+  }
+  
+  .time {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+  }
+`;
+
+const infoCardStyle = css`
+  margin-top: 32px;
+  background-color: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 12px;
+  padding: 24px;
+  
+  .content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  svg {
+    width: 24px;
+    height: 24px;
+    color: #2563eb;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin: 0 0 4px 0;
+  }
+  
+  p {
+    color: #1d4ed8;
+    margin: 0;
+    line-height: 1.5;
+  }
+`;
+
 export default function Dashboard({ role, onLogout }: DashboardProps) {
   const roleColors = {
     builder: {
-      primary: "bg-blue-600",
-      accent: "text-blue-600",
-      bg: "bg-blue-50",
+      primary: "#2563eb",
+      accent: "#2563eb",
+      bg: "#eff6ff",
     },
     contractor: {
-      primary: "bg-orange-600",
-      accent: "text-orange-600",
-      bg: "bg-orange-50",
+      primary: "#ea580c",
+      accent: "#ea580c",
+      bg: "#fff7ed",
     },
     admin: {
-      primary: "bg-purple-600",
-      accent: "text-purple-600",
-      bg: "bg-purple-50",
+      primary: "#9333ea",
+      accent: "#9333ea",
+      bg: "#faf5ff",
     },
   };
 
@@ -82,27 +375,19 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
   const content = getDashboardContent();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div css={containerStyle}>
       {/* Header */}
-      <header className={`${colors.primary} text-white shadow-lg`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold">ConstructPro</h1>
-              <span className="ml-4 px-3 py-1 bg-white/20 rounded-full text-sm">
+      <header css={headerStyle(colors.primary)}>
+        <div css={headerInnerStyle}>
+          <div css={headerContentStyle}>
+            <div css={headerLeftStyle}>
+              <h1>ConstructPro</h1>
+              <span>
                 {role.charAt(0).toUpperCase() + role.slice(1)}
               </span>
             </div>
-            <button
-              onClick={onLogout}
-              className="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200"
-            >
-              <svg
-                className="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+            <button css={logoutButtonStyle} onClick={onLogout}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -117,25 +402,21 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">{content.title}</h2>
-          <p className="text-gray-600 mt-2">
-            Welcome back! Here's what's happening with your projects.
-          </p>
+      <main css={mainStyle}>
+        <div css={titleSectionStyle}>
+          <h2>{content.title}</h2>
+          <p>Welcome back! Here's what's happening with your projects.</p>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div css={statsGridStyle}>
           {content.stats.map((stat, index) => (
-            <div key={index} className="bg-white rounded-xl shadow-md p-6">
-              <div className="flex items-center">
-                <div className="text-3xl mr-4">{stat.icon}</div>
+            <div key={index} css={statCardStyle}>
+              <div className="content">
+                <div className="icon">{stat.icon}</div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
-                  <p className="text-gray-600 text-sm">{stat.label}</p>
+                  <p className="value">{stat.value}</p>
+                  <p className="label">{stat.label}</p>
                 </div>
               </div>
             </div>
@@ -143,24 +424,17 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </div>
 
         {/* Action Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Quick Actions
-            </h3>
-            <div className="space-y-3">
+        <div css={cardsGridStyle}>
+          <div css={cardStyle}>
+            <h3>Quick Actions</h3>
+            <div css={actionsStyle}>
               {content.actions.map((action, index) => (
                 <button
                   key={index}
-                  className={`w-full text-left px-4 py-3 rounded-lg border-2 border-gray-200 hover:border-gray-300 hover:${colors.bg} transition-all duration-200 flex items-center justify-between`}
+                  css={actionButtonStyle(colors.bg)}
                 >
                   <span>{action}</span>
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -173,42 +447,34 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Recent Activity
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <div css={cardStyle}>
+            <h3>Recent Activity</h3>
+            <div css={activityStyle}>
+              <div css={activityItemStyle}>
+                <div className="dot-container" style={{ backgroundColor: '#dcfce7' }}>
+                  <div className="dot" style={{ backgroundColor: '#22c55e' }}></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    Task completed
-                  </p>
-                  <p className="text-xs text-gray-500">2 hours ago</p>
+                <div className="content">
+                  <p className="title">Task completed</p>
+                  <p className="time">2 hours ago</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+              <div css={activityItemStyle}>
+                <div className="dot-container" style={{ backgroundColor: '#dbeafe' }}>
+                  <div className="dot" style={{ backgroundColor: '#3b82f6' }}></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    New assignment
-                  </p>
-                  <p className="text-xs text-gray-500">1 day ago</p>
+                <div className="content">
+                  <p className="title">New assignment</p>
+                  <p className="time">1 day ago</p>
                 </div>
               </div>
-              <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <div css={activityItemStyle}>
+                <div className="dot-container" style={{ backgroundColor: '#fef3c7' }}>
+                  <div className="dot" style={{ backgroundColor: '#eab308' }}></div>
                 </div>
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    Deadline reminder
-                  </p>
-                  <p className="text-xs text-gray-500">2 days ago</p>
+                <div className="content">
+                  <p className="title">Deadline reminder</p>
+                  <p className="time">2 days ago</p>
                 </div>
               </div>
             </div>
@@ -216,14 +482,9 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </div>
 
         {/* Placeholder message */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-6">
-          <div className="flex items-center">
-            <svg
-              className="w-6 h-6 text-blue-600 mr-3"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+        <div css={infoCardStyle}>
+          <div className="content">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -232,10 +493,8 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
               />
             </svg>
             <div>
-              <h4 className="text-lg font-semibold text-blue-900">
-                Dashboard Preview
-              </h4>
-              <p className="text-blue-700">
+              <h4>Dashboard Preview</h4>
+              <p>
                 This is a preview of your {role} dashboard. Full functionality
                 including task management, project creation, and approval
                 workflows will be implemented in the next phase.
