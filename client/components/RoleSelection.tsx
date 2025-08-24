@@ -124,25 +124,6 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                         {role.description}
                       </p>
                     </div>
-
-                    {/* Arrow */}
-                    <div className="flex items-center pr-5 sm:pr-6">
-                      <div className="p-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300 group-hover:scale-110">
-                        <svg
-                          className="w-6 h-6 text-slate-600 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2.5}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

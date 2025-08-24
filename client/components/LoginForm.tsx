@@ -197,14 +197,6 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
             </div>
           </div>
 
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-xs text-slate-500 dark:text-slate-400 px-4 leading-relaxed">
-              By continuing, you agree to our Terms of Service and Privacy
-              Policy. Your data is secure and encrypted.
-            </p>
-          </div>
-
           {/* Features Preview */}
           <div className="mt-6 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50 dark:border-slate-700/50">
             <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
