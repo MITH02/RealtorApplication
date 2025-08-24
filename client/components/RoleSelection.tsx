@@ -28,7 +28,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 dark:from-orange-600 dark:via-red-600 dark:to-red-700 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
         {/* Stars */}
