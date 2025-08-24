@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface LoginFormProps {
   role: "builder" | "contractor" | "admin";
@@ -78,6 +79,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           </svg>
           <span className="font-medium">Back</span>
         </button>
+        <SimpleThemeToggle />
       </div>
 
       {/* Content */}

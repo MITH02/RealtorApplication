@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface VideoLoaderScreenProps {
   onGetStarted: () => void;
@@ -82,6 +83,9 @@ export default function VideoLoaderScreen({
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
         <div className="px-6 pt-12 sm:pt-16">
+          <div className="flex justify-end mb-4">
+            <SimpleThemeToggle />
+          </div>
           <div
             className={`text-center transition-all duration-1000 ${
               showContent
