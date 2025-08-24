@@ -24,23 +24,16 @@ export default function AdminScreen({ onLogin, onSignup, onBack }: AdminScreenPr
       <div className="flex-1 flex flex-col px-4 pb-8">
         {/* Admin Card */}
         <div className="text-center mb-6">
-          <div className="bg-white rounded-3xl shadow-lg p-6 mb-4 border border-purple-100 relative overflow-hidden max-w-xs mx-auto">
+          <div className="bg-white rounded-3xl shadow-lg mb-4 border border-purple-100 relative overflow-hidden max-w-xs mx-auto">
             {/* Gradient accent */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-400 to-purple-600"></div>
 
-            {/* Image */}
-            <div className="mb-4">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2Fef4d01b439c041bc9a1546a4ea50eb7f?format=webp&width=800"
-                alt="Admin"
-                className="w-24 h-24 mx-auto rounded-xl object-cover shadow-md"
-              />
-            </div>
-
-            {/* Role Badge */}
-            <div className="inline-flex items-center px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
-              ⚙️ Admin Role
-            </div>
+            {/* Full Image */}
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2Fef4d01b439c041bc9a1546a4ea50eb7f?format=webp&width=800"
+              alt="Admin"
+              className="w-full h-48 object-cover"
+            />
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold text-purple-800 mb-2">Admin Portal</h1>
