@@ -30,7 +30,14 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
         <video
           autoPlay
           muted
-          className="w-full h-full object-cover"
+          playsInline
+          preload="auto"
+          className="max-w-full max-h-full object-contain"
+          style={{
+            width: 'auto',
+            height: 'auto',
+            imageRendering: 'crisp-edges'
+          }}
           onError={handleVideoError}
           onEnded={handleVideoEnded}
         >
