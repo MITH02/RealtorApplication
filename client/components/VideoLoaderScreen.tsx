@@ -137,33 +137,39 @@ export default function VideoLoaderScreen({
           >
             {/* Main Text */}
             <div className="mb-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 leading-tight drop-shadow-lg">
+              <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-4 leading-tight">
                 Build projects for
                 <br />
                 every step you take.
               </h2>
-              <p className="text-white/90 text-base font-medium drop-shadow">
-                More than tracking, transform
-                <br />
-                planning into building.
-              </p>
+              <div className="inline-block px-4 py-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
+                <p className="text-slate-700 dark:text-slate-300 text-base font-semibold">
+                  More than tracking, transform
+                  <br />
+                  planning into building.
+                </p>
+              </div>
             </div>
 
             {/* Progress Bar */}
-            <div className="max-w-sm mx-auto mb-6">
-              <div className="bg-white/20 backdrop-blur-sm rounded-full h-2 shadow-inner overflow-hidden">
+            <div className="max-w-sm mx-auto mb-8">
+              <div className="bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm rounded-full h-3 shadow-inner overflow-hidden border border-white/40 dark:border-slate-700/40">
                 <div
-                  className="bg-white h-full rounded-full transition-all duration-300 ease-out relative"
+                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 h-full rounded-full transition-all duration-500 ease-out relative overflow-hidden"
                   style={{ width: `${progress}%` }}
                 >
-                  <div className="absolute inset-0 bg-white/50 rounded-full animate-pulse" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent animate-pulse" />
+                  <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-gradient"></div>
                 </div>
               </div>
 
               {/* Loading Text */}
-              <p className="text-white/80 text-sm font-medium mt-3 drop-shadow">
-                Preparing your workspace... {Math.round(progress)}%
-              </p>
+              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-ping"></div>
+                <p className="text-slate-700 dark:text-slate-300 text-sm font-semibold">
+                  Preparing your workspace... {Math.round(progress)}%
+                </p>
+              </div>
             </div>
 
             {/* Get Started Button */}
