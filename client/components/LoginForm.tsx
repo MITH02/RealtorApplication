@@ -15,24 +15,27 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
   const roleConfig = {
     builder: {
-      gradient: "from-blue-500 via-blue-600 to-blue-700",
-      lightGradient: "from-blue-50 to-blue-100",
+      color: "bg-blue-600",
+      hoverColor: "hover:bg-blue-700",
+      bgColor: "bg-blue-50",
       accent: "text-blue-600",
       bgAccent: "bg-blue-50",
       icon: "🏗️",
       title: "Builder Portal",
     },
     contractor: {
-      gradient: "from-orange-500 via-orange-600 to-orange-700",
-      lightGradient: "from-orange-50 to-orange-100",
+      color: "bg-orange-600",
+      hoverColor: "hover:bg-orange-700",
+      bgColor: "bg-orange-50",
       accent: "text-orange-600",
       bgAccent: "bg-orange-50",
       icon: "👷",
       title: "Contractor Portal",
     },
     admin: {
-      gradient: "from-purple-500 via-purple-600 to-purple-700",
-      lightGradient: "from-purple-50 to-purple-100",
+      color: "bg-purple-600",
+      hoverColor: "hover:bg-purple-700",
+      bgColor: "bg-purple-50",
       accent: "text-purple-600",
       bgAccent: "bg-purple-50",
       icon: "⚙️",
