@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 
 interface VideoIntroProps {
@@ -26,17 +26,17 @@ const videoStyle = css`
   max-height: 100vh;
   object-fit: contain;
   display: block;
-  
+
   /* Mobile optimizations */
   -webkit-playsinline: true;
-  
+
   /* Prevent blur on mobile */
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
-  
+
   /* Smooth rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -45,7 +45,7 @@ const videoStyle = css`
 const fallbackStyle = css`
   text-align: center;
   color: white;
-  
+
   .spinner {
     width: 64px;
     height: 64px;
@@ -55,15 +55,19 @@ const fallbackStyle = css`
     animation: spin 1s linear infinite;
     margin: 0 auto 16px;
   }
-  
+
   .text {
     font-size: 20px;
     margin: 0;
   }
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 

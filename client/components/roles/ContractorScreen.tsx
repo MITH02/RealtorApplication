@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 interface ContractorScreenProps {
   onLogin: () => void;
@@ -36,18 +36,18 @@ const backButtonStyle = css`
   padding: 8px;
   border-radius: 8px;
   background-color: #fed7aa;
-  
+
   &:active {
     color: #c2410c;
     background-color: #fdba74;
   }
-  
+
   svg {
     width: 20px;
     height: 20px;
     margin-right: 8px;
   }
-  
+
   span {
     font-weight: 500;
   }
@@ -68,7 +68,9 @@ const cardContainerStyle = css`
 const imageCardStyle = css`
   background-color: #ffffff;
   border-radius: 24px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   margin-bottom: 16px;
   border: 1px solid #fed7aa;
   position: relative;
@@ -99,7 +101,7 @@ const titleStyle = css`
   color: #c2410c;
   margin-bottom: 8px;
   margin: 0 0 8px 0;
-  
+
   @media (min-width: 640px) {
     font-size: 30px;
   }
@@ -110,7 +112,7 @@ const subtitleStyle = css`
   font-size: 14px;
   padding: 0 16px;
   margin: 0;
-  
+
   @media (min-width: 640px) {
     font-size: 16px;
   }
@@ -119,7 +121,9 @@ const subtitleStyle = css`
 const featuresCardStyle = css`
   background-color: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 20px;
   margin-bottom: 24px;
   border: 1px solid #fed7aa;
@@ -141,18 +145,18 @@ const featuresListStyle = css`
   list-style: none;
   padding: 0;
   margin: 0;
-  
+
   li {
     display: flex;
     align-items: flex-start;
     color: #374151;
     font-size: 14px;
     margin-bottom: 12px;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
-    
+
     svg {
       width: 16px;
       height: 16px;
@@ -161,7 +165,7 @@ const featuresListStyle = css`
       margin-top: 2px;
       flex-shrink: 0;
     }
-    
+
     span {
       line-height: 1.4;
     }
@@ -185,14 +189,18 @@ const primaryButtonStyle = css`
   border-radius: 12px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   transform: scale(1);
-  
+
   &:active {
     background-color: #c2410c;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     transform: scale(0.95);
   }
 `;
@@ -208,7 +216,7 @@ const secondaryButtonStyle = css`
   cursor: pointer;
   transition: all 0.3s ease;
   transform: scale(1);
-  
+
   &:active {
     border-color: #fdba74;
     background-color: #fff7ed;
@@ -220,7 +228,7 @@ const footerTextStyle = css`
   margin-top: 24px;
   text-align: center;
   padding: 0 16px;
-  
+
   p {
     font-size: 12px;
     color: #6b7280;
@@ -261,7 +269,9 @@ export default function ContractorScreen({
           </div>
 
           <h1 css={titleStyle}>Contractor Portal</h1>
-          <p css={subtitleStyle}>Manage your assigned tasks and track project progress</p>
+          <p css={subtitleStyle}>
+            Manage your assigned tasks and track project progress
+          </p>
         </div>
 
         <div css={featuresCardStyle}>

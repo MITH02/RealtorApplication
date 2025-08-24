@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 import { useState } from "react";
 
 interface LoginFormProps {
@@ -37,17 +37,17 @@ const backButtonStyle = (color: string, bgColor: string) => css`
   padding: 8px;
   border-radius: 8px;
   background-color: ${bgColor};
-  
+
   &:active {
     opacity: 0.7;
   }
-  
+
   svg {
     width: 20px;
     height: 20px;
     margin-right: 8px;
   }
-  
+
   span {
     font-weight: 500;
   }
@@ -76,8 +76,10 @@ const iconContainerStyle = (bgColor: string) => css`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
   span {
     font-size: 30px;
   }
@@ -124,7 +126,7 @@ const fieldStyle = css`
     color: #374151;
     margin-bottom: 8px;
   }
-  
+
   input {
     width: 100%;
     padding: 12px 16px;
@@ -134,14 +136,14 @@ const fieldStyle = css`
     font-size: 16px;
     transition: all 0.2s ease;
     box-sizing: border-box;
-    
+
     &:focus {
       outline: none;
       ring: 2px solid #3b82f6;
       border-color: transparent;
       background-color: #ffffff;
     }
-    
+
     &::placeholder {
       color: #9ca3af;
     }
@@ -153,12 +155,12 @@ const checkboxRowStyle = css`
   align-items: center;
   justify-content: space-between;
   font-size: 14px;
-  
+
   label {
     display: flex;
     align-items: center;
     margin: 0;
-    
+
     input {
       margin-right: 8px;
       border-radius: 4px;
@@ -166,7 +168,7 @@ const checkboxRowStyle = css`
       padding: 0;
       background: none;
     }
-    
+
     span {
       color: #6b7280;
     }
@@ -180,7 +182,7 @@ const forgotButtonStyle = (color: string) => css`
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -194,42 +196,50 @@ const submitButtonStyle = (bgColor: string, hoverColor: string) => css`
   border-radius: 12px;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transform: scale(1);
-  
+
   &:active {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
     transform: scale(0.95);
     background-color: ${hoverColor};
   }
-  
+
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
-  
+
   svg {
     width: 20px;
     height: 20px;
     margin-right: 12px;
     animation: spin 1s linear infinite;
   }
-  
+
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 `;
 
 const toggleSectionStyle = css`
   margin-top: 24px;
   text-align: center;
-  
+
   p {
     color: #6b7280;
     font-size: 14px;
@@ -245,7 +255,7 @@ const toggleButtonStyle = (color: string) => css`
   font-weight: 600;
   font-size: 14px;
   margin-top: 4px;
-  
+
   &:hover {
     text-decoration: underline;
   }
@@ -254,7 +264,7 @@ const toggleButtonStyle = (color: string) => css`
 const additionalInfoStyle = css`
   margin-top: 24px;
   text-align: center;
-  
+
   p {
     font-size: 12px;
     color: #6b7280;
@@ -269,24 +279,24 @@ const previewCardStyle = (bgColor: string) => css`
   background-color: ${bgColor};
   border-radius: 16px;
   padding: 16px;
-  
+
   h4 {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 8px;
     margin: 0 0 8px 0;
   }
-  
+
   ul {
     font-size: 12px;
     color: #6b7280;
     list-style: none;
     padding: 0;
     margin: 0;
-    
+
     li {
       margin-bottom: 4px;
-      
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -347,7 +357,10 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   return (
     <div css={containerStyle(config.bgColor)}>
       <div css={headerStyle}>
-        <button css={backButtonStyle(config.accent, config.bgAccent)} onClick={onBack}>
+        <button
+          css={backButtonStyle(config.accent, config.bgAccent)}
+          onClick={onBack}
+        >
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -417,10 +430,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                     <input type="checkbox" />
                     <span>Remember me</span>
                   </label>
-                  <button
-                    type="button"
-                    css={forgotButtonStyle(config.accent)}
-                  >
+                  <button type="button" css={forgotButtonStyle(config.accent)}>
                     Forgot password?
                   </button>
                 </div>
@@ -481,7 +491,13 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           </div>
 
           <div css={previewCardStyle(config.bgAccent)}>
-            <h4 css={css`color: ${config.accent};`}>What's waiting for you:</h4>
+            <h4
+              css={css`
+                color: ${config.accent};
+              `}
+            >
+              What's waiting for you:
+            </h4>
             <ul>
               {role === "admin" && (
                 <>

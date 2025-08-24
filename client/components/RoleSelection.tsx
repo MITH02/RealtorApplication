@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 interface RoleSelectionProps {
   onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
@@ -40,7 +40,7 @@ const mainContentStyle = css`
 const headerStyle = css`
   text-align: center;
   margin-bottom: 32px;
-  
+
   h1 {
     font-size: 32px;
     font-weight: bold;
@@ -50,7 +50,7 @@ const headerStyle = css`
     line-height: 1.2;
     margin: 0 0 16px 0;
   }
-  
+
   p {
     font-size: 16px;
     color: #64748b;
@@ -59,14 +59,14 @@ const headerStyle = css`
     line-height: 1.5;
     padding: 0 16px;
   }
-  
+
   @media (min-width: 640px) {
     margin-bottom: 48px;
-    
+
     h1 {
       font-size: 40px;
     }
-    
+
     p {
       font-size: 18px;
     }
@@ -86,7 +86,7 @@ const roleCardStyle = css`
   cursor: pointer;
   transform: scale(1);
   transition: all 0.3s ease;
-  
+
   &:active {
     transform: scale(0.95);
   }
@@ -95,15 +95,19 @@ const roleCardStyle = css`
 const cardInnerStyle = css`
   background-color: #ffffff;
   border-radius: 24px;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
   padding: 24px;
   border: 1px solid #f1f5f9;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  
+
   &:active {
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
   }
 `;
 
@@ -125,7 +129,7 @@ const iconStyle = css`
 
 const contentInnerStyle = css`
   text-align: center;
-  
+
   h3 {
     font-size: 24px;
     font-weight: bold;
@@ -133,7 +137,7 @@ const contentInnerStyle = css`
     margin-bottom: 12px;
     margin: 0 0 12px 0;
   }
-  
+
   p {
     color: #64748b;
     margin-bottom: 24px;
@@ -151,25 +155,29 @@ const buttonStyle = (bgColor: string, hoverColor: string) => css`
   padding: 14px 24px;
   border-radius: 16px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   &:active {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     background-color: ${hoverColor};
   }
-  
+
   span {
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 14px;
   }
-  
+
   svg {
     width: 16px;
     height: 16px;
@@ -181,19 +189,19 @@ const footerStyle = css`
   position: relative;
   height: 96px;
   margin-top: 32px;
-  
+
   .bg-image {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800');
+    background-image: url("https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2F7910060006ba48d9830f12d508b80fdb?format=webp&width=800");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
-  
+
   @media (min-width: 640px) {
     height: 128px;
   }
@@ -204,14 +212,15 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
     {
       id: "builder" as const,
       title: "Builder",
-      description: "Manage building projects and oversee construction development",
+      description:
+        "Manage building projects and oversee construction development",
       icon: "🏗️",
       color: "#2563eb",
       hoverColor: "#1d4ed8",
     },
     {
       id: "contractor" as const,
-      title: "Contractor", 
+      title: "Contractor",
       description: "Execute tasks and report project progress efficiently",
       icon: "👷",
       color: "#ea580c",
@@ -220,7 +229,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
     {
       id: "admin" as const,
       title: "Admin",
-      description: "System administration and comprehensive user management", 
+      description: "System administration and comprehensive user management",
       icon: "��️",
       color: "#9333ea",
       hoverColor: "#7c3aed",
@@ -245,17 +254,21 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
               >
                 <div css={cardInnerStyle}>
                   <div css={accentBarStyle(role.color)}></div>
-                  
+
                   <div css={iconStyle}>{role.icon}</div>
-                  
+
                   <div css={contentInnerStyle}>
                     <h3>{role.title}</h3>
                     <p>{role.description}</p>
-                    
+
                     <button css={buttonStyle(role.color, role.hoverColor)}>
                       <span>
                         Select Role
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
                           <path
                             strokeLinecap="round"
                             strokeLinejoin="round"

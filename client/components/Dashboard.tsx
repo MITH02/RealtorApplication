@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
 interface DashboardProps {
   role: "builder" | "contractor" | "admin";
@@ -18,18 +18,20 @@ const containerStyle = css`
 const headerStyle = (bgColor: string) => css`
   background-color: ${bgColor};
   color: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 `;
 
 const headerInnerStyle = css`
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 16px;
-  
+
   @media (min-width: 640px) {
     padding: 0 24px;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 0 32px;
   }
@@ -45,13 +47,13 @@ const headerContentStyle = css`
 const headerLeftStyle = css`
   display: flex;
   align-items: center;
-  
+
   h1 {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
   }
-  
+
   span {
     margin-left: 16px;
     padding: 4px 12px;
@@ -71,11 +73,11 @@ const logoutButtonStyle = css`
   cursor: pointer;
   border: none;
   color: white;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.2);
   }
-  
+
   svg {
     width: 16px;
     height: 16px;
@@ -87,11 +89,11 @@ const mainStyle = css`
   max-width: 1280px;
   margin: 0 auto;
   padding: 32px 16px;
-  
+
   @media (min-width: 640px) {
     padding: 32px 24px;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 32px 32px;
   }
@@ -99,18 +101,18 @@ const mainStyle = css`
 
 const titleSectionStyle = css`
   margin-bottom: 32px;
-  
+
   h2 {
     font-size: 24px;
     font-weight: bold;
     color: #111827;
     margin: 0 0 8px 0;
-    
+
     @media (min-width: 640px) {
       font-size: 30px;
     }
   }
-  
+
   p {
     color: #6b7280;
     margin: 0;
@@ -122,11 +124,11 @@ const statsGridStyle = css`
   grid-template-columns: 1fr;
   gap: 24px;
   margin-bottom: 32px;
-  
+
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -135,26 +137,28 @@ const statsGridStyle = css`
 const statCardStyle = css`
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 24px;
-  
+
   .content {
     display: flex;
     align-items: center;
   }
-  
+
   .icon {
     font-size: 30px;
     margin-right: 16px;
   }
-  
+
   .value {
     font-size: 24px;
     font-weight: bold;
     color: #111827;
     margin: 0 0 4px 0;
   }
-  
+
   .label {
     color: #6b7280;
     font-size: 14px;
@@ -166,7 +170,7 @@ const cardsGridStyle = css`
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  
+
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -175,9 +179,11 @@ const cardsGridStyle = css`
 const cardStyle = css`
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   padding: 24px;
-  
+
   h3 {
     font-size: 20px;
     font-weight: 600;
@@ -204,12 +210,12 @@ const actionButtonStyle = (hoverBg: string) => css`
   justify-content: space-between;
   background-color: #ffffff;
   cursor: pointer;
-  
+
   &:hover {
     border-color: #d1d5db;
     background-color: ${hoverBg};
   }
-  
+
   svg {
     width: 16px;
     height: 16px;
@@ -226,7 +232,7 @@ const activityItemStyle = css`
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  
+
   .dot-container {
     width: 32px;
     height: 32px;
@@ -236,24 +242,24 @@ const activityItemStyle = css`
     justify-content: center;
     flex-shrink: 0;
   }
-  
+
   .dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
   }
-  
+
   .content {
     flex: 1;
   }
-  
+
   .title {
     font-size: 14px;
     font-weight: 500;
     color: #111827;
     margin: 0 0 2px 0;
   }
-  
+
   .time {
     font-size: 12px;
     color: #6b7280;
@@ -267,13 +273,13 @@ const infoCardStyle = css`
   border: 1px solid #dbeafe;
   border-radius: 12px;
   padding: 24px;
-  
+
   .content {
     display: flex;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   svg {
     width: 24px;
     height: 24px;
@@ -281,14 +287,14 @@ const infoCardStyle = css`
     flex-shrink: 0;
     margin-top: 2px;
   }
-  
+
   h4 {
     font-size: 18px;
     font-weight: 600;
     color: #1e3a8a;
     margin: 0 0 4px 0;
   }
-  
+
   p {
     color: #1d4ed8;
     margin: 0;
@@ -382,9 +388,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
           <div css={headerContentStyle}>
             <div css={headerLeftStyle}>
               <h1>ConstructPro</h1>
-              <span>
-                {role.charAt(0).toUpperCase() + role.slice(1)}
-              </span>
+              <span>{role.charAt(0).toUpperCase() + role.slice(1)}</span>
             </div>
             <button css={logoutButtonStyle} onClick={onLogout}>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -429,10 +433,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             <h3>Quick Actions</h3>
             <div css={actionsStyle}>
               {content.actions.map((action, index) => (
-                <button
-                  key={index}
-                  css={actionButtonStyle(colors.bg)}
-                >
+                <button key={index} css={actionButtonStyle(colors.bg)}>
                   <span>{action}</span>
                   <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -451,8 +452,14 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             <h3>Recent Activity</h3>
             <div css={activityStyle}>
               <div css={activityItemStyle}>
-                <div className="dot-container" style={{ backgroundColor: '#dcfce7' }}>
-                  <div className="dot" style={{ backgroundColor: '#22c55e' }}></div>
+                <div
+                  className="dot-container"
+                  style={{ backgroundColor: "#dcfce7" }}
+                >
+                  <div
+                    className="dot"
+                    style={{ backgroundColor: "#22c55e" }}
+                  ></div>
                 </div>
                 <div className="content">
                   <p className="title">Task completed</p>
@@ -460,8 +467,14 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                 </div>
               </div>
               <div css={activityItemStyle}>
-                <div className="dot-container" style={{ backgroundColor: '#dbeafe' }}>
-                  <div className="dot" style={{ backgroundColor: '#3b82f6' }}></div>
+                <div
+                  className="dot-container"
+                  style={{ backgroundColor: "#dbeafe" }}
+                >
+                  <div
+                    className="dot"
+                    style={{ backgroundColor: "#3b82f6" }}
+                  ></div>
                 </div>
                 <div className="content">
                   <p className="title">New assignment</p>
@@ -469,8 +482,14 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                 </div>
               </div>
               <div css={activityItemStyle}>
-                <div className="dot-container" style={{ backgroundColor: '#fef3c7' }}>
-                  <div className="dot" style={{ backgroundColor: '#eab308' }}></div>
+                <div
+                  className="dot-container"
+                  style={{ backgroundColor: "#fef3c7" }}
+                >
+                  <div
+                    className="dot"
+                    style={{ backgroundColor: "#eab308" }}
+                  ></div>
                 </div>
                 <div className="content">
                   <p className="title">Deadline reminder</p>
