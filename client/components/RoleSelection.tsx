@@ -31,7 +31,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-200 dark:from-blue-800 dark:via-blue-900 dark:to-cyan-900 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0">
         {/* Stars */}
@@ -50,15 +50,15 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
           </div>
         ))}
 
-        {/* Clouds */}
-        <div className="absolute top-12 left-8 w-20 h-12 bg-blue-300/40 rounded-full"></div>
-        <div className="absolute top-16 left-12 w-16 h-8 bg-cyan-200/50 rounded-full"></div>
-        <div className="absolute top-20 right-12 w-24 h-14 bg-blue-300/30 rounded-full"></div>
-        <div className="absolute top-24 right-16 w-18 h-10 bg-cyan-200/40 rounded-full"></div>
+        {/* Modern Floating Elements */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"></div>
+        <div className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-cyan-400/25 to-blue-400/25 rounded-full blur-lg animate-float" style={{animationDelay: '1s'}}></div>
+        <div className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-indigo-400/30 to-cyan-400/30 rounded-full blur-md animate-float" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-lg animate-float" style={{animationDelay: '0.5s'}}></div>
 
-        {/* Additional small clouds */}
-        <div className="absolute top-32 left-1/4 w-12 h-6 bg-cyan-200/50 rounded-full"></div>
-        <div className="absolute top-40 right-1/3 w-14 h-8 bg-blue-300/40 rounded-full"></div>
+        {/* Geometric Shapes */}
+        <div className="absolute top-32 left-1/3 w-2 h-12 bg-gradient-to-b from-blue-400/40 to-transparent rotate-12 animate-pulse"></div>
+        <div className="absolute bottom-40 right-1/3 w-12 h-2 bg-gradient-to-r from-cyan-400/40 to-transparent -rotate-12 animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
 
       {/* Content */}
