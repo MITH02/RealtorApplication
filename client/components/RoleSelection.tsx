@@ -38,7 +38,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-slate-600/80 dark:text-white/60 animate-pulse"
+            className="absolute text-blue-400/60 dark:text-blue-300/40 animate-pulse"
             style={{
               left: `${10 + Math.random() * 80}%`,
               top: `${10 + Math.random() * 80}%`,
