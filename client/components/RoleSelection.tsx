@@ -81,7 +81,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
 
                     {/* Action Button */}
                     <button
-                      className={`w-full bg-gradient-to-r ${role.gradient} text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 shadow-md active:shadow-lg`}
+                      className={`w-full ${role.color} ${role.hoverColor} text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 shadow-md active:shadow-lg`}
                     >
                       <span className="flex items-center justify-center text-sm">
                         Select Role
