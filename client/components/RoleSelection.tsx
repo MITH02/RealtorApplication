@@ -87,31 +87,31 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                 onClick={() => onRoleSelect(role.id)}
                 className="group cursor-pointer transform transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                <div className="bg-slate-800/90 dark:bg-slate-900/95 backdrop-blur-sm rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/10 dark:border-white/20">
-                  <div className="flex">
+                <div className="bg-slate-800/95 dark:bg-slate-900/98 backdrop-blur-sm rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-300 border border-white/20 dark:border-white/30">
+                  <div className="flex h-32 sm:h-36">
                     {/* Image Section */}
-                    <div className="w-36 sm:w-44 h-28 sm:h-32 flex-shrink-0 overflow-hidden rounded-l-3xl">
+                    <div className="w-48 sm:w-56 flex-shrink-0 overflow-hidden">
                       <img
                         src={role.image}
                         alt={role.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
 
                     {/* Content Section */}
-                    <div className="flex-1 p-4 sm:p-6 flex flex-col justify-center">
-                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 drop-shadow">
+                    <div className="flex-1 p-5 sm:p-6 flex flex-col justify-center">
+                      <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 drop-shadow-lg">
                         {role.title}
                       </h3>
-                      <p className="text-white/80 text-sm leading-relaxed drop-shadow">
+                      <p className="text-white/90 text-sm sm:text-base leading-relaxed drop-shadow">
                         {role.description}
                       </p>
                     </div>
 
                     {/* Arrow */}
-                    <div className="flex items-center pr-4 sm:pr-6">
+                    <div className="flex items-center pr-5 sm:pr-6">
                       <svg
-                        className="w-6 h-6 text-white/70 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
+                        className="w-7 h-7 text-white/80 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -119,7 +119,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
+                          strokeWidth={2.5}
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
