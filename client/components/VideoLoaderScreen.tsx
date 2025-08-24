@@ -173,27 +173,34 @@ export default function VideoLoaderScreen({
             </div>
 
             {/* Get Started Button */}
-            <div className="max-w-sm mx-auto">
+            <div className="max-w-sm mx-auto relative">
+              {/* Button glow effect */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-60 group-hover:opacity-100 transition duration-700"></div>
+
               <Button
                 onClick={onGetStarted}
-                className="w-full relative group bg-white hover:bg-gray-50 text-orange-600 font-bold py-4 px-8 rounded-2xl text-lg transition-all duration-300 shadow-xl hover:shadow-2xl border-0"
+                className="w-full relative group bg-white/95 dark:bg-slate-800/95 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-xl text-slate-800 dark:text-white font-bold py-5 px-8 rounded-3xl text-lg transition-all duration-500 shadow-2xl hover:shadow-3xl border border-white/50 dark:border-slate-700/50 hover:scale-105 hover:-translate-y-1"
                 size="lg"
               >
                 <span className="relative flex items-center justify-center">
-                  Get Started
-                  <svg
-                    className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M13 7l5 5m0 0l-5 5m5-5H6"
-                    />
-                  </svg>
+                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent font-black">
+                    Get Started
+                  </span>
+                  <div className="ml-3 p-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300">
+                    <svg
+                      className="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-hover:translate-x-1 group-hover:scale-110"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </div>
                 </span>
               </Button>
             </div>
