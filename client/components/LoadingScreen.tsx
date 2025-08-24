@@ -11,10 +11,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowText(true);
-    }, 500);
-
     const progressTimer = setInterval(() => {
       setProgress((prev) => {
         const newProgress = prev + 2.5; // Adjusted for 5-second timing
@@ -28,7 +24,6 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     }, 50); // Adjusted interval for 5-second timing
 
     return () => {
-      clearTimeout(timer);
       clearInterval(progressTimer);
     };
   }, [onComplete]);
