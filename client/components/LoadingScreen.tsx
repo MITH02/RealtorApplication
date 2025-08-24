@@ -7,6 +7,8 @@ interface LoadingScreenProps {
 export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [showText, setShowText] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -30,6 +32,14 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
       clearInterval(progressTimer);
     };
   }, [onComplete]);
+
+  const handleVideoError = () => {
+    setVideoError(true);
+  };
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center relative overflow-hidden">
