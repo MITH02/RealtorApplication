@@ -563,6 +563,15 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     contractorId: 0,
   });
 
+  // Media upload states
+  const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Project media (for buildings and tasks)
+  const [buildingMedia, setBuildingMedia] = useState<{ [buildingId: number]: MediaItem[] }>({});
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>({});
+
   const fetchBuildings = async () => {
     try {
       const buildingsData = await apiService.getAllBuildings();
