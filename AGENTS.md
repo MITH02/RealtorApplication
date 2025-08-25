@@ -7,19 +7,20 @@ While the starter comes with a express server, only create endpoint when strictl
 ## Tech Stack
 
 - **PNPM**: Prefer pnpm
-- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + TailwindCSS 3
+- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + Emotion CSS
 - **Backend**: Express server integrated with Vite dev server
 - **Testing**: Vitest
-- **UI**: Radix UI + TailwindCSS 3 + Lucide React icons
+- **UI**: Radix UI + Emotion CSS + Lucide React icons
 
 ## Project Structure
 
 ```
 client/                   # React SPA frontend
 ├── pages/                # Route components (Index.tsx = home)
-├── components/ui/        # Pre-built UI component library
+├── components/ui/        # Pre-built UI component library (Emotion styled)
+├── styles/               # Global styles and theme (Emotion Global styles)
 ├── App.tsx                # App entry point and with SPA routing setup
-└── global.css            # TailwindCSS 3 theming and global styles
+└── global.css            # CSS variables and theme tokens
 
 server/                   # Express API backend
 ├── index.ts              # Main server setup (express config + routes)
@@ -53,18 +54,49 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 ### Styling System
 
-- **Primary**: TailwindCSS 3 utility classes
-- **Theme and design tokens**: Configure in `client/global.css` 
-- **UI components**: Pre-built library in `client/components/ui/`
-- **Utility**: `cn()` function combines `clsx` + `tailwind-merge` for conditional classes
+- **Primary**: Emotion CSS with styled components and CSS-in-JS
+- **Theme and design tokens**: Configure in `client/styles/GlobalStyles.tsx` and CSS variables
+- **UI components**: Pre-built styled component library in `client/components/ui/`
+- **Utility**: Helper functions in `client/lib/utils.ts` for merging styles and creating variants
+
+#### Emotion CSS Usage
 
 ```typescript
-// cn utility usage
-className={cn(
-  "base-classes",
-  { "conditional-class": condition },
-  props.className  // User overrides
-)}
+import styled from "@emotion/styled";
+import { CSSObject } from "@emotion/react";
+
+// Basic styled component
+const Button = styled.button`
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius));
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: hsl(var(--primary) / 0.9);
+  }
+`;
+
+// Dynamic styled component with props
+const Card = styled.div<{ variant?: 'default' | 'outlined' }>`
+  padding: 1rem;
+  border-radius: calc(var(--radius));
+  
+  ${props => props.variant === 'outlined' && `
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+  `}
+`;
+
+// Using utility functions for style composition
+import { mergeStyles, createVariant } from '@/lib/utils';
+
+const buttonVariants = createVariant({
+  default: { background: 'hsl(var(--primary))' },
+  outline: { background: 'transparent', border: '1px solid hsl(var(--border))' }
+});
 ```
 
 ### Express Server Integration
@@ -101,7 +133,7 @@ pnpm test          # Run Vitest tests
 
 ### Add new colors to the theme
 
-Open `client/global.css` and `tailwind.config.ts` and add new tailwind colors.
+Open `client/styles/GlobalStyles.tsx` and add new CSS custom properties to the theme variables.
 
 ### New API Route
 1. **Optional**: Create a shared interface in `shared/api.ts`:
@@ -148,6 +180,50 @@ const data: MyRouteResponse = await response.json();
 <Route path="/my-page" element={<MyPage />} />
 ```
 
+### Creating New UI Components
+
+Use Emotion CSS for styling components:
+
+```typescript
+import styled from "@emotion/styled";
+
+const StyledComponent = styled.div`
+  /* CSS styles here */
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  
+  /* Responsive styles */
+  @media (min-width: 768px) {
+    padding: 1rem;
+  }
+  
+  /* Pseudo selectors */
+  &:hover {
+    background: hsl(var(--accent));
+  }
+`;
+
+export const MyComponent = ({ children }) => {
+  return <StyledComponent>{children}</StyledComponent>;
+};
+```
+
+For complex variant handling:
+
+```typescript
+import { createVariant, combineStyles } from '@/lib/utils';
+
+const variants = createVariant({
+  default: { background: 'hsl(var(--primary))' },
+  secondary: { background: 'hsl(var(--secondary))' },
+  outline: { background: 'transparent', border: '1px solid hsl(var(--border))' }
+});
+
+const StyledButton = styled.button<{ variant?: keyof typeof variants }>`
+  ${props => variants(props.variant || 'default')}
+`;
+```
+
 ## Production Deployment
 
 - **Standard**: `pnpm build`
@@ -160,5 +236,18 @@ const data: MyRouteResponse = await response.json();
 - TypeScript throughout (client, server, shared)
 - Full hot reload for rapid development
 - Production-ready with multiple deployment options
-- Comprehensive UI component library included
+- Comprehensive UI component library built with Emotion CSS
 - Type-safe API communication via shared interfaces
+- CSS-in-JS styling with Emotion for component isolation and theming
+- Design token system using CSS custom properties for consistent theming
+
+## Design System
+
+The UI components use a design token system based on CSS custom properties:
+
+- Colors: `--primary`, `--secondary`, `--background`, `--foreground`, etc.
+- Spacing: Use consistent spacing values (0.25rem, 0.5rem, 1rem, etc.)
+- Border radius: `var(--radius)` for consistent rounded corners
+- Typography: Inherit from design tokens or use semantic sizing
+
+All components are built with Emotion CSS and follow accessibility best practices through Radix UI primitives.
