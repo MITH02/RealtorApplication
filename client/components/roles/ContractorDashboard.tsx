@@ -981,21 +981,41 @@ export default function ContractorDashboard({
               />
             </FormGroup>
 
+            <FormGroup>
+              <Label>Upload Progress Photos & Videos</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onError={handleMediaUploadError}
+                context="task_progress"
+                maxFiles={5}
+                maxSizeM={25}
+              />
+              {uploadError && (
+                <div style={{
+                  color: "hsl(0 84% 60%)",
+                  fontSize: "0.875rem",
+                  marginTop: "0.5rem"
+                }}>
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => {
-                  setShowProgressModal(false);
-                  setSelectedTask(null);
-                  setProgressValue(0);
-                  setProgressNotes("");
-                }}
+                onClick={closeProgressModal}
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Update Progress
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Update Progress"}
               </Button>
             </FormActions>
           </Form>
