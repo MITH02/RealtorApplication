@@ -20,6 +20,8 @@ type ContractorDashboardNavigationProp = StackNavigationProp<
   "ContractorDashboard"
 >;
 
+
+
 interface Props {
   navigation: ContractorDashboardNavigationProp;
 }
