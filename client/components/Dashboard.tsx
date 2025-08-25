@@ -1,3 +1,5 @@
+import styled from '@emotion/styled';
+import { css, keyframes } from '@emotion/react';
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface DashboardProps {
@@ -5,26 +7,649 @@ interface DashboardProps {
   onLogout: () => void;
 }
 
+// Keyframes for animations
+const floatAnimation = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+`;
+
+const pulseAnimation = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+`;
+
+// Styled components
+const DashboardContainer = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, 
+    hsl(210, 40%, 98%) 0%, 
+    hsl(214, 100%, 97%) 50%, 
+    hsl(226, 100%, 96%) 100%);
+  position: relative;
+  overflow: hidden;
+  
+  .dark & {
+    background: linear-gradient(to bottom right, 
+      hsl(222, 84%, 5%) 0%, 
+      hsl(215, 28%, 17%) 50%, 
+      hsl(226, 50%, 12%) 100%);
+  }
+`;
+
+const FloatingElement = styled.div<{ delay?: string }>`
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2rem);
+  animation: ${floatAnimation} 6s ease-in-out infinite;
+  animation-delay: ${props => props.delay || '0s'};
+`;
+
+const FloatingElement1 = styled(FloatingElement)`
+  top: 5rem;
+  left: 5rem;
+  width: 10rem;
+  height: 10rem;
+  background: linear-gradient(to bottom right, 
+    hsla(214, 100%, 70%, 0.1), 
+    hsla(280, 100%, 70%, 0.1));
+`;
+
+const FloatingElement2 = styled(FloatingElement)`
+  top: 10rem;
+  right: 5rem;
+  width: 8rem;
+  height: 8rem;
+  background: linear-gradient(to bottom right, 
+    hsla(188, 100%, 70%, 0.15), 
+    hsla(226, 100%, 70%, 0.15));
+  filter: blur(1rem);
+`;
+
+const FloatingElement3 = styled(FloatingElement)`
+  bottom: 8rem;
+  left: 8rem;
+  width: 7rem;
+  height: 7rem;
+  background: linear-gradient(to bottom right, 
+    hsla(280, 100%, 70%, 0.1), 
+    hsla(330, 100%, 70%, 0.1));
+  filter: blur(0.75rem);
+`;
+
+const BackgroundElements = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const Header = styled.header`
+  position: relative;
+  z-index: 10;
+  background: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid hsla(0, 0%, 100%, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.8);
+    border-bottom: 1px solid hsla(215, 28%, 17%, 0.5);
+  }
+`;
+
+const HeaderContainer = styled.div`
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  
+  @media (min-width: 640px) {
+    padding: 0 1.5rem;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 0 2rem;
+  }
+`;
+
+const HeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(to right, 
+    hsl(214, 100%, 50%), 
+    hsl(280, 100%, 50%), 
+    hsl(226, 100%, 50%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  
+  .dark & {
+    background: linear-gradient(to right, 
+      hsl(214, 100%, 70%), 
+      hsl(280, 100%, 70%), 
+      hsl(226, 100%, 70%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const RoleBadge = styled.span<{ roleColor: string }>`
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background: ${props => {
+    switch (props.roleColor) {
+      case 'blue':
+        return 'linear-gradient(to right, hsla(214, 100%, 50%, 0.2), hsla(214, 100%, 40%, 0.2))';
+      case 'orange':
+        return 'linear-gradient(to right, hsla(25, 100%, 50%, 0.2), hsla(25, 100%, 40%, 0.2))';
+      case 'purple':
+        return 'linear-gradient(to right, hsla(280, 100%, 50%, 0.2), hsla(280, 100%, 40%, 0.2))';
+      default:
+        return 'linear-gradient(to right, hsla(214, 100%, 50%, 0.2), hsla(214, 100%, 40%, 0.2))';
+    }
+  }};
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: ${props => {
+    switch (props.roleColor) {
+      case 'blue':
+        return 'hsl(214, 100%, 50%)';
+      case 'orange':
+        return 'hsl(25, 100%, 50%)';
+      case 'purple':
+        return 'hsl(280, 100%, 50%)';
+      default:
+        return 'hsl(214, 100%, 50%)';
+    }
+  }};
+  border: 1px solid hsla(0, 0%, 100%, 0.3);
+  
+  .dark & {
+    border: 1px solid hsla(215, 28%, 17%, 0.3);
+  }
+`;
+
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`;
+
+const LogoutButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(4px);
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  color: hsl(215, 16%, 47%);
+  
+  &:hover {
+    background: hsla(0, 0%, 100%, 0.9);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+  }
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.7);
+    border: 1px solid hsla(215, 28%, 17%, 0.5);
+    color: hsl(215, 20%, 65%);
+    
+    &:hover {
+      background: hsla(215, 28%, 17%, 0.9);
+    }
+  }
+  
+  svg {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+  }
+`;
+
+const Main = styled.main`
+  position: relative;
+  z-index: 10;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  
+  @media (min-width: 640px) {
+    padding: 2rem 1.5rem;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 2rem 2rem;
+  }
+`;
+
+const TitleSection = styled.div`
+  margin-bottom: 2rem;
+  text-align: center;
+`;
+
+const MainTitle = styled.h2`
+  font-size: 2.25rem;
+  font-weight: 700;
+  background: linear-gradient(to right, 
+    hsl(215, 28%, 17%), 
+    hsl(215, 16%, 47%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  
+  .dark & {
+    background: linear-gradient(to right, 
+      hsl(0, 0%, 100%), 
+      hsl(215, 20%, 65%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const WelcomeBox = styled.div`
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.8);
+    border: 1px solid hsla(215, 28%, 17%, 0.5);
+  }
+  
+  p {
+    color: hsl(215, 16%, 47%);
+    font-weight: 600;
+    
+    .dark & {
+      color: hsl(215, 20%, 65%);
+    }
+  }
+`;
+
+const StatsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
+
+const StatCard = styled.div<{ index: number }>`
+  background: hsla(0, 0%, 100%, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  transition: all 0.5s ease;
+  animation-delay: ${props => props.index * 100}ms;
+  
+  &:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    transform: scale(1.05) translateY(-0.5rem);
+  }
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.9);
+    border: 1px solid hsla(215, 28%, 17%, 0.5);
+  }
+`;
+
+const StatContent = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const StatIcon = styled.div`
+  font-size: 2.25rem;
+  margin-right: 1rem;
+  transition: transform 0.3s ease;
+  
+  ${StatCard}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
+const StatValue = styled.p`
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: linear-gradient(to right, 
+    hsl(214, 100%, 50%), 
+    hsl(280, 100%, 50%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  
+  .dark & {
+    background: linear-gradient(to right, 
+      hsl(214, 100%, 70%), 
+      hsl(280, 100%, 70%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const StatLabel = styled.p`
+  color: hsl(215, 16%, 47%);
+  font-size: 0.875rem;
+  font-weight: 500;
+  
+  .dark & {
+    color: hsl(215, 20%, 65%);
+  }
+`;
+
+const ContentGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+
+const ContentCard = styled.div`
+  background: hsla(0, 0%, 100%, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  transition: all 0.5s ease;
+  
+  &:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transform: scale(1.02);
+  }
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.9);
+    border: 1px solid hsla(215, 28%, 17%, 0.5);
+  }
+`;
+
+const ContentTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(to right, 
+    hsl(215, 28%, 17%), 
+    hsl(215, 16%, 47%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1.5rem;
+  
+  .dark & {
+    background: linear-gradient(to right, 
+      hsl(0, 0%, 100%), 
+      hsl(215, 20%, 65%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const ActionsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ActionButton = styled.button`
+  width: 100%;
+  text-align: left;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  background: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(4px);
+  border: 1px solid hsla(0, 0%, 100%, 0.6);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: hsl(215, 28%, 17%);
+  font-weight: 500;
+  
+  &:hover {
+    background: hsla(0, 0%, 100%, 0.9);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+  }
+  
+  .dark & {
+    background: hsla(215, 20%, 25%, 0.7);
+    border: 1px solid hsla(215, 20%, 35%, 0.6);
+    color: hsl(215, 20%, 65%);
+    
+    &:hover {
+      background: hsla(215, 20%, 25%, 0.9);
+    }
+  }
+`;
+
+const ActionIcon = styled.div`
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, 
+    hsla(214, 100%, 50%, 0.2), 
+    hsla(280, 100%, 50%, 0.2));
+  transition: all 0.3s ease;
+  
+  ${ActionButton}:hover & {
+    background: linear-gradient(to right, 
+      hsla(214, 100%, 50%, 0.4), 
+      hsla(280, 100%, 50%, 0.4));
+  }
+  
+  svg {
+    width: 1rem;
+    height: 1rem;
+    color: hsl(214, 100%, 50%);
+    transition: transform 0.3s ease;
+    
+    .dark & {
+      color: hsl(214, 100%, 70%);
+    }
+  }
+  
+  ${ActionButton}:hover & svg {
+    transform: translateX(0.25rem);
+  }
+`;
+
+const ActivityList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
+
+const ActivityItem = styled.div`
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: hsla(0, 0%, 100%, 0.5);
+  backdrop-filter: blur(4px);
+  border: 1px solid hsla(0, 0%, 100%, 0.4);
+  
+  .dark & {
+    background: hsla(215, 20%, 25%, 0.5);
+    border: 1px solid hsla(215, 20%, 35%, 0.4);
+  }
+`;
+
+const ActivityIcon = styled.div<{ color: 'green' | 'blue' | 'yellow'; delay?: string }>`
+  width: 2.5rem;
+  height: 2.5rem;
+  background: ${props => {
+    switch (props.color) {
+      case 'green':
+        return 'linear-gradient(to bottom right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
+      case 'blue':
+        return 'linear-gradient(to bottom right, hsl(214, 100%, 70%), hsl(214, 100%, 50%))';
+      case 'yellow':
+        return 'linear-gradient(to bottom right, hsl(45, 100%, 70%), hsl(45, 100%, 50%))';
+      default:
+        return 'linear-gradient(to bottom right, hsl(214, 100%, 70%), hsl(214, 100%, 50%))';
+    }
+  }};
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  div {
+    width: 1rem;
+    height: 1rem;
+    background: white;
+    border-radius: 50%;
+    animation: ${pulseAnimation} 2s ease-in-out infinite;
+    animation-delay: ${props => props.delay || '0s'};
+  }
+`;
+
+const ActivityContent = styled.div`
+  flex: 1;
+`;
+
+const ActivityTitle = styled.p`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(215, 28%, 17%);
+  
+  .dark & {
+    color: hsl(215, 20%, 65%);
+  }
+`;
+
+const ActivityTime = styled.p`
+  font-size: 0.75rem;
+  color: hsl(215, 16%, 47%);
+  margin-top: 0.25rem;
+  
+  .dark & {
+    color: hsl(215, 20%, 65%);
+  }
+`;
+
+const PlaceholderCard = styled.div`
+  margin-top: 3rem;
+  background: hsla(0, 0%, 100%, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  
+  .dark & {
+    background: hsla(215, 28%, 17%, 0.8);
+    border: 1px solid hsla(215, 28%, 17%, 0.5);
+  }
+`;
+
+const PlaceholderContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PlaceholderIcon = styled.div`
+  padding: 1rem;
+  background: linear-gradient(to right, 
+    hsla(214, 100%, 50%, 0.2), 
+    hsla(280, 100%, 50%, 0.2));
+  border-radius: 1rem;
+  margin-right: 1rem;
+  
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: hsl(214, 100%, 50%);
+    
+    .dark & {
+      color: hsl(214, 100%, 70%);
+    }
+  }
+`;
+
+const PlaceholderText = styled.div`
+  text-align: center;
+`;
+
+const PlaceholderTitle = styled.h4`
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(to right, 
+    hsl(214, 100%, 50%), 
+    hsl(280, 100%, 50%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+  
+  .dark & {
+    background: linear-gradient(to right, 
+      hsl(214, 100%, 70%), 
+      hsl(280, 100%, 70%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const PlaceholderDescription = styled.p`
+  color: hsl(215, 16%, 47%);
+  max-width: 32rem;
+  
+  .dark & {
+    color: hsl(215, 20%, 65%);
+  }
+`;
+
 export default function Dashboard({ role, onLogout }: DashboardProps) {
   const roleColors = {
-    builder: {
-      primary: "bg-blue-600",
-      accent: "text-blue-600",
-      bg: "bg-blue-50",
-    },
-    contractor: {
-      primary: "bg-orange-600",
-      accent: "text-orange-600",
-      bg: "bg-orange-50",
-    },
-    admin: {
-      primary: "bg-purple-600",
-      accent: "text-purple-600",
-      bg: "bg-purple-50",
-    },
-  };
+    builder: 'blue',
+    contractor: 'orange',
+    admin: 'purple',
+  } as const;
 
-  const colors = roleColors[role];
+  const color = roleColors[role];
 
   const getDashboardContent = () => {
     switch (role) {
@@ -84,41 +709,26 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
   const content = getDashboardContent();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
-      {/* Floating background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-2xl animate-float"></div>
-        <div
-          className="absolute top-40 right-20 w-32 h-32 bg-gradient-to-br from-cyan-400/15 to-indigo-400/15 rounded-full blur-xl animate-float"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute bottom-32 left-32 w-28 h-28 bg-gradient-to-br from-purple-400/10 to-pink-400/10 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
-      </div>
-      {/* Header */}
-      <header className="relative z-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border-b border-white/50 dark:border-slate-700/50 shadow-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                ConstructPro
-              </h1>
-              <span
-                className={`ml-4 px-4 py-2 bg-gradient-to-r ${colors.primary === "bg-blue-600" ? "from-blue-500/20 to-blue-600/20" : colors.primary === "bg-orange-600" ? "from-orange-500/20 to-orange-600/20" : "from-purple-500/20 to-purple-600/20"} backdrop-blur-sm rounded-full text-sm font-semibold ${colors.accent} border border-white/30 dark:border-slate-700/30`}
-              >
+    <DashboardContainer>
+      <BackgroundElements>
+        <FloatingElement1 />
+        <FloatingElement2 delay="1s" />
+        <FloatingElement3 delay="2s" />
+      </BackgroundElements>
+      
+      <Header>
+        <HeaderContainer>
+          <HeaderContent>
+            <HeaderLeft>
+              <Title>ConstructPro</Title>
+              <RoleBadge roleColor={color}>
                 {role.charAt(0).toUpperCase() + role.slice(1)}
-              </span>
-            </div>
-            <div className="flex items-center space-x-3">
+              </RoleBadge>
+            </HeaderLeft>
+            <HeaderRight>
               <SimpleThemeToggle />
-              <button
-                onClick={onLogout}
-                className="flex items-center px-4 py-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm hover:bg-white/90 dark:hover:bg-slate-800/90 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl border border-white/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:scale-105"
-              >
+              <LogoutButton onClick={onLogout}>
                 <svg
-                  className="w-4 h-4 mr-2"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -131,68 +741,43 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   />
                 </svg>
                 Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+              </LogoutButton>
+            </HeaderRight>
+          </HeaderContent>
+        </HeaderContainer>
+      </Header>
 
-      {/* Main Content */}
-      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8 text-center">
-          <h2 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-4">
-            {content.title}
-          </h2>
-          <div className="inline-block px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/50 dark:border-slate-700/50 shadow-lg">
-            <p className="text-slate-700 dark:text-slate-300 font-semibold">
-              Welcome back! Here's what's happening with your projects.
-            </p>
-          </div>
-        </div>
+      <Main>
+        <TitleSection>
+          <MainTitle>{content.title}</MainTitle>
+          <WelcomeBox>
+            <p>Welcome back! Here's what's happening with your projects.</p>
+          </WelcomeBox>
+        </TitleSection>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatsGrid>
           {content.stats.map((stat, index) => (
-            <div
-              key={index}
-              className="group bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-xl hover:shadow-2xl p-6 border border-white/50 dark:border-slate-700/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
-              style={{
-                animationDelay: `${index * 100}ms`,
-              }}
-            >
-              <div className="flex items-center">
-                <div className="text-4xl mr-4 group-hover:scale-110 transition-transform duration-300">
-                  {stat.icon}
-                </div>
+            <StatCard key={index} index={index}>
+              <StatContent>
+                <StatIcon>{stat.icon}</StatIcon>
                 <div>
-                  <p className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent">
-                    {stat.value}
-                  </p>
-                  <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
-                    {stat.label}
-                  </p>
+                  <StatValue>{stat.value}</StatValue>
+                  <StatLabel>{stat.label}</StatLabel>
                 </div>
-              </div>
-            </div>
+              </StatContent>
+            </StatCard>
           ))}
-        </div>
+        </StatsGrid>
 
-        {/* Action Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 hover:scale-[1.02]">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
-              Quick Actions
-            </h3>
-            <div className="space-y-4">
+        <ContentGrid>
+          <ContentCard>
+            <ContentTitle>Quick Actions</ContentTitle>
+            <ActionsList>
               {content.actions.map((action, index) => (
-                <button
-                  key={index}
-                  className="group w-full text-left px-6 py-4 rounded-xl bg-white/70 dark:bg-slate-700/70 backdrop-blur-sm border border-white/60 dark:border-slate-600/60 hover:bg-white/90 dark:hover:bg-slate-700/90 hover:shadow-lg transition-all duration-300 flex items-center justify-between text-slate-800 dark:text-slate-200 hover:scale-[1.02]"
-                >
-                  <span className="font-medium">{action}</span>
-                  <div className="p-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300">
+                <ActionButton key={index}>
+                  <span>{action}</span>
+                  <ActionIcon>
                     <svg
-                      className="w-4 h-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform duration-300"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -204,72 +789,50 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
-                  </div>
-                </button>
+                  </ActionIcon>
+                </ActionButton>
               ))}
-            </div>
-          </div>
+            </ActionsList>
+          </ContentCard>
 
-          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-white/50 dark:border-slate-700/50 hover:shadow-3xl transition-all duration-500 hover:scale-[1.02]">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
-              Recent Activity
-            </h3>
-            <div className="space-y-6">
-              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
-                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-lg">
-                  <div className="w-4 h-4 bg-white rounded-full animate-pulse"></div>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    Task completed
-                  </p>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    2 hours ago
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                  <div
-                    className="w-4 h-4 bg-white rounded-full animate-pulse"
-                    style={{ animationDelay: "0.5s" }}
-                  ></div>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    New assignment
-                  </p>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    1 day ago
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4 p-4 rounded-xl bg-white/50 dark:bg-slate-700/50 backdrop-blur-sm border border-white/40 dark:border-slate-600/40">
-                <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
-                  <div
-                    className="w-4 h-4 bg-white rounded-full animate-pulse"
-                    style={{ animationDelay: "1s" }}
-                  ></div>
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                    Deadline reminder
-                  </p>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-                    2 days ago
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <ContentCard>
+            <ContentTitle>Recent Activity</ContentTitle>
+            <ActivityList>
+              <ActivityItem>
+                <ActivityIcon color="green">
+                  <div></div>
+                </ActivityIcon>
+                <ActivityContent>
+                  <ActivityTitle>Task completed</ActivityTitle>
+                  <ActivityTime>2 hours ago</ActivityTime>
+                </ActivityContent>
+              </ActivityItem>
+              <ActivityItem>
+                <ActivityIcon color="blue" delay="0.5s">
+                  <div></div>
+                </ActivityIcon>
+                <ActivityContent>
+                  <ActivityTitle>New assignment</ActivityTitle>
+                  <ActivityTime>1 day ago</ActivityTime>
+                </ActivityContent>
+              </ActivityItem>
+              <ActivityItem>
+                <ActivityIcon color="yellow" delay="1s">
+                  <div></div>
+                </ActivityIcon>
+                <ActivityContent>
+                  <ActivityTitle>Deadline reminder</ActivityTitle>
+                  <ActivityTime>2 days ago</ActivityTime>
+                </ActivityContent>
+              </ActivityItem>
+            </ActivityList>
+          </ContentCard>
+        </ContentGrid>
 
-        {/* Placeholder message */}
-        <div className="mt-12 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-white/50 dark:border-slate-700/50 rounded-3xl p-8 shadow-2xl">
-          <div className="flex items-center justify-center">
-            <div className="p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-2xl mr-4">
+        <PlaceholderCard>
+          <PlaceholderContent>
+            <PlaceholderIcon>
               <svg
-                className="w-8 h-8 text-blue-600 dark:text-blue-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -281,20 +844,18 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-            </div>
-            <div className="text-center">
-              <h4 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">
-                Dashboard Preview
-              </h4>
-              <p className="text-slate-700 dark:text-slate-300 max-w-2xl">
+            </PlaceholderIcon>
+            <PlaceholderText>
+              <PlaceholderTitle>Dashboard Preview</PlaceholderTitle>
+              <PlaceholderDescription>
                 This is a preview of your {role} dashboard. Full functionality
                 including task management, project creation, and approval
                 workflows will be implemented in the next phase.
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+              </PlaceholderDescription>
+            </PlaceholderText>
+          </PlaceholderContent>
+        </PlaceholderCard>
+      </Main>
+    </DashboardContainer>
   );
 }
