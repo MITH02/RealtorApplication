@@ -132,6 +132,8 @@ public class User implements UserDetails {
     }
     
     public enum Role {
-        SUPER_ADMIN, ADMIN, CONTRACTOR
+        ADMIN,      // Manages Builder accounts (CRUD operations)
+        BUILDER,    // Project Owner - creates buildings, assigns contractors, manages tasks
+        CONTRACTOR  // Executor - completes assigned tasks
     }
 }
