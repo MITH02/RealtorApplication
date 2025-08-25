@@ -935,6 +935,19 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                   {task.status.replace("_", " ")}
                 </StatusBadge>
 
+                {/* Media Gallery for this task */}
+                {taskMedia[task.id] && taskMedia[task.id].length > 0 && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <MediaGallery
+                      items={taskMedia[task.id]}
+                      title="Task Progress Media"
+                      showDetails={false}
+                      readOnly={true}
+                      emptyMessage=""
+                    />
+                  </div>
+                )}
+
                 <CardActions>
                   {task.status === "COMPLETED" && (
                     <>
@@ -942,17 +955,17 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                         variant="success"
                         onClick={() => handleApproveTask(task.id)}
                       >
-                        Approve
+                        ✅ Approve
                       </SmallButton>
                       <SmallButton
                         variant="danger"
                         onClick={() => handleRejectTask(task.id)}
                       >
-                        Reject
+                        ❌ Reject
                       </SmallButton>
                     </>
                   )}
-                  <SmallButton variant="secondary">View Details</SmallButton>
+                  <SmallButton variant="secondary">👁️ View Details</SmallButton>
                 </CardActions>
               </Card>
             ))}
