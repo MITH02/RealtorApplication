@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface LoginFormProps {
@@ -433,6 +434,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   const config = roleConfig[role];
 
   const { login, isLoading: authLoading } = useAuth();
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -449,7 +451,13 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
       }
     } catch (error: any) {
       console.error("Authentication error:", error);
-      alert(error.message || "Authentication failed. Please try again.");
+
+      // Show access restricted message for network/auth errors
+      toast({
+        title: "Access Restricted",
+        description: `Access restricted for ${role}`,
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }
