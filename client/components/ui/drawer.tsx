@@ -53,7 +53,7 @@ const StyledDrawerHeader = styled.div`
   gap: 0.375rem;
   padding: 1rem;
   text-align: center;
-  
+
   @media (min-width: 640px) {
     text-align: left;
   }
@@ -82,9 +82,7 @@ const StyledDrawerDescription = styled(DrawerPrimitive.Description)`
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ ...props }, ref) => (
-  <StyledDrawerOverlay ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDrawerOverlay ref={ref} {...props} />);
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
 const DrawerContent = React.forwardRef<
@@ -104,33 +102,25 @@ DrawerContent.displayName = "DrawerContent";
 const DrawerHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledDrawerHeader ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDrawerHeader ref={ref} {...props} />);
 DrawerHeader.displayName = "DrawerHeader";
 
 const DrawerFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledDrawerFooter ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDrawerFooter ref={ref} {...props} />);
 DrawerFooter.displayName = "DrawerFooter";
 
 const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
->(({ ...props }, ref) => (
-  <StyledDrawerTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDrawerTitle ref={ref} {...props} />);
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
 const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
->(({ ...props }, ref) => (
-  <StyledDrawerDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDrawerDescription ref={ref} {...props} />);
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
 export {

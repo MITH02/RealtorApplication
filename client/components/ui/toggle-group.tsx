@@ -57,7 +57,9 @@ const StyledToggleGroup = styled(ToggleGroupPrimitive.Root)`
   gap: 0.25rem;
 `;
 
-const StyledToggleGroupItem = styled(ToggleGroupPrimitive.Item)<ToggleVariantProps>`
+const StyledToggleGroupItem = styled(
+  ToggleGroupPrimitive.Item,
+)<ToggleVariantProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -70,23 +72,23 @@ const StyledToggleGroupItem = styled(ToggleGroupPrimitive.Item)<ToggleVariantPro
   transition-duration: 150ms;
   border: none;
   cursor: pointer;
-  
+
   &:hover {
     background-color: hsl(var(--muted));
     color: hsl(var(--muted-foreground));
   }
-  
+
   &:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px hsl(var(--ring));
     ring-offset-width: 2px;
   }
-  
+
   &:disabled {
     pointer-events: none;
     opacity: 0.5;
   }
-  
+
   &[data-state="on"] {
     background-color: hsl(var(--accent));
     color: hsl(var(--accent-foreground));

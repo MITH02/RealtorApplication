@@ -11,23 +11,31 @@ const StyledAlertDialogOverlay = styled(AlertDialogPrimitive.Overlay)`
   inset: 0;
   z-index: 50;
   background-color: rgb(0 0 0 / 0.8);
-  
+
   &[data-state="open"] {
     animation: fadeIn 150ms ease-in;
   }
-  
+
   &[data-state="closed"] {
     animation: fadeOut 150ms ease-out;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  
+
   @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 `;
 
@@ -44,21 +52,23 @@ const StyledAlertDialogContent = styled(AlertDialogPrimitive.Content)`
   border: 1px solid hsl(var(--border));
   background-color: hsl(var(--background));
   padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition-duration: 200ms;
-  
+
   @media (min-width: 640px) {
     border-radius: calc(var(--radius));
   }
-  
+
   &[data-state="open"] {
     animation: alertDialogShow 200ms ease-out;
   }
-  
+
   &[data-state="closed"] {
     animation: alertDialogHide 200ms ease-in;
   }
-  
+
   @keyframes alertDialogShow {
     0% {
       opacity: 0;
@@ -69,7 +79,7 @@ const StyledAlertDialogContent = styled(AlertDialogPrimitive.Content)`
       transform: translate(-50%, -50%) scale(1);
     }
   }
-  
+
   @keyframes alertDialogHide {
     0% {
       opacity: 1;
@@ -87,7 +97,7 @@ const StyledAlertDialogHeader = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
-  
+
   @media (min-width: 640px) {
     text-align: left;
   }
@@ -96,7 +106,7 @@ const StyledAlertDialogHeader = styled.div`
 const StyledAlertDialogFooter = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  
+
   @media (min-width: 640px) {
     flex-direction: row;
     justify-content: flex-end;
@@ -209,7 +219,7 @@ const StyledAlertDialogCancel = styled(AlertDialogPrimitive.Cancel)`
     width: 1rem;
     flex-shrink: 0;
   }
-  
+
   @media (min-width: 640px) {
     margin-top: 0;
   }
@@ -218,9 +228,7 @@ const StyledAlertDialogCancel = styled(AlertDialogPrimitive.Cancel)`
 const AlertDialogOverlay = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>
->(({ ...props }, ref) => (
-  <StyledAlertDialogOverlay {...props} ref={ref} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogOverlay {...props} ref={ref} />);
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 
 const AlertDialogContent = React.forwardRef<
@@ -237,50 +245,38 @@ AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName;
 const AlertDialogHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledAlertDialogHeader ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogHeader ref={ref} {...props} />);
 AlertDialogHeader.displayName = "AlertDialogHeader";
 
 const AlertDialogFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledAlertDialogFooter ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogFooter ref={ref} {...props} />);
 AlertDialogFooter.displayName = "AlertDialogFooter";
 
 const AlertDialogTitle = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>
->(({ ...props }, ref) => (
-  <StyledAlertDialogTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogTitle ref={ref} {...props} />);
 AlertDialogTitle.displayName = AlertDialogPrimitive.Title.displayName;
 
 const AlertDialogDescription = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
->(({ ...props }, ref) => (
-  <StyledAlertDialogDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogDescription ref={ref} {...props} />);
 AlertDialogDescription.displayName =
   AlertDialogPrimitive.Description.displayName;
 
 const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
->(({ ...props }, ref) => (
-  <StyledAlertDialogAction ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogAction ref={ref} {...props} />);
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName;
 
 const AlertDialogCancel = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
->(({ ...props }, ref) => (
-  <StyledAlertDialogCancel ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDialogCancel ref={ref} {...props} />);
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName;
 
 export {

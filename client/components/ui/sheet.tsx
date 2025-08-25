@@ -14,23 +14,31 @@ const StyledSheetOverlay = styled(SheetPrimitive.Overlay)`
   inset: 0;
   z-index: 50;
   background-color: rgb(0 0 0 / 0.8);
-  
+
   &[data-state="open"] {
     animation: fadeIn 150ms ease-in;
   }
-  
+
   &[data-state="closed"] {
     animation: fadeOut 150ms ease-out;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
-  
+
   @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 `;
 
@@ -45,7 +53,8 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
     gap: "1rem",
     backgroundColor: "hsl(var(--background))",
     padding: "1.5rem",
-    boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+    boxShadow:
+      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
     transition: "all 150ms ease-in-out",
   };
 
@@ -131,45 +140,77 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
 
 const StyledSheetContent = styled(SheetPrimitive.Content)<SheetContentProps>`
   ${(props) => getSheetContentStyles(props.side)}
-  
+
   @keyframes slideOutToTop {
-    from { transform: translateY(0); }
-    to { transform: translateY(-100%); }
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-100%);
+    }
   }
-  
+
   @keyframes slideInFromTop {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(0); }
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
-  
+
   @keyframes slideOutToBottom {
-    from { transform: translateY(0); }
-    to { transform: translateY(100%); }
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
   }
-  
+
   @keyframes slideInFromBottom {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
   }
-  
+
   @keyframes slideOutToLeft {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
   }
-  
+
   @keyframes slideInFromLeft {
-    from { transform: translateX(-100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
-  
+
   @keyframes slideOutToRight {
-    from { transform: translateX(0); }
-    to { transform: translateX(100%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
   }
-  
+
   @keyframes slideInFromRight {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 `;
 
@@ -184,25 +225,25 @@ const StyledCloseButton = styled(SheetPrimitive.Close)`
   border: none;
   background: transparent;
   cursor: pointer;
-  
+
   &:hover {
     opacity: 1;
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px hsl(var(--ring));
     ring-offset-width: 2px;
   }
-  
+
   &:disabled {
     pointer-events: none;
   }
-  
+
   &[data-state="open"] {
     background-color: hsl(var(--secondary));
   }
-  
+
   & svg {
     height: 1rem;
     width: 1rem;
@@ -226,7 +267,7 @@ const StyledSheetHeader = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   text-align: center;
-  
+
   @media (min-width: 640px) {
     text-align: left;
   }
@@ -235,7 +276,7 @@ const StyledSheetHeader = styled.div`
 const StyledSheetFooter = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  
+
   @media (min-width: 640px) {
     flex-direction: row;
     justify-content: flex-end;
@@ -257,9 +298,7 @@ const StyledSheetDescription = styled(SheetPrimitive.Description)`
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
->(({ ...props }, ref) => (
-  <StyledSheetOverlay {...props} ref={ref} />
-));
+>(({ ...props }, ref) => <StyledSheetOverlay {...props} ref={ref} />);
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 interface SheetContentProps
@@ -287,33 +326,25 @@ SheetContent.displayName = SheetPrimitive.Content.displayName;
 const SheetHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledSheetHeader ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSheetHeader ref={ref} {...props} />);
 SheetHeader.displayName = "SheetHeader";
 
 const SheetFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ ...props }, ref) => (
-  <StyledSheetFooter ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSheetFooter ref={ref} {...props} />);
 SheetFooter.displayName = "SheetFooter";
 
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
->(({ ...props }, ref) => (
-  <StyledSheetTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSheetTitle ref={ref} {...props} />);
 SheetTitle.displayName = SheetPrimitive.Title.displayName;
 
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
->(({ ...props }, ref) => (
-  <StyledSheetDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSheetDescription ref={ref} {...props} />);
 SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {

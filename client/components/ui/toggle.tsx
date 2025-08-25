@@ -63,23 +63,23 @@ const StyledToggle = styled(TogglePrimitive.Root)<ToggleVariantProps>`
   transition-duration: 150ms;
   border: none;
   cursor: pointer;
-  
+
   &:hover {
     background-color: hsl(var(--muted));
     color: hsl(var(--muted-foreground));
   }
-  
+
   &:focus-visible {
     outline: none;
     box-shadow: 0 0 0 2px hsl(var(--ring));
     ring-offset-width: 2px;
   }
-  
+
   &:disabled {
     pointer-events: none;
     opacity: 0.5;
   }
-  
+
   &[data-state="on"] {
     background-color: hsl(var(--accent));
     color: hsl(var(--accent-foreground));

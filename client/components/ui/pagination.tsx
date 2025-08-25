@@ -33,7 +33,9 @@ const getButtonVariantStyles = (
   return variants[isActive ? "outline" : "ghost"] || variants.ghost;
 };
 
-const getButtonSizeStyles = (size: PaginationLinkVariantProps["size"]): CSSObject => {
+const getButtonSizeStyles = (
+  size: PaginationLinkVariantProps["size"],
+): CSSObject => {
   const sizes = {
     default: {
       height: "2.5rem",
@@ -121,7 +123,11 @@ const StyledPaginationLink = styled.a<PaginationLinkVariantProps>`
     flex-shrink: 0;
   }
 
-  ${(props) => getButtonVariantStyles(props.isActive ? "outline" : "ghost", props.isActive)}
+  ${(props) =>
+    getButtonVariantStyles(
+      props.isActive ? "outline" : "ghost",
+      props.isActive,
+    )}
   ${(props) => getButtonSizeStyles(props.size)}
 `;
 
@@ -141,7 +147,7 @@ const StyledPaginationEllipsis = styled.span`
   width: 2.25rem;
   align-items: center;
   justify-content: center;
-  
+
   & svg {
     height: 1rem;
     width: 1rem;
@@ -160,33 +166,28 @@ const StyledScreenReaderText = styled.span`
   border: 0;
 `;
 
-const Pagination = React.forwardRef<
-  HTMLElement,
-  React.ComponentProps<"nav">
->(({ ...props }, ref) => (
-  <StyledPagination
-    ref={ref}
-    role="navigation"
-    aria-label="pagination"
-    {...props}
-  />
-));
+const Pagination = React.forwardRef<HTMLElement, React.ComponentProps<"nav">>(
+  ({ ...props }, ref) => (
+    <StyledPagination
+      ref={ref}
+      role="navigation"
+      aria-label="pagination"
+      {...props}
+    />
+  ),
+);
 Pagination.displayName = "Pagination";
 
 const PaginationContent = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
->(({ ...props }, ref) => (
-  <StyledPaginationContent ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledPaginationContent ref={ref} {...props} />);
 PaginationContent.displayName = "PaginationContent";
 
 const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
->(({ ...props }, ref) => (
-  <StyledPaginationItem ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledPaginationItem ref={ref} {...props} />);
 PaginationItem.displayName = "PaginationItem";
 
 type PaginationLinkProps = {
@@ -194,18 +195,17 @@ type PaginationLinkProps = {
   size?: "default" | "sm" | "lg" | "icon";
 } & React.ComponentProps<"a">;
 
-const PaginationLink = React.forwardRef<
-  HTMLAnchorElement,
-  PaginationLinkProps
->(({ isActive, size = "icon", ...props }, ref) => (
-  <StyledPaginationLink
-    ref={ref}
-    aria-current={isActive ? "page" : undefined}
-    isActive={isActive}
-    size={size}
-    {...props}
-  />
-));
+const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
+  ({ isActive, size = "icon", ...props }, ref) => (
+    <StyledPaginationLink
+      ref={ref}
+      aria-current={isActive ? "page" : undefined}
+      isActive={isActive}
+      size={size}
+      {...props}
+    />
+  ),
+);
 PaginationLink.displayName = "PaginationLink";
 
 const PaginationPrevious = React.forwardRef<
