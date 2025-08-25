@@ -449,7 +449,8 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
         // For now, just show a message
         toast({
           title: "Registration Not Available",
-          description: "Registration not implemented yet. Please contact admin.",
+          description:
+            "Registration not implemented yet. Please contact admin.",
           variant: "destructive",
         });
       }
