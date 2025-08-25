@@ -9,8 +9,8 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
+import styled from "@emotion/styled";
 
-import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 
 const Form = FormProvider;
@@ -70,15 +70,38 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 
+const StyledFormItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+const StyledFormLabel = styled(Label)<{ hasError?: boolean }>`
+  ${({ hasError }) => hasError && `
+    color: hsl(var(--destructive));
+  `}
+`;
+
+const StyledFormDescription = styled.p`
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+`;
+
+const StyledFormMessage = styled.p`
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--destructive));
+`;
+
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+>(({ ...props }, ref) => {
   const id = React.useId();
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("space-y-2", className)} {...props} />
+      <StyledFormItem ref={ref} {...props} />
     </FormItemContext.Provider>
   );
 });
@@ -87,13 +110,13 @@ FormItem.displayName = "FormItem";
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+>(({ ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
   return (
-    <Label
+    <StyledFormLabel
       ref={ref}
-      className={cn(error && "text-destructive", className)}
+      hasError={!!error}
       htmlFor={formItemId}
       {...props}
     />
@@ -127,14 +150,13 @@ FormControl.displayName = "FormControl";
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+>(({ ...props }, ref) => {
   const { formDescriptionId } = useFormField();
 
   return (
-    <p
+    <StyledFormDescription
       ref={ref}
       id={formDescriptionId}
-      className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
   );
@@ -144,7 +166,7 @@ FormDescription.displayName = "FormDescription";
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+>(({ children, ...props }, ref) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
 
@@ -153,14 +175,13 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <p
+    <StyledFormMessage
       ref={ref}
       id={formMessageId}
-      className={cn("text-sm font-medium text-destructive", className)}
       {...props}
     >
       {body}
-    </p>
+    </StyledFormMessage>
   );
 });
 FormMessage.displayName = "FormMessage";
