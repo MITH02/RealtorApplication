@@ -696,12 +696,29 @@ export default function ContractorDashboard({
   const openProgressModal = (task: Task) => {
     setSelectedTask(task);
     setProgressValue(task.progressPercentage);
+    clearUploadedMedia();
     setShowProgressModal(true);
   };
 
   const openCompleteModal = (task: Task) => {
     setSelectedTask(task);
+    clearUploadedMedia();
     setShowCompleteModal(true);
+  };
+
+  const closeProgressModal = () => {
+    setShowProgressModal(false);
+    setSelectedTask(null);
+    setProgressValue(0);
+    setProgressNotes("");
+    clearUploadedMedia();
+  };
+
+  const closeCompleteModal = () => {
+    setShowCompleteModal(false);
+    setSelectedTask(null);
+    setCompletionNotes("");
+    clearUploadedMedia();
   };
 
   const stats = {
