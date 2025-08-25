@@ -714,19 +714,19 @@ const TaskBadge = styled.span<{ status: string }>`
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: ${(props) => {
+  background: ${props => {
     switch (props.status) {
-      case "COMPLETED":
-      case "APPROVED":
-        return "linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))";
-      case "IN_PROGRESS":
-        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
-      case "PENDING":
-        return "linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))";
-      case "REJECTED":
-        return "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))";
+      case 'COMPLETED':
+      case 'APPROVED':
+        return 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
+      case 'IN_PROGRESS':
+        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+      case 'PENDING':
+        return 'linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))';
+      case 'REJECTED':
+        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
       default:
-        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
+        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
     }
   }};
   color: white;
@@ -778,80 +778,122 @@ const LoadingSpinner = styled.div`
   margin: 0 auto;
 
   @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 `;
 
+const getNotificationColor = (type: string): 'green' | 'blue' | 'yellow' | 'red' => {
+  switch (type) {
+    case 'TASK_COMPLETED':
+    case 'TASK_APPROVED':
+      return 'green';
+    case 'TASK_ASSIGNED':
+      return 'blue';
+    case 'DEADLINE_REMINDER':
+      return 'yellow';
+    case 'TASK_OVERDUE':
+    case 'TASK_REJECTED':
+      return 'red';
+    default:
+      return 'blue';
+  }
+};
+
 export default function Dashboard({ role, onLogout }: DashboardProps) {
-  const roleColors = {
-    builder: "blue",
-    contractor: "orange",
-    admin: "purple",
-  } as const;
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const color = roleColors[role];
+  const color = "orange"; // Contractor color
 
-  const getDashboardContent = () => {
-    switch (role) {
-      case "admin":
-        return {
-          title: "Admin Dashboard",
-          stats: [
-            { label: "Total Buildings", value: "12", icon: "🏢" },
-            { label: "Active Contractors", value: "8", icon: "👷" },
-            { label: "Pending Approvals", value: "5", icon: "⏳" },
-            { label: "Overdue Tasks", value: "2", icon: "🚨" },
-          ],
-          actions: [
-            "Create New Building",
-            "Manage Contractors",
-            "Review Task Approvals",
-            "Generate Reports",
-          ],
-        };
-      case "contractor":
-        return {
-          title: "Contractor Dashboard",
-          stats: [
-            { label: "Assigned Projects", value: "3", icon: "🏗️" },
-            { label: "Completed Tasks", value: "15", icon: "✅" },
-            { label: "Pending Tasks", value: "4", icon: "📋" },
-            { label: "Days Until Deadline", value: "7", icon: "📅" },
-          ],
-          actions: [
-            "View Current Tasks",
-            "Mark Task Complete",
-            "Upload Progress Photos",
-            "Request Extension",
-          ],
-        };
-      case "builder":
-        return {
-          title: "Builder Dashboard",
-          stats: [
-            { label: "Active Projects", value: "5", icon: "🏘️" },
-            { label: "Total Contractors", value: "12", icon: "👥" },
-            { label: "Completed Buildings", value: "23", icon: "🏆" },
-            { label: "Project Progress", value: "78%", icon: "📊" },
-          ],
-          actions: [
-            "Create New Project",
-            "Monitor Progress",
-            "Assign Contractors",
-            "Review Reports",
-          ],
-        };
-      default:
-        return { title: "", stats: [], actions: [] };
+  // Stats calculated from real data
+  const [stats, setStats] = useState({
+    assignedProjects: 0,
+    completedTasks: 0,
+    pendingTasks: 0,
+    daysUntilDeadline: 0,
+  });
+
+  useEffect(() => {
+    loadContractorData();
+  }, []);
+
+  const loadContractorData = async () => {
+    try {
+      setLoading(true);
+      const [tasksData, buildingsData, notificationsData] = await Promise.all([
+        apiClient.getMyTasks().catch(() => []), // Contractor's tasks
+        apiClient.getMyBuildings().catch(() => []), // Contractor's buildings
+        apiClient.getUnreadNotifications().catch(() => []),
+      ]);
+
+      setTasks(tasksData);
+      setBuildings(buildingsData);
+      setNotifications(notificationsData);
+
+      // Calculate stats
+      const completedCount = tasksData.filter(t => t.status === 'COMPLETED' || t.status === 'APPROVED').length;
+      const pendingCount = tasksData.filter(t => t.status === 'PENDING' || t.status === 'IN_PROGRESS').length;
+
+      // Find nearest deadline
+      const nearestDeadline = tasksData
+        .filter(t => t.deadline && (t.status === 'PENDING' || t.status === 'IN_PROGRESS'))
+        .map(t => t.daysUntilDeadline || 0)
+        .filter(days => days >= 0)
+        .sort((a, b) => a - b)[0] || 0;
+
+      setStats({
+        assignedProjects: buildingsData.length,
+        completedTasks: completedCount,
+        pendingTasks: pendingCount,
+        daysUntilDeadline: nearestDeadline,
+      });
+    } catch (err) {
+      setError('Failed to load contractor data');
+      console.error('Error loading contractor data:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const content = getDashboardContent();
+  const handleMarkTaskComplete = async (taskId: number, notes: string) => {
+    try {
+      await apiClient.markTaskAsCompleted(taskId, notes);
+      await loadContractorData(); // Refresh data
+    } catch (err) {
+      setError('Failed to mark task as complete');
+      console.error('Error marking task complete:', err);
+    }
+  };
+
+  const handleUpdateProgress = async (taskId: number, progress: number, notes?: string) => {
+    try {
+      await apiClient.updateTaskProgress(taskId, progress, notes);
+      await loadContractorData(); // Refresh data
+    } catch (err) {
+      setError('Failed to update task progress');
+      console.error('Error updating progress:', err);
+    }
+  };
+
+  const content = {
+    title: "Contractor Dashboard",
+    stats: [
+      { label: "Assigned Projects", value: stats.assignedProjects.toString(), icon: "🏗️" },
+      { label: "Completed Tasks", value: stats.completedTasks.toString(), icon: "✅" },
+      { label: "Pending Tasks", value: stats.pendingTasks.toString(), icon: "📋" },
+      { label: "Days Until Deadline", value: stats.daysUntilDeadline.toString(), icon: "📅" },
+    ],
+    actions: [
+      "View Current Tasks",
+      "Mark Task Complete",
+      "Upload Progress Photos",
+      "Request Extension",
+    ],
+  };
 
   return (
     <DashboardContainer>
