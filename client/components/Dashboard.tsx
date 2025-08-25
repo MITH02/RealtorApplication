@@ -770,7 +770,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         <TitleSection>
           <MainTitle>{content.title}</MainTitle>
           <WelcomeBox>
-            <p>Welcome back! Here's what's happening with your projects.</p>
+            <p>Welcome back! It's {new Date().toLocaleTimeString()} - Here's what's happening with your projects today.</p>
           </WelcomeBox>
         </TitleSection>
 
