@@ -954,24 +954,75 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
 
         <ContentGrid>
           <ContentCard>
-            <ContentTitle>Quick Actions</ContentTitle>
-            <ActionsList>
-              {content.actions.map((action, index) => (
-                <ActionButton key={index}>
-                  <span>{action}</span>
-                  <ActionIcon>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </ActionIcon>
-                </ActionButton>
-              ))}
-            </ActionsList>
+            <ContentTitle>Current Tasks</ContentTitle>
+            {error && (
+              <div style={{
+                padding: '0.75rem',
+                background: 'hsla(0, 84%, 60%, 0.1)',
+                border: '1px solid hsla(0, 84%, 60%, 0.3)',
+                borderRadius: '0.5rem',
+                color: 'hsl(0, 84%, 60%)',
+                marginBottom: '1rem'
+              }}>
+                {error}
+              </div>
+            )}
+            <div style={{ minHeight: '200px' }}>
+              {loading ? (
+                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                  <LoadingSpinner />
+                </div>
+              ) : tasks.length > 0 ? (
+                tasks.slice(0, 4).map((task) => (
+                  <TaskCard key={task.id}>
+                    <TaskHeader>
+                      <TaskTitle>{task.name}</TaskTitle>
+                      <TaskBadge status={task.status}>
+                        {task.status}
+                      </TaskBadge>
+                    </TaskHeader>
+                    <TaskContent>
+                      <p><strong>Building:</strong> {task.building.name}</p>
+                      {task.deadline && (
+                        <p><strong>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}</p>
+                      )}
+                      {task.description && <p>{task.description}</p>}
+                    </TaskContent>
+                    <ProgressBar>
+                      <ProgressLabel>
+                        <span>Progress</span>
+                        <span>{task.progressPercentage}%</span>
+                      </ProgressLabel>
+                      <ProgressTrack>
+                        <ProgressFill progress={task.progressPercentage} />
+                      </ProgressTrack>
+                    </ProgressBar>
+                    <TaskActions>
+                      {task.status !== 'COMPLETED' && task.status !== 'APPROVED' && (
+                        <>
+                          <TaskActionButton
+                            onClick={() => handleUpdateProgress(task.id, Math.min(100, task.progressPercentage + 25))}
+                          >
+                            Update Progress
+                          </TaskActionButton>
+                          {task.progressPercentage >= 100 && (
+                            <TaskActionButton
+                              onClick={() => handleMarkTaskComplete(task.id, 'Task completed')}
+                            >
+                              Mark Complete
+                            </TaskActionButton>
+                          )}
+                        </>
+                      )}
+                    </TaskActions>
+                  </TaskCard>
+                ))
+              ) : (
+                <div style={{ textAlign: 'center', padding: '2rem', color: 'hsl(25, 16%, 47%)' }}>
+                  No tasks assigned yet. Check back later for new assignments.
+                </div>
+              )}
+            </div>
           </ContentCard>
 
           <ContentCard>
