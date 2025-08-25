@@ -2,10 +2,13 @@ package com.constructpro.repository;
 
 import com.constructpro.entity.Notification;
 import com.constructpro.entity.User;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,8 +27,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Query("SELECT n FROM Notification n WHERE n.user = :user AND n.isRead = false ORDER BY n.createdAt DESC")
     List<Notification> findUnreadNotificationsByUser(@Param("user") User user);
     
-    @Query("SELECT n FROM Notification n WHERE n.user = :user ORDER BY n.createdAt DESC LIMIT :limit")
-    List<Notification> findRecentNotificationsByUser(@Param("user") User user, @Param("limit") int limit);
+    @Query("SELECT n FROM Notification n WHERE n.user = :user ORDER BY n.createdAt DESC")
+    List<Notification> findRecentNotificationsByUser(@Param("user") User user, Pageable pageable);
     
     @Query("SELECT COUNT(n) FROM Notification n WHERE n.user = :user AND n.isRead = false")
     long countUnreadNotificationsByUser(@Param("user") User user);
@@ -45,6 +48,8 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
         @Param("since") LocalDateTime since
     );
     
+    @Modifying
+    @Transactional
     @Query("DELETE FROM Notification n WHERE n.isRead = true AND n.createdAt < :cutoffDate")
     void deleteOldReadNotifications(@Param("cutoffDate") LocalDateTime cutoffDate);
 }
