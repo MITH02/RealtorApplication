@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import React from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 const fadeIn = keyframes`
   from {
@@ -146,7 +146,7 @@ const CredentialTitle = styled.h5`
 `;
 
 const CredentialItem = styled.div`
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.875rem;
   color: hsl(222 84% 4.9%);
   margin-bottom: 0.25rem;
@@ -211,7 +211,7 @@ const RoleFeatures = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  
+
   li {
     color: hsl(215 16% 47%);
     font-size: 0.875rem;
@@ -222,7 +222,7 @@ const RoleFeatures = styled.ul`
     }
 
     &::before {
-      content: '•';
+      content: "•";
       color: hsl(217 91% 60%);
       font-weight: 600;
       margin-right: 0.5rem;
@@ -235,39 +235,42 @@ export default function GettingStarted() {
     <Container>
       <Card>
         <Title>🚀 Welcome to ConstructPro</Title>
-        
+
         <Section>
-          <SectionTitle>
-            🎯 Quick Start Guide
-          </SectionTitle>
-          
+          <SectionTitle>🎯 Quick Start Guide</SectionTitle>
+
           <StepsList>
             <Step>
               <StepNumber>1</StepNumber>
               <StepContent>
                 <StepTitle>Select Your Role</StepTitle>
                 <StepDescription>
-                  Choose your role from the landing page: Admin, Builder, or Contractor. Each role has different capabilities and access levels.
+                  Choose your role from the landing page: Admin, Builder, or
+                  Contractor. Each role has different capabilities and access
+                  levels.
                 </StepDescription>
               </StepContent>
             </Step>
-            
+
             <Step>
               <StepNumber>2</StepNumber>
               <StepContent>
                 <StepTitle>Sign In</StepTitle>
                 <StepDescription>
-                  Use the demo credentials below to sign in and explore the features available for each role.
+                  Use the demo credentials below to sign in and explore the
+                  features available for each role.
                 </StepDescription>
               </StepContent>
             </Step>
-            
+
             <Step>
               <StepNumber>3</StepNumber>
               <StepContent>
                 <StepTitle>Explore Features</StepTitle>
                 <StepDescription>
-                  Navigate through the dashboard to see role-specific features like project management, task assignment, and progress tracking.
+                  Navigate through the dashboard to see role-specific features
+                  like project management, task assignment, and progress
+                  tracking.
                 </StepDescription>
               </StepContent>
             </Step>
@@ -275,10 +278,8 @@ export default function GettingStarted() {
         </Section>
 
         <Section>
-          <SectionTitle>
-            🔐 Demo Login Credentials
-          </SectionTitle>
-          
+          <SectionTitle>🔐 Demo Login Credentials</SectionTitle>
+
           <Credentials>
             <CredentialTitle>Test Accounts</CredentialTitle>
             <CredentialItem>
@@ -288,16 +289,15 @@ export default function GettingStarted() {
               <strong>Builder:</strong> builder@constructpro.com / builder123
             </CredentialItem>
             <CredentialItem>
-              <strong>Contractor:</strong> contractor@constructpro.com / contractor123
+              <strong>Contractor:</strong> contractor@constructpro.com /
+              contractor123
             </CredentialItem>
           </Credentials>
         </Section>
 
         <Section>
-          <SectionTitle>
-            👥 Role Capabilities
-          </SectionTitle>
-          
+          <SectionTitle>👥 Role Capabilities</SectionTitle>
+
           <RoleGrid>
             <RoleCard>
               <RoleTitle>⚙️ Admin</RoleTitle>
@@ -308,7 +308,7 @@ export default function GettingStarted() {
                 <li>System administration</li>
               </RoleFeatures>
             </RoleCard>
-            
+
             <RoleCard>
               <RoleTitle>🏗️ Builder</RoleTitle>
               <RoleFeatures>
@@ -319,7 +319,7 @@ export default function GettingStarted() {
                 <li>Track project progress</li>
               </RoleFeatures>
             </RoleCard>
-            
+
             <RoleCard>
               <RoleTitle>👷 Contractor</RoleTitle>
               <RoleFeatures>
@@ -334,37 +334,38 @@ export default function GettingStarted() {
         </Section>
 
         <Section>
-          <SectionTitle>
-            🔔 System Features
-          </SectionTitle>
-          
+          <SectionTitle>🔔 System Features</SectionTitle>
+
           <StepsList>
             <Step>
               <StepNumber>📊</StepNumber>
               <StepContent>
                 <StepTitle>Status Indicators</StepTitle>
                 <StepDescription>
-                  Color-coded status system: 🟢 Approved, 🟡 Pending, 🔴 Overdue tasks with real-time updates.
+                  Color-coded status system: 🟢 Approved, 🟡 Pending, 🔴 Overdue
+                  tasks with real-time updates.
                 </StepDescription>
               </StepContent>
             </Step>
-            
+
             <Step>
               <StepNumber>⏰</StepNumber>
               <StepContent>
                 <StepTitle>Deadline Tracking</StepTitle>
                 <StepDescription>
-                  Automatic deadline monitoring with alerts for overdue tasks and upcoming deadlines.
+                  Automatic deadline monitoring with alerts for overdue tasks
+                  and upcoming deadlines.
                 </StepDescription>
               </StepContent>
             </Step>
-            
+
             <Step>
               <StepNumber>🔔</StepNumber>
               <StepContent>
                 <StepTitle>Notifications</StepTitle>
                 <StepDescription>
-                  Real-time notifications for task updates, approvals, rejections, and deadline reminders.
+                  Real-time notifications for task updates, approvals,
+                  rejections, and deadline reminders.
                 </StepDescription>
               </StepContent>
             </Step>
