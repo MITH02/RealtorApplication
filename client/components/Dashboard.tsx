@@ -1026,35 +1026,35 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
           </ContentCard>
 
           <ContentCard>
-            <ContentTitle>Recent Activity</ContentTitle>
+            <ContentTitle>Recent Notifications</ContentTitle>
             <ActivityList>
-              <ActivityItem>
-                <ActivityIcon color="green">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>Task completed</ActivityTitle>
-                  <ActivityTime>2 hours ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
-              <ActivityItem>
-                <ActivityIcon color="blue" delay="0.5s">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>New assignment</ActivityTitle>
-                  <ActivityTime>1 day ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
-              <ActivityItem>
-                <ActivityIcon color="yellow" delay="1s">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>Deadline reminder</ActivityTitle>
-                  <ActivityTime>2 days ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
+              {loading ? (
+                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                  <LoadingSpinner />
+                </div>
+              ) : notifications.length > 0 ? (
+                notifications.slice(0, 3).map((notification) => (
+                  <ActivityItem key={notification.id}>
+                    <ActivityIcon color={getNotificationColor(notification.type)}>
+                      <div></div>
+                    </ActivityIcon>
+                    <ActivityContent>
+                      <ActivityTitle>{notification.title}</ActivityTitle>
+                      <ActivityTime>{new Date(notification.createdAt).toLocaleDateString()}</ActivityTime>
+                    </ActivityContent>
+                  </ActivityItem>
+                ))
+              ) : (
+                <ActivityItem>
+                  <ActivityIcon color="blue">
+                    <div></div>
+                  </ActivityIcon>
+                  <ActivityContent>
+                    <ActivityTitle>Welcome to ConstructPro!</ActivityTitle>
+                    <ActivityTime>Getting started</ActivityTime>
+                  </ActivityContent>
+                </ActivityItem>
+              )}
             </ActivityList>
           </ContentCard>
         </ContentGrid>
