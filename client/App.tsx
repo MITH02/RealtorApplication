@@ -38,6 +38,15 @@ type AppState =
 const AppContainer = styled.div`
   min-height: 100vh;
   position: relative;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const DashboardContainer = styled.div`
