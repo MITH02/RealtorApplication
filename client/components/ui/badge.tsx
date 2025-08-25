@@ -1,36 +1,78 @@
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import styled from "@emotion/styled";
+import { CSSObject } from "@emotion/react";
 
-import { cn } from "@/lib/utils";
+interface BadgeVariantProps {
+  variant?: "default" | "secondary" | "destructive" | "outline";
+}
 
-const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-  {
-    variants: {
-      variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+const getVariantStyles = (variant: BadgeVariantProps["variant"]): CSSObject => {
+  const variants = {
+    default: {
+      border: "1px solid transparent",
+      backgroundColor: "hsl(var(--primary))",
+      color: "hsl(var(--primary-foreground))",
+      "&:hover": {
+        backgroundColor: "hsl(var(--primary) / 0.8)",
       },
     },
-    defaultVariants: {
-      variant: "default",
+    secondary: {
+      border: "1px solid transparent",
+      backgroundColor: "hsl(var(--secondary))",
+      color: "hsl(var(--secondary-foreground))",
+      "&:hover": {
+        backgroundColor: "hsl(var(--secondary) / 0.8)",
+      },
     },
-  },
-);
+    destructive: {
+      border: "1px solid transparent",
+      backgroundColor: "hsl(var(--destructive))",
+      color: "hsl(var(--destructive-foreground))",
+      "&:hover": {
+        backgroundColor: "hsl(var(--destructive) / 0.8)",
+      },
+    },
+    outline: {
+      color: "hsl(var(--foreground))",
+    },
+  };
+
+  return variants[variant || "default"] || variants.default;
+};
+
+const StyledBadge = styled.div<BadgeVariantProps>`
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+
+  &:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
+    ring-offset-width: 2px;
+  }
+
+  ${(props) => getVariantStyles(props.variant)}
+`;
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    BadgeVariantProps {}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ variant = "default", ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <StyledBadge variant={variant} {...props} />
   );
 }
 
-export { Badge, badgeVariants };
+export { Badge };
