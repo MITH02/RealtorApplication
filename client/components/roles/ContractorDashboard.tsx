@@ -635,15 +635,28 @@ export default function ContractorDashboard({
     if (!selectedTask) return;
 
     try {
+      // Update progress first
       await apiService.updateTaskProgress(
         selectedTask.id,
         progressValue,
         progressNotes,
       );
+
+      // Add media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          selectedTask.id,
+          progressNotes || `Progress update: ${progressValue}%`,
+          "PROGRESS_UPDATE",
+          uploadedMediaUrls
+        );
+      }
+
       setShowProgressModal(false);
       setSelectedTask(null);
       setProgressValue(0);
       setProgressNotes("");
+      clearUploadedMedia();
       await fetchTasks();
     } catch (error) {
       console.error("Failed to update progress:", error);
