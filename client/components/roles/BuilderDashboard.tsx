@@ -928,7 +928,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                   <br />
                   📅 Deadline: {new Date(task.deadline).toLocaleDateString()}
                   <br />
-                  📊 Progress: {task.progressPercentage}%
+                  �� Progress: {task.progressPercentage}%
                 </CardInfo>
 
                 <StatusBadge status={task.status}>
@@ -1080,6 +1080,27 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               </Select>
             </FormGroup>
 
+            <FormGroup>
+              <Label>Project Documentation (Optional)</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onError={handleMediaUploadError}
+                context="building_documentation"
+                maxFiles={8}
+                maxSizeM={30}
+              />
+              {uploadError && (
+                <div style={{
+                  color: "hsl(0 84% 60%)",
+                  fontSize: "0.875rem",
+                  marginTop: "0.5rem"
+                }}>
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
@@ -1091,8 +1112,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Create Building
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Create Building"}
               </Button>
             </FormActions>
           </Form>
