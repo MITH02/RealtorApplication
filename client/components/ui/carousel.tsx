@@ -3,8 +3,8 @@ import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import styled from "@emotion/styled";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
@@ -40,6 +40,10 @@ function useCarousel() {
   return context;
 }
 
+const StyledCarousel = styled.div`
+  position: relative;
+`;
+
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
@@ -50,7 +54,6 @@ const Carousel = React.forwardRef<
       opts,
       setApi,
       plugins,
-      className,
       children,
       ...props
     },
@@ -132,91 +135,160 @@ const Carousel = React.forwardRef<
           canScrollNext,
         }}
       >
-        <div
+        <StyledCarousel
           ref={ref}
           onKeyDownCapture={handleKeyDown}
-          className={cn("relative", className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
         >
           {children}
-        </div>
+        </StyledCarousel>
       </CarouselContext.Provider>
     );
   },
 );
 Carousel.displayName = "Carousel";
 
+const CarouselContentWrapper = styled.div`
+  overflow: hidden;
+`;
+
+const StyledCarouselContent = styled.div<{
+  orientation: "horizontal" | "vertical";
+}>`
+  display: flex;
+
+  ${props => props.orientation === "horizontal" && `
+    margin-left: -1rem;
+  `}
+
+  ${props => props.orientation === "vertical" && `
+    margin-top: -1rem;
+    flex-direction: column;
+  `}
+`;
+
 const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { carouselRef, orientation } = useCarousel();
+>(({ ...props }, ref) => {
+  const { carouselRef, orientation = "horizontal" } = useCarousel();
 
   return (
-    <div ref={carouselRef} className="overflow-hidden">
-      <div
-        ref={ref}
-        className={cn(
-          "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          className,
-        )}
-        {...props}
-      />
-    </div>
+    <CarouselContentWrapper ref={carouselRef}>
+      <StyledCarouselContent ref={ref} orientation={orientation} {...props} />
+    </CarouselContentWrapper>
   );
 });
 CarouselContent.displayName = "CarouselContent";
 
+const StyledCarouselItem = styled.div<{
+  orientation: "horizontal" | "vertical";
+}>`
+  min-width: 0;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: 100%;
+
+  ${props => props.orientation === "horizontal" && `
+    padding-left: 1rem;
+  `}
+
+  ${props => props.orientation === "vertical" && `
+    padding-top: 1rem;
+  `}
+`;
+
 const CarouselItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
-  const { orientation } = useCarousel();
+>(({ ...props }, ref) => {
+  const { orientation = "horizontal" } = useCarousel();
 
   return (
-    <div
+    <StyledCarouselItem
       ref={ref}
       role="group"
       aria-roledescription="slide"
-      className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
-        className,
-      )}
+      orientation={orientation}
       {...props}
     />
   );
 });
 CarouselItem.displayName = "CarouselItem";
 
+const StyledCarouselButton = styled(Button)<{
+  orientation: "horizontal" | "vertical";
+  direction: "previous" | "next";
+}>`
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+
+  ${props => props.orientation === "horizontal" && props.direction === "previous" && `
+    left: -3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  `}
+
+  ${props => props.orientation === "horizontal" && props.direction === "next" && `
+    right: -3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  `}
+
+  ${props => props.orientation === "vertical" && props.direction === "previous" && `
+    top: -3rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+  `}
+
+  ${props => props.orientation === "vertical" && props.direction === "next" && `
+    bottom: -3rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+  `}
+
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+`;
+
 const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollPrev, canScrollPrev } = useCarousel();
+>(({ variant = "outline", size = "icon", ...props }, ref) => {
+  const { orientation = "horizontal", scrollPrev, canScrollPrev } = useCarousel();
 
   return (
-    <Button
+    <StyledCarouselButton
       ref={ref}
       variant={variant}
       size={size}
-      className={cn(
-        "absolute  h-8 w-8 rounded-full",
-        orientation === "horizontal"
-          ? "-left-12 top-1/2 -translate-y-1/2"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
-        className,
-      )}
+      orientation={orientation}
+      direction="previous"
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft className="h-4 w-4" />
-      <span className="sr-only">Previous slide</span>
-    </Button>
+      <ArrowLeft />
+      <span>Previous slide</span>
+    </StyledCarouselButton>
   );
 });
 CarouselPrevious.displayName = "CarouselPrevious";
@@ -224,28 +296,23 @@ CarouselPrevious.displayName = "CarouselPrevious";
 const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
->(({ className, variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation, scrollNext, canScrollNext } = useCarousel();
+>(({ variant = "outline", size = "icon", ...props }, ref) => {
+  const { orientation = "horizontal", scrollNext, canScrollNext } = useCarousel();
 
   return (
-    <Button
+    <StyledCarouselButton
       ref={ref}
       variant={variant}
       size={size}
-      className={cn(
-        "absolute h-8 w-8 rounded-full",
-        orientation === "horizontal"
-          ? "-right-12 top-1/2 -translate-y-1/2"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
-        className,
-      )}
+      orientation={orientation}
+      direction="next"
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight className="h-4 w-4" />
-      <span className="sr-only">Next slide</span>
-    </Button>
+      <ArrowRight />
+      <span>Next slide</span>
+    </StyledCarouselButton>
   );
 });
 CarouselNext.displayName = "CarouselNext";
