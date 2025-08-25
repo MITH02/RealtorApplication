@@ -36,7 +36,7 @@ const StyledRadioGroupIndicator = styled(RadioGroupPrimitive.Indicator)`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   & svg {
     height: 0.625rem;
     width: 0.625rem;
@@ -49,12 +49,7 @@ const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
 >(({ ...props }, ref) => {
-  return (
-    <StyledRadioGroup
-      {...props}
-      ref={ref}
-    />
-  );
+  return <StyledRadioGroup {...props} ref={ref} />;
 });
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
@@ -63,10 +58,7 @@ const RadioGroupItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
 >(({ ...props }, ref) => {
   return (
-    <StyledRadioGroupItem
-      ref={ref}
-      {...props}
-    >
+    <StyledRadioGroupItem ref={ref} {...props}>
       <StyledRadioGroupIndicator>
         <Circle />
       </StyledRadioGroupIndicator>

@@ -11,7 +11,9 @@ const StyledProgressRoot = styled(ProgressPrimitive.Root)`
   background-color: hsl(var(--secondary));
 `;
 
-const StyledProgressIndicator = styled(ProgressPrimitive.Indicator)<{ value?: number }>`
+const StyledProgressIndicator = styled(ProgressPrimitive.Indicator)<{
+  value?: number;
+}>`
   height: 100%;
   width: 100%;
   flex: 1;

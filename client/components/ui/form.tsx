@@ -77,7 +77,9 @@ const StyledFormItem = styled.div`
 `;
 
 const StyledFormLabel = styled(Label)<{ hasError?: boolean }>`
-  ${({ hasError }) => hasError && `
+  ${({ hasError }) =>
+    hasError &&
+    `
     color: hsl(var(--destructive));
   `}
 `;
@@ -153,13 +155,7 @@ const FormDescription = React.forwardRef<
 >(({ ...props }, ref) => {
   const { formDescriptionId } = useFormField();
 
-  return (
-    <StyledFormDescription
-      ref={ref}
-      id={formDescriptionId}
-      {...props}
-    />
-  );
+  return <StyledFormDescription ref={ref} id={formDescriptionId} {...props} />;
 });
 FormDescription.displayName = "FormDescription";
 
@@ -175,11 +171,7 @@ const FormMessage = React.forwardRef<
   }
 
   return (
-    <StyledFormMessage
-      ref={ref}
-      id={formMessageId}
-      {...props}
-    >
+    <StyledFormMessage ref={ref} id={formMessageId} {...props}>
       {body}
     </StyledFormMessage>
   );

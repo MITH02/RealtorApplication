@@ -86,9 +86,7 @@ const StyledAccordionContentInner = styled.div`
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ ...props }, ref) => (
-  <StyledAccordionItem ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAccordionItem ref={ref} {...props} />);
 AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<

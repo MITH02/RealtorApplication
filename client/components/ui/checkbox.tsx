@@ -33,7 +33,7 @@ const StyledCheckboxIndicator = styled(CheckboxPrimitive.Indicator)`
   align-items: center;
   justify-content: center;
   color: currentColor;
-  
+
   & svg {
     height: 1rem;
     width: 1rem;
