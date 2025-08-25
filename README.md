@@ -1,350 +1,310 @@
-# ConstructPro - Construction Project Management System
+# ConstructPro - Construction Management System
 
-A comprehensive construction project management system with React Native mobile app and Spring Boot backend, featuring role-based access control, task management, and real-time notifications.
+A comprehensive construction project management application with role-based access control, task management, and real-time progress tracking.
 
-## 🏗️ System Overview
+## 🏗️ Overview
 
-ConstructPro is designed around three primary user roles with distinct responsibilities:
+ConstructPro is a full-stack construction management system that enables efficient project coordination between Admins, Builders, and Contractors. The application features a React TypeScript frontend with a Spring Boot backend, providing real-time task management, deadline tracking, and automated notifications.
 
-### 👑 Super Admin
+## 🎯 Key Features
 
-- **Limited Role**: Focused on system administration
-- **Responsibilities**: Configure and manage Admin accounts only
-- **Access**: User management, system configuration, high-level analytics
-- **No involvement**: Daily project operations or task assignments
+### Role-Based System
+- **Admin**: Manage Builder accounts (Create, Read, Update, Delete)
+- **Builder**: Create buildings, assign contractors, manage tasks, approve/reject completions
+- **Contractor**: View assigned tasks, update progress, mark tasks complete
 
-### 🏗️ Admin
-
-- **Central Controller**: Manages all building and task operations
-- **Responsibilities**:
-  - Create and manage unlimited buildings
-  - Assign contractors to projects
-  - Define custom task workflows (Civil, Electrical, Plumbing, Tiling, Painting, etc.)
-  - Set deadlines and track progress
-  - Approve or reject contractor work completions
-  - Generate project reports
-
-### 👷 Contractor
-
-- **Task Executor**: Completes assigned tasks efficiently
-- **Responsibilities**:
-  - View assigned tasks and deadlines
-  - Update task progress with photos and notes
-  - Mark tasks as completed
-  - Request approval from admins
-  - Communicate with project administrators
-
-## 🚨 Task Monitoring & Status Tracking
-
-### Deadline Management
-
-- **Red Alerts**: Overdue tasks automatically highlighted (Building + Contractor + Task)
-- **Green Status**: Completed on-time tasks marked as successful
-- **Automated Notifications**: Real-time deadline reminders and overdue alerts
-
-### Approval Workflow
-
-1. Contractor completes task → Requests approval
-2. Admin reviews submission → Approves or Rejects
-3. **If Approved**: Task moves to Completed State
-4. **If Rejected**: Task returns to Pending with feedback
+### Core Functionality
+- ✅ **Task Management**: Create, assign, and track construction tasks
+- 📊 **Progress Tracking**: Real-time progress updates with visual indicators
+- ⏰ **Deadline Management**: Automatic deadline tracking with alerts
+- 🔔 **Notifications**: Real-time notifications for task updates and approvals
+- 🎨 **Status Indicators**: Color-coded system (🟢 Approved, 🟡 Pending, 🔴 Overdue)
+- 📱 **Responsive Design**: Modern UI with Emotion CSS styling
 
 ## 🛠️ Technology Stack
 
-### Mobile App (React Native)
+### Frontend
+- **React 18** with TypeScript
+- **Emotion CSS** for styling (no Tailwind)
+- **React Router 6** for navigation
+- **Context API** for state management
+- **Vite** for development and building
 
-- **Framework**: React Native with Expo
-- **Navigation**: React Navigation 6
-- **Styling**: Emotion CSS for React Native
-- **State Management**: React Context API
-- **UI Components**: React Native Paper + Custom Components
-- **Platforms**: iOS and Android
+### Backend
+- **Spring Boot 3.2.1** with Java 17
+- **PostgreSQL** database
+- **Spring Security** with JWT authentication
+- **Spring Data JPA** for data persistence
+- **Maven** for dependency management
 
-### Backend (Spring Boot)
+### Architecture
+- **RESTful API** design
+- **Role-based authentication**
+- **DTO pattern** for data transfer
+- **Repository pattern** for data access
 
-- **Framework**: Spring Boot 3.2.1 with Java 17
-- **Database**: PostgreSQL with JPA/Hibernate
-- **Authentication**: JWT with Spring Security
-- **Documentation**: Swagger/OpenAPI
-- **Validation**: Bean Validation with custom validators
-- **Scheduling**: Spring Scheduler for deadline tracking
+## 📋 Application Flow
 
-### Key Features
+### User Roles & Responsibilities
 
-- **Role-based Authentication** with JWT tokens
-- **Real-time Notifications** for task updates and deadlines
-- **File Upload Support** for progress photos
-- **Deadline Tracking** with automated alerts
-- **Comprehensive Audit Trail** for all actions
-- **RESTful API** with proper error handling
-- **Mobile-first Design** optimized for field workers
+**1. Admin**
+- Sole responsibility: Configure Builder accounts (CRUD operations)
+- No involvement in building creation, task assignment, or contractor operations
 
-## 📱 Mobile App Structure
+**2. Builder (Project Owner)**
+- Create unlimited buildings
+- Assign multiple contractors to each building
+- Define tasks/steps (civil work, electrical, plumbing, tiling, painting, etc.)
+- Assign deadlines (in days) to each task
+- Review and approve/reject task submissions made by contractors
 
-```
-mobile-app/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   └── StyledComponents.tsx
-│   ├── context/             # React Context providers
-│   │   └── AuthContext.tsx
-│   ├── navigation/          # Navigation configuration
-│   │   └── AppNavigator.tsx
-│   ├── screens/            # App screens
-│   │   ├── dashboards/     # Role-specific dashboards
-│   │   ├── roles/          # Role information screens
-│   │   ├── LoginScreen.tsx
-│   │   ├── RoleSelectionScreen.tsx
-│   │   └── VideoLoaderScreen.tsx
-│   ├── services/           # API integration
-│   │   └── api.ts
-│   └── styles/             # Styling system
-│       └── theme.ts
-├── App.tsx                 # Main app component
-├── app.json               # Expo configuration
-└── package.json
-```
+**3. Contractor (Executor)**
+- View tasks assigned by the Builder under specific buildings
+- Mark tasks as Completed once work is done
+- Await Builder's decision: Approval or Rejection
 
-## 🔧 Backend Structure
+### Task Workflow
+1. Builder creates buildings
+2. Builder assigns contractors to those buildings
+3. Builder defines tasks + sets deadlines
+4. Contractor works on assigned tasks
+5. Contractor marks task as completed
+6. System sends notification to the Builder
+7. Builder reviews submission:
+   - ✅ **Approved** → Task status = Completed (Green)
+   - ❌ **Rejected** → Task status = Pending (Yellow/Orange)
 
-```
-backend/
-├── src/main/java/com/constructpro/
-│   ├── config/             # Spring configuration
-│   │   ├── SecurityConfig.java
-│   │   └── SchedulingConfig.java
-│   ├── controller/         # REST controllers
-│   │   ├── AuthController.java
-│   │   ├── BuildingController.java
-│   │   ├── TaskController.java
-│   │   └── NotificationController.java
-│   ├── dto/               # Data Transfer Objects
-│   │   ├── request/       # Request DTOs
-│   │   └── response/      # Response DTOs
-│   ├── entity/            # JPA entities
-│   │   ├── User.java
-│   │   ├── Building.java
-│   │   ├── Task.java
-│   │   ├── TaskUpdate.java
-│   │   ├── Notification.java
-│   │   └── BuildingContractor.java
-│   ├── repository/        # JPA repositories
-│   ├── security/          # Security components
-│   │   ├── JwtUtils.java
-│   │   ├── AuthTokenFilter.java
-│   │   └── UserDetailsServiceImpl.java
-│   └── service/           # Business logic
-│       ├── BuildingService.java
-│       ├── TaskService.java
-│       ├── NotificationService.java
-│       └── DeadlineTrackingService.java
-├── src/main/resources/
-│   └── application.yml    # Application configuration
-└── pom.xml               # Maven dependencies
-```
+### Deadline & Alerts
+- **Overdue Case**: System shows Red Alert with Building Name, Contractor Name, Pending Task Description
+- **On-time Completion**: Task is marked Green (Completed)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js 18+ and pnpm
+- Java 17+
+- PostgreSQL 12+
+- Maven 3.6+
 
-- **Node.js** 18+ and npm/yarn
-- **Java** 17+
-- **PostgreSQL** 12+
-- **Maven** 3.6+
-- **Expo CLI** for React Native development
+### Database Setup
+1. Install PostgreSQL and create a database named `constructpro`
+2. Default credentials (can be changed in `application.properties`):
+   - **Username**: admin
+   - **Password**: admin
+   - **Port**: 5432
 
-### Backend Setup
+### Installation
 
 1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd constructpro
+   ```
 
-```bash
-git clone <repository-url>
-cd constructpro
+2. **Install frontend dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Configure backend database**
+   - Update `backend/src/main/resources/application.properties` if needed
+   - Default configuration points to `localhost:5432/constructpro`
+
+4. **Start the development server**
+   ```bash
+   pnpm dev
+   ```
+
+   This will start both the frontend and backend servers:
+   - Frontend: http://localhost:8080
+   - Backend API: http://localhost:8080/api
+
+### Demo Credentials
+
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@constructpro.com | admin123 |
+| Builder | builder@constructpro.com | builder123 |
+| Contractor | contractor@constructpro.com | contractor123 |
+
+## 📂 Project Structure
+
+```
+constructpro/
+├── client/                          # React frontend
+│   ├── components/
+│   │   ├── roles/                   # Role-specific dashboards
+│   │   │   ├── AdminDashboard.tsx   # Admin CRUD interface
+│   │   │   ├── BuilderDashboard.tsx # Building & task management
+│   │   │   └── ContractorDashboard.tsx # Task execution interface
+│   │   ├── NotificationsSystem.tsx  # Real-time notifications
+│   │   ├── DeadlineTracker.tsx      # Deadline alerts & tracking
+│   │   └── RoleSelection.tsx        # Role selection interface
+│   ├── contexts/
+│   │   └── AuthContext.tsx          # Authentication state management
+│   ├── services/
+│   │   └── api.ts                   # API service with DTO mapping
+│   └── types/
+│       └── index.ts                 # TypeScript type definitions
+├── backend/                         # Spring Boot backend
+│   └── src/main/java/com/constructpro/
+│       ├── controller/              # REST controllers
+│       ├── entity/                  # JPA entities
+│       ├── repository/              # Data repositories
+│       ├── service/                 # Business logic
+│       ├── dto/                     # Data Transfer Objects
+│       └── security/                # Authentication & authorization
+└── shared/                          # Shared types between client & server
 ```
 
-2. **Set up PostgreSQL database**
-
-```sql
-CREATE DATABASE constructpro;
-CREATE USER constructpro WITH PASSWORD 'password';
-GRANT ALL PRIVILEGES ON DATABASE constructpro TO constructpro;
-```
-
-3. **Configure application properties**
-
-```bash
-cd backend
-# Update src/main/resources/application.yml with your database credentials
-```
-
-4. **Run the Spring Boot application**
-
-```bash
-mvn clean install
-mvn spring-boot:run
-```
-
-The backend will start on `http://localhost:8080`
-
-**API Documentation**: `http://localhost:8080/swagger-ui.html`
-
-### Mobile App Setup
-
-1. **Install dependencies**
-
-```bash
-cd mobile-app
-npm install
-```
-
-2. **Update API configuration**
-
-```typescript
-// src/services/api.ts
-const API_BASE_URL = "http://localhost:8080/api"; // Update for your environment
-```
-
-3. **Start the development server**
-
-```bash
-npm start
-```
-
-4. **Run on device/emulator**
-
-```bash
-# For iOS
-npm run ios
-
-# For Android
-npm run android
-```
-
-## 📋 API Endpoints
+## 🔧 API Endpoints
 
 ### Authentication
-
-- `POST /api/auth/login` - User login
+- `POST /api/auth/login` - User authentication
 - `POST /api/auth/register` - User registration
-- `POST /api/auth/refresh-token` - Refresh JWT token
-- `POST /api/auth/logout` - User logout
-- `GET /api/auth/me` - Get current user
+- `GET /api/auth/me` - Get current user info
 
-### Buildings (Admin/Super Admin only)
+### Admin Operations
+- `GET /api/admin/builders` - Get all builders
+- `POST /api/admin/builders` - Create new builder
+- `PUT /api/admin/builders/{id}` - Update builder
+- `DELETE /api/admin/builders/{id}` - Delete builder
 
-- `GET /api/buildings` - Get all buildings
+### Building Management
+- `GET /api/buildings` - Get user's buildings
 - `POST /api/buildings` - Create new building
-- `GET /api/buildings/{id}` - Get building by ID
 - `PUT /api/buildings/{id}` - Update building
-- `PATCH /api/buildings/{id}/status` - Update building status
 - `DELETE /api/buildings/{id}` - Delete building
 
-### Tasks
-
+### Task Management
 - `GET /api/tasks/my-tasks` - Get contractor's tasks
-- `GET /api/tasks/admin/all` - Get admin's tasks
-- `POST /api/tasks` - Create new task (Admin only)
-- `PATCH /api/tasks/{id}/progress` - Update task progress
-- `PATCH /api/tasks/{id}/complete` - Mark task completed
-- `PATCH /api/tasks/{id}/approve` - Approve task (Admin only)
-- `PATCH /api/tasks/{id}/reject` - Reject task (Admin only)
+- `POST /api/tasks` - Create new task (Builder only)
+- `PATCH /api/tasks/{id}/complete` - Mark task complete
+- `PATCH /api/tasks/{id}/approve` - Approve task
+- `PATCH /api/tasks/{id}/reject` - Reject task
 
 ### Notifications
-
 - `GET /api/notifications` - Get user notifications
-- `GET /api/notifications/unread` - Get unread notifications
 - `PATCH /api/notifications/{id}/read` - Mark as read
 - `DELETE /api/notifications/{id}` - Delete notification
 
-## 🔐 Security Features
+## 🎨 UI/UX Features
 
-- **JWT-based Authentication** with access and refresh tokens
-- **Role-based Authorization** (Super Admin, Admin, Contractor)
-- **CORS Configuration** for mobile app access
-- **Password Encryption** using BCrypt
-- **Input Validation** with Bean Validation
-- **SQL Injection Protection** via JPA/Hibernate
+### Design System
+- **Color-coded Status Indicators**:
+  - 🟢 Green: Completed & Approved
+  - 🟡 Yellow/Orange: Pending (Submitted but not approved)
+  - 🔴 Red: Overdue (Deadline missed)
 
-## 📊 Automated Scheduling
+### Visual Elements
+- Modern glassmorphism design with backdrop blur effects
+- Smooth animations and transitions using Emotion CSS
+- Responsive grid layouts for optimal viewing on all devices
+- Dark mode support with theme persistence
 
-The system includes automated scheduling for:
+### Interactive Components
+- Real-time deadline tracking with countdown timers
+- Animated notification panel with slide-in effects
+- Progress bars with gradient fills
+- Hover effects and micro-interactions
 
-- **Overdue Task Checks**: Every hour
-- **Deadline Reminders**: Daily at 9 AM (1-3 days before deadline)
-- **Urgent Reminders**: Daily at 6 PM (tasks due tomorrow)
-- **Notification Cleanup**: Daily at 2 AM
-- **Daily Summaries**: Daily at 8 AM
+## 🔔 Notification System
 
-## 🎯 Key Features Implemented
+### Notification Types
+- **Task Assigned**: New task assignment notifications
+- **Task Completed**: Task completion notifications to builders
+- **Task Approved/Rejected**: Approval status updates to contractors
+- **Deadline Reminders**: Automated deadline alerts
+- **Overdue Alerts**: Critical overdue task notifications
 
-### ✅ Authentication & Authorization
+### Features
+- Real-time notification panel
+- Unread notification counter with pulse animation
+- Mark as read/delete functionality
+- Auto-refresh every 30 seconds
 
-- [x] JWT-based authentication
-- [x] Role-based access control
-- [x] Secure password handling
-- [x] Token refresh mechanism
+## ⏰ Deadline Tracking
 
-### ✅ Building Management
+### Alert Levels
+- **Critical**: Overdue tasks (red, animated)
+- **High**: Due today or tomorrow (orange)
+- **Medium**: Due within 7 days (yellow)
+- **Low**: Future deadlines (green)
 
-- [x] Create/edit/delete buildings
-- [x] Project status tracking
-- [x] Contractor assignment
-- [x] Progress monitoring
+### Visual Indicators
+- Color-coded deadline countdown
+- Pulsing animations for urgent items
+- Floating alert notifications
+- Dashboard deadline widget
 
-### ✅ Task Management
+## 🚀 Deployment
 
-- [x] Task creation and assignment
-- [x] Progress tracking with photos
-- [x] Completion workflow
-- [x] Approval/rejection system
-- [x] Dependency management
+### Production Build
+```bash
+# Build the application
+pnpm build
 
-### ✅ Notifications & Alerts
+# Start production server
+pnpm start
+```
 
-- [x] Real-time notifications
-- [x] Deadline reminders
-- [x] Overdue alerts
-- [x] Push notification support
+### Environment Variables
+```bash
+# Frontend (.env)
+VITE_API_URL=http://localhost:8080/api
 
-### ✅ Mobile App
+# Backend (application.properties)
+spring.datasource.url=jdbc:postgresql://localhost:5432/constructpro
+spring.datasource.username=admin
+spring.datasource.password=admin
+```
 
-- [x] Cross-platform (iOS/Android)
-- [x] Offline-capable authentication
-- [x] Role-based navigation
-- [x] Real-time data synchronization
+## 🧪 Testing
 
-## 🔄 Data Flow
+```bash
+# Run tests
+pnpm test
 
-1. **Super Admin** creates Admin accounts
-2. **Admin** creates buildings and assigns contractors
-3. **Admin** creates tasks with deadlines and assigns to contractors
-4. **Contractor** receives notifications and updates progress
-5. **Contractor** marks tasks complete and requests approval
-6. **Admin** reviews and approves/rejects completions
-7. **System** tracks deadlines and sends automated alerts
+# Type checking
+pnpm typecheck
+```
 
-## 🚀 Production Deployment
+## 📱 Mobile Support
 
-### Backend Deployment
+The application is fully responsive and works seamlessly on:
+- Desktop computers
+- Tablets
+- Mobile phones
+- Touch devices
 
-- Configure production database
-- Update CORS settings for production domain
-- Set secure JWT secrets
-- Enable HTTPS
-- Configure logging and monitoring
+## 🔒 Security Features
 
-### Mobile App Deployment
+- JWT-based authentication
+- Role-based access control (RBAC)
+- Protected API endpoints
+- CORS configuration
+- Password encryption
+- Session management
 
-- Build production APK/IPA
-- Update API endpoints to production URLs
-- Configure push notifications
-- Test on real devices
-- Submit to app stores
+## 🤝 Contributing
 
-## 📞 Support
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-For technical issues or questions about the ConstructPro system, please refer to the documentation or contact the development team.
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For support and questions:
+- Check the Getting Started guide in the application
+- Review the API documentation
+- Submit issues for bugs or feature requests
 
 ---
 
-**ConstructPro** - Streamlining construction project management with modern technology.
+**ConstructPro** - Building the future of construction management! 🏗️✨
