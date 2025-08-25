@@ -155,7 +155,9 @@ const StyledDropdownMenuSubContent = styled(DropdownMenuPrimitive.SubContent)`
   background-color: hsl(var(--popover));
   padding: 0.25rem;
   color: hsl(var(--popover-foreground));
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   animation-duration: 200ms;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
@@ -188,9 +190,7 @@ const StyledDropdownMenuSubContent = styled(DropdownMenuPrimitive.SubContent)`
 const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
->(({ ...props }, ref) => (
-  <StyledDropdownMenuSubContent ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDropdownMenuSubContent ref={ref} {...props} />);
 DropdownMenuSubContent.displayName =
   DropdownMenuPrimitive.SubContent.displayName;
 
@@ -203,7 +203,9 @@ const StyledDropdownMenuContent = styled(DropdownMenuPrimitive.Content)`
   background-color: hsl(var(--popover));
   padding: 0.25rem;
   color: hsl(var(--popover-foreground));
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
   animation-duration: 200ms;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
@@ -258,7 +260,8 @@ const StyledDropdownMenuItem = styled(DropdownMenuPrimitive.Item)<{
   padding-bottom: 0.375rem;
   font-size: 0.875rem;
   outline: none;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   background: transparent;
@@ -292,7 +295,9 @@ const DropdownMenuItem = React.forwardRef<
 ));
 DropdownMenuItem.displayName = DropdownMenuPrimitive.Item.displayName;
 
-const StyledDropdownMenuCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem)`
+const StyledDropdownMenuCheckboxItem = styled(
+  DropdownMenuPrimitive.CheckboxItem,
+)`
   position: relative;
   display: flex;
   cursor: default;
@@ -305,7 +310,8 @@ const StyledDropdownMenuCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem
   padding-right: 0.5rem;
   font-size: 0.875rem;
   outline: none;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   background: transparent;
@@ -367,7 +373,8 @@ const StyledDropdownMenuRadioItem = styled(DropdownMenuPrimitive.RadioItem)`
   padding-right: 0.5rem;
   font-size: 0.875rem;
   outline: none;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   background: transparent;
@@ -455,9 +462,7 @@ const StyledDropdownMenuSeparator = styled(DropdownMenuPrimitive.Separator)`
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ ...props }, ref) => (
-  <StyledDropdownMenuSeparator ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDropdownMenuSeparator ref={ref} {...props} />);
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 const DropdownMenuShortcut = styled.span`

@@ -84,7 +84,9 @@ const StyledDialogContent = styled(DialogPrimitive.Content)`
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background));
   padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   animation-duration: 200ms;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;
@@ -154,9 +156,7 @@ const VisuallyHidden = styled.span`
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ ...props }, ref) => (
-  <StyledDialogOverlay ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDialogOverlay ref={ref} {...props} />);
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
@@ -210,9 +210,7 @@ const StyledDialogTitle = styled(DialogPrimitive.Title)`
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ ...props }, ref) => (
-  <StyledDialogTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDialogTitle ref={ref} {...props} />);
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
 const StyledDialogDescription = styled(DialogPrimitive.Description)`
@@ -223,9 +221,7 @@ const StyledDialogDescription = styled(DialogPrimitive.Description)`
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ ...props }, ref) => (
-  <StyledDialogDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDialogDescription ref={ref} {...props} />);
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 
 export {

@@ -207,7 +207,9 @@ const StyledSelectContent = styled(SelectPrimitive.Content)<{
   border: 1px solid hsl(var(--border));
   background-color: hsl(var(--popover));
   color: hsl(var(--popover-foreground));
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
   animation-duration: 200ms;
   animation-timing-function: ease-out;
   animation-fill-mode: forwards;

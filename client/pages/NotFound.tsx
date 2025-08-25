@@ -30,7 +30,7 @@ const Description = styled.p`
 const HomeLink = styled.a`
   color: #3b82f6;
   text-decoration: underline;
-  
+
   &:hover {
     color: #1d4ed8;
   }
@@ -51,9 +51,7 @@ const NotFound = () => {
       <Content>
         <Title>404</Title>
         <Description>Oops! Page not found</Description>
-        <HomeLink href="/">
-          Return to Home
-        </HomeLink>
+        <HomeLink href="/">Return to Home</HomeLink>
       </Content>
     </Container>
   );

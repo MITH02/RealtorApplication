@@ -48,9 +48,9 @@ describe("mergeStyles function", () => {
   it("should merge CSS objects correctly", () => {
     const style1 = { color: "red", fontSize: "16px" };
     const style2 = { backgroundColor: "blue", fontSize: "18px" };
-    
+
     const result = mergeStyles(style1, style2);
-    
+
     expect(result).toEqual({
       color: "red",
       fontSize: "18px", // Later styles should override earlier ones
@@ -60,9 +60,9 @@ describe("mergeStyles function", () => {
 
   it("should handle falsy values", () => {
     const style1 = { color: "red" };
-    
+
     const result = mergeStyles(style1, null, undefined, false);
-    
+
     expect(result).toEqual({ color: "red" });
   });
 

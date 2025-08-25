@@ -185,7 +185,8 @@ const SidebarDesktopWrapper = styled.div<{
   transition: width 200ms ease-linear;
 
   ${({ collapsible, state }) =>
-    collapsible === "offcanvas" && state === "collapsed" &&
+    collapsible === "offcanvas" &&
+    state === "collapsed" &&
     css`
       width: 0;
     `}
@@ -219,7 +220,10 @@ const SidebarFixed = styled.div<{
   display: none;
   height: 100svh;
   width: var(--sidebar-width);
-  transition: left 200ms ease-linear, right 200ms ease-linear, width 200ms ease-linear;
+  transition:
+    left 200ms ease-linear,
+    right 200ms ease-linear,
+    width 200ms ease-linear;
 
   @media (min-width: 768px) {
     display: flex;
@@ -229,14 +233,16 @@ const SidebarFixed = styled.div<{
     side === "left"
       ? css`
           left: 0;
-          ${collapsible === "offcanvas" && state === "collapsed" &&
+          ${collapsible === "offcanvas" &&
+          state === "collapsed" &&
           css`
             left: calc(var(--sidebar-width) * -1);
           `}
         `
       : css`
           right: 0;
-          ${collapsible === "offcanvas" && state === "collapsed" &&
+          ${collapsible === "offcanvas" &&
+          state === "collapsed" &&
           css`
             right: calc(var(--sidebar-width) * -1);
           `}
@@ -246,13 +252,15 @@ const SidebarFixed = styled.div<{
     variant === "floating" || variant === "inset"
       ? css`
           padding: 0.5rem;
-          ${collapsible === "icon" && state === "collapsed" &&
+          ${collapsible === "icon" &&
+          state === "collapsed" &&
           css`
             width: calc(var(--sidebar-width-icon) + 1rem + 2px);
           `}
         `
       : css`
-          ${collapsible === "icon" && state === "collapsed" &&
+          ${collapsible === "icon" &&
+          state === "collapsed" &&
           css`
             width: var(--sidebar-width-icon);
           `}
@@ -281,7 +289,9 @@ const SidebarInner = styled.div<{
     css`
       border-radius: calc(var(--radius) + 2px);
       border: 1px solid hsl(var(--sidebar-border));
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
     `}
 `;
 
@@ -336,7 +346,14 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
-            <div style={{ display: "flex", height: "100%", width: "100%", flexDirection: "column" }}>
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+                flexDirection: "column",
+              }}
+            >
               {children}
             </div>
           </SheetContent>
@@ -370,10 +387,7 @@ const Sidebar = React.forwardRef<
           state={state}
           {...props}
         >
-          <SidebarInner
-            data-sidebar="sidebar"
-            variant={variant}
-          >
+          <SidebarInner data-sidebar="sidebar" variant={variant}>
             {children}
           </SidebarInner>
         </SidebarFixed>
@@ -407,17 +421,21 @@ const SidebarTrigger = React.forwardRef<
       {...props}
     >
       <PanelLeft />
-      <span css={css`
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-      `}>Toggle Sidebar</span>
+      <span
+        css={css`
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        `}
+      >
+        Toggle Sidebar
+      </span>
     </StyledSidebarTrigger>
   );
 });
@@ -467,7 +485,8 @@ const SidebarRail = styled.button<{
       ? css`
           cursor: e-resize;
         `
-      : side === "right" && state === "collapsed" &&
+      : side === "right" &&
+        state === "collapsed" &&
         css`
           cursor: w-resize;
         `}
@@ -489,7 +508,8 @@ const SidebarRail = styled.button<{
       ? css`
           right: -0.5rem;
         `
-      : side === "right" && collapsible === "offcanvas" &&
+      : side === "right" &&
+        collapsible === "offcanvas" &&
         css`
           left: -0.5rem;
         `}
@@ -537,7 +557,9 @@ const SidebarInset = styled.main`
       margin: 0.5rem;
       margin-left: 0;
       border-radius: 0.75rem;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
     }
 
     &[data-state="collapsed"][data-variant="inset"] {
@@ -550,12 +572,7 @@ const SidebarInsetComponent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"main">
 >(({ ...props }, ref) => {
-  return (
-    <SidebarInset
-      ref={ref}
-      {...props}
-    />
-  );
+  return <SidebarInset ref={ref} {...props} />;
 });
 SidebarInsetComponent.displayName = "SidebarInset";
 
@@ -574,13 +591,7 @@ const SidebarInput = React.forwardRef<
   React.ElementRef<typeof Input>,
   React.ComponentProps<typeof Input>
 >(({ ...props }, ref) => {
-  return (
-    <StyledSidebarInput
-      ref={ref}
-      data-sidebar="input"
-      {...props}
-    />
-  );
+  return <StyledSidebarInput ref={ref} data-sidebar="input" {...props} />;
 });
 SidebarInput.displayName = "SidebarInput";
 
@@ -612,11 +623,7 @@ const SidebarSeparator = React.forwardRef<
   React.ComponentProps<typeof Separator>
 >(({ ...props }, ref) => {
   return (
-    <StyledSidebarSeparator
-      ref={ref}
-      data-sidebar="separator"
-      {...props}
-    />
+    <StyledSidebarSeparator ref={ref} data-sidebar="separator" {...props} />
   );
 });
 SidebarSeparator.displayName = "SidebarSeparator";
@@ -643,7 +650,7 @@ const SidebarContentComponent = React.forwardRef<
   React.ComponentProps<"div">
 >(({ ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
     <SidebarContent
       ref={ref}
@@ -679,7 +686,9 @@ const SidebarGroupLabelStyled = styled.div<{
   font-weight: 500;
   color: hsl(var(--sidebar-foreground) / 0.7);
   outline: none;
-  transition: margin 200ms ease-linear, opacity 200ms ease-linear;
+  transition:
+    margin 200ms ease-linear,
+    opacity 200ms ease-linear;
 
   &:focus-visible {
     box-shadow: 0 0 0 2px hsl(var(--sidebar-ring));
@@ -921,7 +930,8 @@ const SidebarMenuButtonStyled = styled.button<SidebarMenuButtonProps>`
     `}
 
   ${({ size, collapsed }) =>
-    size === "lg" && collapsed &&
+    size === "lg" &&
+    collapsed &&
     css`
       padding: 0 !important;
     `}
@@ -1147,7 +1157,7 @@ const SidebarMenuBadge = React.forwardRef<
   React.ComponentProps<"div">
 >(({ ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
     <SidebarMenuBadgeStyled
       ref={ref}
@@ -1239,7 +1249,7 @@ const SidebarMenuSubComponent = React.forwardRef<
   React.ComponentProps<"ul">
 >(({ ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
     <SidebarMenuSub
       ref={ref}
