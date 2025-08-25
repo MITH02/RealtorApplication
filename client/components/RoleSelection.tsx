@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import { useState, useEffect } from "react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface RoleSelectionProps {
@@ -30,6 +31,15 @@ const fadeIn = keyframes`
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+`;
+
+const shimmer = keyframes`
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
   }
 `;
 
@@ -333,19 +343,52 @@ const RoleCardImage = styled.div`
   width: 11rem;
   flex-shrink: 0;
   overflow: hidden;
+  position: relative;
 
   @media (min-width: 640px) {
     width: 13rem;
   }
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+`;
+
+const ImageSkeleton = styled.div<{ isLoaded: boolean }>`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 25%,
+    #e0e0e0 50%,
+    #f0f0f0 75%
+  );
+  background-size: 200px 100%;
+  animation: ${shimmer} 2s infinite;
+  opacity: ${props => props.isLoaded ? 0 : 1};
+  transition: opacity 0.3s ease;
+
+  .dark & {
+    background: linear-gradient(
+      90deg,
+      #374151 25%,
+      #4b5563 50%,
+      #374151 75%
+    );
   }
+`;
 
-  ${RoleCard}:hover & img {
+const OptimizedImage = styled.img<{ isLoaded: boolean }>`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: ${props => props.isLoaded ? 1 : 0};
+
+  ${RoleCard}:hover & {
     transform: scale(1.05);
   }
 `;
@@ -467,7 +510,41 @@ const FooterBadgeText = styled.p`
   }
 `;
 
+// Image component with loading state
+interface ImageWithLoadingProps {
+  src: string;
+  alt: string;
+  placeholder: string;
+}
+
+function ImageWithLoading({ src, alt, placeholder }: ImageWithLoadingProps) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [imgSrc, setImgSrc] = useState(placeholder);
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImgSrc(src);
+      setIsLoaded(true);
+    };
+    img.src = src;
+  }, [src]);
+
+  return (
+    <ImageContainer>
+      <ImageSkeleton isLoaded={isLoaded} />
+      <OptimizedImage 
+        src={imgSrc} 
+        alt={alt} 
+        isLoaded={isLoaded}
+        loading="lazy"
+      />
+    </ImageContainer>
+  );
+}
+
 export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
+  // Optimized images with smaller sizes and WebP format where possible
   const roles = [
     {
       id: "builder" as const,
@@ -475,21 +552,24 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       description:
         "Manage building projects and oversee construction development",
       image:
-        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
+        "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
+      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNzQgMTI1SDIyNlYxNzVIMTc0VjEyNVoiIGZpbGw9IiNEMUQ1REIiLz4KPC9zdmc+",
     },
     {
       id: "contractor" as const,
       title: "Contractor",
       description: "Execute tasks and report project progress efficiently",
       image:
-        "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
+        "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
+      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNjAgMTI1SDE4MFYxNDVIMTYwVjEyNVpNMjIwIDEyNUgyNDBWMTQ1SDIyMFYxMjVaTTE2MCA1NUgxODBWMTc1SDE2MFY1NVpNMjIwIDE1NUgyNDBWMTc1SDIyMFYxNTVaIiBmaWxsPSIjRDFENURCIi8+Cjwvc3ZnPg==",
     },
     {
       id: "admin" as const,
       title: "Admin",
       description: "System administration and comprehensive user management",
       image:
-        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop&crop=center",
+        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
+      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjEyNSIgcj0iMjUiIGZpbGw9IiNEMUQ1REIiLz4KPHBhdGggZD0iTTE1MCAyMDBIMjUwVjE4MEgyMDAuNUMxNzUuNSAxODAgMTUwIDE5MiAxNTAgMjAwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4=",
     },
   ];
 
@@ -501,6 +581,14 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
     delay: `${Math.random() * 3}s`,
     size: `${12 + Math.random() * 8}px`,
   }));
+
+  // Preload images on component mount
+  useEffect(() => {
+    roles.forEach(role => {
+      const img = new Image();
+      img.src = role.image;
+    });
+  }, []);
 
   return (
     <Container>
@@ -558,7 +646,11 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                   <RoleCardContent>
                     {/* Image Section */}
                     <RoleCardImage>
-                      <img src={role.image} alt={role.title} />
+                      <ImageWithLoading
+                        src={role.image}
+                        alt={role.title}
+                        placeholder={role.placeholder}
+                      />
                     </RoleCardImage>
 
                     {/* Content Section */}
