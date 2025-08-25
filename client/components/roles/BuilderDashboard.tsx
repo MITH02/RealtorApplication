@@ -698,7 +698,18 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiService.createTask(taskForm);
+      const createdTask = await apiService.createTask(taskForm);
+
+      // Add media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          createdTask.id,
+          "Task created with reference materials",
+          "STATUS_CHANGE",
+          uploadedMediaUrls
+        );
+      }
+
       setShowTaskModal(false);
       resetTaskForm();
       await fetchTasks();
