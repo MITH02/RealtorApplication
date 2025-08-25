@@ -575,19 +575,25 @@ class ApiService {
     );
   }
 
-  async getBuildingContractors(buildingId: number): Promise<BuildingContractor[]> {
+  async getBuildingContractors(
+    buildingId: number,
+  ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
       `/building-contractors/building/${buildingId}`,
     );
   }
 
-  async getContractorBuildings(contractorId: number): Promise<BuildingContractor[]> {
+  async getContractorBuildings(
+    contractorId: number,
+  ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
       `/building-contractors/contractor/${contractorId}`,
     );
   }
 
-  async getAllBuildingContractors(buildingId: number): Promise<BuildingContractor[]> {
+  async getAllBuildingContractors(
+    buildingId: number,
+  ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
       `/building-contractors/building/${buildingId}/all`,
     );

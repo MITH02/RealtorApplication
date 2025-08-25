@@ -3,13 +3,14 @@
 ## Overview
 
 ConstructPro is a comprehensive construction project management application with three user roles:
+
 - **Admin**: Manages Builder accounts (CRUD operations)
 - **Builder**: Creates buildings, assigns contractors, manages tasks, approves/rejects submissions
 - **Contractor**: Executes assigned tasks and reports progress
 
 ## Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - Java 17+
 - Maven 3.6+
 - PostgreSQL 15+
@@ -41,16 +42,19 @@ GRANT ALL PRIVILEGES ON DATABASE constructpro TO admin;
 ## Backend Setup
 
 1. **Navigate to backend directory:**
+
 ```bash
 cd backend
 ```
 
 2. **Build the application:**
+
 ```bash
 mvn clean compile
 ```
 
 3. **Run the application:**
+
 ```bash
 mvn spring-boot:run
 ```
@@ -62,22 +66,25 @@ The backend will start on `http://localhost:8080`
 The application creates default users on startup:
 
 - **Admin**: admin@constructpro.com / admin123
-- **Builder**: builder@constructpro.com / builder123  
+- **Builder**: builder@constructpro.com / builder123
 - **Contractor**: contractor@constructpro.com / contractor123
 
 ## Frontend Setup
 
 1. **Navigate to client directory:**
+
 ```bash
 cd client
 ```
 
 2. **Install dependencies:**
+
 ```bash
 pnpm install
 ```
 
 3. **Start development server:**
+
 ```bash
 pnpm dev
 ```
@@ -89,6 +96,7 @@ The frontend will start on `http://localhost:5173`
 ### 1. Database Connection Test
 
 Check that the backend connects to PostgreSQL:
+
 - Look for `"Connected to PostgreSQL"` in backend logs
 - Check for successful table creation in logs
 
@@ -103,18 +111,21 @@ Check that the backend connects to PostgreSQL:
 ### 3. Role-Based Functionality Test
 
 #### Admin Dashboard
+
 - Login as admin@constructpro.com / admin123
 - Should see builder management interface
 - Test creating a new builder account
 - Test activating/deactivating builders
 
-#### Builder Dashboard  
+#### Builder Dashboard
+
 - Login as builder@constructpro.com / builder123
 - Should see building and task management interface
 - Test creating a new building
 - Test creating and assigning tasks
 
 #### Contractor Dashboard
+
 - Login as contractor@constructpro.com / contractor123
 - Should see assigned tasks interface
 - Test updating task progress
@@ -143,29 +154,35 @@ curl -X GET http://localhost:8080/api/buildings \
 The following critical configuration issues have been resolved:
 
 ### 1. JWT Configuration
+
 - Fixed property name mismatch between `application.properties` and `JwtUtils.java`
 - JWT authentication should now work correctly
 
-### 2. CORS Configuration  
+### 2. CORS Configuration
+
 - Fixed property name mismatch for CORS allowed origins
 - Frontend should now communicate with backend properly
 
 ### 3. Security Roles
+
 - Removed invalid `SUPER_ADMIN` role references
 - Aligned with actual User.Role enum (ADMIN, BUILDER, CONTRACTOR)
 
 ### 4. Database Compatibility
+
 - Fixed non-portable SQL functions for PostgreSQL
 - Added proper repository annotations
 
 ## New Features Implemented
 
 ### Building-Contractor Assignment
+
 - New API endpoints for assigning contractors to buildings
 - Proper role-based access control
 - Notification system integration
 
 ### Enhanced API Service
+
 - Complete TypeScript types matching backend DTOs
 - All CRUD operations for buildings, tasks, and user management
 - Building-contractor assignment endpoints
@@ -229,6 +246,7 @@ The application now has:
 ✅ Building-contractor assignment system
 
 Remaining items to implement:
+
 - Enhanced notifications system
 - Real-time deadline tracking
 - File upload for task updates
@@ -238,6 +256,7 @@ Remaining items to implement:
 ## Support
 
 If you encounter issues:
+
 1. Check the troubleshooting section above
 2. Review application logs for error messages
 3. Verify all prerequisites are installed correctly

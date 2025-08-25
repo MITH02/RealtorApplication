@@ -742,10 +742,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </HeaderContainer>
       </Header>
 
-      <Main>
-
-        {renderDashboardContent()}
-      </Main>
+      <Main>{renderDashboardContent()}</Main>
     </DashboardContainer>
   );
 }

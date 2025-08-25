@@ -41,13 +41,15 @@ const AuthenticatedAppContent = () => {
   // Show loading while checking authentication
   if (isLoading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        fontSize: '1.2rem'
-      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "1.2rem",
+        }}
+      >
         Loading...
       </div>
     );
@@ -55,7 +57,12 @@ const AuthenticatedAppContent = () => {
 
   // If user is authenticated, show their dashboard directly
   if (isAuthenticated && user) {
-    return <Dashboard role={user.role.toLowerCase() as "admin" | "builder" | "contractor"} onLogout={() => window.location.reload()} />;
+    return (
+      <Dashboard
+        role={user.role.toLowerCase() as "admin" | "builder" | "contractor"}
+        onLogout={() => window.location.reload()}
+      />
+    );
   }
 
   // If not authenticated, show the normal app flow
