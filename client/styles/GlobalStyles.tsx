@@ -13,11 +13,6 @@ export const GlobalStyles: React.FC = () => (
         border-color: hsl(var(--border));
       }
 
-      ::before,
-      ::after {
-        --tw-content: "";
-      }
-
       html {
         line-height: 1.5;
         -webkit-text-size-adjust: 100%;
