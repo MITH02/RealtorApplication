@@ -146,16 +146,16 @@ const UserAvatar = styled.div<{ role: string }>`
   justify-content: center;
   font-size: 0.875rem;
   color: white;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.role) {
-      case 'ADMIN':
-        return 'linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))';
-      case 'BUILDER':
-        return 'linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))';
-      case 'CONTRACTOR':
-        return 'linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))';
+      case "ADMIN":
+        return "linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))";
+      case "BUILDER":
+        return "linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))";
+      case "CONTRACTOR":
+        return "linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))";
       default:
-        return 'hsl(215 16% 47%)';
+        return "hsl(215 16% 47%)";
     }
   }};
 `;
@@ -177,16 +177,16 @@ const RoleBadge = styled.span<{ role: string }>`
   font-weight: 600;
   text-transform: uppercase;
   color: white;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.role) {
-      case 'ADMIN':
-        return 'hsl(271 91% 65%)';
-      case 'BUILDER':
-        return 'hsl(217 91% 60%)';
-      case 'CONTRACTOR':
-        return 'hsl(25 95% 53%)';
+      case "ADMIN":
+        return "hsl(271 91% 65%)";
+      case "BUILDER":
+        return "hsl(217 91% 60%)";
+      case "CONTRACTOR":
+        return "hsl(25 95% 53%)";
       default:
-        return 'hsl(215 16% 47%)';
+        return "hsl(215 16% 47%)";
     }
   }};
 `;
@@ -213,7 +213,11 @@ const DashboardContent = styled.div`
 `;
 
 // Enhanced Login Form Component
-const EnhancedLoginForm = ({ role, onBack, onSuccess }: {
+const EnhancedLoginForm = ({
+  role,
+  onBack,
+  onSuccess,
+}: {
   role: "admin" | "builder" | "contractor";
   onBack: () => void;
   onSuccess: () => void;
@@ -240,95 +244,122 @@ const EnhancedLoginForm = ({ role, onBack, onSuccess }: {
   };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      flexDirection: 'column',
-      background: 'linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))'
-    }}>
-      <div style={{ padding: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-        <button 
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background:
+          "linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))",
+      }}
+    >
+      <div
+        style={{
+          padding: "1rem",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <button
           onClick={onBack}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0.75rem',
-            borderRadius: '0.75rem',
-            background: 'rgba(255, 255, 255, 0.7)',
-            border: 'none',
-            cursor: 'pointer'
+            display: "flex",
+            alignItems: "center",
+            padding: "0.75rem",
+            borderRadius: "0.75rem",
+            background: "rgba(255, 255, 255, 0.7)",
+            border: "none",
+            cursor: "pointer",
           }}
         >
           ← Back
         </button>
       </div>
-      
-      <div style={{ 
-        flex: 1, 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        padding: '2rem'
-      }}>
-        <div style={{
-          width: '100%',
-          maxWidth: '400px',
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(24px)',
-          borderRadius: '1.5rem',
-          padding: '2rem',
-          border: '1px solid rgba(255, 255, 255, 0.5)'
-        }}>
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div style={{
-              width: '4rem',
-              height: '4rem',
-              margin: '0 auto 1rem',
-              background: role === 'admin' ? 'linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))' :
-                         role === 'builder' ? 'linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))' :
-                         'linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))',
-              borderRadius: '1rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.5rem'
-            }}>
-              {role === 'admin' ? '⚙️' : role === 'builder' ? '🏗️' : '👷'}
+
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "2rem",
+        }}
+      >
+        <div
+          style={{
+            width: "100%",
+            maxWidth: "400px",
+            background: "rgba(255, 255, 255, 0.9)",
+            backdropFilter: "blur(24px)",
+            borderRadius: "1.5rem",
+            padding: "2rem",
+            border: "1px solid rgba(255, 255, 255, 0.5)",
+          }}
+        >
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <div
+              style={{
+                width: "4rem",
+                height: "4rem",
+                margin: "0 auto 1rem",
+                background:
+                  role === "admin"
+                    ? "linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))"
+                    : role === "builder"
+                      ? "linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))"
+                      : "linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))",
+                borderRadius: "1rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "1.5rem",
+              }}
+            >
+              {role === "admin" ? "⚙️" : role === "builder" ? "🏗️" : "👷"}
             </div>
-            <h1 style={{ 
-              fontSize: '1.5rem', 
-              fontWeight: '700', 
-              marginBottom: '0.5rem',
-              color: 'hsl(215 28% 17%)'
-            }}>
+            <h1
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "700",
+                marginBottom: "0.5rem",
+                color: "hsl(215 28% 17%)",
+              }}
+            >
               {role.charAt(0).toUpperCase() + role.slice(1)} Login
             </h1>
-            <p style={{ color: 'hsl(215 16% 47%)', fontSize: '0.875rem' }}>
+            <p style={{ color: "hsl(215 16% 47%)", fontSize: "0.875rem" }}>
               Sign in to your {role} account
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
             {error && (
-              <div style={{
-                padding: '0.75rem',
-                background: 'rgba(239, 68, 68, 0.1)',
-                borderRadius: '0.5rem',
-                color: 'hsl(0 84% 60%)',
-                fontSize: '0.875rem',
-                textAlign: 'center'
-              }}>
+              <div
+                style={{
+                  padding: "0.75rem",
+                  background: "rgba(239, 68, 68, 0.1)",
+                  borderRadius: "0.5rem",
+                  color: "hsl(0 84% 60%)",
+                  fontSize: "0.875rem",
+                  textAlign: "center",
+                }}
+              >
                 {error}
               </div>
             )}
 
             <div>
-              <label style={{ 
-                display: 'block', 
-                fontWeight: '500', 
-                marginBottom: '0.5rem',
-                color: 'hsl(210 40% 28%)'
-              }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "500",
+                  marginBottom: "0.5rem",
+                  color: "hsl(210 40% 28%)",
+                }}
+              >
                 Email
               </label>
               <input
@@ -337,23 +368,25 @@ const EnhancedLoginForm = ({ role, onBack, onSuccess }: {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid hsl(220 13% 91%)',
-                  borderRadius: '0.5rem',
-                  fontSize: '1rem'
+                  width: "100%",
+                  padding: "0.75rem",
+                  border: "1px solid hsl(220 13% 91%)",
+                  borderRadius: "0.5rem",
+                  fontSize: "1rem",
                 }}
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
-              <label style={{ 
-                display: 'block', 
-                fontWeight: '500', 
-                marginBottom: '0.5rem',
-                color: 'hsl(210 40% 28%)'
-              }}>
+              <label
+                style={{
+                  display: "block",
+                  fontWeight: "500",
+                  marginBottom: "0.5rem",
+                  color: "hsl(210 40% 28%)",
+                }}
+              >
                 Password
               </label>
               <input
@@ -362,11 +395,11 @@ const EnhancedLoginForm = ({ role, onBack, onSuccess }: {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid hsl(220 13% 91%)',
-                  borderRadius: '0.5rem',
-                  fontSize: '1rem'
+                  width: "100%",
+                  padding: "0.75rem",
+                  border: "1px solid hsl(220 13% 91%)",
+                  borderRadius: "0.5rem",
+                  fontSize: "1rem",
                 }}
                 placeholder="Enter your password"
               />
@@ -376,25 +409,28 @@ const EnhancedLoginForm = ({ role, onBack, onSuccess }: {
               type="submit"
               disabled={isLoading}
               style={{
-                width: '100%',
-                padding: '0.875rem',
-                borderRadius: '0.5rem',
-                fontWeight: '600',
-                border: 'none',
-                cursor: isLoading ? 'not-allowed' : 'pointer',
-                background: role === 'admin' ? 'linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))' :
-                           role === 'builder' ? 'linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))' :
-                           'linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))',
-                color: 'white',
-                opacity: isLoading ? 0.7 : 1
+                width: "100%",
+                padding: "0.875rem",
+                borderRadius: "0.5rem",
+                fontWeight: "600",
+                border: "none",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                background:
+                  role === "admin"
+                    ? "linear-gradient(135deg, hsl(271 91% 65%), hsl(271 91% 55%))"
+                    : role === "builder"
+                      ? "linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 50%))"
+                      : "linear-gradient(135deg, hsl(25 95% 53%), hsl(25 95% 43%))",
+                color: "white",
+                opacity: isLoading ? 0.7 : 1,
               }}
             >
-              {isLoading ? 'Signing in...' : 'Sign In'}
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
-          <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-            <p style={{ color: 'hsl(215 16% 47%)', fontSize: '0.875rem' }}>
+          <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
+            <p style={{ color: "hsl(215 16% 47%)", fontSize: "0.875rem" }}>
               Demo credentials:
               <br />
               <strong>admin@constructpro.com / admin123</strong>
@@ -450,24 +486,29 @@ const AppContent = () => {
   // Show loading while checking authentication
   if (isLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{
-            width: '3rem',
-            height: '3rem',
-            border: '3px solid hsl(217 91% 60%)',
-            borderTop: '3px solid transparent',
-            borderRadius: '50%',
-            margin: '0 auto 1rem',
-            animation: 'spin 1s linear infinite'
-          }}></div>
-          <p style={{ color: 'hsl(215 16% 47%)' }}>Loading...</p>
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background:
+            "linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: "3rem",
+              height: "3rem",
+              border: "3px solid hsl(217 91% 60%)",
+              borderTop: "3px solid transparent",
+              borderRadius: "50%",
+              margin: "0 auto 1rem",
+              animation: "spin 1s linear infinite",
+            }}
+          ></div>
+          <p style={{ color: "hsl(215 16% 47%)" }}>Loading...</p>
         </div>
       </div>
     );
@@ -485,24 +526,28 @@ const AppContent = () => {
               <NotificationsSystem />
               <UserInfo>
                 <UserAvatar role={user.role}>
-                  {user.role === 'ADMIN' ? '⚙️' : user.role === 'BUILDER' ? '🏗️' : '👷'}
+                  {user.role === "ADMIN"
+                    ? "⚙️"
+                    : user.role === "BUILDER"
+                      ? "🏗️"
+                      : "👷"}
                 </UserAvatar>
                 <div>
-                  <UserName>{user.firstName} {user.lastName}</UserName>
+                  <UserName>
+                    {user.firstName} {user.lastName}
+                  </UserName>
                   <br />
                   <RoleBadge role={user.role}>{user.role}</RoleBadge>
                 </div>
               </UserInfo>
-              <LogoutButton onClick={handleLogout}>
-                Logout
-              </LogoutButton>
+              <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </TopBarActions>
           </TopBar>
 
           <DashboardContent>
-            {user.role === 'ADMIN' && <AdminDashboard user={user} />}
-            {user.role === 'BUILDER' && <BuilderDashboard user={user} />}
-            {user.role === 'CONTRACTOR' && <ContractorDashboard user={user} />}
+            {user.role === "ADMIN" && <AdminDashboard user={user} />}
+            {user.role === "BUILDER" && <BuilderDashboard user={user} />}
+            {user.role === "CONTRACTOR" && <ContractorDashboard user={user} />}
           </DashboardContent>
         </DashboardContainer>
       </AppContainer>
@@ -530,7 +575,7 @@ const AppContent = () => {
       case "builder-info":
         return (
           <BuilderScreen
-            onLogin={() => setAppState("role-selection")} // Go to login form  
+            onLogin={() => setAppState("role-selection")} // Go to login form
             onSignup={() => setAppState("role-selection")}
             onBack={handleBack}
           />
@@ -556,7 +601,7 @@ const AppContent = () => {
 // Login Route Component
 const LoginRoute = ({ role }: { role: "admin" | "builder" | "contractor" }) => {
   const { isAuthenticated } = useAuth();
-  
+
   if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -565,7 +610,7 @@ const LoginRoute = ({ role }: { role: "admin" | "builder" | "contractor" }) => {
     <EnhancedLoginForm
       role={role}
       onBack={() => window.history.back()}
-      onSuccess={() => window.location.href = '/'}
+      onSuccess={() => (window.location.href = "/")}
     />
   );
 };
@@ -582,9 +627,18 @@ const App = () => (
             <AuthProvider>
               <Routes>
                 <Route path="/" element={<AppContent />} />
-                <Route path="/login/admin" element={<LoginRoute role="admin" />} />
-                <Route path="/login/builder" element={<LoginRoute role="builder" />} />
-                <Route path="/login/contractor" element={<LoginRoute role="contractor" />} />
+                <Route
+                  path="/login/admin"
+                  element={<LoginRoute role="admin" />}
+                />
+                <Route
+                  path="/login/builder"
+                  element={<LoginRoute role="builder" />}
+                />
+                <Route
+                  path="/login/contractor"
+                  element={<LoginRoute role="contractor" />}
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AuthProvider>
