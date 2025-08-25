@@ -220,6 +220,38 @@ export interface Notification {
   expiresAt?: string;
 }
 
+export interface MediaUploadResponse {
+  id: string;
+  url: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  uploadedAt: string;
+}
+
+export interface MediaFileInfo {
+  id: string;
+  fileName: string;
+  size: number;
+  type: "image" | "video" | "unknown";
+  createdAt: string;
+  modifiedAt: string;
+  url: string;
+}
+
+export interface MediaHealthResponse {
+  status: "healthy" | "unhealthy";
+  uploadsDirectory: string;
+  uploadsExists: boolean;
+  uploadsWritable: boolean;
+  maxFileSize: string;
+  maxFiles: number;
+  allowedTypes: string[];
+  timestamp: string;
+  error?: any;
+}
+
 class ApiService {
   private baseURL: string;
   private token: string | null = null;
