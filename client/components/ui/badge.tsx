@@ -51,7 +51,8 @@ const StyledBadge = styled.div<BadgeVariantProps>`
   padding-bottom: 0.125rem;
   font-size: 0.75rem;
   font-weight: 600;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 
@@ -70,9 +71,7 @@ export interface BadgeProps
     BadgeVariantProps {}
 
 function Badge({ variant = "default", ...props }: BadgeProps) {
-  return (
-    <StyledBadge variant={variant} {...props} />
-  );
+  return <StyledBadge variant={variant} {...props} />;
 }
 
 export { Badge };

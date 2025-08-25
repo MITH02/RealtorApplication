@@ -14,7 +14,8 @@ const StyledInput = styled.input`
   padding-bottom: 0.5rem;
   font-size: 1rem;
   ring-offset-color: hsl(var(--background));
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 
@@ -49,13 +50,7 @@ const StyledInput = styled.input`
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ type, ...props }, ref) => {
-    return (
-      <StyledInput
-        type={type}
-        ref={ref}
-        {...props}
-      />
-    );
+    return <StyledInput type={type} ref={ref} {...props} />;
   },
 );
 Input.displayName = "Input";

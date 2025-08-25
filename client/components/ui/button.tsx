@@ -4,11 +4,19 @@ import styled from "@emotion/styled";
 import { CSSObject } from "@emotion/react";
 
 interface ButtonVariantProps {
-  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  variant?:
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "link";
   size?: "default" | "sm" | "lg" | "icon";
 }
 
-const getVariantStyles = (variant: ButtonVariantProps["variant"]): CSSObject => {
+const getVariantStyles = (
+  variant: ButtonVariantProps["variant"],
+): CSSObject => {
   const variants = {
     default: {
       backgroundColor: "hsl(var(--primary))",
@@ -98,7 +106,8 @@ const StyledButton = styled.button<ButtonVariantProps>`
   font-size: 0.875rem;
   font-weight: 500;
   ring-offset-color: hsl(var(--background));
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   border: none;
@@ -134,16 +143,12 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = "default", size = "default", asChild = false, ...props }, ref) => {
+  (
+    { variant = "default", size = "default", asChild = false, ...props },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : StyledButton;
-    return (
-      <Comp
-        variant={variant}
-        size={size}
-        ref={ref}
-        {...props}
-      />
-    );
+    return <Comp variant={variant} size={size} ref={ref} {...props} />;
   },
 );
 Button.displayName = "Button";

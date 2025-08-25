@@ -60,23 +60,25 @@ const StyledToast = styled(ToastPrimitives.Root)<ToastVariantProps>`
   overflow: hidden;
   border-radius: calc(var(--radius) - 2px);
   padding: 1.5rem 2rem 1.5rem 1.5rem;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  &[data-swipe=cancel] {
+  &[data-swipe="cancel"] {
     transform: translateX(0);
   }
 
-  &[data-swipe=end] {
+  &[data-swipe="end"] {
     transform: translateX(var(--radix-toast-swipe-end-x));
   }
 
-  &[data-swipe=move] {
+  &[data-swipe="move"] {
     transform: translateX(var(--radix-toast-swipe-move-x));
     transition: none;
   }
 
-  &[data-state=open] {
+  &[data-state="open"] {
     animation: slideInFromTop 150ms cubic-bezier(0.16, 1, 0.3, 1);
 
     @media (min-width: 640px) {
@@ -84,7 +86,7 @@ const StyledToast = styled(ToastPrimitives.Root)<ToastVariantProps>`
     }
   }
 
-  &[data-state=closed] {
+  &[data-state="closed"] {
     animation: slideOutToRight 150ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -224,22 +226,16 @@ const StyledToastDescription = styled(ToastPrimitives.Description)`
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
->(({ ...props }, ref) => (
-  <StyledToastViewport ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledToastViewport ref={ref} {...props} />);
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
 
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & ToastVariantProps
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> &
+    ToastVariantProps
 >(({ variant = "default", ...props }, ref) => {
   return (
-    <StyledToast
-      ref={ref}
-      variant={variant}
-      className="group"
-      {...props}
-    />
+    <StyledToast ref={ref} variant={variant} className="group" {...props} />
   );
 });
 Toast.displayName = ToastPrimitives.Root.displayName;
@@ -247,9 +243,7 @@ Toast.displayName = ToastPrimitives.Root.displayName;
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
->(({ ...props }, ref) => (
-  <StyledToastAction ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledToastAction ref={ref} {...props} />);
 ToastAction.displayName = ToastPrimitives.Action.displayName;
 
 const ToastClose = React.forwardRef<
@@ -265,17 +259,13 @@ ToastClose.displayName = ToastPrimitives.Close.displayName;
 const ToastTitle = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Title>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
->(({ ...props }, ref) => (
-  <StyledToastTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledToastTitle ref={ref} {...props} />);
 ToastTitle.displayName = ToastPrimitives.Title.displayName;
 
 const ToastDescription = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Description>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
->(({ ...props }, ref) => (
-  <StyledToastDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledToastDescription ref={ref} {...props} />);
 ToastDescription.displayName = ToastPrimitives.Description.displayName;
 
 type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;

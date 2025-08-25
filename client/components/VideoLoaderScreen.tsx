@@ -43,12 +43,22 @@ const gradient = keyframes`
 // Styled components
 const Container = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
   position: relative;
   overflow: hidden;
 
   .dark & {
-    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
   }
 `;
 
@@ -57,14 +67,19 @@ const BackgroundElements = styled.div`
   inset: 0;
 `;
 
-const Star = styled.div<{ left: string; top: string; delay: string; size: string }>`
+const Star = styled.div<{
+  left: string;
+  top: string;
+  delay: string;
+  size: string;
+}>`
   position: absolute;
-  left: ${props => props.left};
-  top: ${props => props.top};
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
   color: hsl(217 91% 60% / 0.7);
   animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  animation-delay: ${props => props.delay};
-  font-size: ${props => props.size};
+  animation-delay: ${(props) => props.delay};
+  font-size: ${(props) => props.size};
 
   .dark & {
     color: hsl(217 91% 70% / 0.5);
@@ -77,7 +92,11 @@ const FloatingElement1 = styled.div`
   left: 2rem;
   width: 10rem;
   height: 10rem;
-  background: linear-gradient(135deg, hsl(217 91% 60% / 0.15), hsl(271 91% 65% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.15),
+    hsl(271 91% 65% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(32px);
   animation: ${float} 3s ease-in-out infinite;
@@ -89,7 +108,11 @@ const FloatingElement2 = styled.div`
   right: 3rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(135deg, hsl(196 100% 60% / 0.2), hsl(221 83% 65% / 0.2));
+  background: linear-gradient(
+    135deg,
+    hsl(196 100% 60% / 0.2),
+    hsl(221 83% 65% / 0.2)
+  );
   border-radius: 50%;
   filter: blur(24px);
   animation: ${float} 3s ease-in-out infinite;
@@ -102,7 +125,11 @@ const FloatingElement3 = styled.div`
   left: 4rem;
   width: 7rem;
   height: 7rem;
-  background: linear-gradient(135deg, hsl(271 91% 65% / 0.15), hsl(314 100% 75% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.15),
+    hsl(314 100% 75% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(16px);
   animation: ${float} 3s ease-in-out infinite;
@@ -115,7 +142,11 @@ const FloatingElement4 = styled.div`
   right: 25%;
   width: 6rem;
   height: 6rem;
-  background: linear-gradient(135deg, hsl(221 83% 65% / 0.25), hsl(217 91% 60% / 0.25));
+  background: linear-gradient(
+    135deg,
+    hsl(221 83% 65% / 0.25),
+    hsl(217 91% 60% / 0.25)
+  );
   border-radius: 50%;
   filter: blur(12px);
   animation: ${float} 3s ease-in-out infinite;
@@ -182,14 +213,19 @@ const ThemeToggleContainer = styled.div`
 const TitleContainer = styled.div<{ showContent: boolean }>`
   text-align: center;
   transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: ${props => props.showContent ? 1 : 0};
-  transform: translateY(${props => props.showContent ? '0' : '1rem'});
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: translateY(${(props) => (props.showContent ? "0" : "1rem")});
 `;
 
 const Title = styled.h1`
   font-size: 3rem;
   font-weight: 900;
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -197,7 +233,12 @@ const Title = styled.h1`
   letter-spacing: -0.025em;
 
   .dark & {
-    background: linear-gradient(to right, hsl(217 91% 65%), hsl(271 91% 70%), hsl(221 83% 65%));
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65%),
+      hsl(271 91% 70%),
+      hsl(221 83% 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -214,7 +255,9 @@ const Subtitle = styled.div`
   backdrop-filter: blur(8px);
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   .dark & {
     background: rgba(51, 65, 85, 0.8);
@@ -242,8 +285,8 @@ const VideoSection = styled.div<{ showContent: boolean }>`
   width: 100%;
   transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
   transition-delay: 300ms;
-  opacity: ${props => props.showContent ? 1 : 0};
-  transform: scale(${props => props.showContent ? 1 : 0.95});
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: scale(${(props) => (props.showContent ? 1 : 0.95)});
 `;
 
 const VideoContainer = styled.div`
@@ -264,7 +307,12 @@ const VideoContainer = styled.div`
 const VideoBackground = styled.div`
   position: absolute;
   inset: -1rem;
-  background: linear-gradient(to right, hsl(217 91% 60% / 0.2), hsl(271 91% 65% / 0.2), hsl(221 83% 60% / 0.2));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2),
+    hsl(221 83% 60% / 0.2)
+  );
   border-radius: 1.5rem;
   filter: blur(24px);
   opacity: 0.75;
@@ -321,8 +369,8 @@ const BottomContent = styled.div<{ showContent: boolean }>`
   text-align: center;
   transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
   transition-delay: 500ms;
-  opacity: ${props => props.showContent ? 1 : 0};
-  transform: translateY(${props => props.showContent ? '0' : '1rem'});
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: translateY(${(props) => (props.showContent ? "0" : "1rem")});
 `;
 
 const MainTextContainer = styled.div`
@@ -396,30 +444,44 @@ const ProgressBarContainer = styled.div`
 `;
 
 const ProgressBar = styled.div<{ progress: number }>`
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   height: 100%;
   border-radius: 9999px;
   transition: all 500ms ease-out;
   position: relative;
   overflow: hidden;
-  width: ${props => props.progress}%;
+  width: ${(props) => props.progress}%;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.3), transparent);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
     animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
     background-size: 200% 100%;
     animation: ${gradient} 3s ease infinite;
   }
@@ -470,7 +532,12 @@ const ButtonContainer = styled.div`
 const ButtonGlow = styled.div`
   position: absolute;
   inset: -0.25rem;
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   border-radius: 1.5rem;
   filter: blur(4px);
   opacity: 0.6;
@@ -520,7 +587,12 @@ const ButtonContent = styled.span`
 `;
 
 const ButtonText = styled.span`
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -531,11 +603,19 @@ const ButtonIconContainer = styled.div`
   margin-left: 0.75rem;
   padding: 0.5rem;
   border-radius: 50%;
-  background: linear-gradient(to right, hsl(217 91% 60% / 0.2), hsl(271 91% 65% / 0.2));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2)
+  );
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   ${StyledButton}:hover & {
-    background: linear-gradient(to right, hsl(217 91% 60% / 0.4), hsl(271 91% 65% / 0.4));
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 60% / 0.4),
+      hsl(271 91% 65% / 0.4)
+    );
   }
 `;
 
@@ -638,13 +718,8 @@ export default function VideoLoaderScreen({
           <VideoContainer>
             <VideoBackground />
             <VideoCard>
-              <div style={{ position: 'relative' }}>
-                <Video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                >
+              <div style={{ position: "relative" }}>
+                <Video autoPlay muted loop playsInline>
                   <source
                     src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
                     type="video/mov"
@@ -653,9 +728,7 @@ export default function VideoLoaderScreen({
                     src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
                     type="video/mp4"
                   />
-                  <VideoFallback>
-                    🏗️
-                  </VideoFallback>
+                  <VideoFallback>🏗️</VideoFallback>
                 </Video>
               </div>
             </VideoCard>

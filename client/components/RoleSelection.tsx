@@ -36,12 +36,22 @@ const fadeIn = keyframes`
 // Styled components
 const Container = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
   position: relative;
   overflow: hidden;
 
   .dark & {
-    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
   }
 `;
 
@@ -50,14 +60,19 @@ const BackgroundElements = styled.div`
   inset: 0;
 `;
 
-const Star = styled.div<{ left: string; top: string; delay: string; size: string }>`
+const Star = styled.div<{
+  left: string;
+  top: string;
+  delay: string;
+  size: string;
+}>`
   position: absolute;
-  left: ${props => props.left};
-  top: ${props => props.top};
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
   color: hsl(217 91% 60% / 0.6);
   animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  animation-delay: ${props => props.delay};
-  font-size: ${props => props.size};
+  animation-delay: ${(props) => props.delay};
+  font-size: ${(props) => props.size};
 
   .dark & {
     color: hsl(217 91% 70% / 0.4);
@@ -70,7 +85,11 @@ const FloatingElement1 = styled.div`
   left: 2.5rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(271 91% 65% / 0.2));
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2)
+  );
   border-radius: 50%;
   filter: blur(24px);
   animation: ${float} 3s ease-in-out infinite;
@@ -82,7 +101,11 @@ const FloatingElement2 = styled.div`
   right: 4rem;
   width: 6rem;
   height: 6rem;
-  background: linear-gradient(135deg, hsl(196 100% 60% / 0.25), hsl(217 91% 65% / 0.25));
+  background: linear-gradient(
+    135deg,
+    hsl(196 100% 60% / 0.25),
+    hsl(217 91% 65% / 0.25)
+  );
   border-radius: 50%;
   filter: blur(16px);
   animation: ${float} 3s ease-in-out infinite;
@@ -95,7 +118,11 @@ const FloatingElement3 = styled.div`
   left: 5rem;
   width: 5rem;
   height: 5rem;
-  background: linear-gradient(135deg, hsl(221 83% 65% / 0.3), hsl(196 100% 60% / 0.3));
+  background: linear-gradient(
+    135deg,
+    hsl(221 83% 65% / 0.3),
+    hsl(196 100% 60% / 0.3)
+  );
   border-radius: 50%;
   filter: blur(12px);
   animation: ${float} 3s ease-in-out infinite;
@@ -108,7 +135,11 @@ const FloatingElement4 = styled.div`
   right: 25%;
   width: 4rem;
   height: 4rem;
-  background: linear-gradient(135deg, hsl(271 91% 65% / 0.2), hsl(314 100% 75% / 0.2));
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.2),
+    hsl(314 100% 75% / 0.2)
+  );
   border-radius: 50%;
   filter: blur(16px);
   animation: ${float} 3s ease-in-out infinite;
@@ -170,7 +201,12 @@ const TitleContainer = styled.div`
 const Title = styled.h1`
   font-size: 3rem;
   font-weight: 900;
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -179,7 +215,12 @@ const Title = styled.h1`
   animation: ${fadeIn} 0.6s ease-out forwards;
 
   .dark & {
-    background: linear-gradient(to right, hsl(217 91% 65%), hsl(271 91% 70%), hsl(221 83% 65%));
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65%),
+      hsl(271 91% 70%),
+      hsl(221 83% 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -196,7 +237,9 @@ const Subtitle = styled.div`
   backdrop-filter: blur(8px);
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   .dark & {
     background: rgba(51, 65, 85, 0.8);
@@ -237,7 +280,7 @@ const RoleCard = styled.div<{ index: number }>`
   cursor: pointer;
   transform-origin: center;
   transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  animation-delay: ${props => props.index * 200}ms;
+  animation-delay: ${(props) => props.index * 200}ms;
 
   &:hover {
     transform: scale(1.02) translateY(-8px);
@@ -252,7 +295,9 @@ const RoleCardInner = styled.div`
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(24px);
   border-radius: 1.5rem;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
   overflow: hidden;
   transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -513,17 +558,12 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
                   <RoleCardContent>
                     {/* Image Section */}
                     <RoleCardImage>
-                      <img
-                        src={role.image}
-                        alt={role.title}
-                      />
+                      <img src={role.image} alt={role.title} />
                     </RoleCardImage>
 
                     {/* Content Section */}
                     <RoleCardText>
-                      <RoleCardTitle>
-                        {role.title}
-                      </RoleCardTitle>
+                      <RoleCardTitle>{role.title}</RoleCardTitle>
                       <RoleCardDescription>
                         {role.description}
                       </RoleCardDescription>

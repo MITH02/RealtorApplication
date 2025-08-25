@@ -12,12 +12,22 @@ interface LoginFormProps {
 // Background container with gradient
 const BackgroundContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
   display: flex;
   flex-direction: column;
 
   .dark & {
-    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
   }
 `;
 
@@ -43,7 +53,9 @@ const BackButton = styled.button`
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   font-weight: 500;
@@ -56,7 +68,9 @@ const BackButton = styled.button`
 
   &:hover {
     color: hsl(217 91% 60%);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
     transform: scale(1.05);
 
     .dark & {
@@ -91,12 +105,14 @@ const LogoIcon = styled.div<{ gradient: string }>`
   width: 5rem;
   height: 5rem;
   margin: 0 auto 1rem;
-  background: ${props => `linear-gradient(135deg, ${props.gradient})`};
+  background: ${(props) => `linear-gradient(135deg, ${props.gradient})`};
   border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   span {
     font-size: 1.875rem;
@@ -133,7 +149,9 @@ const FormCard = styled.div`
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(24px);
   border-radius: 1.5rem;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
   padding: 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.5);
 
@@ -238,13 +256,15 @@ const ForgotPasswordButton = styled.button`
 
 const SubmitButton = styled.button<{ gradient: string; isLoading: boolean }>`
   width: 100%;
-  background: ${props => `linear-gradient(135deg, ${props.gradient})`};
+  background: ${(props) => `linear-gradient(135deg, ${props.gradient})`};
   color: white;
   padding: 0.875rem 1.5rem;
   border-radius: 0.75rem;
   font-weight: 600;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   border: none;
   cursor: pointer;
   display: flex;
@@ -252,7 +272,9 @@ const SubmitButton = styled.button<{ gradient: string; isLoading: boolean }>`
   justify-content: center;
 
   &:hover:not(:disabled) {
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
   &:active:not(:disabled) {
@@ -264,41 +286,49 @@ const SubmitButton = styled.button<{ gradient: string; isLoading: boolean }>`
     cursor: not-allowed;
   }
 
-  ${props => props.isLoading && css`
-    .loading-spinner {
-      margin-right: 0.75rem;
-      position: relative;
+  ${(props) =>
+    props.isLoading &&
+    css`
+      .loading-spinner {
+        margin-right: 0.75rem;
+        position: relative;
 
-      .spinner-ring {
-        width: 1.25rem;
-        height: 1.25rem;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-top: 2px solid white;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+        .spinner-ring {
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-top: 2px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        .spinner-pulse {
+          position: absolute;
+          inset: 0;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid transparent;
+          border-top: 2px solid rgba(255, 255, 255, 0.6);
+          border-radius: 50%;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
       }
 
-      .spinner-pulse {
-        position: absolute;
-        inset: 0;
-        width: 1.25rem;
-        height: 1.25rem;
-        border: 2px solid transparent;
-        border-top: 2px solid rgba(255, 255, 255, 0.6);
-        border-radius: 50%;
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
       }
-    }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes pulse {
-      50% { opacity: 0.5; }
-    }
-  `}
+      @keyframes pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+    `}
 `;
 
 const ToggleContainer = styled.div`
@@ -417,11 +447,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
       {/* Header with Back Button */}
       <HeaderContainer>
         <BackButton onClick={onBack}>
-          <svg
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -441,9 +467,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           <LogoIcon gradient={config.gradient}>
             <span>{config.icon}</span>
           </LogoIcon>
-          <Title>
-            {isLogin ? "Welcome Back!" : "Create Account"}
-          </Title>
+          <Title>{isLogin ? "Welcome Back!" : "Create Account"}</Title>
           <Subtitle>
             {isLogin ? `Sign in to your ${role} account` : `Join as a ${role}`}
           </Subtitle>
@@ -455,9 +479,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
             <Form onSubmit={handleSubmit}>
               {!isLogin && (
                 <InputGroup>
-                  <Label>
-                    Full Name
-                  </Label>
+                  <Label>Full Name</Label>
                   <Input
                     type="text"
                     value={name}
@@ -469,9 +491,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               )}
 
               <InputGroup>
-                <Label>
-                  Email Address
-                </Label>
+                <Label>Email Address</Label>
                 <Input
                   type="email"
                   value={email}
@@ -482,9 +502,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               </InputGroup>
 
               <InputGroup>
-                <Label>
-                  Password
-                </Label>
+                <Label>Password</Label>
                 <Input
                   type="password"
                   value={password}
@@ -535,9 +553,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </ToggleText>
-              <ToggleButton
-                onClick={() => setIsLogin(!isLogin)}
-              >
+              <ToggleButton onClick={() => setIsLogin(!isLogin)}>
                 {isLogin ? "Create one now" : "Sign in instead"}
               </ToggleButton>
             </ToggleContainer>
@@ -545,9 +561,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
           {/* Features Preview */}
           <FeaturesCard>
-            <FeaturesTitle>
-              What's waiting for you:
-            </FeaturesTitle>
+            <FeaturesTitle>What's waiting for you:</FeaturesTitle>
             <FeaturesList>
               {role === "admin" && (
                 <>

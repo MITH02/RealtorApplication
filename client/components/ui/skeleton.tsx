@@ -13,12 +13,8 @@ const StyledSkeleton = styled.div`
   }
 `;
 
-function Skeleton({
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <StyledSkeleton {...props} />
-  );
+function Skeleton({ ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <StyledSkeleton {...props} />;
 }
 
 export { Skeleton };

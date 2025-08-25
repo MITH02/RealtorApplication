@@ -68,29 +68,20 @@ const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & AlertVariantProps
 >(({ variant = "default", ...props }, ref) => (
-  <StyledAlert
-    ref={ref}
-    role="alert"
-    variant={variant}
-    {...props}
-  />
+  <StyledAlert ref={ref} role="alert" variant={variant} {...props} />
 ));
 Alert.displayName = "Alert";
 
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
->(({ ...props }, ref) => (
-  <StyledAlertTitle ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertTitle ref={ref} {...props} />);
 AlertTitle.displayName = "AlertTitle";
 
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
->(({ ...props }, ref) => (
-  <StyledAlertDescription ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAlertDescription ref={ref} {...props} />);
 AlertDescription.displayName = "AlertDescription";
 
 export { Alert, AlertTitle, AlertDescription };

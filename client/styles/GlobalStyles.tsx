@@ -1,5 +1,5 @@
-import React from 'react';
-import { Global, css } from '@emotion/react';
+import React from "react";
+import { Global, css } from "@emotion/react";
 
 export const GlobalStyles: React.FC = () => (
   <Global
@@ -15,7 +15,7 @@ export const GlobalStyles: React.FC = () => (
 
       ::before,
       ::after {
-        --tw-content: '';
+        --tw-content: "";
       }
 
       html {
@@ -23,10 +23,21 @@ export const GlobalStyles: React.FC = () => (
         -webkit-text-size-adjust: 100%;
         -moz-tab-size: 4;
         tab-size: 4;
-        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-          'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
-          'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-          'Noto Color Emoji';
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          "Noto Sans",
+          sans-serif,
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji";
         font-feature-settings: normal;
         font-variation-settings: normal;
       }
@@ -72,8 +83,9 @@ export const GlobalStyles: React.FC = () => (
       kbd,
       samp,
       pre {
-        font-family: ui-monospace, SFMono-Regular, 'Consolas', 'Liberation Mono',
-          'Menlo', monospace;
+        font-family:
+          ui-monospace, SFMono-Regular, "Consolas", "Liberation Mono", "Menlo",
+          monospace;
         font-size: 1em;
       }
 
@@ -125,9 +137,9 @@ export const GlobalStyles: React.FC = () => (
       }
 
       button,
-      [type='button'],
-      [type='reset'],
-      [type='submit'] {
+      [type="button"],
+      [type="reset"],
+      [type="submit"] {
         -webkit-appearance: button;
         background-color: transparent;
         background-image: none;
@@ -150,7 +162,7 @@ export const GlobalStyles: React.FC = () => (
         height: auto;
       }
 
-      [type='search'] {
+      [type="search"] {
         -webkit-appearance: textfield;
         outline-offset: -2px;
       }
@@ -216,7 +228,7 @@ export const GlobalStyles: React.FC = () => (
       }
 
       button,
-      [role='button'] {
+      [role="button"] {
         cursor: pointer;
       }
 

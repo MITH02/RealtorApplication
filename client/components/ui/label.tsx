@@ -16,9 +16,7 @@ const StyledLabel = styled(LabelPrimitive.Root)`
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ ...props }, ref) => (
-  <StyledLabel ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledLabel ref={ref} {...props} />);
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };

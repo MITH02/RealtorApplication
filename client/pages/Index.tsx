@@ -41,12 +41,22 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
   position: relative;
   overflow: hidden;
 
   .dark & {
-    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
   }
 `;
 
@@ -61,7 +71,11 @@ const FloatingElement1 = styled.div`
   left: 5rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(135deg, hsl(217 91% 60% / 0.15), hsl(271 91% 65% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.15),
+    hsl(271 91% 65% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(32px);
   animation: ${float} 3s ease-in-out infinite;
@@ -73,7 +87,11 @@ const FloatingElement2 = styled.div`
   right: 5rem;
   width: 6rem;
   height: 6rem;
-  background: linear-gradient(135deg, hsl(196 100% 60% / 0.2), hsl(221 83% 65% / 0.2));
+  background: linear-gradient(
+    135deg,
+    hsl(196 100% 60% / 0.2),
+    hsl(221 83% 65% / 0.2)
+  );
   border-radius: 50%;
   filter: blur(24px);
   animation: ${float} 3s ease-in-out infinite;
@@ -86,7 +104,11 @@ const FloatingElement3 = styled.div`
   left: 8rem;
   width: 5rem;
   height: 5rem;
-  background: linear-gradient(135deg, hsl(271 91% 65% / 0.15), hsl(314 100% 75% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.15),
+    hsl(314 100% 75% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(16px);
   animation: ${float} 3s ease-in-out infinite;
@@ -145,7 +167,12 @@ const Card = styled.div`
 const Title = styled.h1`
   font-size: 1.875rem;
   font-weight: 700;
-  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
@@ -156,7 +183,12 @@ const Title = styled.h1`
   margin-bottom: 1rem;
 
   .dark & {
-    background: linear-gradient(to right, hsl(217 91% 65%), hsl(271 91% 70%), hsl(221 83% 65%));
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65%),
+      hsl(271 91% 70%),
+      hsl(221 83% 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -190,7 +222,11 @@ const PingEffect = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: linear-gradient(to right, hsl(217 91% 65% / 0.3), hsl(271 91% 65% / 0.3));
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65% / 0.3),
+      hsl(271 91% 65% / 0.3)
+    );
   }
 `;
 
@@ -228,7 +264,7 @@ const HiddenText = styled.p`
 
 export default function Index() {
   const [exampleFromServer, setExampleFromServer] = useState("");
-  
+
   // Fetch users on component mount
   useEffect(() => {
     fetchDemo();

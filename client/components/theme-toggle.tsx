@@ -10,7 +10,9 @@ const StyledThemeButton = styled(Button)`
   background: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(8px) !important;
   border: 1px solid rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 
   .dark & {
@@ -20,7 +22,9 @@ const StyledThemeButton = styled(Button)`
 
   &:hover {
     background: rgba(255, 255, 255, 0.95) !important;
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
     transform: scale(1.1) !important;
 
     .dark & {
@@ -94,11 +98,7 @@ export function SimpleThemeToggle() {
   };
 
   return (
-    <StyledThemeButton
-      variant="ghost"
-      size="icon"
-      onClick={toggleTheme}
-    >
+    <StyledThemeButton variant="ghost" size="icon" onClick={toggleTheme}>
       <Sun className="sun-icon" />
       <Moon className="moon-icon" />
       <ScreenReaderOnly>Toggle theme</ScreenReaderOnly>

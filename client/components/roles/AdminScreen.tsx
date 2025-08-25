@@ -27,14 +27,24 @@ const pulse = keyframes`
 // Styled components
 const Container = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
 
   .dark & {
-    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
   }
 `;
 
@@ -49,7 +59,11 @@ const FloatingElement1 = styled.div`
   left: 4rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(135deg, hsl(271 91% 65% / 0.15), hsl(221 83% 65% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.15),
+    hsl(221 83% 65% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(32px);
   animation: ${float} 3s ease-in-out infinite;
@@ -61,7 +75,11 @@ const FloatingElement2 = styled.div`
   right: 4rem;
   width: 6rem;
   height: 6rem;
-  background: linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(271 91% 65% / 0.2));
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2)
+  );
   border-radius: 50%;
   filter: blur(24px);
   animation: ${float} 3s ease-in-out infinite;
@@ -74,7 +92,11 @@ const FloatingElement3 = styled.div`
   left: 6rem;
   width: 5rem;
   height: 5rem;
-  background: linear-gradient(135deg, hsl(221 83% 65% / 0.15), hsl(196 100% 60% / 0.15));
+  background: linear-gradient(
+    135deg,
+    hsl(221 83% 65% / 0.15),
+    hsl(196 100% 60% / 0.15)
+  );
   border-radius: 50%;
   filter: blur(16px);
   animation: ${float} 3s ease-in-out infinite;
@@ -103,7 +125,9 @@ const BackButton = styled.button`
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   font-weight: 500;
@@ -116,7 +140,9 @@ const BackButton = styled.button`
 
   &:hover {
     color: hsl(271 91% 60%);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
     transform: scale(1.05);
 
     .dark & {
@@ -172,7 +198,12 @@ const AdminCard = styled.div`
 const CardBackground = styled.div`
   position: absolute;
   inset: -0.5rem;
-  background: linear-gradient(to right, hsl(271 91% 60% / 0.2), hsl(221 83% 60% / 0.2), hsl(217 91% 60% / 0.2));
+  background: linear-gradient(
+    to right,
+    hsl(271 91% 60% / 0.2),
+    hsl(221 83% 60% / 0.2),
+    hsl(217 91% 60% / 0.2)
+  );
   border-radius: 1.5rem;
   filter: blur(24px);
   opacity: 0.75;
@@ -190,7 +221,12 @@ const GradientAccent = styled.div`
   left: 0;
   right: 0;
   height: 0.5rem;
-  background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(271 91% 60%),
+    hsl(221 83% 60%),
+    hsl(217 91% 60%)
+  );
 `;
 
 const AdminImage = styled.img`
@@ -207,14 +243,24 @@ const AdminImage = styled.img`
 const Title = styled.h1`
   font-size: 2.25rem;
   font-weight: 900;
-  background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+  background: linear-gradient(
+    to right,
+    hsl(271 91% 60%),
+    hsl(221 83% 60%),
+    hsl(217 91% 60%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1rem;
 
   .dark & {
-    background: linear-gradient(to right, hsl(271 91% 65%), hsl(221 83% 65%), hsl(217 91% 65%));
+    background: linear-gradient(
+      to right,
+      hsl(271 91% 65%),
+      hsl(221 83% 65%),
+      hsl(217 91% 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -231,7 +277,9 @@ const Subtitle = styled.div`
   backdrop-filter: blur(8px);
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
 
   .dark & {
     background: rgba(51, 65, 85, 0.8);
@@ -318,13 +366,21 @@ const FeatureItem = styled.li`
 const FeatureIcon = styled.div`
   padding: 0.375rem;
   border-radius: 50%;
-  background: linear-gradient(to right, hsl(271 91% 60% / 0.2), hsl(221 83% 60% / 0.2));
+  background: linear-gradient(
+    to right,
+    hsl(271 91% 60% / 0.2),
+    hsl(221 83% 60% / 0.2)
+  );
   margin-right: 0.75rem;
   margin-top: 0.125rem;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
   ${FeatureItem}:hover & {
-    background: linear-gradient(to right, hsl(271 91% 60% / 0.4), hsl(221 83% 60% / 0.4));
+    background: linear-gradient(
+      to right,
+      hsl(271 91% 60% / 0.4),
+      hsl(221 83% 60% / 0.4)
+    );
   }
 
   svg {
@@ -355,10 +411,15 @@ const PrimaryButtonWrapper = styled.div`
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -0.25rem;
-    background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+    background: linear-gradient(
+      to right,
+      hsl(271 91% 60%),
+      hsl(221 83% 60%),
+      hsl(217 91% 60%)
+    );
     border-radius: 1rem;
     filter: blur(4px);
     opacity: 0.6;
@@ -395,7 +456,12 @@ const PrimaryButton = styled.button`
   }
 
   span {
-    background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+    background: linear-gradient(
+      to right,
+      hsl(271 91% 60%),
+      hsl(221 83% 60%),
+      hsl(217 91% 60%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -412,7 +478,9 @@ const SecondaryButton = styled.button`
   font-weight: 600;
   border: 2px solid rgba(255, 255, 255, 0.6);
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
   cursor: pointer;
 
   .dark & {
@@ -424,7 +492,9 @@ const SecondaryButton = styled.button`
   &:hover {
     background: rgba(255, 255, 255, 0.95);
     border-color: hsl(271 91% 70%);
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
     transform: scale(1.05);
 
     .dark & {
@@ -492,11 +562,7 @@ export default function AdminScreen({
       {/* Header with Back Button */}
       <HeaderContainer>
         <BackButton onClick={onBack}>
-          <svg
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -534,10 +600,7 @@ export default function AdminScreen({
           <FeaturesList>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -549,10 +612,7 @@ export default function AdminScreen({
             </FeatureItem>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -564,10 +624,7 @@ export default function AdminScreen({
             </FeatureItem>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -579,10 +636,7 @@ export default function AdminScreen({
             </FeatureItem>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -594,10 +648,7 @@ export default function AdminScreen({
             </FeatureItem>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -609,10 +660,7 @@ export default function AdminScreen({
             </FeatureItem>
             <FeatureItem>
               <FeatureIcon>
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -641,7 +689,9 @@ export default function AdminScreen({
         <Footer>
           <FooterBadge>
             <FooterDot />
-            <FooterText>Complete system control and project oversight</FooterText>
+            <FooterText>
+              Complete system control and project oversight
+            </FooterText>
           </FooterBadge>
         </Footer>
       </ContentContainer>
