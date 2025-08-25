@@ -26,7 +26,7 @@ public class BuildingController {
     private final BuildingService buildingService;
     
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> createBuilding(@Valid @RequestBody BuildingCreateRequest request, 
                                           Authentication authentication) {
         try {
@@ -44,17 +44,13 @@ public class BuildingController {
     }
     
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Building>> getAllBuildings(Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
             
             List<Building> buildings;
-            if (currentUser.getRole() == User.Role.SUPER_ADMIN) {
-                buildings = buildingService.getAllBuildings();
-            } else {
-                buildings = buildingService.getBuildingsByUser(currentUser);
-            }
+            buildings = buildingService.getBuildingsByUser(currentUser);
             
             return ResponseEntity.ok(buildings);
         } catch (Exception e) {
@@ -64,7 +60,7 @@ public class BuildingController {
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') or hasRole('CONTRACTOR')")
+    @PreAuthorize("hasRole('BUILDER') or hasRole('CONTRACTOR')")
     public ResponseEntity<?> getBuildingById(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -95,7 +91,7 @@ public class BuildingController {
     }
     
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> updateBuilding(@PathVariable Long id, 
                                           @Valid @RequestBody BuildingCreateRequest request,
                                           Authentication authentication) {
@@ -116,7 +112,7 @@ public class BuildingController {
     }
     
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> updateBuildingStatus(@PathVariable Long id, 
                                                 @RequestParam String status,
                                                 Authentication authentication) {
@@ -143,7 +139,7 @@ public class BuildingController {
     }
     
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> deleteBuilding(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -176,7 +172,7 @@ public class BuildingController {
     }
     
     @GetMapping("/overdue")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Building>> getOverdueBuildings() {
         try {
             List<Building> buildings = buildingService.getOverdueBuildings();
@@ -188,7 +184,7 @@ public class BuildingController {
     }
     
     @GetMapping("/active")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Building>> getActiveBuildingsOrderByDeadline() {
         try {
             List<Building> buildings = buildingService.getActiveBuildingsOrderByDeadline();
@@ -200,7 +196,7 @@ public class BuildingController {
     }
     
     @GetMapping("/search")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Building>> searchBuildings(@RequestParam String q) {
         try {
             List<Building> buildings = buildingService.searchBuildings(q);
@@ -212,7 +208,7 @@ public class BuildingController {
     }
     
     @GetMapping("/stats/count-by-status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> getBuildingCountByStatus(@RequestParam String status) {
         try {
             Building.ProjectStatus projectStatus;
