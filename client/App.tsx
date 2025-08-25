@@ -10,6 +10,7 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { GlobalStyles } from "@/styles/GlobalStyles";
 import { theme } from "@/styles/theme";
 import { useState } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
 import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
@@ -163,14 +164,16 @@ const App = () => (
       <GlobalStyles />
       <ThemeProvider defaultTheme="system" storageKey="constructpro-theme">
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<AppContent />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <AuthProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<AppContent />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
         </TooltipProvider>
       </ThemeProvider>
     </EmotionThemeProvider>
