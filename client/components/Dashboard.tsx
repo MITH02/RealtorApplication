@@ -5,7 +5,7 @@ import { SimpleThemeToggle } from "@/components/theme-toggle";
 import { apiClient, Task, Building, Notification } from "@/services/api";
 
 interface DashboardProps {
-  role: "builder" | "contractor" | "admin";
+  role: "contractor";
   onLogout: () => void;
 }
 
