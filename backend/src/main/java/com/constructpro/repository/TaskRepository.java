@@ -43,8 +43,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("SELECT t FROM Task t WHERE t.assignedContractor = :contractor AND t.status = 'COMPLETED' AND t.approvedBy IS NULL")
     List<Task> findTasksPendingApprovalByContractor(@Param("contractor") User contractor);
     
-    @Query("SELECT t FROM Task t WHERE t.building.createdBy = :admin OR t.building.projectManager = :admin")
-    List<Task> findTasksByAdminUser(@Param("admin") User admin);
+    @Query("SELECT t FROM Task t WHERE t.building.createdBy = :builder OR t.building.projectManager = :builder")
+    List<Task> findTasksByBuilderUser(@Param("builder") User builder);
     
     @Query("SELECT COUNT(t) FROM Task t WHERE t.status = :status")
     long countTasksByStatus(@Param("status") Task.TaskStatus status);

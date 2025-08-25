@@ -45,4 +45,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("SELECT u FROM User u WHERE u.isActive = true AND u.lastLogin < :cutoffDate")
     List<User> findInactiveUsers(@Param("cutoffDate") java.time.LocalDateTime cutoffDate);
+
+    Optional<User> findByIdAndRole(Long id, User.Role role);
+
+    long countByRole(User.Role role);
+
+    @Query("SELECT u FROM User u WHERE u.role = 'BUILDER' AND u.isActive = true")
+    List<User> findActiveBuilders();
 }

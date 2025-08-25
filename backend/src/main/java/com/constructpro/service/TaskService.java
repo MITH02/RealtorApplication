@@ -120,8 +120,8 @@ public class TaskService {
     }
     
     @Transactional(readOnly = true)
-    public List<Task> getTasksByAdminUser(User admin) {
-        return taskRepository.findTasksByAdminUser(admin);
+    public List<Task> getTasksByBuilderUser(User builder) {
+        return taskRepository.findTasksByBuilderUser(builder);
     }
     
     @Transactional(readOnly = true)

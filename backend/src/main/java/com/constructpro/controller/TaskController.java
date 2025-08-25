@@ -31,7 +31,7 @@ public class TaskController {
     private final BuildingService buildingService;
     
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> createTask(@Valid @RequestBody TaskCreateRequest request, 
                                       Authentication authentication) {
         try {
@@ -49,7 +49,7 @@ public class TaskController {
     }
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN') or hasRole('CONTRACTOR')")
+    @PreAuthorize("hasRole('BUILDER') or hasRole('CONTRACTOR')")
     public ResponseEntity<?> getTaskById(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -103,7 +103,7 @@ public class TaskController {
     }
     
     @GetMapping("/building/{buildingId}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Task>> getTasksByBuilding(@PathVariable Long buildingId) {
         try {
             Building building = buildingService.getBuildingById(buildingId)
@@ -119,12 +119,12 @@ public class TaskController {
         }
     }
     
-    @GetMapping("/admin/all")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @GetMapping("/builder/all")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Task>> getAdminTasks(Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
-            List<Task> tasks = taskService.getTasksByAdminUser(currentUser);
+            List<Task> tasks = taskService.getTasksByBuilderUser(currentUser);
             
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
@@ -134,7 +134,7 @@ public class TaskController {
     }
     
     @GetMapping("/pending-approval")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Task>> getTasksPendingApproval() {
         try {
             List<Task> tasks = taskService.getTasksPendingApproval();
@@ -146,7 +146,7 @@ public class TaskController {
     }
     
     @GetMapping("/overdue")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<List<Task>> getOverdueTasks() {
         try {
             List<Task> tasks = taskService.getOverdueTasks();
@@ -200,7 +200,7 @@ public class TaskController {
     }
     
     @PatchMapping("/{id}/approve")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> approveTask(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -217,7 +217,7 @@ public class TaskController {
     }
     
     @PatchMapping("/{id}/reject")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> rejectTask(@PathVariable Long id, 
                                       @RequestBody Map<String, String> request,
                                       Authentication authentication) {
@@ -242,7 +242,7 @@ public class TaskController {
     }
     
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> updateTaskStatus(@PathVariable Long id, 
                                             @RequestParam String status,
                                             Authentication authentication) {
@@ -269,7 +269,7 @@ public class TaskController {
     }
     
     @PostMapping("/{id}/updates")
-    @PreAuthorize("hasRole('CONTRACTOR') or hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('CONTRACTOR') or hasRole('BUILDER')")
     public ResponseEntity<?> addTaskUpdate(@PathVariable Long id, 
                                          @RequestBody Map<String, Object> request,
                                          Authentication authentication) {
@@ -295,7 +295,7 @@ public class TaskController {
     }
     
     @GetMapping("/{id}/updates")
-    @PreAuthorize("hasRole('CONTRACTOR') or hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('CONTRACTOR') or hasRole('BUILDER')")
     public ResponseEntity<?> getTaskUpdates(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -323,7 +323,7 @@ public class TaskController {
     }
     
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> deleteTask(@PathVariable Long id, Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
@@ -340,7 +340,7 @@ public class TaskController {
     }
     
     @GetMapping("/stats/count-by-status")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasRole('BUILDER')")
     public ResponseEntity<?> getTaskCountByStatus(@RequestParam String status) {
         try {
             Task.TaskStatus taskStatus;

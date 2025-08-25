@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface RoleSelectionProps {
-  onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
+  onRoleSelect: (role: "admin" | "builder" | "contractor") => void;
 }
 
 // Animations
@@ -537,10 +537,19 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   // Optimized images with smaller sizes and WebP format where possible
   const roles = [
     {
+      id: "admin" as const,
+      title: "Admin",
+      description: "Manage Builder accounts and system administration",
+      image:
+        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
+      placeholder:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjEyNSIgcj0iMjUiIGZpbGw9IiNEMUQ1REIiLz4KPHBhdGggZD0iTTE1MCAyMDBIMjUwVjE4MEgyMDAuNUMxNzUuNSAxODAgMTUwIDE5MiAxNTAgMjAwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4=",
+    },
+    {
       id: "builder" as const,
       title: "Builder",
       description:
-        "Manage building projects and oversee construction development",
+        "Create buildings, assign contractors, and manage construction projects",
       image:
         "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
       placeholder:
@@ -549,20 +558,11 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
     {
       id: "contractor" as const,
       title: "Contractor",
-      description: "Execute tasks and report project progress efficiently",
+      description: "Execute assigned tasks and report project progress",
       image:
         "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
       placeholder:
         "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNjAgMTI1SDE4MFYxNDVIMTYwVjEyNVpNMjIwIDEyNUgyNDBWMTQ1SDIyMFYxMjVaTTE2MCA1NUgxODBWMTc1SDE2MFY1NVpNMjIwIDE1NUgyNDBWMTc1SDIyMFYxNTVaIiBmaWxsPSIjRDFENURCIi8+Cjwvc3ZnPg==",
-    },
-    {
-      id: "admin" as const,
-      title: "Admin",
-      description: "System administration and comprehensive user management",
-      image:
-        "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
-      placeholder:
-        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjEyNSIgcj0iMjUiIGZpbGw9IiNEMUQ1REIiLz4KPHBhdGggZD0iTTE1MCAyMDBIMjUwVjE4MEgyMDAuNUMxNzUuNSAxODAgMTUwIDE5MiAxNTAgMjAwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4=",
     },
   ];
 
