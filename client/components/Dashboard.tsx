@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
+import { useAuth } from "@/contexts/AuthContext";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
+import AdminDashboard from "./roles/AdminDashboard";
+import BuilderDashboard from "./roles/BuilderDashboard";
+import ContractorDashboard from "./roles/ContractorDashboard";
 
 interface DashboardProps {
   role: "builder" | "contractor" | "admin";
@@ -666,6 +670,21 @@ const PlaceholderDescription = styled.p`
 `;
 
 export default function Dashboard({ role, onLogout }: DashboardProps) {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    onLogout();
+  };
+
+  if (!user) {
+    return (
+      <DashboardContainer>
+        <div>Loading...</div>
+      </DashboardContainer>
+    );
+  }
+
   const roleColors = {
     builder: "blue",
     contractor: "orange",
@@ -674,62 +693,19 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
 
   const color = roleColors[role];
 
-  const getDashboardContent = () => {
-    switch (role) {
-      case "admin":
-        return {
-          title: "Admin Dashboard",
-          stats: [
-            { label: "Total Buildings", value: "12", icon: "🏢" },
-            { label: "Active Contractors", value: "8", icon: "👷" },
-            { label: "Pending Approvals", value: "5", icon: "⏳" },
-            { label: "Overdue Tasks", value: "2", icon: "🚨" },
-          ],
-          actions: [
-            "Create New Building",
-            "Manage Contractors",
-            "Review Task Approvals",
-            "Generate Reports",
-          ],
-        };
-      case "contractor":
-        return {
-          title: "Contractor Dashboard",
-          stats: [
-            { label: "Assigned Projects", value: "3", icon: "🏗️" },
-            { label: "Completed Tasks", value: "15", icon: "✅" },
-            { label: "Pending Tasks", value: "4", icon: "📋" },
-            { label: "Days Until Deadline", value: "7", icon: "📅" },
-          ],
-          actions: [
-            "View Current Tasks",
-            "Mark Task Complete",
-            "Upload Progress Photos",
-            "Request Extension",
-          ],
-        };
-      case "builder":
-        return {
-          title: "Builder Dashboard",
-          stats: [
-            { label: "Active Projects", value: "5", icon: "🏘️" },
-            { label: "Total Contractors", value: "12", icon: "👥" },
-            { label: "Completed Buildings", value: "23", icon: "🏆" },
-            { label: "Project Progress", value: "78%", icon: "📊" },
-          ],
-          actions: [
-            "Create New Project",
-            "Monitor Progress",
-            "Assign Contractors",
-            "Review Reports",
-          ],
-        };
+  // Render specific dashboard based on user role
+  const renderDashboardContent = () => {
+    switch (user.role) {
+      case "ADMIN":
+        return <AdminDashboard user={user} />;
+      case "BUILDER":
+        return <BuilderDashboard user={user} />;
+      case "CONTRACTOR":
+        return <ContractorDashboard user={user} />;
       default:
-        return { title: "", stats: [], actions: [] };
+        return <div>Invalid user role</div>;
     }
   };
-
-  const content = getDashboardContent();
 
   return (
     <DashboardContainer>
@@ -750,7 +726,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             </HeaderLeft>
             <HeaderRight>
               <SimpleThemeToggle />
-              <LogoutButton onClick={onLogout}>
+              <LogoutButton onClick={handleLogout}>
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -766,110 +742,7 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         </HeaderContainer>
       </Header>
 
-      <Main>
-        <TitleSection>
-          <MainTitle>{content.title}</MainTitle>
-          <WelcomeBox>
-            <p>
-              Welcome back! It's {new Date().toLocaleTimeString()} - Here's
-              what's happening with your projects today.
-            </p>
-          </WelcomeBox>
-        </TitleSection>
-
-        <StatsGrid>
-          {content.stats.map((stat, index) => (
-            <StatCard key={index} index={index}>
-              <StatContent>
-                <StatIcon>{stat.icon}</StatIcon>
-                <div>
-                  <StatValue>{stat.value}</StatValue>
-                  <StatLabel>{stat.label}</StatLabel>
-                </div>
-              </StatContent>
-            </StatCard>
-          ))}
-        </StatsGrid>
-
-        <ContentGrid>
-          <ContentCard>
-            <ContentTitle>Quick Actions</ContentTitle>
-            <ActionsList>
-              {content.actions.map((action, index) => (
-                <ActionButton key={index}>
-                  <span>{action}</span>
-                  <ActionIcon>
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2.5}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
-                  </ActionIcon>
-                </ActionButton>
-              ))}
-            </ActionsList>
-          </ContentCard>
-
-          <ContentCard>
-            <ContentTitle>Recent Activity</ContentTitle>
-            <ActivityList>
-              <ActivityItem>
-                <ActivityIcon color="green">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>Task completed</ActivityTitle>
-                  <ActivityTime>2 hours ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
-              <ActivityItem>
-                <ActivityIcon color="blue" delay="0.5s">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>New assignment</ActivityTitle>
-                  <ActivityTime>1 day ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
-              <ActivityItem>
-                <ActivityIcon color="yellow" delay="1s">
-                  <div></div>
-                </ActivityIcon>
-                <ActivityContent>
-                  <ActivityTitle>Deadline reminder</ActivityTitle>
-                  <ActivityTime>2 days ago</ActivityTime>
-                </ActivityContent>
-              </ActivityItem>
-            </ActivityList>
-          </ContentCard>
-        </ContentGrid>
-
-        <PlaceholderCard>
-          <PlaceholderContent>
-            <PlaceholderIcon>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </PlaceholderIcon>
-            <PlaceholderText>
-              <PlaceholderTitle>Dashboard Preview</PlaceholderTitle>
-              <PlaceholderDescription>
-                This is a preview of your {role} dashboard. Full functionality
-                including task management, project creation, and approval
-                workflows will be implemented in the next phase.
-              </PlaceholderDescription>
-            </PlaceholderText>
-          </PlaceholderContent>
-        </PlaceholderCard>
-      </Main>
+      <Main>{renderDashboardContent()}</Main>
     </DashboardContainer>
   );
 }

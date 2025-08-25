@@ -73,15 +73,12 @@ public class SecurityConfig {
                     .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .requestMatchers("/actuator/health").permitAll()
                     
-                    // Super Admin only endpoints
-                    .requestMatchers("/api/super-admin/**").hasRole("SUPER_ADMIN")
-                    
                     // Admin endpoints
-                    .requestMatchers("/api/admin/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
-                    .requestMatchers("/api/buildings/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
-                    .requestMatchers("/api/tasks/approve/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
-                    .requestMatchers("/api/tasks/assign/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
-                    .requestMatchers("/api/contractors/assign/**").hasAnyRole("SUPER_ADMIN", "ADMIN")
+                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/buildings/**").hasAnyRole("ADMIN", "BUILDER")
+                    .requestMatchers("/api/tasks/approve/**").hasAnyRole("ADMIN", "BUILDER")
+                    .requestMatchers("/api/tasks/assign/**").hasAnyRole("ADMIN", "BUILDER")
+                    .requestMatchers("/api/contractors/assign/**").hasAnyRole("ADMIN", "BUILDER")
                     
                     // Contractor endpoints
                     .requestMatchers("/api/contractor/**").hasRole("CONTRACTOR")

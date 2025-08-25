@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import { useAuth } from "@/contexts/AuthContext";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface LoginFormProps {
@@ -431,15 +432,27 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
   const config = roleConfig[role];
 
+  const { login, isLoading: authLoading } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      if (isLogin) {
+        await login(email, password);
+        onSuccess();
+      } else {
+        // For signup, we'll need to implement registration
+        // For now, just show a message
+        alert("Registration not implemented yet. Please contact admin.");
+      }
+    } catch (error: any) {
+      console.error("Authentication error:", error);
+      alert(error.message || "Authentication failed. Please try again.");
+    } finally {
       setIsLoading(false);
-      onSuccess();
-    }, 1500);
+    }
   };
 
   return (
@@ -526,7 +539,7 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
               <SubmitButton
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || authLoading}
                 gradient={config.gradient}
                 isLoading={isLoading}
               >

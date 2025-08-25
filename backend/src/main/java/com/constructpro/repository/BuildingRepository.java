@@ -51,6 +51,6 @@ public interface BuildingRepository extends JpaRepository<Building, Long> {
     @Query("SELECT b FROM Building b WHERE b.createdBy.role = 'ADMIN' ORDER BY b.createdAt DESC")
     List<Building> findAllBuildingsOrderByCreatedAt();
     
-    @Query("SELECT AVG(FUNCTION('DATEDIFF', b.actualCompletionDate, b.startDate)) FROM Building b WHERE b.actualCompletionDate IS NOT NULL")
+    @Query("SELECT AVG(EXTRACT(DAY FROM (b.actualCompletionDate - b.startDate))) FROM Building b WHERE b.actualCompletionDate IS NOT NULL")
     Double getAverageProjectDuration();
 }

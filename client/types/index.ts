@@ -11,6 +11,8 @@ export type {
   Task,
   TaskUpdate,
   Notification,
+  BuildingContractor,
+  BuildingContractorAssignRequest,
 } from "../services/api";
 
 // Additional frontend-specific types

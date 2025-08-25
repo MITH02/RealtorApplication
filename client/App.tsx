@@ -10,6 +10,7 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { GlobalStyles } from "@/styles/GlobalStyles";
 import { theme } from "@/styles/theme";
 import { useState } from "react";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
@@ -34,6 +35,40 @@ type AppState =
   | "builder-dashboard"
   | "admin-dashboard";
 
+const AuthenticatedAppContent = () => {
+  const { isAuthenticated, user, isLoading } = useAuth();
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "1.2rem",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
+
+  // If user is authenticated, show their dashboard directly
+  if (isAuthenticated && user) {
+    return (
+      <Dashboard
+        role={user.role.toLowerCase() as "admin" | "builder" | "contractor"}
+        onLogout={() => window.location.reload()}
+      />
+    );
+  }
+
+  // If not authenticated, show the normal app flow
+  return <AppContent />;
+};
+
 const AppContent = () => {
   const [appState, setAppState] = useState<AppState>("video-loader");
 
@@ -49,8 +84,9 @@ const AppContent = () => {
     setAppState(`${role}-login` as AppState);
   };
 
-  const handleLoginSuccess = (role: "builder" | "contractor" | "admin") => {
-    setAppState(`${role}-dashboard` as AppState);
+  const handleLoginSuccess = () => {
+    // The useAuth hook will handle the redirect automatically
+    // This is kept for backward compatibility with the component interface
   };
 
   const handleBack = () => {
@@ -118,7 +154,7 @@ const AppContent = () => {
           <LoginForm
             role="contractor"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("contractor")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -127,7 +163,7 @@ const AppContent = () => {
           <LoginForm
             role="builder"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("builder")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -136,7 +172,7 @@ const AppContent = () => {
           <LoginForm
             role="admin"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("admin")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -163,14 +199,16 @@ const App = () => (
       <GlobalStyles />
       <ThemeProvider defaultTheme="system" storageKey="constructpro-theme">
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<AppContent />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <AuthProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<AuthenticatedAppContent />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </AuthProvider>
         </TooltipProvider>
       </ThemeProvider>
     </EmotionThemeProvider>
