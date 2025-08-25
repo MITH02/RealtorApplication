@@ -7,19 +7,19 @@ While the starter comes with a express server, only create endpoint when strictl
 ## Tech Stack
 
 - **PNPM**: Prefer pnpm
-- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + TailwindCSS 3
+- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + Emotion CSS
 - **Backend**: Express server integrated with Vite dev server
 - **Testing**: Vitest
-- **UI**: Radix UI + TailwindCSS 3 + Lucide React icons
+- **UI**: Radix UI + Emotion CSS + Lucide React icons
 
 ## Project Structure
 
 ```
 client/                   # React SPA frontend
 ├── pages/                # Route components (Index.tsx = home)
-├── components/ui/        # Pre-built UI component library
+��── components/ui/        # Pre-built UI component library
 ├── App.tsx                # App entry point and with SPA routing setup
-└── global.css            # TailwindCSS 3 theming and global styles
+└── global.css            # CSS variables and global styles for Emotion theming
 
 server/                   # Express API backend
 ├── index.ts              # Main server setup (express config + routes)
@@ -101,7 +101,7 @@ pnpm test          # Run Vitest tests
 
 ### Add new colors to the theme
 
-Open `client/global.css` and `tailwind.config.ts` and add new tailwind colors.
+Open `client/global.css` and `client/styles/theme.ts` to add new colors to the Emotion theme.
 
 ### New API Route
 1. **Optional**: Create a shared interface in `shared/api.ts`:
