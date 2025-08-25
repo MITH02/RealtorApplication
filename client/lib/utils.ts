@@ -8,8 +8,8 @@ export function mergeStyles(
 }
 
 // Simple className concatenation utility
-// This is a temporary utility for components that haven't been converted to Emotion yet
-// It simply joins class names without any Tailwind-specific logic
+// This utility joins class names for components that use className attributes
+// It simply joins class names without any preprocessing
 export function cn(...classes: (string | undefined | null | false)[]): string {
   return classes.filter(Boolean).join(" ");
 }
