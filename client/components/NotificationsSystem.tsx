@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useAuth } from '@/contexts/AuthContext';
-import { Notification } from '@/types';
-import apiService from '@/services/api';
-import { keyframes } from '@emotion/react';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useAuth } from "@/contexts/AuthContext";
+import { Notification } from "@/types";
+import apiService from "@/services/api";
+import { keyframes } from "@emotion/react";
 
 // Animations
 const slideIn = keyframes`
@@ -66,7 +66,9 @@ const NotificationToggle = styled.button<{ hasUnread: boolean }>`
     }
   }
 
-  ${props => props.hasUnread && `
+  ${(props) =>
+    props.hasUnread &&
+    `
     animation: ${pulse} 2s infinite;
   `}
 `;
@@ -97,7 +99,8 @@ const NotificationPanel = styled.div<{ isOpen: boolean }>`
   background: white;
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  transform: ${props => props.isOpen ? 'translateX(0)' : 'translateX(100%)'};
+  transform: ${(props) =>
+    props.isOpen ? "translateX(0)" : "translateX(100%)"};
   transition: transform 0.3s ease;
   overflow: hidden;
   display: flex;
@@ -199,10 +202,8 @@ const NotificationItem = styled.div<{ isRead: boolean }>`
   border-radius: 0.75rem;
   margin-bottom: 0.75rem;
   border-left: 3px solid hsl(217 91% 60%);
-  background: ${props => props.isRead 
-    ? 'rgba(255, 255, 255, 0.5)' 
-    : 'rgba(59, 130, 246, 0.1)'
-  };
+  background: ${(props) =>
+    props.isRead ? "rgba(255, 255, 255, 0.5)" : "rgba(59, 130, 246, 0.1)"};
   backdrop-filter: blur(10px);
   transition: all 0.2s ease;
   cursor: pointer;
@@ -214,10 +215,8 @@ const NotificationItem = styled.div<{ isRead: boolean }>`
   }
 
   .dark & {
-    background: ${props => props.isRead 
-      ? 'rgba(30, 41, 59, 0.5)' 
-      : 'rgba(59, 130, 246, 0.2)'
-    };
+    background: ${(props) =>
+      props.isRead ? "rgba(30, 41, 59, 0.5)" : "rgba(59, 130, 246, 0.2)"};
 
     &:hover {
       background: rgba(59, 130, 246, 0.25);
@@ -271,7 +270,7 @@ const NotificationActions = styled.div`
   margin-top: 0.75rem;
 `;
 
-const SmallButton = styled.button<{ variant?: 'primary' | 'danger' }>`
+const SmallButton = styled.button<{ variant?: "primary" | "danger" }>`
   padding: 0.25rem 0.75rem;
   border-radius: 0.25rem;
   font-weight: 500;
@@ -280,7 +279,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'danger' }>`
   cursor: pointer;
   transition: all 0.2s ease;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -289,7 +290,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'danger' }>`
     }
   `}
 
-  ${props => props.variant === 'danger' && `
+  ${(props) =>
+    props.variant === "danger" &&
+    `
     background: hsl(0 84% 60%);
     color: white;
     
@@ -314,38 +317,38 @@ const Overlay = styled.div<{ isOpen: boolean }>`
   inset: 0;
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  opacity: ${(props) => (props.isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
   transition: all 0.3s ease;
 `;
 
 // Notification type icons
 const getNotificationIcon = (type: string) => {
   switch (type) {
-    case 'TASK_ASSIGNED':
-      return '📋';
-    case 'TASK_COMPLETED':
-      return '✅';
-    case 'TASK_APPROVED':
-      return '👍';
-    case 'TASK_REJECTED':
-      return '❌';
-    case 'TASK_OVERDUE':
-      return '🚨';
-    case 'DEADLINE_REMINDER':
-      return '⏰';
-    case 'NEW_BUILDING_CREATED':
-      return '🏗️';
-    case 'CONTRACTOR_ASSIGNED':
-      return '👷';
-    case 'SYSTEM_UPDATE':
-      return '🔔';
-    case 'APPROVAL_REQUEST':
-      return '⏳';
-    case 'PROGRESS_UPDATE':
-      return '📊';
+    case "TASK_ASSIGNED":
+      return "📋";
+    case "TASK_COMPLETED":
+      return "✅";
+    case "TASK_APPROVED":
+      return "👍";
+    case "TASK_REJECTED":
+      return "❌";
+    case "TASK_OVERDUE":
+      return "🚨";
+    case "DEADLINE_REMINDER":
+      return "⏰";
+    case "NEW_BUILDING_CREATED":
+      return "🏗️";
+    case "CONTRACTOR_ASSIGNED":
+      return "👷";
+    case "SYSTEM_UPDATE":
+      return "🔔";
+    case "APPROVAL_REQUEST":
+      return "⏳";
+    case "PROGRESS_UPDATE":
+      return "📊";
     default:
-      return '📢';
+      return "📢";
   }
 };
 
@@ -355,7 +358,7 @@ const formatTimeAgo = (dateString: string): string => {
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return 'Just now';
+    return "Just now";
   } else if (diffInSeconds < 3600) {
     const minutes = Math.floor(diffInSeconds / 60);
     return `${minutes}m ago`;
@@ -372,7 +375,9 @@ interface NotificationsSystemProps {
   className?: string;
 }
 
-export default function NotificationsSystem({ className }: NotificationsSystemProps) {
+export default function NotificationsSystem({
+  className,
+}: NotificationsSystemProps) {
   const { isAuthenticated } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -381,18 +386,18 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
 
   const fetchNotifications = async () => {
     if (!isAuthenticated) return;
-    
+
     try {
       setIsLoading(true);
       const [notificationsData, unreadCountData] = await Promise.all([
         apiService.getUserNotifications(),
         apiService.getUnreadNotificationCount(),
       ]);
-      
+
       setNotifications(notificationsData);
       setUnreadCount(unreadCountData);
     } catch (error) {
-      console.error('Failed to fetch notifications:', error);
+      console.error("Failed to fetch notifications:", error);
     } finally {
       setIsLoading(false);
     }
@@ -400,64 +405,70 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
 
   useEffect(() => {
     fetchNotifications();
-    
+
     // Poll for new notifications every 30 seconds
     const interval = setInterval(fetchNotifications, 30000);
-    
+
     return () => clearInterval(interval);
   }, [isAuthenticated]);
 
   const handleMarkAsRead = async (notificationId: number) => {
     try {
       await apiService.markNotificationAsRead(notificationId);
-      
-      setNotifications(prev => 
-        prev.map(notification => 
-          notification.id === notificationId 
-            ? { ...notification, isRead: true, readAt: new Date().toISOString() }
-            : notification
-        )
+
+      setNotifications((prev) =>
+        prev.map((notification) =>
+          notification.id === notificationId
+            ? {
+                ...notification,
+                isRead: true,
+                readAt: new Date().toISOString(),
+              }
+            : notification,
+        ),
       );
-      
-      setUnreadCount(prev => Math.max(0, prev - 1));
+
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error) {
-      console.error('Failed to mark notification as read:', error);
+      console.error("Failed to mark notification as read:", error);
     }
   };
 
   const handleMarkAllAsRead = async () => {
     try {
       await apiService.markAllNotificationsAsRead();
-      
-      setNotifications(prev => 
-        prev.map(notification => ({ 
-          ...notification, 
-          isRead: true, 
-          readAt: new Date().toISOString() 
-        }))
+
+      setNotifications((prev) =>
+        prev.map((notification) => ({
+          ...notification,
+          isRead: true,
+          readAt: new Date().toISOString(),
+        })),
       );
-      
+
       setUnreadCount(0);
     } catch (error) {
-      console.error('Failed to mark all notifications as read:', error);
+      console.error("Failed to mark all notifications as read:", error);
     }
   };
 
   const handleDeleteNotification = async (notificationId: number) => {
     try {
       await apiService.deleteNotification(notificationId);
-      
-      setNotifications(prev => 
-        prev.filter(notification => notification.id !== notificationId)
+
+      setNotifications((prev) =>
+        prev.filter((notification) => notification.id !== notificationId),
       );
-      
+
       // Recalculate unread count
-      const deletedNotification = notifications.find(n => n.id === notificationId);
+      const deletedNotification = notifications.find(
+        (n) => n.id === notificationId,
+      );
       if (deletedNotification && !deletedNotification.isRead) {
-        setUnreadCount(prev => Math.max(0, prev - 1));
+        setUnreadCount((prev) => Math.max(0, prev - 1));
       }
     } catch (error) {
-      console.error('Failed to delete notification:', error);
+      console.error("Failed to delete notification:", error);
     }
   };
 
@@ -465,11 +476,11 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
     if (!notification.isRead) {
       handleMarkAsRead(notification.id);
     }
-    
+
     // Navigate to related content if actionUrl is provided
     if (notification.actionUrl) {
       // You can implement navigation logic here
-      console.log('Navigate to:', notification.actionUrl);
+      console.log("Navigate to:", notification.actionUrl);
     }
   };
 
@@ -479,7 +490,7 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
 
   return (
     <>
-      <NotificationToggle 
+      <NotificationToggle
         className={className}
         hasUnread={unreadCount > 0}
         onClick={() => setIsOpen(true)}
@@ -487,7 +498,7 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
         🔔
         {unreadCount > 0 && (
           <NotificationBadge>
-            {unreadCount > 99 ? '99+' : unreadCount}
+            {unreadCount > 99 ? "99+" : unreadCount}
           </NotificationBadge>
         )}
       </NotificationToggle>
@@ -504,9 +515,7 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
               </ActionButton>
             )}
           </PanelActions>
-          <CloseButton onClick={() => setIsOpen(false)}>
-            ✕
-          </CloseButton>
+          <CloseButton onClick={() => setIsOpen(false)}>✕</CloseButton>
         </PanelHeader>
 
         <NotificationsList>
@@ -514,7 +523,7 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
             <EmptyState>Loading notifications...</EmptyState>
           ) : notifications.length === 0 ? (
             <EmptyState>
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>🔔</div>
+              <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>🔔</div>
               <h3>No notifications</h3>
               <p>You're all caught up!</p>
             </EmptyState>
@@ -527,21 +536,22 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
               >
                 <NotificationHeader>
                   <NotificationTitle>
-                    {getNotificationIcon(notification.type)} {notification.title}
+                    {getNotificationIcon(notification.type)}{" "}
+                    {notification.title}
                   </NotificationTitle>
                   <NotificationTime>
                     {formatTimeAgo(notification.createdAt)}
                   </NotificationTime>
                 </NotificationHeader>
-                
+
                 <NotificationMessage>
                   {notification.message}
                 </NotificationMessage>
-                
+
                 <NotificationActions>
                   {!notification.isRead && (
-                    <SmallButton 
-                      variant="primary" 
+                    <SmallButton
+                      variant="primary"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleMarkAsRead(notification.id);
@@ -550,8 +560,8 @@ export default function NotificationsSystem({ className }: NotificationsSystemPr
                       Mark as read
                     </SmallButton>
                   )}
-                  <SmallButton 
-                    variant="danger" 
+                  <SmallButton
+                    variant="danger"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDeleteNotification(notification.id);

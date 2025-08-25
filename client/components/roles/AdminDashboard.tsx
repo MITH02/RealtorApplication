@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useAuth } from '@/contexts/AuthContext';
-import { User, BuilderFormData } from '@/types';
-import apiService from '@/services/api';
-import { keyframes } from '@emotion/react';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useAuth } from "@/contexts/AuthContext";
+import { User, BuilderFormData } from "@/types";
+import apiService from "@/services/api";
+import { keyframes } from "@emotion/react";
 
 // Animations
 const fadeIn = keyframes`
@@ -117,7 +117,7 @@ const ActionButtons = styled.div`
   }
 `;
 
-const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
+const Button = styled.button<{ variant?: "primary" | "secondary" | "danger" }>`
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 600;
@@ -129,7 +129,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
   align-items: center;
   gap: 0.5rem;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -139,7 +141,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
     }
   `}
 
-  ${props => props.variant === 'secondary' && `
+  ${(props) =>
+    props.variant === "secondary" &&
+    `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -157,7 +161,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
     }
   `}
 
-  ${props => props.variant === 'danger' && `
+  ${(props) =>
+    props.variant === "danger" &&
+    `
     background: hsl(0 84% 60%);
     color: white;
     
@@ -238,11 +244,14 @@ const StatusBadge = styled.span<{ active: boolean }>`
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  
-  ${props => props.active ? `
+
+  ${(props) =>
+    props.active
+      ? `
     background: hsl(142 76% 85%);
     color: hsl(142 76% 25%);
-  ` : `
+  `
+      : `
     background: hsl(0 84% 85%);
     color: hsl(0 84% 25%);
   `}
@@ -254,7 +263,9 @@ const BuilderActions = styled.div`
   margin-top: 1rem;
 `;
 
-const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
+const SmallButton = styled.button<{
+  variant?: "primary" | "secondary" | "danger";
+}>`
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -264,7 +275,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
   transition: all 0.2s ease;
   flex: 1;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -273,7 +286,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
     }
   `}
 
-  ${props => props.variant === 'secondary' && `
+  ${(props) =>
+    props.variant === "secondary" &&
+    `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -291,7 +306,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
     }
   `}
 
-  ${props => props.variant === 'danger' && `
+  ${(props) =>
+    props.variant === "danger" &&
+    `
     background: hsl(0 84% 60%);
     color: white;
     
@@ -305,7 +322,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -390,16 +407,20 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [builders, setBuilders] = useState<User[]>([]);
-  const [stats, setStats] = useState({ builders: 0, contractors: 0, admins: 0 });
+  const [stats, setStats] = useState({
+    builders: 0,
+    contractors: 0,
+    admins: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingBuilder, setEditingBuilder] = useState<User | null>(null);
   const [formData, setFormData] = useState<BuilderFormData>({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
   });
 
   const fetchBuilders = async () => {
@@ -407,7 +428,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       const buildersData = await apiService.getAllBuilders();
       setBuilders(buildersData);
     } catch (error) {
-      console.error('Failed to fetch builders:', error);
+      console.error("Failed to fetch builders:", error);
     }
   };
 
@@ -416,7 +437,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       const statsData = await apiService.getUserCounts();
       setStats(statsData);
     } catch (error) {
-      console.error('Failed to fetch stats:', error);
+      console.error("Failed to fetch stats:", error);
     }
   };
 
@@ -426,86 +447,93 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       await Promise.all([fetchBuilders(), fetchStats()]);
       setIsLoading(false);
     };
-    
+
     loadData();
   }, []);
 
   const handleCreateBuilder = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       await apiService.createBuilder({
         ...formData,
-        role: 'BUILDER',
+        role: "BUILDER",
       });
-      
+
       setShowCreateModal(false);
       setFormData({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
       });
-      
+
       await fetchBuilders();
       await fetchStats();
     } catch (error) {
-      console.error('Failed to create builder:', error);
-      alert('Failed to create builder. Please try again.');
+      console.error("Failed to create builder:", error);
+      alert("Failed to create builder. Please try again.");
     }
   };
 
   const handleUpdateBuilder = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!editingBuilder) return;
-    
+
     try {
       await apiService.updateBuilder(editingBuilder.id, {
         ...formData,
-        role: 'BUILDER',
+        role: "BUILDER",
       });
-      
+
       setEditingBuilder(null);
       setFormData({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        phoneNumber: '',
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
       });
-      
+
       await fetchBuilders();
     } catch (error) {
-      console.error('Failed to update builder:', error);
-      alert('Failed to update builder. Please try again.');
+      console.error("Failed to update builder:", error);
+      alert("Failed to update builder. Please try again.");
     }
   };
 
-  const handleToggleBuilderStatus = async (builderId: number, currentStatus: boolean) => {
+  const handleToggleBuilderStatus = async (
+    builderId: number,
+    currentStatus: boolean,
+  ) => {
     try {
       await apiService.updateBuilderStatus(builderId, !currentStatus);
       await fetchBuilders();
       await fetchStats();
     } catch (error) {
-      console.error('Failed to update builder status:', error);
-      alert('Failed to update builder status. Please try again.');
+      console.error("Failed to update builder status:", error);
+      alert("Failed to update builder status. Please try again.");
     }
   };
 
   const handleDeleteBuilder = async (builderId: number) => {
-    if (!confirm('Are you sure you want to delete this builder? This action cannot be undone.')) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this builder? This action cannot be undone.",
+      )
+    ) {
       return;
     }
-    
+
     try {
       await apiService.deleteBuilder(builderId);
       await fetchBuilders();
       await fetchStats();
     } catch (error) {
-      console.error('Failed to delete builder:', error);
-      alert('Failed to delete builder. Please try again.');
+      console.error("Failed to delete builder:", error);
+      alert("Failed to delete builder. Please try again.");
     }
   };
 
@@ -513,10 +541,10 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     setEditingBuilder(builder);
     setFormData({
       email: builder.email,
-      password: '',
+      password: "",
       firstName: builder.firstName,
       lastName: builder.lastName,
-      phoneNumber: builder.phoneNumber || '',
+      phoneNumber: builder.phoneNumber || "",
     });
   };
 
@@ -524,11 +552,11 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     setShowCreateModal(false);
     setEditingBuilder(null);
     setFormData({
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
     });
   };
 
@@ -548,15 +576,15 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       </Header>
 
       <StatsGrid>
-        <StatCard style={{ animationDelay: '0.1s' }}>
+        <StatCard style={{ animationDelay: "0.1s" }}>
           <StatValue>{stats.builders}</StatValue>
           <StatLabel>Total Builders</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.2s' }}>
+        <StatCard style={{ animationDelay: "0.2s" }}>
           <StatValue>{stats.contractors}</StatValue>
           <StatLabel>Total Contractors</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.3s' }}>
+        <StatCard style={{ animationDelay: "0.3s" }}>
           <StatValue>{stats.admins}</StatValue>
           <StatLabel>Total Admins</StatLabel>
         </StatCard>
@@ -577,28 +605,35 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         {builders.map((builder) => (
           <BuilderCard key={builder.id}>
             <BuilderInfo>
-              <BuilderName>{builder.firstName} {builder.lastName}</BuilderName>
+              <BuilderName>
+                {builder.firstName} {builder.lastName}
+              </BuilderName>
               <BuilderEmail>{builder.email}</BuilderEmail>
               {builder.phoneNumber && (
                 <BuilderPhone>📞 {builder.phoneNumber}</BuilderPhone>
               )}
               <StatusBadge active={builder.isActive}>
-                {builder.isActive ? 'Active' : 'Inactive'}
+                {builder.isActive ? "Active" : "Inactive"}
               </StatusBadge>
             </BuilderInfo>
-            
+
             <BuilderActions>
-              <SmallButton variant="primary" onClick={() => openEditModal(builder)}>
+              <SmallButton
+                variant="primary"
+                onClick={() => openEditModal(builder)}
+              >
                 Edit
               </SmallButton>
-              <SmallButton 
-                variant="secondary" 
-                onClick={() => handleToggleBuilderStatus(builder.id, builder.isActive)}
+              <SmallButton
+                variant="secondary"
+                onClick={() =>
+                  handleToggleBuilderStatus(builder.id, builder.isActive)
+                }
               >
-                {builder.isActive ? 'Deactivate' : 'Activate'}
+                {builder.isActive ? "Deactivate" : "Activate"}
               </SmallButton>
-              <SmallButton 
-                variant="danger" 
+              <SmallButton
+                variant="danger"
                 onClick={() => handleDeleteBuilder(builder.id)}
               >
                 Delete
@@ -612,65 +647,87 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       <Modal isOpen={showCreateModal || !!editingBuilder}>
         <ModalContent>
           <ModalTitle>
-            {editingBuilder ? 'Edit Builder' : 'Create New Builder'}
+            {editingBuilder ? "Edit Builder" : "Create New Builder"}
           </ModalTitle>
-          
-          <Form onSubmit={editingBuilder ? handleUpdateBuilder : handleCreateBuilder}>
+
+          <Form
+            onSubmit={
+              editingBuilder ? handleUpdateBuilder : handleCreateBuilder
+            }
+          >
             <FormGroup>
               <Label>Email</Label>
               <Input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
-              <Label>Password {editingBuilder && '(leave blank to keep current)'}</Label>
+              <Label>
+                Password {editingBuilder && "(leave blank to keep current)"}
+              </Label>
               <Input
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, password: e.target.value }))
+                }
                 required={!editingBuilder}
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>First Name</Label>
               <Input
                 type="text"
                 value={formData.firstName}
-                onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    firstName: e.target.value,
+                  }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Last Name</Label>
               <Input
                 type="text"
                 value={formData.lastName}
-                onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Phone Number (Optional)</Label>
               <Input
                 type="tel"
                 value={formData.phoneNumber}
-                onChange={(e) => setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    phoneNumber: e.target.value,
+                  }))
+                }
               />
             </FormGroup>
-            
+
             <FormActions>
               <Button type="button" variant="secondary" onClick={closeModal}>
                 Cancel
               </Button>
               <Button type="submit" variant="primary">
-                {editingBuilder ? 'Update Builder' : 'Create Builder'}
+                {editingBuilder ? "Update Builder" : "Create Builder"}
               </Button>
             </FormActions>
           </Form>

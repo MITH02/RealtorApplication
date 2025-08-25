@@ -1,9 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useAuth } from '@/contexts/AuthContext';
-import { User, Building, Task, BuildingFormData, TaskFormData, TaskStatus, STATUS_COLORS } from '@/types';
-import apiService from '@/services/api';
-import { keyframes } from '@emotion/react';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  User,
+  Building,
+  Task,
+  BuildingFormData,
+  TaskFormData,
+  TaskStatus,
+  STATUS_COLORS,
+} from "@/types";
+import apiService from "@/services/api";
+import { keyframes } from "@emotion/react";
 
 // Animations
 const fadeIn = keyframes`
@@ -89,7 +97,9 @@ const Tab = styled.button<{ active: boolean }>`
   transition: all 0.2s ease;
   position: relative;
 
-  ${props => props.active ? `
+  ${(props) =>
+    props.active
+      ? `
     color: hsl(217 91% 60%);
     background: rgba(59, 130, 246, 0.1);
     
@@ -102,7 +112,8 @@ const Tab = styled.button<{ active: boolean }>`
       height: 2px;
       background: hsl(217 91% 60%);
     }
-  ` : `
+  `
+      : `
     color: hsl(215 16% 47%);
     
     &:hover {
@@ -174,7 +185,9 @@ const ActionButtons = styled.div`
   }
 `;
 
-const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 'success' }>`
+const Button = styled.button<{
+  variant?: "primary" | "secondary" | "danger" | "success";
+}>`
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 600;
@@ -186,7 +199,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
   align-items: center;
   gap: 0.5rem;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -196,7 +211,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
     }
   `}
 
-  ${props => props.variant === 'secondary' && `
+  ${(props) =>
+    props.variant === "secondary" &&
+    `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -214,7 +231,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
     }
   `}
 
-  ${props => props.variant === 'success' && `
+  ${(props) =>
+    props.variant === "success" &&
+    `
     background: hsl(142 76% 36%);
     color: white;
     
@@ -223,7 +242,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
     }
   `}
 
-  ${props => props.variant === 'danger' && `
+  ${(props) =>
+    props.variant === "danger" &&
+    `
     background: hsl(0 84% 60%);
     color: white;
     
@@ -292,7 +313,8 @@ const StatusBadge = styled.span<{ status: TaskStatus }>`
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
-  background: ${props => STATUS_COLORS[props.status] || STATUS_COLORS.ASSIGNED};
+  background: ${(props) =>
+    STATUS_COLORS[props.status] || STATUS_COLORS.ASSIGNED};
 `;
 
 const CardActions = styled.div`
@@ -302,7 +324,9 @@ const CardActions = styled.div`
   flex-wrap: wrap;
 `;
 
-const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 'success' }>`
+const SmallButton = styled.button<{
+  variant?: "primary" | "secondary" | "danger" | "success";
+}>`
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -311,7 +335,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
   cursor: pointer;
   transition: all 0.2s ease;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -320,7 +346,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
     }
   `}
 
-  ${props => props.variant === 'success' && `
+  ${(props) =>
+    props.variant === "success" &&
+    `
     background: hsl(142 76% 36%);
     color: white;
     
@@ -329,7 +357,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
     }
   `}
 
-  ${props => props.variant === 'danger' && `
+  ${(props) =>
+    props.variant === "danger" &&
+    `
     background: hsl(0 84% 60%);
     color: white;
     
@@ -338,7 +368,9 @@ const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger'
     }
   `}
 
-  ${props => props.variant === 'secondary' && `
+  ${(props) =>
+    props.variant === "secondary" &&
+    `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -361,7 +393,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -485,45 +517,46 @@ interface BuilderDashboardProps {
 }
 
 export default function BuilderDashboard({ user }: BuilderDashboardProps) {
-  const [activeTab, setActiveTab] = useState('buildings');
+  const [activeTab, setActiveTab] = useState("buildings");
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [contractors, setContractors] = useState<User[]>([]);
   const [pendingTasks, setPendingTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal states
   const [showBuildingModal, setShowBuildingModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [editingBuilding, setEditingBuilding] = useState<Building | null>(null);
-  const [selectedBuildingForTask, setSelectedBuildingForTask] = useState<Building | null>(null);
-  
+  const [selectedBuildingForTask, setSelectedBuildingForTask] =
+    useState<Building | null>(null);
+
   // Form states
   const [buildingForm, setBuildingForm] = useState<BuildingFormData>({
-    name: '',
-    description: '',
-    address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-    type: 'RESIDENTIAL',
+    name: "",
+    description: "",
+    address: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    type: "RESIDENTIAL",
     totalFloors: undefined,
     totalArea: undefined,
     estimatedBudget: undefined,
-    startDate: '',
-    expectedCompletionDate: '',
+    startDate: "",
+    expectedCompletionDate: "",
   });
 
   const [taskForm, setTaskForm] = useState<TaskFormData>({
-    name: '',
-    description: '',
-    type: 'CIVIL_WORK',
-    priority: 'MEDIUM',
+    name: "",
+    description: "",
+    type: "CIVIL_WORK",
+    priority: "MEDIUM",
     estimatedDurationDays: undefined,
     estimatedCost: undefined,
-    startDate: '',
-    deadline: '',
+    startDate: "",
+    deadline: "",
     buildingId: 0,
     contractorId: 0,
   });
@@ -533,7 +566,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       const buildingsData = await apiService.getAllBuildings();
       setBuildings(buildingsData);
     } catch (error) {
-      console.error('Failed to fetch buildings:', error);
+      console.error("Failed to fetch buildings:", error);
     }
   };
 
@@ -542,7 +575,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       const tasksData = await apiService.getBuilderTasks();
       setTasks(tasksData);
     } catch (error) {
-      console.error('Failed to fetch tasks:', error);
+      console.error("Failed to fetch tasks:", error);
     }
   };
 
@@ -551,7 +584,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       const pendingData = await apiService.getTasksPendingApproval();
       setPendingTasks(pendingData);
     } catch (error) {
-      console.error('Failed to fetch pending tasks:', error);
+      console.error("Failed to fetch pending tasks:", error);
     }
   };
 
@@ -560,7 +593,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       const contractorsData = await apiService.getAllContractors();
       setContractors(contractorsData);
     } catch (error) {
-      console.error('Failed to fetch contractors:', error);
+      console.error("Failed to fetch contractors:", error);
     }
   };
 
@@ -575,7 +608,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       ]);
       setIsLoading(false);
     };
-    
+
     loadData();
   }, []);
 
@@ -587,8 +620,8 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       resetBuildingForm();
       await fetchBuildings();
     } catch (error) {
-      console.error('Failed to create building:', error);
-      alert('Failed to create building. Please try again.');
+      console.error("Failed to create building:", error);
+      alert("Failed to create building. Please try again.");
     }
   };
 
@@ -600,8 +633,8 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       resetTaskForm();
       await fetchTasks();
     } catch (error) {
-      console.error('Failed to create task:', error);
-      alert('Failed to create task. Please try again.');
+      console.error("Failed to create task:", error);
+      alert("Failed to create task. Please try again.");
     }
   };
 
@@ -611,62 +644,62 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       await fetchTasks();
       await fetchPendingTasks();
     } catch (error) {
-      console.error('Failed to approve task:', error);
-      alert('Failed to approve task. Please try again.');
+      console.error("Failed to approve task:", error);
+      alert("Failed to approve task. Please try again.");
     }
   };
 
   const handleRejectTask = async (taskId: number) => {
-    const reason = prompt('Please provide a reason for rejection:');
+    const reason = prompt("Please provide a reason for rejection:");
     if (!reason) return;
-    
+
     try {
       await apiService.rejectTask(taskId, reason);
       await fetchTasks();
       await fetchPendingTasks();
     } catch (error) {
-      console.error('Failed to reject task:', error);
-      alert('Failed to reject task. Please try again.');
+      console.error("Failed to reject task:", error);
+      alert("Failed to reject task. Please try again.");
     }
   };
 
   const openTaskModal = (building?: Building) => {
     if (building) {
       setSelectedBuildingForTask(building);
-      setTaskForm(prev => ({ ...prev, buildingId: building.id }));
+      setTaskForm((prev) => ({ ...prev, buildingId: building.id }));
     }
     setShowTaskModal(true);
   };
 
   const resetBuildingForm = () => {
     setBuildingForm({
-      name: '',
-      description: '',
-      address: '',
-      city: '',
-      state: '',
-      postalCode: '',
-      country: '',
-      type: 'RESIDENTIAL',
+      name: "",
+      description: "",
+      address: "",
+      city: "",
+      state: "",
+      postalCode: "",
+      country: "",
+      type: "RESIDENTIAL",
       totalFloors: undefined,
       totalArea: undefined,
       estimatedBudget: undefined,
-      startDate: '',
-      expectedCompletionDate: '',
+      startDate: "",
+      expectedCompletionDate: "",
     });
     setEditingBuilding(null);
   };
 
   const resetTaskForm = () => {
     setTaskForm({
-      name: '',
-      description: '',
-      type: 'CIVIL_WORK',
-      priority: 'MEDIUM',
+      name: "",
+      description: "",
+      type: "CIVIL_WORK",
+      priority: "MEDIUM",
       estimatedDurationDays: undefined,
       estimatedCost: undefined,
-      startDate: '',
-      deadline: '',
+      startDate: "",
+      deadline: "",
       buildingId: 0,
       contractorId: 0,
     });
@@ -675,11 +708,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
 
   const stats = {
     totalBuildings: buildings.length,
-    activeBuildings: buildings.filter(b => b.status === 'IN_PROGRESS').length,
-    completedBuildings: buildings.filter(b => b.status === 'COMPLETED').length,
+    activeBuildings: buildings.filter((b) => b.status === "IN_PROGRESS").length,
+    completedBuildings: buildings.filter((b) => b.status === "COMPLETED")
+      .length,
     totalTasks: tasks.length,
     pendingApproval: pendingTasks.length,
-    completedTasks: tasks.filter(t => t.status === 'APPROVED').length,
+    completedTasks: tasks.filter((t) => t.status === "APPROVED").length,
   };
 
   if (isLoading) {
@@ -698,19 +732,19 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       </Header>
 
       <StatsGrid>
-        <StatCard style={{ animationDelay: '0.1s' }}>
+        <StatCard style={{ animationDelay: "0.1s" }}>
           <StatValue>{stats.totalBuildings}</StatValue>
           <StatLabel>Total Buildings</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.2s' }}>
+        <StatCard style={{ animationDelay: "0.2s" }}>
           <StatValue>{stats.activeBuildings}</StatValue>
           <StatLabel>Active Projects</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.3s' }}>
+        <StatCard style={{ animationDelay: "0.3s" }}>
           <StatValue>{stats.totalTasks}</StatValue>
           <StatLabel>Total Tasks</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.4s' }}>
+        <StatCard style={{ animationDelay: "0.4s" }}>
           <StatValue>{stats.pendingApproval}</StatValue>
           <StatLabel>Pending Approval</StatLabel>
         </StatCard>
@@ -718,23 +752,35 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
 
       <TabsContainer>
         <TabsList>
-          <Tab active={activeTab === 'buildings'} onClick={() => setActiveTab('buildings')}>
+          <Tab
+            active={activeTab === "buildings"}
+            onClick={() => setActiveTab("buildings")}
+          >
             Buildings
           </Tab>
-          <Tab active={activeTab === 'tasks'} onClick={() => setActiveTab('tasks')}>
+          <Tab
+            active={activeTab === "tasks"}
+            onClick={() => setActiveTab("tasks")}
+          >
             All Tasks
           </Tab>
-          <Tab active={activeTab === 'approvals'} onClick={() => setActiveTab('approvals')}>
+          <Tab
+            active={activeTab === "approvals"}
+            onClick={() => setActiveTab("approvals")}
+          >
             Pending Approvals ({stats.pendingApproval})
           </Tab>
         </TabsList>
       </TabsContainer>
 
-      {activeTab === 'buildings' && (
+      {activeTab === "buildings" && (
         <>
           <ActionSection>
             <ActionButtons>
-              <Button variant="primary" onClick={() => setShowBuildingModal(true)}>
+              <Button
+                variant="primary"
+                onClick={() => setShowBuildingModal(true)}
+              >
                 + Create New Building
               </Button>
               <Button variant="secondary" onClick={fetchBuildings}>
@@ -748,18 +794,24 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               <Card key={building.id}>
                 <CardTitle>{building.name}</CardTitle>
                 <CardInfo>
-                  📍 {building.address}<br/>
-                  🏗️ {building.type}<br/>
-                  📅 {building.startDate ? new Date(building.startDate).toLocaleDateString() : 'Not set'}
+                  📍 {building.address}
+                  <br />
+                  🏗️ {building.type}
+                  <br />
+                  📅{" "}
+                  {building.startDate
+                    ? new Date(building.startDate).toLocaleDateString()
+                    : "Not set"}
                 </CardInfo>
-                
+
                 <CardActions>
-                  <SmallButton variant="primary" onClick={() => openTaskModal(building)}>
+                  <SmallButton
+                    variant="primary"
+                    onClick={() => openTaskModal(building)}
+                  >
                     Add Task
                   </SmallButton>
-                  <SmallButton variant="secondary">
-                    View Details
-                  </SmallButton>
+                  <SmallButton variant="secondary">View Details</SmallButton>
                 </CardActions>
               </Card>
             ))}
@@ -767,7 +819,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
         </>
       )}
 
-      {activeTab === 'tasks' && (
+      {activeTab === "tasks" && (
         <>
           <ActionSection>
             <ActionButtons>
@@ -785,28 +837,38 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               <Card key={task.id}>
                 <CardTitle>{task.name}</CardTitle>
                 <CardInfo>
-                  🏢 {task.building.name}<br/>
-                  👷 {task.assignedContractor.firstName} {task.assignedContractor.lastName}<br/>
-                  📅 Deadline: {new Date(task.deadline).toLocaleDateString()}<br/>
+                  🏢 {task.building.name}
+                  <br />
+                  👷 {task.assignedContractor.firstName}{" "}
+                  {task.assignedContractor.lastName}
+                  <br />
+                  📅 Deadline: {new Date(task.deadline).toLocaleDateString()}
+                  <br />
                   📊 Progress: {task.progressPercentage}%
                 </CardInfo>
-                
-                <StatusBadge status={task.status}>{task.status.replace('_', ' ')}</StatusBadge>
-                
+
+                <StatusBadge status={task.status}>
+                  {task.status.replace("_", " ")}
+                </StatusBadge>
+
                 <CardActions>
-                  {task.status === 'COMPLETED' && (
+                  {task.status === "COMPLETED" && (
                     <>
-                      <SmallButton variant="success" onClick={() => handleApproveTask(task.id)}>
+                      <SmallButton
+                        variant="success"
+                        onClick={() => handleApproveTask(task.id)}
+                      >
                         Approve
                       </SmallButton>
-                      <SmallButton variant="danger" onClick={() => handleRejectTask(task.id)}>
+                      <SmallButton
+                        variant="danger"
+                        onClick={() => handleRejectTask(task.id)}
+                      >
                         Reject
                       </SmallButton>
                     </>
                   )}
-                  <SmallButton variant="secondary">
-                    View Details
-                  </SmallButton>
+                  <SmallButton variant="secondary">View Details</SmallButton>
                 </CardActions>
               </Card>
             ))}
@@ -814,25 +876,40 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
         </>
       )}
 
-      {activeTab === 'approvals' && (
+      {activeTab === "approvals" && (
         <ItemsGrid>
           {pendingTasks.map((task) => (
             <Card key={task.id}>
               <CardTitle>{task.name}</CardTitle>
               <CardInfo>
-                🏢 {task.building.name}<br/>
-                👷 {task.assignedContractor.firstName} {task.assignedContractor.lastName}<br/>
-                📅 Completed: {task.completionDate ? new Date(task.completionDate).toLocaleDateString() : 'N/A'}<br/>
-                💬 {task.completionNotes || 'No completion notes'}
+                🏢 {task.building.name}
+                <br />
+                👷 {task.assignedContractor.firstName}{" "}
+                {task.assignedContractor.lastName}
+                <br />
+                📅 Completed:{" "}
+                {task.completionDate
+                  ? new Date(task.completionDate).toLocaleDateString()
+                  : "N/A"}
+                <br />
+                💬 {task.completionNotes || "No completion notes"}
               </CardInfo>
-              
-              <StatusBadge status={task.status}>{task.status.replace('_', ' ')}</StatusBadge>
-              
+
+              <StatusBadge status={task.status}>
+                {task.status.replace("_", " ")}
+              </StatusBadge>
+
               <CardActions>
-                <SmallButton variant="success" onClick={() => handleApproveTask(task.id)}>
+                <SmallButton
+                  variant="success"
+                  onClick={() => handleApproveTask(task.id)}
+                >
                   ✓ Approve
                 </SmallButton>
-                <SmallButton variant="danger" onClick={() => handleRejectTask(task.id)}>
+                <SmallButton
+                  variant="danger"
+                  onClick={() => handleRejectTask(task.id)}
+                >
                   ✗ Reject
                 </SmallButton>
               </CardActions>
@@ -845,41 +922,58 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       <Modal isOpen={showBuildingModal}>
         <ModalContent>
           <ModalTitle>Create New Building</ModalTitle>
-          
+
           <Form onSubmit={handleCreateBuilding}>
             <FormGroup>
               <Label>Building Name</Label>
               <Input
                 type="text"
                 value={buildingForm.name}
-                onChange={(e) => setBuildingForm(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setBuildingForm((prev) => ({ ...prev, name: e.target.value }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Description</Label>
               <TextArea
                 value={buildingForm.description}
-                onChange={(e) => setBuildingForm(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setBuildingForm((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Address</Label>
               <Input
                 type="text"
                 value={buildingForm.address}
-                onChange={(e) => setBuildingForm(prev => ({ ...prev, address: e.target.value }))}
+                onChange={(e) =>
+                  setBuildingForm((prev) => ({
+                    ...prev,
+                    address: e.target.value,
+                  }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Building Type</Label>
               <Select
                 value={buildingForm.type}
-                onChange={(e) => setBuildingForm(prev => ({ ...prev, type: e.target.value as any }))}
+                onChange={(e) =>
+                  setBuildingForm((prev) => ({
+                    ...prev,
+                    type: e.target.value as any,
+                  }))
+                }
               >
                 <option value="RESIDENTIAL">Residential</option>
                 <option value="COMMERCIAL">Commercial</option>
@@ -888,12 +982,16 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                 <option value="INFRASTRUCTURE">Infrastructure</option>
               </Select>
             </FormGroup>
-            
+
             <FormActions>
-              <Button type="button" variant="secondary" onClick={() => {
-                setShowBuildingModal(false);
-                resetBuildingForm();
-              }}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setShowBuildingModal(false);
+                  resetBuildingForm();
+                }}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="primary">
@@ -908,63 +1006,86 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       <Modal isOpen={showTaskModal}>
         <ModalContent>
           <ModalTitle>Create New Task</ModalTitle>
-          
+
           <Form onSubmit={handleCreateTask}>
             <FormGroup>
               <Label>Task Name</Label>
               <Input
                 type="text"
                 value={taskForm.name}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({ ...prev, name: e.target.value }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Description</Label>
               <TextArea
                 value={taskForm.description}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Building</Label>
               <Select
                 value={taskForm.buildingId}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, buildingId: Number(e.target.value) }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    buildingId: Number(e.target.value),
+                  }))
+                }
                 required
               >
                 <option value="">Select a building</option>
-                {buildings.map(building => (
+                {buildings.map((building) => (
                   <option key={building.id} value={building.id}>
                     {building.name}
                   </option>
                 ))}
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Assign Contractor</Label>
               <Select
                 value={taskForm.contractorId}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, contractorId: Number(e.target.value) }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    contractorId: Number(e.target.value),
+                  }))
+                }
                 required
               >
                 <option value="">Select a contractor</option>
-                {contractors.map(contractor => (
+                {contractors.map((contractor) => (
                   <option key={contractor.id} value={contractor.id}>
-                    {contractor.firstName} {contractor.lastName} - {contractor.specialization}
+                    {contractor.firstName} {contractor.lastName} -{" "}
+                    {contractor.specialization}
                   </option>
                 ))}
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Task Type</Label>
               <Select
                 value={taskForm.type}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, type: e.target.value as any }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    type: e.target.value as any,
+                  }))
+                }
               >
                 <option value="CIVIL_WORK">Civil Work</option>
                 <option value="ELECTRICAL_WORK">Electrical Work</option>
@@ -982,12 +1103,17 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                 <option value="OTHER">Other</option>
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Priority</Label>
               <Select
                 value={taskForm.priority}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, priority: e.target.value as any }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    priority: e.target.value as any,
+                  }))
+                }
               >
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
@@ -995,32 +1121,43 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                 <option value="URGENT">Urgent</option>
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Start Date</Label>
               <Input
                 type="date"
                 value={taskForm.startDate}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, startDate: e.target.value }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({
+                    ...prev,
+                    startDate: e.target.value,
+                  }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Deadline</Label>
               <Input
                 type="date"
                 value={taskForm.deadline}
-                onChange={(e) => setTaskForm(prev => ({ ...prev, deadline: e.target.value }))}
+                onChange={(e) =>
+                  setTaskForm((prev) => ({ ...prev, deadline: e.target.value }))
+                }
                 required
               />
             </FormGroup>
-            
+
             <FormActions>
-              <Button type="button" variant="secondary" onClick={() => {
-                setShowTaskModal(false);
-                resetTaskForm();
-              }}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setShowTaskModal(false);
+                  resetTaskForm();
+                }}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="primary">

@@ -1,6 +1,12 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, UserRole } from '@/types';
-import apiService from '@/services/api';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { User, UserRole } from "@/types";
+import apiService from "@/services/api";
 
 interface AuthState {
   user: User | null;
@@ -26,7 +32,7 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [state, setState] = useState<AuthState>({
     user: null,
-    token: localStorage.getItem('accessToken'),
+    token: localStorage.getItem("accessToken"),
     isAuthenticated: false,
     isLoading: true,
     userRole: null,
@@ -34,10 +40,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
-      setState(prev => ({ ...prev, isLoading: true }));
-      
+      setState((prev) => ({ ...prev, isLoading: true }));
+
       const response = await apiService.login({ email, password });
-      
+
       const user: User = {
         id: response.id,
         email: response.email,
@@ -59,11 +65,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // Store refresh token if available
       if (response.refreshToken) {
-        localStorage.setItem('refreshToken', response.refreshToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
       }
     } catch (error) {
-      setState(prev => ({ 
-        ...prev, 
+      setState((prev) => ({
+        ...prev,
         isLoading: false,
         user: null,
         token: null,
@@ -78,8 +84,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = () => {
     apiService.logout().catch(console.error);
     apiService.clearToken();
-    localStorage.removeItem('refreshToken');
-    
+    localStorage.removeItem("refreshToken");
+
     setState({
       user: null,
       token: null,
@@ -91,14 +97,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const refreshAuth = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem("accessToken");
       if (!token) {
-        setState(prev => ({ ...prev, isLoading: false }));
+        setState((prev) => ({ ...prev, isLoading: false }));
         return;
       }
 
       const response = await apiService.getCurrentUser();
-      
+
       const user: User = {
         id: response.id,
         email: response.email,
@@ -118,13 +124,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         userRole: response.role as UserRole,
       });
     } catch (error) {
-      console.error('Auth refresh failed:', error);
+      console.error("Auth refresh failed:", error);
       logout();
     }
   };
 
   const updateUser = (user: User) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       user,
       userRole: user.role,
@@ -140,24 +146,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     if (!state.token) return;
 
-    const refreshInterval = setInterval(async () => {
-      try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (refreshToken) {
-          const response = await apiService.refreshToken(refreshToken);
-          setState(prev => ({
-            ...prev,
-            token: response.accessToken,
-          }));
-          if (response.refreshToken) {
-            localStorage.setItem('refreshToken', response.refreshToken);
+    const refreshInterval = setInterval(
+      async () => {
+        try {
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) {
+            const response = await apiService.refreshToken(refreshToken);
+            setState((prev) => ({
+              ...prev,
+              token: response.accessToken,
+            }));
+            if (response.refreshToken) {
+              localStorage.setItem("refreshToken", response.refreshToken);
+            }
           }
+        } catch (error) {
+          console.error("Token refresh failed:", error);
+          logout();
         }
-      } catch (error) {
-        console.error('Token refresh failed:', error);
-        logout();
-      }
-    }, 15 * 60 * 1000); // Refresh every 15 minutes
+      },
+      15 * 60 * 1000,
+    ); // Refresh every 15 minutes
 
     return () => clearInterval(refreshInterval);
   }, [state.token]);
@@ -170,17 +179,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     updateUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
@@ -188,33 +193,33 @@ export function useAuth() {
 // Role-based hooks for convenience
 export function useIsAdmin() {
   const { userRole } = useAuth();
-  return userRole === 'ADMIN';
+  return userRole === "ADMIN";
 }
 
 export function useIsBuilder() {
   const { userRole } = useAuth();
-  return userRole === 'BUILDER';
+  return userRole === "BUILDER";
 }
 
 export function useIsContractor() {
   const { userRole } = useAuth();
-  return userRole === 'CONTRACTOR';
+  return userRole === "CONTRACTOR";
 }
 
 // Route protection hook
 export function useRequireAuth(allowedRoles?: UserRole[]) {
   const { isAuthenticated, userRole, isLoading } = useAuth();
-  
+
   if (isLoading) {
     return { canAccess: false, isLoading: true };
   }
 
   if (!isAuthenticated || !userRole) {
-    return { canAccess: false, isLoading: false, redirectTo: '/login' };
+    return { canAccess: false, isLoading: false, redirectTo: "/login" };
   }
 
   if (allowedRoles && !allowedRoles.includes(userRole)) {
-    return { canAccess: false, isLoading: false, redirectTo: '/unauthorized' };
+    return { canAccess: false, isLoading: false, redirectTo: "/unauthorized" };
   }
 
   return { canAccess: true, isLoading: false };

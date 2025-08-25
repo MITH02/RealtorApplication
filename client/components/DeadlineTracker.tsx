@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useAuth } from '@/contexts/AuthContext';
-import { Task, Building, STATUS_COLORS } from '@/types';
-import apiService from '@/services/api';
-import { keyframes } from '@emotion/react';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useAuth } from "@/contexts/AuthContext";
+import { Task, Building, STATUS_COLORS } from "@/types";
+import apiService from "@/services/api";
+import { keyframes } from "@emotion/react";
 
 // Animations
 const pulse = keyframes`
@@ -47,7 +47,9 @@ const AlertContainer = styled.div`
   animation: ${slideIn} 0.3s ease-out;
 `;
 
-const AlertCard = styled.div<{ severity: 'low' | 'medium' | 'high' | 'critical' }>`
+const AlertCard = styled.div<{
+  severity: "low" | "medium" | "high" | "critical";
+}>`
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 1rem;
@@ -57,21 +59,21 @@ const AlertCard = styled.div<{ severity: 'low' | 'medium' | 'high' | 'critical' 
   margin-bottom: 0.5rem;
   transition: all 0.3s ease;
 
-  ${props => {
+  ${(props) => {
     switch (props.severity) {
-      case 'critical':
+      case "critical":
         return `
           border-color: ${STATUS_COLORS.REJECTED};
           background: rgba(239, 68, 68, 0.1);
           animation: ${urgentBlink} 2s infinite;
         `;
-      case 'high':
+      case "high":
         return `
           border-color: ${STATUS_COLORS.HIGH};
           background: rgba(249, 115, 22, 0.1);
           animation: ${pulse} 3s infinite;
         `;
-      case 'medium':
+      case "medium":
         return `
           border-color: ${STATUS_COLORS.MEDIUM};
           background: rgba(245, 158, 11, 0.1);
@@ -101,11 +103,15 @@ const AlertHeader = styled.div`
   margin-bottom: 0.5rem;
 `;
 
-const AlertIcon = styled.span<{ severity: 'low' | 'medium' | 'high' | 'critical' }>`
+const AlertIcon = styled.span<{
+  severity: "low" | "medium" | "high" | "critical";
+}>`
   font-size: 1.25rem;
   margin-right: 0.5rem;
-  
-  ${props => props.severity === 'critical' && `
+
+  ${(props) =>
+    props.severity === "critical" &&
+    `
     animation: ${pulse} 1s infinite;
   `}
 `;
@@ -212,7 +218,9 @@ const DeadlineList = styled.div`
   gap: 0.75rem;
 `;
 
-const DeadlineItem = styled.div<{ urgency: 'low' | 'medium' | 'high' | 'critical' }>`
+const DeadlineItem = styled.div<{
+  urgency: "low" | "medium" | "high" | "critical";
+}>`
   display: flex;
   align-items: center;
   padding: 0.75rem;
@@ -221,19 +229,19 @@ const DeadlineItem = styled.div<{ urgency: 'low' | 'medium' | 'high' | 'critical
   border-left: 3px solid;
   transition: all 0.2s ease;
 
-  ${props => {
+  ${(props) => {
     switch (props.urgency) {
-      case 'critical':
+      case "critical":
         return `
           border-color: ${STATUS_COLORS.REJECTED};
           background: rgba(239, 68, 68, 0.1);
         `;
-      case 'high':
+      case "high":
         return `
           border-color: ${STATUS_COLORS.HIGH};
           background: rgba(249, 115, 22, 0.1);
         `;
-      case 'medium':
+      case "medium":
         return `
           border-color: ${STATUS_COLORS.MEDIUM};
           background: rgba(245, 158, 11, 0.1);
@@ -283,18 +291,20 @@ const DeadlineDetails = styled.div`
   }
 `;
 
-const DeadlineCountdown = styled.div<{ urgency: 'low' | 'medium' | 'high' | 'critical' }>`
+const DeadlineCountdown = styled.div<{
+  urgency: "low" | "medium" | "high" | "critical";
+}>`
   text-align: right;
   font-weight: 600;
   font-size: 0.75rem;
-  
-  ${props => {
+
+  ${(props) => {
     switch (props.urgency) {
-      case 'critical':
+      case "critical":
         return `color: ${STATUS_COLORS.REJECTED};`;
-      case 'high':
+      case "high":
         return `color: ${STATUS_COLORS.HIGH};`;
-      case 'medium':
+      case "medium":
         return `color: ${STATUS_COLORS.MEDIUM};`;
       default:
         return `color: ${STATUS_COLORS.LOW};`;
@@ -304,8 +314,8 @@ const DeadlineCountdown = styled.div<{ urgency: 'low' | 'medium' | 'high' | 'cri
 
 interface DeadlineAlert {
   id: string;
-  type: 'overdue' | 'due_today' | 'due_tomorrow' | 'due_soon';
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  type: "overdue" | "due_today" | "due_tomorrow" | "due_soon";
+  severity: "low" | "medium" | "high" | "critical";
   title: string;
   message: string;
   task?: Task;
@@ -321,26 +331,28 @@ interface DeadlineTrackerProps {
   className?: string;
 }
 
-export default function DeadlineTracker({ 
-  showWidget = false, 
-  showAlerts = true, 
+export default function DeadlineTracker({
+  showWidget = false,
+  showAlerts = true,
   maxAlerts = 3,
-  className 
+  className,
 }: DeadlineTrackerProps) {
   const { isAuthenticated, userRole } = useAuth();
   const [alerts, setAlerts] = useState<DeadlineAlert[]>([]);
   const [upcomingDeadlines, setUpcomingDeadlines] = useState<Task[]>([]);
-  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(new Set());
+  const [dismissedAlerts, setDismissedAlerts] = useState<Set<string>>(
+    new Set(),
+  );
 
   const fetchDeadlineData = async () => {
     if (!isAuthenticated) return;
 
     try {
       let tasks: Task[] = [];
-      
-      if (userRole === 'CONTRACTOR') {
+
+      if (userRole === "CONTRACTOR") {
         tasks = await apiService.getMyTasks();
-      } else if (userRole === 'BUILDER') {
+      } else if (userRole === "BUILDER") {
         tasks = await apiService.getBuilderTasks();
       }
 
@@ -348,15 +360,15 @@ export default function DeadlineTracker({
       const newAlerts: DeadlineAlert[] = [];
       const upcoming: Task[] = [];
 
-      tasks.forEach(task => {
-        if (task.status === 'COMPLETED' || task.status === 'APPROVED') return;
+      tasks.forEach((task) => {
+        if (task.status === "COMPLETED" || task.status === "APPROVED") return;
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         const deadline = new Date(task.deadline);
         deadline.setHours(0, 0, 0, 0);
-        
+
         const diffTime = deadline.getTime() - today.getTime();
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -365,10 +377,15 @@ export default function DeadlineTracker({
           const daysOverdue = Math.abs(diffDays);
           newAlerts.push({
             id: `overdue-${task.id}`,
-            type: 'overdue',
-            severity: daysOverdue > 7 ? 'critical' : daysOverdue > 3 ? 'high' : 'medium',
+            type: "overdue",
+            severity:
+              daysOverdue > 7
+                ? "critical"
+                : daysOverdue > 3
+                  ? "high"
+                  : "medium",
             title: `⚠️ Task Overdue`,
-            message: `${task.name} in ${task.building.name} is ${daysOverdue} day${daysOverdue > 1 ? 's' : ''} overdue`,
+            message: `${task.name} in ${task.building.name} is ${daysOverdue} day${daysOverdue > 1 ? "s" : ""} overdue`,
             task,
             daysOverdue,
           });
@@ -377,8 +394,8 @@ export default function DeadlineTracker({
         else if (diffDays === 0) {
           newAlerts.push({
             id: `due-today-${task.id}`,
-            type: 'due_today',
-            severity: 'high',
+            type: "due_today",
+            severity: "high",
             title: `🚨 Due Today`,
             message: `${task.name} in ${task.building.name} is due today`,
             task,
@@ -389,8 +406,8 @@ export default function DeadlineTracker({
         else if (diffDays === 1) {
           newAlerts.push({
             id: `due-tomorrow-${task.id}`,
-            type: 'due_tomorrow',
-            severity: 'medium',
+            type: "due_tomorrow",
+            severity: "medium",
             title: `⏰ Due Tomorrow`,
             message: `${task.name} in ${task.building.name} is due tomorrow`,
             task,
@@ -401,8 +418,8 @@ export default function DeadlineTracker({
         else if (diffDays <= 7) {
           newAlerts.push({
             id: `due-soon-${task.id}`,
-            type: 'due_soon',
-            severity: diffDays <= 3 ? 'medium' : 'low',
+            type: "due_soon",
+            severity: diffDays <= 3 ? "medium" : "low",
             title: `📅 Due Soon`,
             message: `${task.name} in ${task.building.name} is due in ${diffDays} days`,
             task,
@@ -421,11 +438,11 @@ export default function DeadlineTracker({
         const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
         const aSeverity = severityOrder[a.severity];
         const bSeverity = severityOrder[b.severity];
-        
+
         if (aSeverity !== bSeverity) {
           return aSeverity - bSeverity;
         }
-        
+
         // Sort by urgency within same severity
         if (a.daysOverdue !== undefined && b.daysOverdue !== undefined) {
           return b.daysOverdue - a.daysOverdue;
@@ -433,57 +450,65 @@ export default function DeadlineTracker({
         if (a.daysUntilDue !== undefined && b.daysUntilDue !== undefined) {
           return a.daysUntilDue - b.daysUntilDue;
         }
-        
+
         return 0;
       });
 
       setAlerts(newAlerts);
-      
-      // Sort upcoming deadlines by deadline
-      upcoming.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
-      setUpcomingDeadlines(upcoming);
 
+      // Sort upcoming deadlines by deadline
+      upcoming.sort(
+        (a, b) =>
+          new Date(a.deadline).getTime() - new Date(b.deadline).getTime(),
+      );
+      setUpcomingDeadlines(upcoming);
     } catch (error) {
-      console.error('Failed to fetch deadline data:', error);
+      console.error("Failed to fetch deadline data:", error);
     }
   };
 
   useEffect(() => {
     fetchDeadlineData();
-    
+
     // Refresh every 5 minutes
     const interval = setInterval(fetchDeadlineData, 5 * 60 * 1000);
-    
+
     return () => clearInterval(interval);
   }, [isAuthenticated, userRole]);
 
   const dismissAlert = (alertId: string) => {
-    setDismissedAlerts(prev => new Set(prev.add(alertId)));
+    setDismissedAlerts((prev) => new Set(prev.add(alertId)));
   };
 
-  const getUrgencyLevel = (task: Task): 'low' | 'medium' | 'high' | 'critical' => {
+  const getUrgencyLevel = (
+    task: Task,
+  ): "low" | "medium" | "high" | "critical" => {
     const today = new Date();
     const deadline = new Date(task.deadline);
-    const diffDays = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil(
+      (deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
-    if (diffDays < 0) return 'critical'; // Overdue
-    if (diffDays === 0) return 'high'; // Due today
-    if (diffDays <= 2) return 'medium'; // Due within 2 days
-    return 'low'; // Due later
+    if (diffDays < 0) return "critical"; // Overdue
+    if (diffDays === 0) return "high"; // Due today
+    if (diffDays <= 2) return "medium"; // Due within 2 days
+    return "low"; // Due later
   };
 
   const formatDeadlineCountdown = (task: Task): string => {
     const today = new Date();
     const deadline = new Date(task.deadline);
-    const diffDays = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil(
+      (deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
+    );
 
     if (diffDays < 0) {
       const overdue = Math.abs(diffDays);
-      return `${overdue} day${overdue > 1 ? 's' : ''} overdue`;
+      return `${overdue} day${overdue > 1 ? "s" : ""} overdue`;
     } else if (diffDays === 0) {
-      return 'Due today';
+      return "Due today";
     } else if (diffDays === 1) {
-      return 'Due tomorrow';
+      return "Due tomorrow";
     } else {
       return `${diffDays} days left`;
     }
@@ -491,24 +516,27 @@ export default function DeadlineTracker({
 
   const getAlertIcon = (type: string): string => {
     switch (type) {
-      case 'overdue':
-        return '⚠️';
-      case 'due_today':
-        return '🚨';
-      case 'due_tomorrow':
-        return '⏰';
-      case 'due_soon':
-        return '📅';
+      case "overdue":
+        return "⚠️";
+      case "due_today":
+        return "🚨";
+      case "due_tomorrow":
+        return "⏰";
+      case "due_soon":
+        return "📅";
       default:
-        return '🔔';
+        return "🔔";
     }
   };
 
   const visibleAlerts = alerts
-    .filter(alert => !dismissedAlerts.has(alert.id))
+    .filter((alert) => !dismissedAlerts.has(alert.id))
     .slice(0, maxAlerts);
 
-  if (!isAuthenticated || (userRole !== 'CONTRACTOR' && userRole !== 'BUILDER')) {
+  if (
+    !isAuthenticated ||
+    (userRole !== "CONTRACTOR" && userRole !== "BUILDER")
+  ) {
     return null;
   }
 
@@ -517,7 +545,7 @@ export default function DeadlineTracker({
       {/* Alert Notifications */}
       {showAlerts && visibleAlerts.length > 0 && (
         <AlertContainer>
-          {visibleAlerts.map(alert => (
+          {visibleAlerts.map((alert) => (
             <AlertCard key={alert.id} severity={alert.severity}>
               <AlertHeader>
                 <AlertIcon severity={alert.severity}>
@@ -528,15 +556,21 @@ export default function DeadlineTracker({
                   ✕
                 </CloseButton>
               </AlertHeader>
-              
+
               <AlertContent>
                 {alert.message}
-                
+
                 {alert.task && (
                   <AlertDetails>
-                    <strong>Task:</strong> <TaskLink>{alert.task.name}</TaskLink><br/>
-                    <strong>Building:</strong> {alert.task.building.name}<br/>
-                    <strong>Contractor:</strong> {alert.task.assignedContractor.firstName} {alert.task.assignedContractor.lastName}<br/>
+                    <strong>Task:</strong>{" "}
+                    <TaskLink>{alert.task.name}</TaskLink>
+                    <br />
+                    <strong>Building:</strong> {alert.task.building.name}
+                    <br />
+                    <strong>Contractor:</strong>{" "}
+                    {alert.task.assignedContractor.firstName}{" "}
+                    {alert.task.assignedContractor.lastName}
+                    <br />
                     <strong>Progress:</strong> {alert.task.progressPercentage}%
                   </AlertDetails>
                 )}
@@ -550,21 +584,29 @@ export default function DeadlineTracker({
       {showWidget && (
         <DeadlineWidget>
           <WidgetTitle>📅 Upcoming Deadlines</WidgetTitle>
-          
+
           {upcomingDeadlines.length === 0 ? (
-            <div style={{ textAlign: 'center', color: 'hsl(215 16% 47%)', fontSize: '0.875rem' }}>
+            <div
+              style={{
+                textAlign: "center",
+                color: "hsl(215 16% 47%)",
+                fontSize: "0.875rem",
+              }}
+            >
               No upcoming deadlines
             </div>
           ) : (
             <DeadlineList>
-              {upcomingDeadlines.slice(0, 5).map(task => {
+              {upcomingDeadlines.slice(0, 5).map((task) => {
                 const urgency = getUrgencyLevel(task);
                 return (
                   <DeadlineItem key={task.id} urgency={urgency}>
                     <DeadlineInfo>
                       <DeadlineTaskName>{task.name}</DeadlineTaskName>
                       <DeadlineDetails>
-                        {task.building.name} • {task.assignedContractor.firstName} {task.assignedContractor.lastName}
+                        {task.building.name} •{" "}
+                        {task.assignedContractor.firstName}{" "}
+                        {task.assignedContractor.lastName}
                       </DeadlineDetails>
                     </DeadlineInfo>
                     <DeadlineCountdown urgency={urgency}>

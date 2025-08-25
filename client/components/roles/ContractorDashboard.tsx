@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { useAuth } from '@/contexts/AuthContext';
-import { User, Task, TaskStatus, STATUS_COLORS } from '@/types';
-import apiService from '@/services/api';
-import { keyframes } from '@emotion/react';
+import React, { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { useAuth } from "@/contexts/AuthContext";
+import { User, Task, TaskStatus, STATUS_COLORS } from "@/types";
+import apiService from "@/services/api";
+import { keyframes } from "@emotion/react";
 
 // Animations
 const fadeIn = keyframes`
@@ -90,7 +90,9 @@ const StatCard = styled.div<{ urgent?: boolean }>`
   animation-fill-mode: both;
   position: relative;
 
-  ${props => props.urgent && `
+  ${(props) =>
+    props.urgent &&
+    `
     border-color: hsl(0 84% 60%);
     animation: ${pulse} 2s infinite;
   `}
@@ -104,7 +106,7 @@ const StatCard = styled.div<{ urgent?: boolean }>`
 const StatValue = styled.div<{ color?: string }>`
   font-size: 2rem;
   font-weight: 700;
-  color: ${props => props.color || 'hsl(217 91% 60%)'};
+  color: ${(props) => props.color || "hsl(217 91% 60%)"};
   margin-bottom: 0.5rem;
 `;
 
@@ -137,10 +139,13 @@ const FilterButton = styled.button<{ active: boolean }>`
   cursor: pointer;
   transition: all 0.2s ease;
 
-  ${props => props.active ? `
+  ${(props) =>
+    props.active
+      ? `
     background: hsl(217 91% 60%);
     color: white;
-  ` : `
+  `
+      : `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -174,16 +179,22 @@ const TaskCard = styled.div<{ priority: string; isOverdue?: boolean }>`
   transition: all 0.3s ease;
   position: relative;
 
-  ${props => props.isOverdue && `
+  ${(props) =>
+    props.isOverdue &&
+    `
     border-left: 4px solid hsl(0 84% 60%);
     animation: ${pulse} 2s infinite;
   `}
 
-  ${props => props.priority === 'URGENT' && `
+  ${(props) =>
+    props.priority === "URGENT" &&
+    `
     border-left: 4px solid hsl(0 84% 60%);
   `}
 
-  ${props => props.priority === 'HIGH' && `
+  ${(props) =>
+    props.priority === "HIGH" &&
+    `
     border-left: 4px solid hsl(25 95% 53%);
   `}
 
@@ -232,7 +243,8 @@ const StatusBadge = styled.span<{ status: TaskStatus }>`
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
-  background: ${props => STATUS_COLORS[props.status] || STATUS_COLORS.ASSIGNED};
+  background: ${(props) =>
+    STATUS_COLORS[props.status] || STATUS_COLORS.ASSIGNED};
   white-space: nowrap;
 `;
 
@@ -243,7 +255,9 @@ const PriorityBadge = styled.span<{ priority: string }>`
   font-size: 0.75rem;
   font-weight: 600;
   color: white;
-  background: ${props => STATUS_COLORS[props.priority as keyof typeof STATUS_COLORS] || STATUS_COLORS.LOW};
+  background: ${(props) =>
+    STATUS_COLORS[props.priority as keyof typeof STATUS_COLORS] ||
+    STATUS_COLORS.LOW};
   white-space: nowrap;
 `;
 
@@ -289,7 +303,7 @@ const ProgressBar = styled.div`
 
 const ProgressFill = styled.div<{ percentage: number }>`
   height: 100%;
-  width: ${props => props.percentage}%;
+  width: ${(props) => props.percentage}%;
   background: linear-gradient(to right, hsl(217 91% 60%), hsl(142 76% 36%));
   transition: width 0.3s ease;
 `;
@@ -300,7 +314,9 @@ const TaskActions = styled.div`
   flex-wrap: wrap;
 `;
 
-const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 'success' }>`
+const Button = styled.button<{
+  variant?: "primary" | "secondary" | "danger" | "success";
+}>`
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
   font-weight: 500;
@@ -311,7 +327,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
   flex: 1;
   min-width: 100px;
 
-  ${props => props.variant === 'primary' && `
+  ${(props) =>
+    props.variant === "primary" &&
+    `
     background: hsl(217 91% 60%);
     color: white;
     
@@ -320,7 +338,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
     }
   `}
 
-  ${props => props.variant === 'success' && `
+  ${(props) =>
+    props.variant === "success" &&
+    `
     background: hsl(142 76% 36%);
     color: white;
     
@@ -329,7 +349,9 @@ const Button = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' | 's
     }
   `}
 
-  ${props => props.variant === 'secondary' && `
+  ${(props) =>
+    props.variant === "secondary" &&
+    `
     background: hsl(210 40% 96%);
     color: hsl(215 16% 47%);
     
@@ -357,7 +379,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   z-index: 1000;
@@ -471,21 +493,23 @@ interface ContractorDashboardProps {
   user: User;
 }
 
-export default function ContractorDashboard({ user }: ContractorDashboardProps) {
+export default function ContractorDashboard({
+  user,
+}: ContractorDashboardProps) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Modal states
   const [showProgressModal, setShowProgressModal] = useState(false);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  
+
   // Form states
   const [progressValue, setProgressValue] = useState(0);
-  const [progressNotes, setProgressNotes] = useState('');
-  const [completionNotes, setCompletionNotes] = useState('');
+  const [progressNotes, setProgressNotes] = useState("");
+  const [completionNotes, setCompletionNotes] = useState("");
 
   const fetchTasks = async () => {
     try {
@@ -493,7 +517,7 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
       setTasks(tasksData);
       setFilteredTasks(tasksData);
     } catch (error) {
-      console.error('Failed to fetch tasks:', error);
+      console.error("Failed to fetch tasks:", error);
     }
   };
 
@@ -503,22 +527,22 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
       await fetchTasks();
       setIsLoading(false);
     };
-    
+
     loadData();
   }, []);
 
   useEffect(() => {
-    const filtered = tasks.filter(task => {
+    const filtered = tasks.filter((task) => {
       switch (activeFilter) {
-        case 'assigned':
-          return task.status === 'ASSIGNED';
-        case 'in_progress':
-          return task.status === 'IN_PROGRESS';
-        case 'completed':
-          return task.status === 'COMPLETED' || task.status === 'APPROVED';
-        case 'rejected':
-          return task.status === 'REJECTED';
-        case 'overdue':
+        case "assigned":
+          return task.status === "ASSIGNED";
+        case "in_progress":
+          return task.status === "IN_PROGRESS";
+        case "completed":
+          return task.status === "COMPLETED" || task.status === "APPROVED";
+        case "rejected":
+          return task.status === "REJECTED";
+        case "overdue":
           return isTaskOverdue(task);
         default:
           return true;
@@ -530,39 +554,47 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
   const isTaskOverdue = (task: Task): boolean => {
     const today = new Date();
     const deadline = new Date(task.deadline);
-    return deadline < today && task.status !== 'COMPLETED' && task.status !== 'APPROVED';
+    return (
+      deadline < today &&
+      task.status !== "COMPLETED" &&
+      task.status !== "APPROVED"
+    );
   };
 
   const handleUpdateProgress = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTask) return;
-    
+
     try {
-      await apiService.updateTaskProgress(selectedTask.id, progressValue, progressNotes);
+      await apiService.updateTaskProgress(
+        selectedTask.id,
+        progressValue,
+        progressNotes,
+      );
       setShowProgressModal(false);
       setSelectedTask(null);
       setProgressValue(0);
-      setProgressNotes('');
+      setProgressNotes("");
       await fetchTasks();
     } catch (error) {
-      console.error('Failed to update progress:', error);
-      alert('Failed to update progress. Please try again.');
+      console.error("Failed to update progress:", error);
+      alert("Failed to update progress. Please try again.");
     }
   };
 
   const handleMarkCompleted = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTask) return;
-    
+
     try {
       await apiService.markTaskAsCompleted(selectedTask.id, completionNotes);
       setShowCompleteModal(false);
       setSelectedTask(null);
-      setCompletionNotes('');
+      setCompletionNotes("");
       await fetchTasks();
     } catch (error) {
-      console.error('Failed to mark task as completed:', error);
-      alert('Failed to mark task as completed. Please try again.');
+      console.error("Failed to mark task as completed:", error);
+      alert("Failed to mark task as completed. Please try again.");
     }
   };
 
@@ -579,9 +611,11 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
 
   const stats = {
     total: tasks.length,
-    assigned: tasks.filter(t => t.status === 'ASSIGNED').length,
-    inProgress: tasks.filter(t => t.status === 'IN_PROGRESS').length,
-    completed: tasks.filter(t => t.status === 'COMPLETED' || t.status === 'APPROVED').length,
+    assigned: tasks.filter((t) => t.status === "ASSIGNED").length,
+    inProgress: tasks.filter((t) => t.status === "IN_PROGRESS").length,
+    completed: tasks.filter(
+      (t) => t.status === "COMPLETED" || t.status === "APPROVED",
+    ).length,
     overdue: tasks.filter(isTaskOverdue).length,
   };
 
@@ -601,19 +635,23 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
       </Header>
 
       <StatsGrid>
-        <StatCard style={{ animationDelay: '0.1s' }}>
+        <StatCard style={{ animationDelay: "0.1s" }}>
           <StatValue>{stats.total}</StatValue>
           <StatLabel>Total Tasks</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.2s' }}>
-          <StatValue color={STATUS_COLORS.IN_PROGRESS}>{stats.inProgress}</StatValue>
+        <StatCard style={{ animationDelay: "0.2s" }}>
+          <StatValue color={STATUS_COLORS.IN_PROGRESS}>
+            {stats.inProgress}
+          </StatValue>
           <StatLabel>In Progress</StatLabel>
         </StatCard>
-        <StatCard style={{ animationDelay: '0.3s' }}>
-          <StatValue color={STATUS_COLORS.APPROVED}>{stats.completed}</StatValue>
+        <StatCard style={{ animationDelay: "0.3s" }}>
+          <StatValue color={STATUS_COLORS.APPROVED}>
+            {stats.completed}
+          </StatValue>
           <StatLabel>Completed</StatLabel>
         </StatCard>
-        <StatCard urgent={stats.overdue > 0} style={{ animationDelay: '0.4s' }}>
+        <StatCard urgent={stats.overdue > 0} style={{ animationDelay: "0.4s" }}>
           <StatValue color={STATUS_COLORS.REJECTED}>{stats.overdue}</StatValue>
           <StatLabel>Overdue Tasks</StatLabel>
         </StatCard>
@@ -621,20 +659,35 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
 
       <FilterSection>
         <FilterButtons>
-          <FilterButton active={activeFilter === 'all'} onClick={() => setActiveFilter('all')}>
+          <FilterButton
+            active={activeFilter === "all"}
+            onClick={() => setActiveFilter("all")}
+          >
             All Tasks ({stats.total})
           </FilterButton>
-          <FilterButton active={activeFilter === 'assigned'} onClick={() => setActiveFilter('assigned')}>
+          <FilterButton
+            active={activeFilter === "assigned"}
+            onClick={() => setActiveFilter("assigned")}
+          >
             Assigned ({stats.assigned})
           </FilterButton>
-          <FilterButton active={activeFilter === 'in_progress'} onClick={() => setActiveFilter('in_progress')}>
+          <FilterButton
+            active={activeFilter === "in_progress"}
+            onClick={() => setActiveFilter("in_progress")}
+          >
             In Progress ({stats.inProgress})
           </FilterButton>
-          <FilterButton active={activeFilter === 'completed'} onClick={() => setActiveFilter('completed')}>
+          <FilterButton
+            active={activeFilter === "completed"}
+            onClick={() => setActiveFilter("completed")}
+          >
             Completed ({stats.completed})
           </FilterButton>
           {stats.overdue > 0 && (
-            <FilterButton active={activeFilter === 'overdue'} onClick={() => setActiveFilter('overdue')}>
+            <FilterButton
+              active={activeFilter === "overdue"}
+              onClick={() => setActiveFilter("overdue")}
+            >
               🚨 Overdue ({stats.overdue})
             </FilterButton>
           )}
@@ -645,10 +698,9 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
         <EmptyState>
           <h3>No tasks found</h3>
           <p>
-            {activeFilter === 'all' 
+            {activeFilter === "all"
               ? "You don't have any tasks assigned yet."
-              : `No tasks match the ${activeFilter.replace('_', ' ')} filter.`
-            }
+              : `No tasks match the ${activeFilter.replace("_", " ")} filter.`}
           </p>
         </EmptyState>
       ) : (
@@ -656,34 +708,54 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
           {filteredTasks.map((task) => {
             const overdue = isTaskOverdue(task);
             const daysUntilDeadline = Math.ceil(
-              (new Date(task.deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+              (new Date(task.deadline).getTime() - new Date().getTime()) /
+                (1000 * 60 * 60 * 24),
             );
-            
+
             return (
-              <TaskCard key={task.id} priority={task.priority} isOverdue={overdue}>
+              <TaskCard
+                key={task.id}
+                priority={task.priority}
+                isOverdue={overdue}
+              >
                 <TaskHeader>
                   <TaskTitle>{task.name}</TaskTitle>
                   <TaskMeta>
                     <StatusBadge status={task.status}>
-                      {task.status.replace('_', ' ')}
+                      {task.status.replace("_", " ")}
                     </StatusBadge>
                     <PriorityBadge priority={task.priority}>
                       {task.priority}
                     </PriorityBadge>
                   </TaskMeta>
                 </TaskHeader>
-                
+
                 <TaskInfo>
-                  🏢 <strong>Building:</strong> {task.building.name}<br/>
-                  📅 <strong>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}
-                  {overdue && <span style={{ color: STATUS_COLORS.REJECTED }}> (Overdue!)</span>}
-                  {!overdue && daysUntilDeadline <= 3 && daysUntilDeadline > 0 && (
-                    <span style={{ color: STATUS_COLORS.HIGH }}> ({daysUntilDeadline} days left)</span>
+                  🏢 <strong>Building:</strong> {task.building.name}
+                  <br />
+                  📅 <strong>Deadline:</strong>{" "}
+                  {new Date(task.deadline).toLocaleDateString()}
+                  {overdue && (
+                    <span style={{ color: STATUS_COLORS.REJECTED }}>
+                      {" "}
+                      (Overdue!)
+                    </span>
                   )}
-                  <br/>
-                  🔧 <strong>Type:</strong> {task.type.replace('_', ' ')}<br/>
+                  {!overdue &&
+                    daysUntilDeadline <= 3 &&
+                    daysUntilDeadline > 0 && (
+                      <span style={{ color: STATUS_COLORS.HIGH }}>
+                        {" "}
+                        ({daysUntilDeadline} days left)
+                      </span>
+                    )}
+                  <br />
+                  🔧 <strong>Type:</strong> {task.type.replace("_", " ")}
+                  <br />
                   {task.description && (
-                    <>📝 <strong>Description:</strong> {task.description}</>
+                    <>
+                      📝 <strong>Description:</strong> {task.description}
+                    </>
                   )}
                 </TaskInfo>
 
@@ -698,40 +770,54 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
                 </ProgressSection>
 
                 <TaskActions>
-                  {task.status === 'ASSIGNED' || task.status === 'IN_PROGRESS' ? (
+                  {task.status === "ASSIGNED" ||
+                  task.status === "IN_PROGRESS" ? (
                     <>
-                      <Button variant="primary" onClick={() => openProgressModal(task)}>
+                      <Button
+                        variant="primary"
+                        onClick={() => openProgressModal(task)}
+                      >
                         Update Progress
                       </Button>
-                      {task.progressPercentage >= 100 || task.status === 'IN_PROGRESS' ? (
-                        <Button variant="success" onClick={() => openCompleteModal(task)}>
+                      {task.progressPercentage >= 100 ||
+                      task.status === "IN_PROGRESS" ? (
+                        <Button
+                          variant="success"
+                          onClick={() => openCompleteModal(task)}
+                        >
                           Mark Complete
                         </Button>
                       ) : null}
                     </>
-                  ) : task.status === 'COMPLETED' ? (
+                  ) : task.status === "COMPLETED" ? (
                     <Button variant="secondary" disabled>
                       Awaiting Approval
                     </Button>
-                  ) : task.status === 'APPROVED' ? (
+                  ) : task.status === "APPROVED" ? (
                     <Button variant="success" disabled>
                       ✓ Approved
                     </Button>
-                  ) : task.status === 'REJECTED' ? (
+                  ) : task.status === "REJECTED" ? (
                     <>
-                      <Button variant="primary" onClick={() => openProgressModal(task)}>
+                      <Button
+                        variant="primary"
+                        onClick={() => openProgressModal(task)}
+                      >
                         Resume Work
                       </Button>
                       {task.rejectionReason && (
-                        <div style={{ 
-                          marginTop: '0.5rem', 
-                          padding: '0.5rem', 
-                          background: 'rgba(239, 68, 68, 0.1)', 
-                          borderRadius: '0.25rem',
-                          fontSize: '0.75rem',
-                          color: STATUS_COLORS.REJECTED
-                        }}>
-                          <strong>Rejection reason:</strong> {task.rejectionReason}
+                        <div
+                          style={{
+                            marginTop: "0.5rem",
+                            padding: "0.5rem",
+                            background: "rgba(239, 68, 68, 0.1)",
+                            borderRadius: "0.25rem",
+                            fontSize: "0.75rem",
+                            color: STATUS_COLORS.REJECTED,
+                          }}
+                        >
+                          <strong>Rejection reason:</strong>{" "}
+                          {task.rejectionReason}
                         </div>
                       )}
                     </>
@@ -747,7 +833,7 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
       <Modal isOpen={showProgressModal}>
         <ModalContent>
           <ModalTitle>Update Task Progress</ModalTitle>
-          
+
           <Form onSubmit={handleUpdateProgress}>
             <FormGroup>
               <Label>Progress Percentage (0-100)</Label>
@@ -760,7 +846,7 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
                 required
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Progress Notes (Optional)</Label>
               <TextArea
@@ -769,14 +855,18 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
                 placeholder="Describe what work has been completed..."
               />
             </FormGroup>
-            
+
             <FormActions>
-              <Button type="button" variant="secondary" onClick={() => {
-                setShowProgressModal(false);
-                setSelectedTask(null);
-                setProgressValue(0);
-                setProgressNotes('');
-              }}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setShowProgressModal(false);
+                  setSelectedTask(null);
+                  setProgressValue(0);
+                  setProgressNotes("");
+                }}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="primary">
@@ -791,7 +881,7 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
       <Modal isOpen={showCompleteModal}>
         <ModalContent>
           <ModalTitle>Mark Task as Completed</ModalTitle>
-          
+
           <Form onSubmit={handleMarkCompleted}>
             <FormGroup>
               <Label>Completion Notes</Label>
@@ -802,13 +892,17 @@ export default function ContractorDashboard({ user }: ContractorDashboardProps) 
                 required
               />
             </FormGroup>
-            
+
             <FormActions>
-              <Button type="button" variant="secondary" onClick={() => {
-                setShowCompleteModal(false);
-                setSelectedTask(null);
-                setCompletionNotes('');
-              }}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setShowCompleteModal(false);
+                  setSelectedTask(null);
+                  setCompletionNotes("");
+                }}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="success">

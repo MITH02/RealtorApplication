@@ -11,20 +11,51 @@ export type {
   Task,
   TaskUpdate,
   Notification,
-} from '../services/api';
+} from "../services/api";
 
 // Additional frontend-specific types
-export type UserRole = 'ADMIN' | 'BUILDER' | 'CONTRACTOR';
+export type UserRole = "ADMIN" | "BUILDER" | "CONTRACTOR";
 
-export type TaskStatus = 'ASSIGNED' | 'IN_PROGRESS' | 'COMPLETED' | 'APPROVED' | 'REJECTED' | 'ON_HOLD' | 'CANCELLED';
+export type TaskStatus =
+  | "ASSIGNED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "APPROVED"
+  | "REJECTED"
+  | "ON_HOLD"
+  | "CANCELLED";
 
-export type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+export type TaskPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
-export type BuildingStatus = 'PLANNING' | 'IN_PROGRESS' | 'ON_HOLD' | 'COMPLETED' | 'CANCELLED';
+export type BuildingStatus =
+  | "PLANNING"
+  | "IN_PROGRESS"
+  | "ON_HOLD"
+  | "COMPLETED"
+  | "CANCELLED";
 
-export type TaskType = 'CIVIL_WORK' | 'ELECTRICAL_WORK' | 'PLUMBING_WORK' | 'TILING' | 'PAINTING' | 'ROOFING' | 'FLOORING' | 'CARPENTRY' | 'MASONRY' | 'HVAC' | 'LANDSCAPING' | 'INSPECTION' | 'CLEANUP' | 'OTHER';
+export type TaskType =
+  | "CIVIL_WORK"
+  | "ELECTRICAL_WORK"
+  | "PLUMBING_WORK"
+  | "TILING"
+  | "PAINTING"
+  | "ROOFING"
+  | "FLOORING"
+  | "CARPENTRY"
+  | "MASONRY"
+  | "HVAC"
+  | "LANDSCAPING"
+  | "INSPECTION"
+  | "CLEANUP"
+  | "OTHER";
 
-export type BuildingType = 'RESIDENTIAL' | 'COMMERCIAL' | 'INDUSTRIAL' | 'MIXED_USE' | 'INFRASTRUCTURE';
+export type BuildingType =
+  | "RESIDENTIAL"
+  | "COMMERCIAL"
+  | "INDUSTRIAL"
+  | "MIXED_USE"
+  | "INFRASTRUCTURE";
 
 // Component props types
 export interface DashboardProps {
@@ -34,7 +65,7 @@ export interface DashboardProps {
 export interface StatusIndicatorProps {
   status: TaskStatus;
   text?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 }
 
 export interface TaskCardProps {
@@ -126,7 +157,7 @@ export interface PaginationParams {
   page: number;
   size: number;
   sort?: string;
-  direction?: 'ASC' | 'DESC';
+  direction?: "ASC" | "DESC";
 }
 
 export interface FilterParams {
@@ -161,26 +192,26 @@ export interface DashboardStats {
 // Color scheme for status indicators
 export const STATUS_COLORS = {
   // Task statuses
-  ASSIGNED: '#f59e0b', // amber
-  IN_PROGRESS: '#3b82f6', // blue
-  COMPLETED: '#10b981', // emerald
-  APPROVED: '#22c55e', // green
-  REJECTED: '#ef4444', // red
-  ON_HOLD: '#6b7280', // gray
-  CANCELLED: '#9ca3af', // gray
-  
+  ASSIGNED: "#f59e0b", // amber
+  IN_PROGRESS: "#3b82f6", // blue
+  COMPLETED: "#10b981", // emerald
+  APPROVED: "#22c55e", // green
+  REJECTED: "#ef4444", // red
+  ON_HOLD: "#6b7280", // gray
+  CANCELLED: "#9ca3af", // gray
+
   // Building statuses
-  PLANNING: '#8b5cf6', // violet
+  PLANNING: "#8b5cf6", // violet
   // IN_PROGRESS: '#3b82f6', // blue (shared)
   // ON_HOLD: '#6b7280', // gray (shared)
   // COMPLETED: '#10b981', // emerald (shared)
   // CANCELLED: '#9ca3af', // gray (shared)
-  
+
   // Priority colors
-  LOW: '#10b981', // emerald
-  MEDIUM: '#f59e0b', // amber
-  HIGH: '#f97316', // orange
-  URGENT: '#ef4444', // red
+  LOW: "#10b981", // emerald
+  MEDIUM: "#f59e0b", // amber
+  HIGH: "#f97316", // orange
+  URGENT: "#ef4444", // red
 } as const;
 
-export type StatusColor = typeof STATUS_COLORS[keyof typeof STATUS_COLORS];
+export type StatusColor = (typeof STATUS_COLORS)[keyof typeof STATUS_COLORS];
