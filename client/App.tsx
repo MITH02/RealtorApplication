@@ -10,6 +10,7 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { GlobalStyles } from "@/styles/GlobalStyles";
 import { theme } from "@/styles/theme";
 import { useState } from "react";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
@@ -17,6 +18,8 @@ import BuilderScreen from "./components/roles/BuilderScreen";
 import AdminScreen from "./components/roles/AdminScreen";
 import LoginForm from "./components/LoginForm";
 import Dashboard from "./components/Dashboard";
+import AdminDashboard from "./components/AdminDashboard";
+import BuilderDashboard from "./components/BuilderDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,13 +32,55 @@ type AppState =
   | "admin-info"
   | "contractor-login"
   | "builder-login"
-  | "admin-login"
-  | "contractor-dashboard"
-  | "builder-dashboard"
-  | "admin-dashboard";
+  | "admin-login";
 
 const AppContent = () => {
+  const { user, isLoading, isAuthenticated, logout } = useAuth();
   const [appState, setAppState] = useState<AppState>("video-loader");
+
+  // Show loading while authentication is being checked
+  if (isLoading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))'
+      }}>
+        <div style={{
+          width: '3rem',
+          height: '3rem',
+          border: '4px solid hsla(214, 100%, 50%, 0.3)',
+          borderTop: '4px solid hsl(214, 100%, 50%)',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // If user is authenticated, show appropriate dashboard
+  if (isAuthenticated && user) {
+    switch (user.role) {
+      case 'SUPER_ADMIN':
+        return <AdminDashboard onLogout={logout} />;
+      case 'ADMIN':
+        return <BuilderDashboard onLogout={logout} />;
+      case 'CONTRACTOR':
+        return <Dashboard role="contractor" onLogout={logout} />;
+      default:
+        // Unknown role, logout user
+        logout();
+        return <RoleSelection onRoleSelect={handleRoleSelect} />;
+    }
+  }
 
   const handleGetStarted = () => {
     setAppState("role-selection");
@@ -49,8 +94,9 @@ const AppContent = () => {
     setAppState(`${role}-login` as AppState);
   };
 
-  const handleLoginSuccess = (role: "builder" | "contractor" | "admin") => {
-    setAppState(`${role}-dashboard` as AppState);
+  const handleLoginSuccess = () => {
+    // After successful login, the user state will update and the component will re-render
+    // showing the appropriate dashboard based on the user's role
   };
 
   const handleBack = () => {
@@ -72,10 +118,6 @@ const AppContent = () => {
       default:
         setAppState("role-selection");
     }
-  };
-
-  const handleLogout = () => {
-    setAppState("role-selection");
   };
 
   const renderCurrentScreen = () => {
@@ -118,7 +160,7 @@ const AppContent = () => {
           <LoginForm
             role="contractor"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("contractor")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -127,7 +169,7 @@ const AppContent = () => {
           <LoginForm
             role="builder"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("builder")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -136,18 +178,9 @@ const AppContent = () => {
           <LoginForm
             role="admin"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("admin")}
+            onSuccess={handleLoginSuccess}
           />
         );
-
-      case "contractor-dashboard":
-        return <Dashboard role="contractor" onLogout={handleLogout} />;
-
-      case "builder-dashboard":
-        return <Dashboard role="builder" onLogout={handleLogout} />;
-
-      case "admin-dashboard":
-        return <Dashboard role="admin" onLogout={handleLogout} />;
 
       default:
         return <RoleSelection onRoleSelect={handleRoleSelect} />;
@@ -166,10 +199,12 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<AppContent />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <AuthProvider>
+              <Routes>
+                <Route path="/" element={<AppContent />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
