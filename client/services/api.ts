@@ -620,7 +620,10 @@ class ApiService {
   }
 
   // Media Upload APIs
-  async uploadSingleFile(file: File, onProgress?: (progress: number) => void): Promise<MediaUploadResponse> {
+  async uploadSingleFile(
+    file: File,
+    onProgress?: (progress: number) => void,
+  ): Promise<MediaUploadResponse> {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -647,7 +650,11 @@ class ApiService {
         } else {
           try {
             const errorResponse = JSON.parse(xhr.responseText);
-            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
+            reject(
+              new Error(
+                errorResponse.message || `HTTP error! status: ${xhr.status}`,
+              ),
+            );
           } catch {
             reject(new Error(`HTTP error! status: ${xhr.status}`));
           }
@@ -674,7 +681,7 @@ class ApiService {
 
   async uploadMultipleFiles(
     files: File[],
-    onProgress?: (progress: number) => void
+    onProgress?: (progress: number) => void,
   ): Promise<MediaUploadResponse[]> {
     const formData = new FormData();
     files.forEach((file) => {
@@ -704,7 +711,11 @@ class ApiService {
         } else {
           try {
             const errorResponse = JSON.parse(xhr.responseText);
-            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
+            reject(
+              new Error(
+                errorResponse.message || `HTTP error! status: ${xhr.status}`,
+              ),
+            );
           } catch {
             reject(new Error(`HTTP error! status: ${xhr.status}`));
           }
@@ -737,7 +748,11 @@ class ApiService {
     return this.makeRequest<MediaFileInfo>(`/media/info/${mediaId}`);
   }
 
-  async listMedia(page: number = 1, limit: number = 20, type?: "image" | "video"): Promise<MediaListResponse> {
+  async listMedia(
+    page: number = 1,
+    limit: number = 20,
+    type?: "image" | "video",
+  ): Promise<MediaListResponse> {
     const params = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
@@ -747,7 +762,9 @@ class ApiService {
       params.append("type", type);
     }
 
-    return this.makeRequest<MediaListResponse>(`/media/list?${params.toString()}`);
+    return this.makeRequest<MediaListResponse>(
+      `/media/list?${params.toString()}`,
+    );
   }
 
   async getStorageStats(): Promise<StorageStatsResponse> {

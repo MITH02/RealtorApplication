@@ -7,16 +7,19 @@ Your ConstructPro media upload system now stores photos and videos **directly in
 ## How It Works
 
 ### 1. **File Upload Process**
+
 ```
 User uploads file → Convert to Base64 → Store in database → Return media URL
 ```
 
 ### 2. **File Storage**
+
 - Files are converted to **Base64 strings** and stored in the `media` table
 - No physical files are saved to disk
 - All file metadata (name, size, type) is stored alongside the data
 
 ### 3. **File Serving**
+
 - Files are served via `/api/media/view/{mediaId}` endpoint
 - Base64 data is converted back to binary and streamed to the browser
 - Supports video streaming with HTTP range requests
@@ -41,6 +44,7 @@ CREATE TABLE media (
 ## API Endpoints
 
 ### Node.js Server (Current Implementation)
+
 - `POST /api/media/upload` - Upload single file
 - `POST /api/media/upload-multiple` - Upload multiple files
 - `GET /api/media/view/{mediaId}` - View/download file
@@ -51,6 +55,7 @@ CREATE TABLE media (
 - `GET /api/media/health` - Health check
 
 ### Spring Boot Integration (Ready to Implement)
+
 - Complete Java entity, repository, controller, and DTOs provided
 - Same API endpoints as Node.js version
 - Ready to replace Node.js implementation when needed
@@ -58,10 +63,12 @@ CREATE TABLE media (
 ## Usage in Your Application
 
 ### **For Contractors:**
+
 1. Update task progress → Upload photos/videos → Files stored in database
 2. Mark task complete → Upload completion photos → Files linked to task
 
 ### **For Builders:**
+
 1. Create buildings → Upload documentation → Files linked to building
 2. Create tasks → Upload reference materials → Files linked to task
 3. Review contractor progress → View uploaded media
@@ -69,6 +76,7 @@ CREATE TABLE media (
 ## Key Features
 
 ### ✅ **Benefits**
+
 - **No file system dependencies** - everything in database
 - **Backup included** - media backed up with database
 - **Atomic operations** - media and metadata always in sync
@@ -77,6 +85,7 @@ CREATE TABLE media (
 - **Version control** - media versioned with database schema
 
 ### ⚠️ **Considerations**
+
 - **Database size** - will grow with media uploads
 - **Memory usage** - Base64 encoding increases size by ~33%
 - **Query performance** - large LONGTEXT fields may impact queries
@@ -102,6 +111,7 @@ Your Database
 ## Migration from File Storage
 
 The system automatically works with your existing TaskUpdate.imageUrls:
+
 - Old file URLs continue to work
 - New uploads create database entries
 - URLs now point to `/api/media/view/{mediaId}` instead of files
@@ -109,6 +119,7 @@ The system automatically works with your existing TaskUpdate.imageUrls:
 ## Performance Optimization
 
 ### **Database Optimizations**
+
 ```sql
 -- Indexes for fast queries
 CREATE INDEX idx_media_task_id ON media(task_id);
@@ -117,6 +128,7 @@ CREATE INDEX idx_media_mime_type ON media(mime_type);
 ```
 
 ### **Application Optimizations**
+
 - Media data is excluded from list queries (only metadata)
 - File data is only loaded when serving the actual file
 - Caching headers set for browser caching
@@ -124,18 +136,21 @@ CREATE INDEX idx_media_mime_type ON media(mime_type);
 ## Example Usage
 
 ### **Upload a photo:**
+
 ```javascript
-const file = document.getElementById('fileInput').files[0];
+const file = document.getElementById("fileInput").files[0];
 const response = await apiService.uploadSingleFile(file);
 // Returns: { id: "uuid", url: "/api/media/view/uuid", ... }
 ```
 
 ### **Display the photo:**
+
 ```html
 <img src="/api/media/view/uuid" alt="Task progress" />
 ```
 
 ### **Get file info:**
+
 ```javascript
 const info = await apiService.getMediaFileInfo("uuid");
 // Returns file metadata without the actual file data
