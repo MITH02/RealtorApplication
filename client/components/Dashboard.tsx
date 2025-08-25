@@ -714,19 +714,19 @@ const TaskBadge = styled.span<{ status: string }>`
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.status) {
-      case 'COMPLETED':
-      case 'APPROVED':
-        return 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
-      case 'IN_PROGRESS':
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
-      case 'PENDING':
-        return 'linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))';
-      case 'REJECTED':
-        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
+      case "COMPLETED":
+      case "APPROVED":
+        return "linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))";
+      case "IN_PROGRESS":
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
+      case "PENDING":
+        return "linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))";
+      case "REJECTED":
+        return "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))";
       default:
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
     }
   }};
   color: white;
@@ -778,25 +778,31 @@ const LoadingSpinner = styled.div`
   margin: 0 auto;
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
-const getNotificationColor = (type: string): 'green' | 'blue' | 'yellow' | 'red' => {
+const getNotificationColor = (
+  type: string,
+): "green" | "blue" | "yellow" | "red" => {
   switch (type) {
-    case 'TASK_COMPLETED':
-    case 'TASK_APPROVED':
-      return 'green';
-    case 'TASK_ASSIGNED':
-      return 'blue';
-    case 'DEADLINE_REMINDER':
-      return 'yellow';
-    case 'TASK_OVERDUE':
-    case 'TASK_REJECTED':
-      return 'red';
+    case "TASK_COMPLETED":
+    case "TASK_APPROVED":
+      return "green";
+    case "TASK_ASSIGNED":
+      return "blue";
+    case "DEADLINE_REMINDER":
+      return "yellow";
+    case "TASK_OVERDUE":
+    case "TASK_REJECTED":
+      return "red";
     default:
-      return 'blue';
+      return "blue";
   }
 };
 
@@ -835,15 +841,24 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       setNotifications(notificationsData);
 
       // Calculate stats
-      const completedCount = tasksData.filter(t => t.status === 'COMPLETED' || t.status === 'APPROVED').length;
-      const pendingCount = tasksData.filter(t => t.status === 'PENDING' || t.status === 'IN_PROGRESS').length;
+      const completedCount = tasksData.filter(
+        (t) => t.status === "COMPLETED" || t.status === "APPROVED",
+      ).length;
+      const pendingCount = tasksData.filter(
+        (t) => t.status === "PENDING" || t.status === "IN_PROGRESS",
+      ).length;
 
       // Find nearest deadline
-      const nearestDeadline = tasksData
-        .filter(t => t.deadline && (t.status === 'PENDING' || t.status === 'IN_PROGRESS'))
-        .map(t => t.daysUntilDeadline || 0)
-        .filter(days => days >= 0)
-        .sort((a, b) => a - b)[0] || 0;
+      const nearestDeadline =
+        tasksData
+          .filter(
+            (t) =>
+              t.deadline &&
+              (t.status === "PENDING" || t.status === "IN_PROGRESS"),
+          )
+          .map((t) => t.daysUntilDeadline || 0)
+          .filter((days) => days >= 0)
+          .sort((a, b) => a - b)[0] || 0;
 
       setStats({
         assignedProjects: buildingsData.length,
@@ -852,8 +867,8 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
         daysUntilDeadline: nearestDeadline,
       });
     } catch (err) {
-      setError('Failed to load contractor data');
-      console.error('Error loading contractor data:', err);
+      setError("Failed to load contractor data");
+      console.error("Error loading contractor data:", err);
     } finally {
       setLoading(false);
     }
@@ -864,28 +879,48 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
       await apiClient.markTaskAsCompleted(taskId, notes);
       await loadContractorData(); // Refresh data
     } catch (err) {
-      setError('Failed to mark task as complete');
-      console.error('Error marking task complete:', err);
+      setError("Failed to mark task as complete");
+      console.error("Error marking task complete:", err);
     }
   };
 
-  const handleUpdateProgress = async (taskId: number, progress: number, notes?: string) => {
+  const handleUpdateProgress = async (
+    taskId: number,
+    progress: number,
+    notes?: string,
+  ) => {
     try {
       await apiClient.updateTaskProgress(taskId, progress, notes);
       await loadContractorData(); // Refresh data
     } catch (err) {
-      setError('Failed to update task progress');
-      console.error('Error updating progress:', err);
+      setError("Failed to update task progress");
+      console.error("Error updating progress:", err);
     }
   };
 
   const content = {
     title: "Contractor Dashboard",
     stats: [
-      { label: "Assigned Projects", value: stats.assignedProjects.toString(), icon: "🏗️" },
-      { label: "Completed Tasks", value: stats.completedTasks.toString(), icon: "✅" },
-      { label: "Pending Tasks", value: stats.pendingTasks.toString(), icon: "📋" },
-      { label: "Days Until Deadline", value: stats.daysUntilDeadline.toString(), icon: "📅" },
+      {
+        label: "Assigned Projects",
+        value: stats.assignedProjects.toString(),
+        icon: "🏗️",
+      },
+      {
+        label: "Completed Tasks",
+        value: stats.completedTasks.toString(),
+        icon: "✅",
+      },
+      {
+        label: "Pending Tasks",
+        value: stats.pendingTasks.toString(),
+        icon: "📋",
+      },
+      {
+        label: "Days Until Deadline",
+        value: stats.daysUntilDeadline.toString(),
+        icon: "📅",
+      },
     ],
     actions: [
       "View Current Tasks",
@@ -956,20 +991,22 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
           <ContentCard>
             <ContentTitle>Current Tasks</ContentTitle>
             {error && (
-              <div style={{
-                padding: '0.75rem',
-                background: 'hsla(0, 84%, 60%, 0.1)',
-                border: '1px solid hsla(0, 84%, 60%, 0.3)',
-                borderRadius: '0.5rem',
-                color: 'hsl(0, 84%, 60%)',
-                marginBottom: '1rem'
-              }}>
+              <div
+                style={{
+                  padding: "0.75rem",
+                  background: "hsla(0, 84%, 60%, 0.1)",
+                  border: "1px solid hsla(0, 84%, 60%, 0.3)",
+                  borderRadius: "0.5rem",
+                  color: "hsl(0, 84%, 60%)",
+                  marginBottom: "1rem",
+                }}
+              >
                 {error}
               </div>
             )}
-            <div style={{ minHeight: '200px' }}>
+            <div style={{ minHeight: "200px" }}>
               {loading ? (
-                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <div style={{ textAlign: "center", padding: "2rem" }}>
                   <LoadingSpinner />
                 </div>
               ) : tasks.length > 0 ? (
@@ -977,14 +1014,17 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                   <TaskCard key={task.id}>
                     <TaskHeader>
                       <TaskTitle>{task.name}</TaskTitle>
-                      <TaskBadge status={task.status}>
-                        {task.status}
-                      </TaskBadge>
+                      <TaskBadge status={task.status}>{task.status}</TaskBadge>
                     </TaskHeader>
                     <TaskContent>
-                      <p><strong>Building:</strong> {task.building.name}</p>
+                      <p>
+                        <strong>Building:</strong> {task.building.name}
+                      </p>
                       {task.deadline && (
-                        <p><strong>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}</p>
+                        <p>
+                          <strong>Deadline:</strong>{" "}
+                          {new Date(task.deadline).toLocaleDateString()}
+                        </p>
                       )}
                       {task.description && <p>{task.description}</p>}
                     </TaskContent>
@@ -998,27 +1038,44 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
                       </ProgressTrack>
                     </ProgressBar>
                     <TaskActions>
-                      {task.status !== 'COMPLETED' && task.status !== 'APPROVED' && (
-                        <>
-                          <TaskActionButton
-                            onClick={() => handleUpdateProgress(task.id, Math.min(100, task.progressPercentage + 25))}
-                          >
-                            Update Progress
-                          </TaskActionButton>
-                          {task.progressPercentage >= 100 && (
+                      {task.status !== "COMPLETED" &&
+                        task.status !== "APPROVED" && (
+                          <>
                             <TaskActionButton
-                              onClick={() => handleMarkTaskComplete(task.id, 'Task completed')}
+                              onClick={() =>
+                                handleUpdateProgress(
+                                  task.id,
+                                  Math.min(100, task.progressPercentage + 25),
+                                )
+                              }
                             >
-                              Mark Complete
+                              Update Progress
                             </TaskActionButton>
-                          )}
-                        </>
-                      )}
+                            {task.progressPercentage >= 100 && (
+                              <TaskActionButton
+                                onClick={() =>
+                                  handleMarkTaskComplete(
+                                    task.id,
+                                    "Task completed",
+                                  )
+                                }
+                              >
+                                Mark Complete
+                              </TaskActionButton>
+                            )}
+                          </>
+                        )}
                     </TaskActions>
                   </TaskCard>
                 ))
               ) : (
-                <div style={{ textAlign: 'center', padding: '2rem', color: 'hsl(25, 16%, 47%)' }}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "2rem",
+                    color: "hsl(25, 16%, 47%)",
+                  }}
+                >
                   No tasks assigned yet. Check back later for new assignments.
                 </div>
               )}
@@ -1029,18 +1086,22 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             <ContentTitle>Recent Notifications</ContentTitle>
             <ActivityList>
               {loading ? (
-                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <div style={{ textAlign: "center", padding: "2rem" }}>
                   <LoadingSpinner />
                 </div>
               ) : notifications.length > 0 ? (
                 notifications.slice(0, 3).map((notification) => (
                   <ActivityItem key={notification.id}>
-                    <ActivityIcon color={getNotificationColor(notification.type)}>
+                    <ActivityIcon
+                      color={getNotificationColor(notification.type)}
+                    >
                       <div></div>
                     </ActivityIcon>
                     <ActivityContent>
                       <ActivityTitle>{notification.title}</ActivityTitle>
-                      <ActivityTime>{new Date(notification.createdAt).toLocaleDateString()}</ActivityTime>
+                      <ActivityTime>
+                        {new Date(notification.createdAt).toLocaleDateString()}
+                      </ActivityTime>
                     </ActivityContent>
                   </ActivityItem>
                 ))
@@ -1074,9 +1135,10 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
             <PlaceholderText>
               <PlaceholderTitle>Contractor Dashboard</PlaceholderTitle>
               <PlaceholderDescription>
-                Welcome to your contractor dashboard! Here you can manage your assigned tasks,
-                track progress, and communicate with project managers. Stay on top of your
-                deadlines and keep projects moving forward.
+                Welcome to your contractor dashboard! Here you can manage your
+                assigned tasks, track progress, and communicate with project
+                managers. Stay on top of your deadlines and keep projects moving
+                forward.
               </PlaceholderDescription>
             </PlaceholderText>
           </PlaceholderContent>
