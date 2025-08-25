@@ -1072,11 +1072,11 @@ export default function Dashboard({ role, onLogout }: DashboardProps) {
               </svg>
             </PlaceholderIcon>
             <PlaceholderText>
-              <PlaceholderTitle>Dashboard Preview</PlaceholderTitle>
+              <PlaceholderTitle>Contractor Dashboard</PlaceholderTitle>
               <PlaceholderDescription>
-                This is a preview of your {role} dashboard. Full functionality
-                including task management, project creation, and approval
-                workflows will be implemented in the next phase.
+                Welcome to your contractor dashboard! Here you can manage your assigned tasks,
+                track progress, and communicate with project managers. Stay on top of your
+                deadlines and keep projects moving forward.
               </PlaceholderDescription>
             </PlaceholderText>
           </PlaceholderContent>
