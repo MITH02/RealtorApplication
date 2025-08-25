@@ -1,108 +1,148 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
 import { ChevronRight, MoreHorizontal } from "lucide-react";
+import { Slot } from "@radix-ui/react-slot";
+import styled from "@emotion/styled";
 
-import { cn } from "@/lib/utils";
+const StyledBreadcrumbNav = styled.nav`
+  & > ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    break-word: break-all;
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+
+    @media (min-width: 640px) {
+      gap: 0.625rem;
+    }
+  }
+`;
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<"nav"> & {
-    separator?: React.ReactNode;
+    separator?: React.ComponentType<any>;
   }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />);
+>(({ ...props }, ref) => <StyledBreadcrumbNav ref={ref} aria-label="breadcrumb" {...props} />);
 Breadcrumb.displayName = "Breadcrumb";
+
+const StyledBreadcrumbList = styled.ol`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
 
 const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
   React.ComponentPropsWithoutRef<"ol">
->(({ className, ...props }, ref) => (
-  <ol
-    ref={ref}
-    className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5",
-      className,
-    )}
-    {...props}
-  />
+>(({ ...props }, ref) => (
+  <StyledBreadcrumbList ref={ref} {...props} />
 ));
 BreadcrumbList.displayName = "BreadcrumbList";
+
+const StyledBreadcrumbItem = styled.li`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+`;
 
 const BreadcrumbItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<"li">
->(({ className, ...props }, ref) => (
-  <li
-    ref={ref}
-    className={cn("inline-flex items-center gap-1.5", className)}
-    {...props}
-  />
+>(({ ...props }, ref) => (
+  <StyledBreadcrumbItem ref={ref} {...props} />
 ));
 BreadcrumbItem.displayName = "BreadcrumbItem";
+
+const StyledBreadcrumbLink = styled.a`
+  transition: colors 150ms;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+
+  &:hover {
+    color: hsl(var(--foreground));
+  }
+`;
 
 const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   React.ComponentPropsWithoutRef<"a"> & {
     asChild?: boolean;
   }
->(({ asChild, className, ...props }, ref) => {
+>(({ asChild, ...props }, ref) => {
   const Comp = asChild ? Slot : "a";
 
-  return (
-    <Comp
-      ref={ref}
-      className={cn("transition-colors hover:text-foreground", className)}
-      {...props}
-    />
-  );
+  return <StyledBreadcrumbLink as={Comp} ref={ref} {...props} />;
 });
 BreadcrumbLink.displayName = "BreadcrumbLink";
+
+const StyledBreadcrumbPage = styled.span`
+  font-weight: normal;
+  color: hsl(var(--foreground));
+`;
 
 const BreadcrumbPage = React.forwardRef<
   HTMLSpanElement,
   React.ComponentPropsWithoutRef<"span">
->(({ className, ...props }, ref) => (
-  <span
+>(({ ...props }, ref) => (
+  <StyledBreadcrumbPage
     ref={ref}
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn("font-normal text-foreground", className)}
     {...props}
   />
 ));
 BreadcrumbPage.displayName = "BreadcrumbPage";
 
-const BreadcrumbSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"li">) => (
-  <li
+const StyledBreadcrumbSeparator = styled.li`
+  & > svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+`;
+
+const BreadcrumbSeparator = ({ children, ...props }: React.ComponentProps<"li">) => (
+  <StyledBreadcrumbSeparator
     role="presentation"
     aria-hidden="true"
-    className={cn("[&>svg]:size-3.5", className)}
     {...props}
   >
     {children ?? <ChevronRight />}
-  </li>
+  </StyledBreadcrumbSeparator>
 );
 BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
 
+const StyledBreadcrumbEllipsis = styled.span`
+  display: flex;
+  height: 2.25rem;
+  width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+
+  & > svg {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
 const BreadcrumbEllipsis = ({
-  className,
   ...props
 }: React.ComponentProps<"span">) => (
-  <span
+  <StyledBreadcrumbEllipsis
     role="presentation"
     aria-hidden="true"
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
     {...props}
   >
-    <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More</span>
-  </span>
+    <MoreHorizontal />
+    <span style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>More</span>
+  </StyledBreadcrumbEllipsis>
 );
-BreadcrumbEllipsis.displayName = "BreadcrumbElipssis";
+BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";
 
 export {
   Breadcrumb,
