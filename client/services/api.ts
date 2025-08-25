@@ -242,14 +242,47 @@ export interface MediaFileInfo {
 
 export interface MediaHealthResponse {
   status: "healthy" | "unhealthy";
-  uploadsDirectory: string;
-  uploadsExists: boolean;
-  uploadsWritable: boolean;
+  storageType: string;
+  mediaCount: number;
+  totalSize: string;
   maxFileSize: string;
   maxFiles: number;
   allowedTypes: string[];
   timestamp: string;
   error?: any;
+}
+
+export interface MediaListItem {
+  id: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  type: "image" | "video";
+  uploadedAt: string;
+  uploadedBy?: string;
+  url: string;
+}
+
+export interface MediaListResponse {
+  media: MediaListItem[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
+
+export interface StorageStatsResponse {
+  totalFiles: number;
+  totalSize: number;
+  imageCount: number;
+  videoCount: number;
+  storageType: string;
+  lastUpload: number | null;
 }
 
 class ApiService {
