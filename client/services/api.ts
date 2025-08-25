@@ -220,6 +220,71 @@ export interface Notification {
   expiresAt?: string;
 }
 
+export interface MediaUploadResponse {
+  id: string;
+  url: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  uploadedAt: string;
+}
+
+export interface MediaFileInfo {
+  id: string;
+  fileName: string;
+  size: number;
+  type: "image" | "video" | "unknown";
+  createdAt: string;
+  modifiedAt: string;
+  url: string;
+}
+
+export interface MediaHealthResponse {
+  status: "healthy" | "unhealthy";
+  storageType: string;
+  mediaCount: number;
+  totalSize: string;
+  maxFileSize: string;
+  maxFiles: number;
+  allowedTypes: string[];
+  timestamp: string;
+  error?: any;
+}
+
+export interface MediaListItem {
+  id: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  type: "image" | "video";
+  uploadedAt: string;
+  uploadedBy?: string;
+  url: string;
+}
+
+export interface MediaListResponse {
+  media: MediaListItem[];
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+}
+
+export interface StorageStatsResponse {
+  totalFiles: number;
+  totalSize: number;
+  imageCount: number;
+  videoCount: number;
+  storageType: string;
+  lastUpload: number | null;
+}
+
 class ApiService {
   private baseURL: string;
   private token: string | null = null;
@@ -552,6 +617,162 @@ class ApiService {
 
   async deleteNotification(id: number): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(`/notifications/${id}`, "DELETE");
+  }
+
+  // Media Upload APIs
+  async uploadSingleFile(
+    file: File,
+    onProgress?: (progress: number) => void,
+  ): Promise<MediaUploadResponse> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      if (onProgress) {
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            const progress = Math.round((e.loaded / e.total) * 100);
+            onProgress(progress);
+          }
+        });
+      }
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response);
+          } catch (error) {
+            reject(new Error("Invalid JSON response"));
+          }
+        } else {
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            reject(
+              new Error(
+                errorResponse.message || `HTTP error! status: ${xhr.status}`,
+              ),
+            );
+          } catch {
+            reject(new Error(`HTTP error! status: ${xhr.status}`));
+          }
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        reject(new Error("Network error during upload"));
+      });
+
+      xhr.addEventListener("timeout", () => {
+        reject(new Error("Upload timeout"));
+      });
+
+      xhr.open("POST", `${this.baseURL}/media/upload`);
+      if (this.token) {
+        xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
+      }
+
+      xhr.timeout = 5 * 60 * 1000; // 5 minutes timeout
+      xhr.send(formData);
+    });
+  }
+
+  async uploadMultipleFiles(
+    files: File[],
+    onProgress?: (progress: number) => void,
+  ): Promise<MediaUploadResponse[]> {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      if (onProgress) {
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            const progress = Math.round((e.loaded / e.total) * 100);
+            onProgress(progress);
+          }
+        });
+      }
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response);
+          } catch (error) {
+            reject(new Error("Invalid JSON response"));
+          }
+        } else {
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            reject(
+              new Error(
+                errorResponse.message || `HTTP error! status: ${xhr.status}`,
+              ),
+            );
+          } catch {
+            reject(new Error(`HTTP error! status: ${xhr.status}`));
+          }
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        reject(new Error("Network error during upload"));
+      });
+
+      xhr.addEventListener("timeout", () => {
+        reject(new Error("Upload timeout"));
+      });
+
+      xhr.open("POST", `${this.baseURL}/media/upload-multiple`);
+      if (this.token) {
+        xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
+      }
+
+      xhr.timeout = 10 * 60 * 1000; // 10 minutes timeout for multiple files
+      xhr.send(formData);
+    });
+  }
+
+  async deleteMediaFile(mediaId: string): Promise<MessageResponse> {
+    return this.makeRequest<MessageResponse>(`/media/${mediaId}`, "DELETE");
+  }
+
+  async getMediaFileInfo(mediaId: string): Promise<MediaFileInfo> {
+    return this.makeRequest<MediaFileInfo>(`/media/info/${mediaId}`);
+  }
+
+  async listMedia(
+    page: number = 1,
+    limit: number = 20,
+    type?: "image" | "video",
+  ): Promise<MediaListResponse> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    if (type) {
+      params.append("type", type);
+    }
+
+    return this.makeRequest<MediaListResponse>(
+      `/media/list?${params.toString()}`,
+    );
+  }
+
+  async getStorageStats(): Promise<StorageStatsResponse> {
+    return this.makeRequest<StorageStatsResponse>("/media/stats");
+  }
+
+  async getMediaHealth(): Promise<MediaHealthResponse> {
+    return this.makeRequest<MediaHealthResponse>("/media/health");
   }
 
   // Building-Contractor Assignment APIs

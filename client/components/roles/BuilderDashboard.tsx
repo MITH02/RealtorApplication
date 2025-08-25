@@ -12,6 +12,8 @@ import {
 } from "@/types";
 import apiService from "@/services/api";
 import { keyframes } from "@emotion/react";
+import MediaUpload from "@/components/MediaUpload";
+import MediaGallery, { MediaItem } from "@/components/MediaGallery";
 
 // Animations
 const fadeIn = keyframes`
@@ -561,6 +563,19 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     contractorId: 0,
   });
 
+  // Media upload states
+  const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Project media (for buildings and tasks)
+  const [buildingMedia, setBuildingMedia] = useState<{
+    [buildingId: number]: MediaItem[];
+  }>({});
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>(
+    {},
+  );
+
   const fetchBuildings = async () => {
     try {
       const buildingsData = await apiService.getAllBuildings();
@@ -574,9 +589,72 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     try {
       const tasksData = await apiService.getBuilderTasks();
       setTasks(tasksData);
+
+      // Fetch media for each task
+      await fetchTasksMedia(tasksData);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
     }
+  };
+
+  const fetchTasksMedia = async (tasks: Task[]) => {
+    try {
+      const mediaPromises = tasks.map(async (task) => {
+        try {
+          const updates = await apiService.getTaskUpdates(task.id);
+          const media: MediaItem[] = [];
+
+          updates.forEach((update) => {
+            if (update.imageUrls && update.imageUrls.length > 0) {
+              update.imageUrls.forEach((url, index) => {
+                const isVideo =
+                  url.includes(".mp4") ||
+                  url.includes(".mov") ||
+                  url.includes(".avi") ||
+                  url.includes(".webm");
+                media.push({
+                  id: `${update.id}-${index}`,
+                  url,
+                  type: isVideo ? "video" : "image",
+                  caption: update.message,
+                  uploadedAt: update.createdAt,
+                  uploadedBy: `${update.createdBy.firstName} ${update.createdBy.lastName}`,
+                });
+              });
+            }
+          });
+
+          return { taskId: task.id, media };
+        } catch (error) {
+          console.error(`Failed to fetch media for task ${task.id}:`, error);
+          return { taskId: task.id, media: [] };
+        }
+      });
+
+      const results = await Promise.all(mediaPromises);
+      const mediaMap: { [taskId: number]: MediaItem[] } = {};
+      results.forEach(({ taskId, media }) => {
+        mediaMap[taskId] = media;
+      });
+
+      setTaskMedia(mediaMap);
+    } catch (error) {
+      console.error("Failed to fetch tasks media:", error);
+    }
+  };
+
+  const handleMediaUploadComplete = (urls: string[]) => {
+    setUploadedMediaUrls((prev) => [...prev, ...urls]);
+    setUploadError(null);
+  };
+
+  const handleMediaUploadError = (error: string) => {
+    setUploadError(error);
+  };
+
+  const clearUploadedMedia = () => {
+    setUploadedMediaUrls([]);
+    setUploadError(null);
   };
 
   const fetchPendingTasks = async () => {
@@ -628,7 +706,18 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await apiService.createTask(taskForm);
+      const createdTask = await apiService.createTask(taskForm);
+
+      // Add media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          createdTask.id,
+          "Task created with reference materials",
+          "STATUS_CHANGE",
+          uploadedMediaUrls,
+        );
+      }
+
       setShowTaskModal(false);
       resetTaskForm();
       await fetchTasks();
@@ -668,6 +757,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       setSelectedBuildingForTask(building);
       setTaskForm((prev) => ({ ...prev, buildingId: building.id }));
     }
+    clearUploadedMedia();
     setShowTaskModal(true);
   };
 
@@ -688,6 +778,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       expectedCompletionDate: "",
     });
     setEditingBuilding(null);
+    clearUploadedMedia();
   };
 
   const resetTaskForm = () => {
@@ -704,6 +795,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       contractorId: 0,
     });
     setSelectedBuildingForTask(null);
+    clearUploadedMedia();
   };
 
   const stats = {
@@ -844,12 +936,25 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                   <br />
                   📅 Deadline: {new Date(task.deadline).toLocaleDateString()}
                   <br />
-                  📊 Progress: {task.progressPercentage}%
+                  �� Progress: {task.progressPercentage}%
                 </CardInfo>
 
                 <StatusBadge status={task.status}>
                   {task.status.replace("_", " ")}
                 </StatusBadge>
+
+                {/* Media Gallery for this task */}
+                {taskMedia[task.id] && taskMedia[task.id].length > 0 && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <MediaGallery
+                      items={taskMedia[task.id]}
+                      title="Task Progress Media"
+                      showDetails={false}
+                      readOnly={true}
+                      emptyMessage=""
+                    />
+                  </div>
+                )}
 
                 <CardActions>
                   {task.status === "COMPLETED" && (
@@ -858,17 +963,17 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                         variant="success"
                         onClick={() => handleApproveTask(task.id)}
                       >
-                        Approve
+                        ✅ Approve
                       </SmallButton>
                       <SmallButton
                         variant="danger"
                         onClick={() => handleRejectTask(task.id)}
                       >
-                        Reject
+                        ❌ Reject
                       </SmallButton>
                     </>
                   )}
-                  <SmallButton variant="secondary">View Details</SmallButton>
+                  <SmallButton variant="secondary">👁️ View Details</SmallButton>
                 </CardActions>
               </Card>
             ))}
@@ -983,6 +1088,31 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               </Select>
             </FormGroup>
 
+            <FormGroup>
+              <Label>Project Documentation (Optional)</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
+                onError={handleMediaUploadError}
+                context="building_documentation"
+                maxFiles={8}
+                maxSizeM={30}
+              />
+              {uploadError && (
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
@@ -994,8 +1124,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Create Building
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Create Building"}
               </Button>
             </FormActions>
           </Form>
@@ -1149,6 +1283,31 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               />
             </FormGroup>
 
+            <FormGroup>
+              <Label>Reference Photos & Videos (Optional)</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
+                onError={handleMediaUploadError}
+                context="building_documentation"
+                maxFiles={5}
+                maxSizeM={20}
+              />
+              {uploadError && (
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
@@ -1160,8 +1319,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Create Task
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Create Task"}
               </Button>
             </FormActions>
           </Form>

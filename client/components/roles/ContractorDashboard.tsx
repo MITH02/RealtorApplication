@@ -4,6 +4,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { User, Task, TaskStatus, STATUS_COLORS } from "@/types";
 import apiService from "@/services/api";
 import { keyframes } from "@emotion/react";
+import MediaUpload from "@/components/MediaUpload";
+import MediaGallery, { MediaItem } from "@/components/MediaGallery";
 
 // Animations
 const fadeIn = keyframes`
@@ -511,14 +513,87 @@ export default function ContractorDashboard({
   const [progressNotes, setProgressNotes] = useState("");
   const [completionNotes, setCompletionNotes] = useState("");
 
+  // Media upload states
+  const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Task media (existing images/videos from task updates)
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>(
+    {},
+  );
+
   const fetchTasks = async () => {
     try {
       const tasksData = await apiService.getMyTasks();
       setTasks(tasksData);
       setFilteredTasks(tasksData);
+
+      // Fetch media for each task
+      await fetchTasksMedia(tasksData);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
     }
+  };
+
+  const fetchTasksMedia = async (tasks: Task[]) => {
+    try {
+      const mediaPromises = tasks.map(async (task) => {
+        try {
+          const updates = await apiService.getTaskUpdates(task.id);
+          const media: MediaItem[] = [];
+
+          updates.forEach((update) => {
+            if (update.imageUrls && update.imageUrls.length > 0) {
+              update.imageUrls.forEach((url, index) => {
+                const isVideo =
+                  url.includes(".mp4") ||
+                  url.includes(".mov") ||
+                  url.includes(".avi") ||
+                  url.includes(".webm");
+                media.push({
+                  id: `${update.id}-${index}`,
+                  url,
+                  type: isVideo ? "video" : "image",
+                  caption: update.message,
+                  uploadedAt: update.createdAt,
+                  uploadedBy: `${update.createdBy.firstName} ${update.createdBy.lastName}`,
+                });
+              });
+            }
+          });
+
+          return { taskId: task.id, media };
+        } catch (error) {
+          console.error(`Failed to fetch media for task ${task.id}:`, error);
+          return { taskId: task.id, media: [] };
+        }
+      });
+
+      const results = await Promise.all(mediaPromises);
+      const mediaMap: { [taskId: number]: MediaItem[] } = {};
+      results.forEach(({ taskId, media }) => {
+        mediaMap[taskId] = media;
+      });
+
+      setTaskMedia(mediaMap);
+    } catch (error) {
+      console.error("Failed to fetch tasks media:", error);
+    }
+  };
+
+  const handleMediaUploadComplete = (urls: string[]) => {
+    setUploadedMediaUrls((prev) => [...prev, ...urls]);
+    setUploadError(null);
+  };
+
+  const handleMediaUploadError = (error: string) => {
+    setUploadError(error);
+  };
+
+  const clearUploadedMedia = () => {
+    setUploadedMediaUrls([]);
+    setUploadError(null);
   };
 
   useEffect(() => {
@@ -566,15 +641,28 @@ export default function ContractorDashboard({
     if (!selectedTask) return;
 
     try {
+      // Update progress first
       await apiService.updateTaskProgress(
         selectedTask.id,
         progressValue,
         progressNotes,
       );
+
+      // Add media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          selectedTask.id,
+          progressNotes || `Progress update: ${progressValue}%`,
+          "PROGRESS_UPDATE",
+          uploadedMediaUrls,
+        );
+      }
+
       setShowProgressModal(false);
       setSelectedTask(null);
       setProgressValue(0);
       setProgressNotes("");
+      clearUploadedMedia();
       await fetchTasks();
     } catch (error) {
       console.error("Failed to update progress:", error);
@@ -587,10 +675,23 @@ export default function ContractorDashboard({
     if (!selectedTask) return;
 
     try {
+      // Mark task as completed first
       await apiService.markTaskAsCompleted(selectedTask.id, completionNotes);
+
+      // Add completion media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          selectedTask.id,
+          completionNotes || "Task completed with media",
+          "COMPLETION",
+          uploadedMediaUrls,
+        );
+      }
+
       setShowCompleteModal(false);
       setSelectedTask(null);
       setCompletionNotes("");
+      clearUploadedMedia();
       await fetchTasks();
     } catch (error) {
       console.error("Failed to mark task as completed:", error);
@@ -601,12 +702,29 @@ export default function ContractorDashboard({
   const openProgressModal = (task: Task) => {
     setSelectedTask(task);
     setProgressValue(task.progressPercentage);
+    clearUploadedMedia();
     setShowProgressModal(true);
   };
 
   const openCompleteModal = (task: Task) => {
     setSelectedTask(task);
+    clearUploadedMedia();
     setShowCompleteModal(true);
+  };
+
+  const closeProgressModal = () => {
+    setShowProgressModal(false);
+    setSelectedTask(null);
+    setProgressValue(0);
+    setProgressNotes("");
+    clearUploadedMedia();
+  };
+
+  const closeCompleteModal = () => {
+    setShowCompleteModal(false);
+    setSelectedTask(null);
+    setCompletionNotes("");
+    clearUploadedMedia();
   };
 
   const stats = {
@@ -769,6 +887,19 @@ export default function ContractorDashboard({
                   </ProgressBar>
                 </ProgressSection>
 
+                {/* Media Gallery for this task */}
+                {taskMedia[task.id] && taskMedia[task.id].length > 0 && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <MediaGallery
+                      items={taskMedia[task.id]}
+                      title="Progress Photos & Videos"
+                      showDetails={false}
+                      readOnly={true}
+                      emptyMessage=""
+                    />
+                  </div>
+                )}
+
                 <TaskActions>
                   {task.status === "ASSIGNED" ||
                   task.status === "IN_PROGRESS" ? (
@@ -777,7 +908,7 @@ export default function ContractorDashboard({
                         variant="primary"
                         onClick={() => openProgressModal(task)}
                       >
-                        Update Progress
+                        📸 Update Progress
                       </Button>
                       {task.progressPercentage >= 100 ||
                       task.status === "IN_PROGRESS" ? (
@@ -785,7 +916,7 @@ export default function ContractorDashboard({
                           variant="success"
                           onClick={() => openCompleteModal(task)}
                         >
-                          Mark Complete
+                          ✅ Mark Complete
                         </Button>
                       ) : null}
                     </>
@@ -803,7 +934,7 @@ export default function ContractorDashboard({
                         variant="primary"
                         onClick={() => openProgressModal(task)}
                       >
-                        Resume Work
+                        📸 Resume Work
                       </Button>
                       {task.rejectionReason && (
                         <div
@@ -856,21 +987,45 @@ export default function ContractorDashboard({
               />
             </FormGroup>
 
+            <FormGroup>
+              <Label>Upload Progress Photos & Videos</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
+                onError={handleMediaUploadError}
+                context="task_progress"
+                maxFiles={5}
+                maxSizeM={25}
+              />
+              {uploadError && (
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => {
-                  setShowProgressModal(false);
-                  setSelectedTask(null);
-                  setProgressValue(0);
-                  setProgressNotes("");
-                }}
+                onClick={closeProgressModal}
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Update Progress
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Update Progress"}
               </Button>
             </FormActions>
           </Form>
@@ -893,20 +1048,45 @@ export default function ContractorDashboard({
               />
             </FormGroup>
 
+            <FormGroup>
+              <Label>Upload Completion Photos & Videos</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
+                onError={handleMediaUploadError}
+                context="task_completion"
+                maxFiles={8}
+                maxSizeM={30}
+              />
+              {uploadError && (
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => {
-                  setShowCompleteModal(false);
-                  setSelectedTask(null);
-                  setCompletionNotes("");
-                }}
+                onClick={closeCompleteModal}
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="success">
-                Mark as Completed
+              <Button
+                type="submit"
+                variant="success"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Mark as Completed"}
               </Button>
             </FormActions>
           </Form>
