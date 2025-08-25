@@ -12,6 +12,8 @@ import {
 } from "@/types";
 import apiService from "@/services/api";
 import { keyframes } from "@emotion/react";
+import MediaUpload from "@/components/MediaUpload";
+import MediaGallery, { MediaItem } from "@/components/MediaGallery";
 
 // Animations
 const fadeIn = keyframes`
