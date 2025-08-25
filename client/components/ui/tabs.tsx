@@ -1,52 +1,88 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-
-import { cn } from "@/lib/utils";
+import styled from "@emotion/styled";
 
 const Tabs = TabsPrimitive.Root;
+
+const StyledTabsList = styled(TabsPrimitive.List)`
+  display: inline-flex;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius));
+  background: hsl(var(--muted));
+  padding: 0.25rem;
+  color: hsl(var(--muted-foreground));
+`;
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.List
-    ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
-      className,
-    )}
-    {...props}
-  />
+>(({ ...props }, ref) => (
+  <StyledTabsList ref={ref} {...props} />
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
+
+const StyledTabsTrigger = styled(TabsPrimitive.Trigger)`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 150ms;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: hsl(var(--muted-foreground));
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
+    ring-offset-width: 2px;
+    ring-offset-color: hsl(var(--background));
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  &[data-state="active"] {
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    box-shadow: 
+      0 1px 3px 0 rgb(0 0 0 / 0.1),
+      0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+`;
 
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
-      className,
-    )}
-    {...props}
-  />
+>(({ ...props }, ref) => (
+  <StyledTabsTrigger ref={ref} {...props} />
 ));
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
+
+const StyledTabsContent = styled(TabsPrimitive.Content)`
+  margin-top: 0.5rem;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
+    ring-offset-width: 2px;
+    ring-offset-color: hsl(var(--background));
+  }
+`;
 
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <TabsPrimitive.Content
-    ref={ref}
-    className={cn(
-      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      className,
-    )}
-    {...props}
-  />
+>(({ ...props }, ref) => (
+  <StyledTabsContent ref={ref} {...props} />
 ));
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
