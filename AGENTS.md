@@ -7,19 +7,19 @@ While the starter comes with a express server, only create endpoint when strictl
 ## Tech Stack
 
 - **PNPM**: Prefer pnpm
-- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + TailwindCSS 3
+- **Frontend**: React 18 + React Router 6 (spa) + TypeScript + Vite + Emotion CSS
 - **Backend**: Express server integrated with Vite dev server
 - **Testing**: Vitest
-- **UI**: Radix UI + TailwindCSS 3 + Lucide React icons
+- **UI**: Radix UI + Emotion CSS + Lucide React icons
 
 ## Project Structure
 
 ```
 client/                   # React SPA frontend
 ├── pages/                # Route components (Index.tsx = home)
-├── components/ui/        # Pre-built UI component library
+��── components/ui/        # Pre-built UI component library
 ├── App.tsx                # App entry point and with SPA routing setup
-└── global.css            # TailwindCSS 3 theming and global styles
+└── global.css            # CSS variables and global styles for Emotion theming
 
 server/                   # Express API backend
 ├── index.ts              # Main server setup (express config + routes)
@@ -53,10 +53,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 ### Styling System
 
-- **Primary**: TailwindCSS 3 utility classes
-- **Theme and design tokens**: Configure in `client/global.css` 
-- **UI components**: Pre-built library in `client/components/ui/`
-- **Utility**: `cn()` function combines `clsx` + `tailwind-merge` for conditional classes
+- **Primary**: Emotion CSS with styled components
+- **Theme and design tokens**: Configure in `client/global.css` and `client/styles/theme.ts`
+- **UI components**: Pre-built library in `client/components/ui/` using Emotion styled components
+- **Utility**: `cn()` function for simple className concatenation, `mergeStyles()` for Emotion CSS objects
 
 ```typescript
 // cn utility usage
@@ -74,16 +74,20 @@ className={cn(
 - **API endpoints**: Prefixed with `/api/`
 
 #### Example API Routes
+
 - `GET /api/ping` - Simple ping api
-- `GET /api/demo` - Demo endpoint  
+- `GET /api/demo` - Demo endpoint
 
 ### Shared Types
+
 Import consistent types in both client and server:
+
 ```typescript
-import { DemoResponse } from '@shared/api';
+import { DemoResponse } from "@shared/api";
 ```
 
 Path aliases:
+
 - `@shared/*` - Shared folder
 - `@/*` - Client folder
 
@@ -101,10 +105,12 @@ pnpm test          # Run Vitest tests
 
 ### Add new colors to the theme
 
-Open `client/global.css` and `tailwind.config.ts` and add new tailwind colors.
+Open `client/global.css` and `client/styles/theme.ts` to add new colors to the Emotion theme.
 
 ### New API Route
+
 1. **Optional**: Create a shared interface in `shared/api.ts`:
+
 ```typescript
 export interface MyRouteResponse {
   message: string;
@@ -113,19 +119,21 @@ export interface MyRouteResponse {
 ```
 
 2. Create a new route handler in `server/routes/my-route.ts`:
+
 ```typescript
 import { RequestHandler } from "express";
 import { MyRouteResponse } from "@shared/api"; // Optional: for type safety
 
 export const handleMyRoute: RequestHandler = (req, res) => {
   const response: MyRouteResponse = {
-    message: 'Hello from my endpoint!'
+    message: "Hello from my endpoint!",
   };
   res.json(response);
 };
 ```
 
 3. Register the route in `server/index.ts`:
+
 ```typescript
 import { handleMyRoute } from "./routes/my-route";
 
@@ -134,16 +142,19 @@ app.get("/api/my-endpoint", handleMyRoute);
 ```
 
 4. Use in React components with type safety:
-```typescript
-import { MyRouteResponse } from '@shared/api'; // Optional: for type safety
 
-const response = await fetch('/api/my-endpoint');
+```typescript
+import { MyRouteResponse } from "@shared/api"; // Optional: for type safety
+
+const response = await fetch("/api/my-endpoint");
 const data: MyRouteResponse = await response.json();
 ```
 
 ### New Page Route
+
 1. Create component in `client/pages/MyPage.tsx`
 2. Add route in `client/App.tsx`:
+
 ```typescript
 <Route path="/my-page" element={<MyPage />} />
 ```

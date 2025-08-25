@@ -1,5 +1,40 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import styled from "@emotion/styled";
+
+const Container = styled.div`
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f3f4f6;
+`;
+
+const Content = styled.div`
+  text-align: center;
+`;
+
+const Title = styled.h1`
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #111827;
+`;
+
+const Description = styled.p`
+  font-size: 1.25rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+`;
+
+const HomeLink = styled.a`
+  color: #3b82f6;
+  text-decoration: underline;
+
+  &:hover {
+    color: #1d4ed8;
+  }
+`;
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,15 +47,13 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
-    </div>
+    <Container>
+      <Content>
+        <Title>404</Title>
+        <Description>Oops! Page not found</Description>
+        <HomeLink href="/">Return to Home</HomeLink>
+      </Content>
+    </Container>
   );
 };
 

@@ -1,25 +1,139 @@
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-
-import { cn } from "@/lib/utils";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 
 const Popover = PopoverPrimitive.Root;
 
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
+// Keyframes for animations
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+const scaleIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+const scaleOut = keyframes`
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+`;
+
+const slideInFromTop = keyframes`
+  from {
+    transform: translateY(-0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+const slideInFromRight = keyframes`
+  from {
+    transform: translateX(0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideInFromLeft = keyframes`
+  from {
+    transform: translateX(-0.5rem);
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideInFromBottom = keyframes`
+  from {
+    transform: translateY(0.5rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+const StyledPopoverContent = styled(PopoverPrimitive.Content)`
+  z-index: 50;
+  width: 18rem;
+  border-radius: calc(var(--radius) - 2px);
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--popover));
+  padding: 1rem;
+  color: hsl(var(--popover-foreground));
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  outline: none;
+  animation-duration: 200ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+
+  &[data-state="open"] {
+    animation-name: ${fadeIn}, ${scaleIn};
+  }
+
+  &[data-state="closed"] {
+    animation-name: ${fadeOut}, ${scaleOut};
+  }
+
+  &[data-side="bottom"] {
+    animation-name: ${fadeIn}, ${scaleIn}, ${slideInFromTop};
+  }
+
+  &[data-side="left"] {
+    animation-name: ${fadeIn}, ${scaleIn}, ${slideInFromRight};
+  }
+
+  &[data-side="right"] {
+    animation-name: ${fadeIn}, ${scaleIn}, ${slideInFromLeft};
+  }
+
+  &[data-side="top"] {
+    animation-name: ${fadeIn}, ${scaleIn}, ${slideInFromBottom};
+  }
+`;
+
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+>(({ align = "center", sideOffset = 4, ...props }, ref) => (
   <PopoverPrimitive.Portal>
-    <PopoverPrimitive.Content
+    <StyledPopoverContent
       ref={ref}
       align={align}
       sideOffset={sideOffset}
-      className={cn(
-        "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        className,
-      )}
       {...props}
     />
   </PopoverPrimitive.Portal>
