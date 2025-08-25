@@ -881,6 +881,19 @@ export default function ContractorDashboard({
                   </ProgressBar>
                 </ProgressSection>
 
+                {/* Media Gallery for this task */}
+                {taskMedia[task.id] && taskMedia[task.id].length > 0 && (
+                  <div style={{ marginTop: "1rem" }}>
+                    <MediaGallery
+                      items={taskMedia[task.id]}
+                      title="Progress Photos & Videos"
+                      showDetails={false}
+                      readOnly={true}
+                      emptyMessage=""
+                    />
+                  </div>
+                )}
+
                 <TaskActions>
                   {task.status === "ASSIGNED" ||
                   task.status === "IN_PROGRESS" ? (
@@ -889,7 +902,7 @@ export default function ContractorDashboard({
                         variant="primary"
                         onClick={() => openProgressModal(task)}
                       >
-                        Update Progress
+                        📸 Update Progress
                       </Button>
                       {task.progressPercentage >= 100 ||
                       task.status === "IN_PROGRESS" ? (
@@ -897,7 +910,7 @@ export default function ContractorDashboard({
                           variant="success"
                           onClick={() => openCompleteModal(task)}
                         >
-                          Mark Complete
+                          ✅ Mark Complete
                         </Button>
                       ) : null}
                     </>
@@ -915,7 +928,7 @@ export default function ContractorDashboard({
                         variant="primary"
                         onClick={() => openProgressModal(task)}
                       >
-                        Resume Work
+                        📸 Resume Work
                       </Button>
                       {task.rejectionReason && (
                         <div
