@@ -6,6 +6,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
+import { GlobalStyles } from "@/styles/GlobalStyles";
+import { theme } from "@/styles/theme";
 import { useState } from "react";
 import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
@@ -156,18 +159,21 @@ const AppContent = () => {
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="system" storageKey="constructpro-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<AppContent />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
+    <EmotionThemeProvider theme={theme}>
+      <GlobalStyles />
+      <ThemeProvider defaultTheme="system" storageKey="constructpro-theme">
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<AppContent />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
+    </EmotionThemeProvider>
   </QueryClientProvider>
 );
 

@@ -1,54 +1,86 @@
 import { Moon, Sun } from "lucide-react";
+import styled from "@emotion/styled";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useTheme } from "./theme-provider";
 
-export function ThemeToggle() {
-  const { setTheme } = useTheme();
+const StyledThemeButton = styled(Button)`
+  height: 3rem !important;
+  width: 3rem !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-white/50 dark:border-slate-700/50 hover:bg-white/95 dark:hover:bg-slate-800/95 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-        >
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-amber-500" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-500" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl border-white/50 dark:border-slate-700/50 shadow-2xl"
-      >
-        <DropdownMenuItem
-          onClick={() => setTheme("light")}
-          className="hover:bg-white/80 dark:hover:bg-slate-700/80 focus:bg-white/80 dark:focus:bg-slate-700/80"
-        >
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setTheme("dark")}
-          className="hover:bg-white/80 dark:hover:bg-slate-700/80 focus:bg-white/80 dark:focus:bg-slate-700/80"
-        >
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setTheme("system")}
-          className="hover:bg-white/80 dark:hover:bg-slate-700/80 focus:bg-white/80 dark:focus:bg-slate-700/80"
-        >
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
+  .dark & {
+    background: rgba(51, 65, 85, 0.8) !important;
+    border-color: rgba(51, 65, 85, 0.5) !important;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1) !important;
+    transform: scale(1.1) !important;
+
+    .dark & {
+      background: rgba(51, 65, 85, 0.95) !important;
+    }
+  }
+
+  .sun-icon {
+    height: 1.4rem;
+    width: 1.4rem;
+    transform: rotate(0deg) scale(1);
+    transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    color: hsl(45 93% 47%);
+
+    .dark & {
+      transform: rotate(-90deg) scale(0);
+    }
+
+    &:hover {
+      color: hsl(45 93% 42%);
+    }
+  }
+
+  .moon-icon {
+    position: absolute;
+    height: 1.4rem;
+    width: 1.4rem;
+    transform: rotate(90deg) scale(0);
+    transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    color: hsl(217 91% 60%);
+
+    .dark & {
+      transform: rotate(0deg) scale(1);
+    }
+
+    &:hover {
+      color: hsl(217 91% 65%);
+    }
+  }
+`;
+
+const ScreenReaderOnly = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+`;
+
+export function ThemeToggle() {
+  // For now, just return the SimpleThemeToggle since we haven't converted DropdownMenu yet
+  return <SimpleThemeToggle />;
 }
 
 export function SimpleThemeToggle() {
@@ -66,15 +98,10 @@ export function SimpleThemeToggle() {
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={toggleTheme}
-      className="h-12 w-12 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-white/50 dark:border-slate-700/50 hover:bg-white/95 dark:hover:bg-slate-800/95 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group"
-    >
-      <Sun className="h-[1.4rem] w-[1.4rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0 text-amber-500 group-hover:text-amber-600" />
-      <Moon className="absolute h-[1.4rem] w-[1.4rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100 text-blue-500 group-hover:text-blue-400" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <StyledThemeButton variant="ghost" size="icon" onClick={toggleTheme}>
+      <Sun className="sun-icon" />
+      <Moon className="moon-icon" />
+      <ScreenReaderOnly>Toggle theme</ScreenReaderOnly>
+    </StyledThemeButton>
   );
 }

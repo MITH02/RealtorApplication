@@ -1,8 +1,471 @@
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface RoleSelectionProps {
   onRoleSelect: (role: "builder" | "contractor" | "admin") => void;
 }
+
+// Animations
+const float = keyframes`
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+`;
+
+const pulse = keyframes`
+  50% {
+    opacity: 0.5;
+  }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+// Styled components
+const Container = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
+  position: relative;
+  overflow: hidden;
+
+  .dark & {
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
+  }
+`;
+
+const BackgroundElements = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const Star = styled.div<{
+  left: string;
+  top: string;
+  delay: string;
+  size: string;
+}>`
+  position: absolute;
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
+  color: hsl(217 91% 60% / 0.6);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: ${(props) => props.delay};
+  font-size: ${(props) => props.size};
+
+  .dark & {
+    color: hsl(217 91% 70% / 0.4);
+  }
+`;
+
+const FloatingElement1 = styled.div`
+  position: absolute;
+  top: 5rem;
+  left: 2.5rem;
+  width: 8rem;
+  height: 8rem;
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2)
+  );
+  border-radius: 50%;
+  filter: blur(24px);
+  animation: ${float} 3s ease-in-out infinite;
+`;
+
+const FloatingElement2 = styled.div`
+  position: absolute;
+  top: 10rem;
+  right: 4rem;
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(
+    135deg,
+    hsl(196 100% 60% / 0.25),
+    hsl(217 91% 65% / 0.25)
+  );
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 1s;
+`;
+
+const FloatingElement3 = styled.div`
+  position: absolute;
+  bottom: 8rem;
+  left: 5rem;
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(
+    135deg,
+    hsl(221 83% 65% / 0.3),
+    hsl(196 100% 60% / 0.3)
+  );
+  border-radius: 50%;
+  filter: blur(12px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 2s;
+`;
+
+const FloatingElement4 = styled.div`
+  position: absolute;
+  top: 33.333333%;
+  right: 25%;
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.2),
+    hsl(314 100% 75% / 0.2)
+  );
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+`;
+
+const GeometricAccent1 = styled.div`
+  position: absolute;
+  top: 8rem;
+  left: 33.333333%;
+  width: 0.5rem;
+  height: 3rem;
+  background: linear-gradient(to bottom, hsl(217 91% 60% / 0.4), transparent);
+  transform: rotate(12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+`;
+
+const GeometricAccent2 = styled.div`
+  position: absolute;
+  bottom: 10rem;
+  right: 33.333333%;
+  width: 3rem;
+  height: 0.5rem;
+  background: linear-gradient(to right, hsl(196 100% 60% / 0.4), transparent);
+  transform: rotate(-12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 1s;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.div`
+  padding: 3rem 1.5rem 0;
+
+  @media (min-width: 640px) {
+    padding-top: 4rem;
+  }
+`;
+
+const ThemeToggleContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
+
+const TitleContainer = styled.div`
+  text-align: center;
+  transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  transform: translateY(0);
+`;
+
+const Title = styled.h1`
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+  animation: ${fadeIn} 0.6s ease-out forwards;
+
+  .dark & {
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65%),
+      hsl(271 91% 70%),
+      hsl(221 83% 65%)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  @media (min-width: 640px) {
+    font-size: 3.75rem;
+  }
+`;
+
+const Subtitle = styled.div`
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: rgba(51, 65, 85, 0.6);
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: hsl(210 40% 28%);
+    font-weight: 600;
+    margin: 0;
+
+    .dark & {
+      color: hsl(210 40% 98%);
+    }
+  }
+`;
+
+const MainContent = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+`;
+
+const RoleCardsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+`;
+
+const RoleCard = styled.div<{ index: number }>`
+  cursor: pointer;
+  transform-origin: center;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: ${(props) => props.index * 200}ms;
+
+  &:hover {
+    transform: scale(1.02) translateY(-8px);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+`;
+
+const RoleCardInner = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    border-color: hsl(217 91% 60% / 0.6);
+    background: rgba(255, 255, 255, 0.95);
+
+    .dark & {
+      border-color: hsl(217 91% 65% / 0.6);
+      background: rgba(51, 65, 85, 0.95);
+    }
+  }
+`;
+
+const RoleCardContent = styled.div`
+  display: flex;
+  height: 11rem;
+
+  @media (min-width: 640px) {
+    height: 12rem;
+  }
+`;
+
+const RoleCardImage = styled.div`
+  width: 11rem;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  @media (min-width: 640px) {
+    width: 13rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  ${RoleCard}:hover & img {
+    transform: scale(1.05);
+  }
+`;
+
+const RoleCardText = styled.div`
+  flex: 1;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
+  @media (min-width: 640px) {
+    padding: 1.75rem;
+  }
+`;
+
+const RoleCardTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(to right, hsl(215 28% 17%), hsl(215 16% 47%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 0.75rem;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    background: linear-gradient(to right, hsl(210 40% 98%), hsl(210 40% 78%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  @media (min-width: 640px) {
+    font-size: 1.875rem;
+  }
+
+  ${RoleCard}:hover & {
+    background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%));
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    .dark & {
+      background: linear-gradient(to right, hsl(217 91% 65%), hsl(271 91% 70%));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+  }
+`;
+
+const RoleCardDescription = styled.p`
+  color: hsl(215 16% 47%);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  transition: colors 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+
+  @media (min-width: 640px) {
+    font-size: 1rem;
+  }
+
+  ${RoleCard}:hover & {
+    color: hsl(210 40% 28%);
+
+    .dark & {
+      color: hsl(210 40% 98%);
+    }
+  }
+`;
+
+const Footer = styled.div`
+  padding: 0 1.5rem 3rem;
+`;
+
+const FooterContent = styled.div`
+  text-align: center;
+  transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 500ms;
+  opacity: 1;
+  transform: translateY(0);
+`;
+
+const FooterBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.6);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+`;
+
+const FooterBadgeDot = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%));
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+`;
+
+const FooterBadgeText = styled.p`
+  color: hsl(215 16% 47%);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+`;
 
 export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
   const roles = [
@@ -30,119 +493,100 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
     },
   ];
 
+  // Generate random stars
+  const stars = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    left: `${10 + Math.random() * 80}%`,
+    top: `${10 + Math.random() * 80}%`,
+    delay: `${Math.random() * 3}s`,
+    size: `${12 + Math.random() * 8}px`,
+  }));
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
+    <Container>
       {/* Decorative Background Elements */}
-      <div className="absolute inset-0">
+      <BackgroundElements>
         {/* Stars */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-blue-400/60 dark:text-blue-300/40 animate-pulse"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-              fontSize: `${12 + Math.random() * 8}px`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
+        {stars.map((star) => (
+          <Star
+            key={star.id}
+            left={star.left}
+            top={star.top}
+            delay={star.delay}
+            size={star.size}
           >
             ✦
-          </div>
+          </Star>
         ))}
 
         {/* Modern Floating Elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"></div>
-        <div
-          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-cyan-400/25 to-blue-400/25 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-indigo-400/30 to-cyan-400/30 rounded-full blur-md animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div
-          className="absolute top-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-purple-400/20 to-pink-400/20 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "0.5s" }}
-        ></div>
+        <FloatingElement1 />
+        <FloatingElement2 />
+        <FloatingElement3 />
+        <FloatingElement4 />
 
         {/* Geometric Shapes */}
-        <div className="absolute top-32 left-1/3 w-2 h-12 bg-gradient-to-b from-blue-400/40 to-transparent rotate-12 animate-pulse"></div>
-        <div
-          className="absolute bottom-40 right-1/3 w-12 h-2 bg-gradient-to-r from-cyan-400/40 to-transparent -rotate-12 animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-      </div>
+        <GeometricAccent1 />
+        <GeometricAccent2 />
+      </BackgroundElements>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col">
+      <ContentContainer>
         {/* Header */}
-        <div className="px-6 pt-12 sm:pt-16">
-          <div className="flex justify-end mb-4">
+        <Header>
+          <ThemeToggleContainer>
             <SimpleThemeToggle />
-          </div>
-          <div className="text-center transition-all duration-1000 opacity-100 translate-y-0">
-            <h1 className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent mb-4 tracking-tight animate-fadeIn">
-              ConstructPro
-            </h1>
-            <div className="inline-block px-6 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/60 dark:border-slate-700/60 shadow-lg">
-              <p className="text-lg text-slate-700 dark:text-slate-200 font-semibold">
-                Choose your role to access your dashboard
-              </p>
-            </div>
-          </div>
-        </div>
+          </ThemeToggleContainer>
+          <TitleContainer>
+            <Title>ConstructPro</Title>
+            <Subtitle>
+              <p>Choose your role to access your dashboard</p>
+            </Subtitle>
+          </TitleContainer>
+        </Header>
 
         {/* Role Cards */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
-          <div className="flex flex-col gap-6 w-full max-w-lg mx-auto">
-            {roles.map((role) => (
-              <div
+        <MainContent>
+          <RoleCardsContainer>
+            {roles.map((role, index) => (
+              <RoleCard
                 key={role.id}
+                index={index}
                 onClick={() => onRoleSelect(role.id)}
-                className="group cursor-pointer transform transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95"
-                style={{
-                  animationDelay: `${roles.indexOf(role) * 200}ms`,
-                }}
               >
-                <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden transition-all duration-500 border border-white/50 dark:border-slate-700/50 hover:border-blue-300/60 dark:hover:border-blue-400/60 relative group-hover:bg-white/95 dark:group-hover:bg-slate-800/95">
-                  <div className="flex h-44 sm:h-48">
+                <RoleCardInner>
+                  <RoleCardContent>
                     {/* Image Section */}
-                    <div className="w-44 sm:w-52 flex-shrink-0 overflow-hidden">
-                      <img
-                        src={role.image}
-                        alt={role.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
+                    <RoleCardImage>
+                      <img src={role.image} alt={role.title} />
+                    </RoleCardImage>
 
                     {/* Content Section */}
-                    <div className="flex-1 p-5 sm:p-7 flex flex-col justify-center relative">
-                      <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-3 group-hover:from-blue-600 group-hover:to-purple-600 dark:group-hover:from-blue-400 dark:group-hover:to-purple-400 transition-all duration-500">
-                        {role.title}
-                      </h3>
-                      <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors duration-300">
+                    <RoleCardText>
+                      <RoleCardTitle>{role.title}</RoleCardTitle>
+                      <RoleCardDescription>
                         {role.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      </RoleCardDescription>
+                    </RoleCardText>
+                  </RoleCardContent>
+                </RoleCardInner>
+              </RoleCard>
             ))}
-          </div>
-        </div>
+          </RoleCardsContainer>
+        </MainContent>
 
         {/* Bottom Text */}
-        <div className="px-6 pb-12">
-          <div className="text-center transition-all duration-1000 delay-500 opacity-100 translate-y-0">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
-              <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
-              <p className="text-slate-600 dark:text-slate-300 text-sm font-semibold">
+        <Footer>
+          <FooterContent>
+            <FooterBadge>
+              <FooterBadgeDot />
+              <FooterBadgeText>
                 Professional Construction Management Platform
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+              </FooterBadgeText>
+            </FooterBadge>
+          </FooterContent>
+        </Footer>
+      </ContentContainer>
+    </Container>
   );
 }

@@ -1,10 +1,638 @@
 import { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { Button } from "@/components/ui/button";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface VideoLoaderScreenProps {
   onGetStarted: () => void;
 }
+
+// Animations
+const float = keyframes`
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+`;
+
+const pulse = keyframes`
+  50% {
+    opacity: 0.5;
+  }
+`;
+
+const ping = keyframes`
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+`;
+
+const gradient = keyframes`
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+`;
+
+// Styled components
+const Container = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
+  position: relative;
+  overflow: hidden;
+
+  .dark & {
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
+  }
+`;
+
+const BackgroundElements = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const Star = styled.div<{
+  left: string;
+  top: string;
+  delay: string;
+  size: string;
+}>`
+  position: absolute;
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
+  color: hsl(217 91% 60% / 0.7);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: ${(props) => props.delay};
+  font-size: ${(props) => props.size};
+
+  .dark & {
+    color: hsl(217 91% 70% / 0.5);
+  }
+`;
+
+const FloatingElement1 = styled.div`
+  position: absolute;
+  top: 4rem;
+  left: 2rem;
+  width: 10rem;
+  height: 10rem;
+  background: linear-gradient(
+    135deg,
+    hsl(217 91% 60% / 0.15),
+    hsl(271 91% 65% / 0.15)
+  );
+  border-radius: 50%;
+  filter: blur(32px);
+  animation: ${float} 3s ease-in-out infinite;
+`;
+
+const FloatingElement2 = styled.div`
+  position: absolute;
+  top: 8rem;
+  right: 3rem;
+  width: 8rem;
+  height: 8rem;
+  background: linear-gradient(
+    135deg,
+    hsl(196 100% 60% / 0.2),
+    hsl(221 83% 65% / 0.2)
+  );
+  border-radius: 50%;
+  filter: blur(24px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+`;
+
+const FloatingElement3 = styled.div`
+  position: absolute;
+  bottom: 10rem;
+  left: 4rem;
+  width: 7rem;
+  height: 7rem;
+  background: linear-gradient(
+    135deg,
+    hsl(271 91% 65% / 0.15),
+    hsl(314 100% 75% / 0.15)
+  );
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 3s;
+`;
+
+const FloatingElement4 = styled.div`
+  position: absolute;
+  top: 50%;
+  right: 25%;
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(
+    135deg,
+    hsl(221 83% 65% / 0.25),
+    hsl(217 91% 60% / 0.25)
+  );
+  border-radius: 50%;
+  filter: blur(12px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+`;
+
+const GeometricAccent1 = styled.div`
+  position: absolute;
+  top: 5rem;
+  left: 33.333333%;
+  width: 0.25rem;
+  height: 4rem;
+  background: linear-gradient(to bottom, hsl(217 91% 60% / 0.3), transparent);
+  transform: rotate(12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+`;
+
+const GeometricAccent2 = styled.div`
+  position: absolute;
+  bottom: 8rem;
+  right: 33.333333%;
+  width: 4rem;
+  height: 0.25rem;
+  background: linear-gradient(to right, hsl(271 91% 60% / 0.3), transparent);
+  transform: rotate(-12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 2s;
+`;
+
+const GeometricDot = styled.div`
+  position: absolute;
+  top: 33.333333%;
+  left: 25%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: linear-gradient(to right, hsl(196 100% 60%), hsl(217 91% 60%));
+  border-radius: 50%;
+  animation: ${ping} 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation-delay: 1s;
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Header = styled.div`
+  padding: 3rem 1.5rem 0;
+
+  @media (min-width: 640px) {
+    padding-top: 4rem;
+  }
+`;
+
+const ThemeToggleContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+`;
+
+const TitleContainer = styled.div<{ showContent: boolean }>`
+  text-align: center;
+  transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: translateY(${(props) => (props.showContent ? "0" : "1rem")});
+`;
+
+const Title = styled.h1`
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+
+  .dark & {
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 65%),
+      hsl(271 91% 70%),
+      hsl(221 83% 65%)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  @media (min-width: 640px) {
+    font-size: 3.75rem;
+  }
+`;
+
+const Subtitle = styled.div`
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: rgba(51, 65, 85, 0.6);
+  }
+
+  p {
+    font-size: 1.125rem;
+    color: hsl(210 40% 28%);
+    font-weight: 600;
+    margin: 0;
+
+    .dark & {
+      color: hsl(210 40% 98%);
+    }
+  }
+`;
+
+const VideoSection = styled.div<{ showContent: boolean }>`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  width: 100%;
+  transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 300ms;
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: scale(${(props) => (props.showContent ? 1 : 0.95)});
+`;
+
+const VideoContainer = styled.div`
+  position: relative;
+  max-width: 24rem;
+  margin: 0 auto;
+  transition: all 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  @media (min-width: 640px) {
+    max-width: 28rem;
+  }
+
+  &:hover {
+    transform: scale(1.02) translateY(-0.5rem);
+  }
+`;
+
+const VideoBackground = styled.div`
+  position: absolute;
+  inset: -1rem;
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2),
+    hsl(221 83% 60% / 0.2)
+  );
+  border-radius: 1.5rem;
+  filter: blur(24px);
+  opacity: 0.75;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  ${VideoContainer}:hover & {
+    opacity: 1;
+  }
+`;
+
+const VideoCard = styled.div`
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.95);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  ${VideoContainer}:hover & {
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.3);
+  }
+`;
+
+const Video = styled.video`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  aspect-ratio: 16/18;
+`;
+
+const VideoFallback = styled.div`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, hsl(217 91% 95%), hsl(196 100% 95%));
+  font-size: 4rem;
+`;
+
+const BottomSection = styled.div`
+  padding: 0 1.5rem 3rem;
+`;
+
+const BottomContent = styled.div<{ showContent: boolean }>`
+  text-align: center;
+  transition: all 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 500ms;
+  opacity: ${(props) => (props.showContent ? 1 : 0)};
+  transform: translateY(${(props) => (props.showContent ? "0" : "1rem")});
+`;
+
+const MainTextContainer = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const MainTitle = styled.h2`
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: linear-gradient(to right, hsl(215 28% 17%), hsl(215 16% 47%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+  line-height: 1.25;
+
+  .dark & {
+    background: linear-gradient(to right, hsl(210 40% 98%), hsl(210 40% 78%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  @media (min-width: 640px) {
+    font-size: 2.25rem;
+  }
+`;
+
+const MainSubtitle = styled.div`
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+
+  p {
+    color: hsl(210 40% 28%);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+
+    .dark & {
+      color: hsl(210 40% 78%);
+    }
+  }
+`;
+
+const ProgressContainer = styled.div`
+  max-width: 24rem;
+  margin: 0 auto 2rem;
+`;
+
+const ProgressBarContainer = styled.div`
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  height: 0.75rem;
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.3);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+`;
+
+const ProgressBar = styled.div<{ progress: number }>`
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
+  height: 100%;
+  border-radius: 9999px;
+  transition: all 500ms ease-out;
+  position: relative;
+  overflow: hidden;
+  width: ${(props) => props.progress}%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: ${gradient} 3s ease infinite;
+  }
+`;
+
+const LoadingText = styled.div`
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.6);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+`;
+
+const LoadingDot = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%));
+  animation: ${ping} 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+`;
+
+const LoadingLabel = styled.p`
+  color: hsl(210 40% 28%);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 0;
+
+  .dark & {
+    color: hsl(210 40% 78%);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  max-width: 24rem;
+  margin: 0 auto;
+  position: relative;
+`;
+
+const ButtonGlow = styled.div`
+  position: absolute;
+  inset: -0.25rem;
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
+  border-radius: 1.5rem;
+  filter: blur(4px);
+  opacity: 0.6;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  ${ButtonContainer}:hover & {
+    opacity: 1;
+  }
+`;
+
+const StyledButton = styled(Button)`
+  width: 100% !important;
+  position: relative !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) !important;
+  color: hsl(215 28% 17%) !important;
+  font-weight: 700 !important;
+  padding: 1.25rem 2rem !important;
+  border-radius: 1.5rem !important;
+  font-size: 1.125rem !important;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.95) !important;
+    color: hsl(210 40% 98%) !important;
+    border-color: rgba(51, 65, 85, 0.5) !important;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 1) !important;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.3) !important;
+    transform: scale(1.05) translateY(-0.25rem) !important;
+
+    .dark & {
+      background: rgba(51, 65, 85, 1) !important;
+    }
+  }
+`;
+
+const ButtonContent = styled.span`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonText = styled.span`
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60%),
+    hsl(271 91% 65%),
+    hsl(221 83% 60%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 900;
+`;
+
+const ButtonIconContainer = styled.div`
+  margin-left: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    hsl(217 91% 60% / 0.2),
+    hsl(271 91% 65% / 0.2)
+  );
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  ${StyledButton}:hover & {
+    background: linear-gradient(
+      to right,
+      hsl(217 91% 60% / 0.4),
+      hsl(271 91% 65% / 0.4)
+    );
+  }
+`;
+
+const ButtonIcon = styled.svg`
+  width: 1.25rem;
+  height: 1.25rem;
+  color: hsl(217 91% 60%);
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    color: hsl(217 91% 65%);
+  }
+
+  ${StyledButton}:hover & {
+    transform: translateX(0.25rem) scale(1.1);
+  }
+`;
 
 export default function VideoLoaderScreen({
   onGetStarted,
@@ -32,182 +660,123 @@ export default function VideoLoaderScreen({
     };
   }, []);
 
+  // Generate random stars
+  const stars = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    left: `${10 + Math.random() * 80}%`,
+    top: `${10 + Math.random() * 80}%`,
+    delay: `${Math.random() * 3}s`,
+    size: `${12 + Math.random() * 8}px`,
+  }));
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
+    <Container>
       {/* Decorative Background Elements */}
-      <div className="absolute inset-0">
+      <BackgroundElements>
         {/* Stars */}
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute text-blue-400/70 dark:text-blue-300/50 animate-pulse"
-            style={{
-              left: `${10 + Math.random() * 80}%`,
-              top: `${10 + Math.random() * 80}%`,
-              fontSize: `${12 + Math.random() * 8}px`,
-              animationDelay: `${Math.random() * 3}s`,
-            }}
+        {stars.map((star) => (
+          <Star
+            key={star.id}
+            left={star.left}
+            top={star.top}
+            delay={star.delay}
+            size={star.size}
           >
             ✦
-          </div>
+          </Star>
         ))}
 
         {/* Modern Floating Elements */}
-        <div className="absolute top-16 left-8 w-40 h-40 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full blur-2xl animate-float"></div>
-        <div
-          className="absolute top-32 right-12 w-32 h-32 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float"
-          style={{ animationDelay: "1.5s" }}
-        ></div>
-        <div
-          className="absolute bottom-40 left-16 w-28 h-28 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "3s" }}
-        ></div>
-        <div
-          className="absolute top-1/2 right-1/4 w-24 h-24 bg-gradient-to-br from-indigo-400/25 to-blue-400/25 rounded-full blur-md animate-float"
-          style={{ animationDelay: "0.5s" }}
-        ></div>
+        <FloatingElement1 />
+        <FloatingElement2 />
+        <FloatingElement3 />
+        <FloatingElement4 />
 
         {/* Geometric Accents */}
-        <div className="absolute top-20 left-1/3 w-1 h-16 bg-gradient-to-b from-blue-500/30 to-transparent rotate-12 animate-pulse"></div>
-        <div
-          className="absolute bottom-32 right-1/3 w-16 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse"
-          style={{ animationDelay: "2s" }}
-        ></div>
-        <div
-          className="absolute top-1/3 left-1/4 w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full animate-ping"
-          style={{ animationDelay: "1s" }}
-        ></div>
-      </div>
+        <GeometricAccent1 />
+        <GeometricAccent2 />
+        <GeometricDot />
+      </BackgroundElements>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex flex-col">
+      <ContentContainer>
         {/* Header */}
-        <div className="px-6 pt-12 sm:pt-16">
-          <div className="flex justify-end mb-4">
+        <Header>
+          <ThemeToggleContainer>
             <SimpleThemeToggle />
-          </div>
-          <div
-            className={`text-center transition-all duration-1000 ${
-              showContent
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
-          >
-            <h1 className="text-5xl sm:text-6xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent mb-4 tracking-tight">
-              Builder Pro
-            </h1>
-            <div className="inline-block px-6 py-2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/60 dark:border-slate-700/60 shadow-lg">
-              <p className="text-lg text-slate-700 dark:text-slate-200 font-semibold">
-                Professional Construction Management
-              </p>
-            </div>
-          </div>
-        </div>
+          </ThemeToggleContainer>
+          <TitleContainer showContent={showContent}>
+            <Title>Builder Pro</Title>
+            <Subtitle>
+              <p>Professional Construction Management</p>
+            </Subtitle>
+          </TitleContainer>
+        </Header>
 
         {/* Video Container - Center */}
-        <div className="flex-1 flex items-center justify-center px-6 py-6">
-          <div
-            className={`w-full transition-all duration-1000 delay-300 ${
-              showContent ? "opacity-100 scale-100" : "opacity-0 scale-95"
-            }`}
-          >
-            <div className="relative max-w-sm sm:max-w-md mx-auto group">
-              {/* Floating background elements */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-blue-400/20 via-purple-400/20 to-indigo-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
-
-              {/* Main video card */}
-              <div className="relative bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-3xl shadow-2xl hover:shadow-3xl overflow-hidden border border-white/50 dark:border-slate-700/50 transition-all duration-700 hover:scale-[1.02] hover:-translate-y-2">
-                {/* Video */}
-                <div className="relative">
-                  <video
-                    className="w-full h-auto object-cover"
-                    style={{ aspectRatio: "16/18" }}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                  >
-                    <source
-                      src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
-                      type="video/mov"
-                    />
-                    <source
-                      src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
-                      type="video/mp4"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-100 to-cyan-100">
-                      <div className="text-6xl">🏗️</div>
-                    </div>
-                  </video>
-                </div>
+        <VideoSection showContent={showContent}>
+          <VideoContainer>
+            <VideoBackground />
+            <VideoCard>
+              <div style={{ position: "relative" }}>
+                <Video autoPlay muted loop playsInline>
+                  <source
+                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
+                    type="video/mov"
+                  />
+                  <source
+                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
+                    type="video/mp4"
+                  />
+                  <VideoFallback>🏗️</VideoFallback>
+                </Video>
               </div>
-            </div>
-          </div>
-        </div>
+            </VideoCard>
+          </VideoContainer>
+        </VideoSection>
 
         {/* Bottom Section with Text and Button */}
-        <div className="px-6 pb-12">
-          <div
-            className={`text-center transition-all duration-1000 delay-500 ${
-              showContent
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-4"
-            }`}
-          >
+        <BottomSection>
+          <BottomContent showContent={showContent}>
             {/* Main Text */}
-            <div className="mb-8">
-              <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-4 leading-tight">
+            <MainTextContainer>
+              <MainTitle>
                 Build projects for
                 <br />
                 every step you take.
-              </h2>
-              <div className="inline-block px-4 py-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
-                <p className="text-slate-700 dark:text-slate-300 text-base font-semibold">
+              </MainTitle>
+              <MainSubtitle>
+                <p>
                   More than tracking, transform
                   <br />
                   planning into building.
                 </p>
-              </div>
-            </div>
+              </MainSubtitle>
+            </MainTextContainer>
 
             {/* Progress Bar */}
-            <div className="max-w-sm mx-auto mb-8">
-              <div className="bg-white/30 dark:bg-slate-800/30 backdrop-blur-sm rounded-full h-3 shadow-inner overflow-hidden border border-white/40 dark:border-slate-700/40">
-                <div
-                  className="bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 h-full rounded-full transition-all duration-500 ease-out relative overflow-hidden"
-                  style={{ width: `${progress}%` }}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent animate-pulse" />
-                  <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-gradient"></div>
-                </div>
-              </div>
+            <ProgressContainer>
+              <ProgressBarContainer>
+                <ProgressBar progress={progress} />
+              </ProgressBarContainer>
 
               {/* Loading Text */}
-              <div className="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
-                <div className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 animate-ping"></div>
-                <p className="text-slate-700 dark:text-slate-300 text-sm font-semibold">
+              <LoadingText>
+                <LoadingDot />
+                <LoadingLabel>
                   Preparing your workspace... {Math.round(progress)}%
-                </p>
-              </div>
-            </div>
+                </LoadingLabel>
+              </LoadingText>
+            </ProgressContainer>
 
             {/* Get Started Button */}
-            <div className="max-w-sm mx-auto relative">
-              {/* Button glow effect */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 rounded-3xl blur opacity-60 group-hover:opacity-100 transition duration-700"></div>
-
-              <Button
-                onClick={onGetStarted}
-                className="w-full relative group bg-white/95 dark:bg-slate-800/95 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-xl text-slate-800 dark:text-white font-bold py-5 px-8 rounded-3xl text-lg transition-all duration-500 shadow-2xl hover:shadow-3xl border border-white/50 dark:border-slate-700/50 hover:scale-105 hover:-translate-y-1"
-                size="lg"
-              >
-                <span className="relative flex items-center justify-center">
-                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent font-black">
-                    Get Started
-                  </span>
-                  <div className="ml-3 p-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 group-hover:from-blue-500/40 group-hover:to-purple-500/40 transition-all duration-300">
-                    <svg
-                      className="w-5 h-5 text-blue-600 dark:text-blue-400 transition-transform group-hover:translate-x-1 group-hover:scale-110"
+            <ButtonContainer>
+              <ButtonGlow />
+              <StyledButton onClick={onGetStarted} size="lg">
+                <ButtonContent>
+                  <ButtonText>Get Started</ButtonText>
+                  <ButtonIconContainer>
+                    <ButtonIcon
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -218,14 +787,14 @@ export default function VideoLoaderScreen({
                         strokeWidth={2.5}
                         d="M13 7l5 5m0 0l-5 5m5-5H6"
                       />
-                    </svg>
-                  </div>
-                </span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                    </ButtonIcon>
+                  </ButtonIconContainer>
+                </ButtonContent>
+              </StyledButton>
+            </ButtonContainer>
+          </BottomContent>
+        </BottomSection>
+      </ContentContainer>
+    </Container>
   );
 }

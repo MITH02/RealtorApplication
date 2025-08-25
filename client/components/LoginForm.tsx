@@ -1,4 +1,6 @@
 import { useState } from "react";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface LoginFormProps {
@@ -6,6 +8,401 @@ interface LoginFormProps {
   onBack: () => void;
   onSuccess: () => void;
 }
+
+// Background container with gradient
+const BackgroundContainer = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    hsl(210 40% 98%),
+    hsl(217 91% 95%),
+    hsl(221 83% 92%)
+  );
+  display: flex;
+  flex-direction: column;
+
+  .dark & {
+    background: linear-gradient(
+      135deg,
+      hsl(222 84% 5%),
+      hsl(217 91% 10%),
+      hsl(221 83% 12%)
+    );
+  }
+`;
+
+// Header container
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+
+  @media (min-width: 640px) {
+    padding: 1.5rem;
+  }
+`;
+
+// Back button
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  color: hsl(210 40% 28%);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-weight: 500;
+
+  .dark & {
+    color: hsl(210 40% 78%);
+    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    color: hsl(217 91% 60%);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+    transform: scale(1.05);
+
+    .dark & {
+      color: hsl(217 91% 65%);
+    }
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+`;
+
+// Main content container
+const ContentContainer = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+`;
+
+// Logo container
+const LogoContainer = styled.div`
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
+const LogoIcon = styled.div<{ gradient: string }>`
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 1rem;
+  background: ${(props) => `linear-gradient(135deg, ${props.gradient})`};
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  span {
+    font-size: 1.875rem;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(215 28% 17%);
+  margin-bottom: 0.5rem;
+
+  .dark & {
+    color: hsl(210 40% 98%);
+  }
+`;
+
+const Subtitle = styled.p`
+  color: hsl(215 16% 47%);
+  font-size: 0.875rem;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+`;
+
+// Form container
+const FormContainer = styled.div`
+  width: 100%;
+  max-width: 24rem;
+`;
+
+const FormCard = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+`;
+
+const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(210 40% 28%);
+  margin-bottom: 0.5rem;
+
+  .dark & {
+    color: hsl(210 40% 78%);
+  }
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid hsl(220 13% 91%);
+  border-radius: 0.75rem;
+  background: hsl(210 40% 96%);
+  color: hsl(222 84% 5%);
+  font-size: 1rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    border-color: hsl(215 28% 25%);
+    background: hsl(215 28% 17%);
+    color: hsl(210 40% 98%);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: hsl(217 91% 60%);
+    box-shadow: 0 0 0 2px hsl(217 91% 60% / 0.2);
+  }
+
+  &::placeholder {
+    color: hsl(215 16% 47%);
+
+    .dark & {
+      color: hsl(215 20% 65%);
+    }
+  }
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+`;
+
+const CheckboxLabel = styled.label`
+  display: flex;
+  align-items: center;
+  color: hsl(215 16% 47%);
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+
+  input {
+    margin-right: 0.5rem;
+    border-radius: 0.25rem;
+  }
+`;
+
+const ForgotPasswordButton = styled.button`
+  color: hsl(217 91% 60%);
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+
+  .dark & {
+    color: hsl(217 91% 65%);
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const SubmitButton = styled.button<{ gradient: string; isLoading: boolean }>`
+  width: 100%;
+  background: ${(props) => `linear-gradient(135deg, ${props.gradient})`};
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  ${(props) =>
+    props.isLoading &&
+    css`
+      .loading-spinner {
+        margin-right: 0.75rem;
+        position: relative;
+
+        .spinner-ring {
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-top: 2px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+        }
+
+        .spinner-pulse {
+          position: absolute;
+          inset: 0;
+          width: 1.25rem;
+          height: 1.25rem;
+          border: 2px solid transparent;
+          border-top: 2px solid rgba(255, 255, 255, 0.6);
+          border-radius: 50%;
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+    `}
+`;
+
+const ToggleContainer = styled.div`
+  margin-top: 1.5rem;
+  text-align: center;
+`;
+
+const ToggleText = styled.p`
+  color: hsl(215 16% 47%);
+  font-size: 0.875rem;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+`;
+
+const ToggleButton = styled.button`
+  color: hsl(217 91% 60%);
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  .dark & {
+    color: hsl(217 91% 65%);
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const FeaturesCard = styled.div`
+  margin-top: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+`;
+
+const FeaturesTitle = styled.h4`
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: hsl(217 91% 60%);
+  margin-bottom: 0.5rem;
+
+  .dark & {
+    color: hsl(217 91% 65%);
+  }
+`;
+
+const FeaturesList = styled.ul`
+  font-size: 0.75rem;
+  color: hsl(215 16% 47%);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+  }
+`;
 
 export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,26 +413,17 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
 
   const roleConfig = {
     builder: {
-      gradient: "from-blue-500 via-blue-600 to-blue-700",
-      lightGradient: "from-blue-50 to-blue-100",
-      accent: "text-blue-600",
-      bgAccent: "bg-blue-50",
+      gradient: "hsl(217 91% 60%), hsl(217 91% 70%), hsl(217 91% 80%)",
       icon: "🏗️",
       title: "Builder Portal",
     },
     contractor: {
-      gradient: "from-orange-500 via-orange-600 to-orange-700",
-      lightGradient: "from-orange-50 to-orange-100",
-      accent: "text-orange-600",
-      bgAccent: "bg-orange-50",
+      gradient: "hsl(25 95% 53%), hsl(25 95% 63%), hsl(25 95% 73%)",
       icon: "👷",
       title: "Contractor Portal",
     },
     admin: {
-      gradient: "from-purple-500 via-purple-600 to-purple-700",
-      lightGradient: "from-purple-50 to-purple-100",
-      accent: "text-purple-600",
-      bgAccent: "bg-purple-50",
+      gradient: "hsl(271 91% 65%), hsl(271 91% 75%), hsl(271 91% 85%)",
       icon: "⚙️",
       title: "Admin Portal",
     },
@@ -55,19 +443,11 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 flex flex-col">
+    <BackgroundContainer>
       {/* Header with Back Button */}
-      <div className="flex items-center justify-between p-4 sm:p-6">
-        <button
-          onClick={onBack}
-          className="flex items-center text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:scale-105"
-        >
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+      <HeaderContainer>
+        <BackButton onClick={onBack}>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -75,103 +455,86 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          <span className="font-medium">Back</span>
-        </button>
+          <span>Back</span>
+        </BackButton>
         <SimpleThemeToggle />
-      </div>
+      </HeaderContainer>
 
       {/* Content */}
-      <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
+      <ContentContainer>
         {/* Logo/Icon Section */}
-        <div className="text-center mb-8">
-          <div
-            className={`w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${config.gradient} rounded-2xl flex items-center justify-center shadow-lg`}
-          >
-            <span className="text-3xl">{config.icon}</span>
-          </div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">
-            {isLogin ? "Welcome Back!" : "Create Account"}
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm">
+        <LogoContainer>
+          <LogoIcon gradient={config.gradient}>
+            <span>{config.icon}</span>
+          </LogoIcon>
+          <Title>{isLogin ? "Welcome Back!" : "Create Account"}</Title>
+          <Subtitle>
             {isLogin ? `Sign in to your ${role} account` : `Join as a ${role}`}
-          </p>
-        </div>
+          </Subtitle>
+        </LogoContainer>
 
         {/* Form Container */}
-        <div className="w-full max-w-sm">
-          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-xl p-6 border border-white/50 dark:border-slate-700/50">
-            <form onSubmit={handleSubmit} className="space-y-5">
+        <FormContainer>
+          <FormCard>
+            <Form onSubmit={handleSubmit}>
               {!isLogin && (
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                    Full Name
-                  </label>
-                  <input
+                <InputGroup>
+                  <Label>Full Name</Label>
+                  <Input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="Enter your full name"
                     required
                   />
-                </div>
+                </InputGroup>
               )}
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  Email Address
-                </label>
-                <input
+              <InputGroup>
+                <Label>Email Address</Label>
+                <Input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your email"
                   required
                 />
-              </div>
+              </InputGroup>
 
-              <div>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                  Password
-                </label>
-                <input
+              <InputGroup>
+                <Label>Password</Label>
+                <Input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   placeholder="Enter your password"
                   required
                 />
-              </div>
+              </InputGroup>
 
               {isLogin && (
-                <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2 rounded" />
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Remember me
-                    </span>
-                  </label>
-                  <button
-                    type="button"
-                    className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
-                  >
+                <CheckboxContainer>
+                  <CheckboxLabel>
+                    <input type="checkbox" />
+                    <span>Remember me</span>
+                  </CheckboxLabel>
+                  <ForgotPasswordButton type="button">
                     Forgot password?
-                  </button>
-                </div>
+                  </ForgotPasswordButton>
+                </CheckboxContainer>
               )}
 
-              <button
+              <SubmitButton
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-gradient-to-r ${config.gradient} text-white py-3.5 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center`}
+                gradient={config.gradient}
+                isLoading={isLoading}
               >
                 {isLoading ? (
                   <>
-                    <div className="relative mr-3">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <div className="absolute inset-0 w-5 h-5 border-2 border-transparent border-t-white/60 rounded-full animate-pulse"></div>
+                    <div className="loading-spinner">
+                      <div className="spinner-ring"></div>
+                      <div className="spinner-pulse"></div>
                     </div>
                     {isLogin ? "Signing In..." : "Creating Account..."}
                   </>
@@ -180,31 +543,26 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                 ) : (
                   "Create Account"
                 )}
-              </button>
-            </form>
+              </SubmitButton>
+            </Form>
 
             {/* Toggle between login/signup */}
-            <div className="mt-6 text-center">
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
+            <ToggleContainer>
+              <ToggleText>
                 {isLogin
                   ? "Don't have an account?"
                   : "Already have an account?"}
-              </p>
-              <button
-                onClick={() => setIsLogin(!isLogin)}
-                className="text-blue-600 dark:text-blue-400 hover:underline font-semibold text-sm mt-1"
-              >
+              </ToggleText>
+              <ToggleButton onClick={() => setIsLogin(!isLogin)}>
                 {isLogin ? "Create one now" : "Sign in instead"}
-              </button>
-            </div>
-          </div>
+              </ToggleButton>
+            </ToggleContainer>
+          </FormCard>
 
           {/* Features Preview */}
-          <div className="mt-6 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl p-4 border border-white/50 dark:border-slate-700/50">
-            <h4 className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
-              What's waiting for you:
-            </h4>
-            <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+          <FeaturesCard>
+            <FeaturesTitle>What's waiting for you:</FeaturesTitle>
+            <FeaturesList>
               {role === "admin" && (
                 <>
                   <li>• Complete project oversight</li>
@@ -226,10 +584,10 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                   <li>• Progress analytics</li>
                 </>
               )}
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+            </FeaturesList>
+          </FeaturesCard>
+        </FormContainer>
+      </ContentContainer>
+    </BackgroundContainer>
   );
 }
