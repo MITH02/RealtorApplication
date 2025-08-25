@@ -513,6 +513,14 @@ export default function ContractorDashboard({
   const [progressNotes, setProgressNotes] = useState("");
   const [completionNotes, setCompletionNotes] = useState("");
 
+  // Media upload states
+  const [uploadedMediaUrls, setUploadedMediaUrls] = useState<string[]>([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Task media (existing images/videos from task updates)
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>({});
+
   const fetchTasks = async () => {
     try {
       const tasksData = await apiService.getMyTasks();
