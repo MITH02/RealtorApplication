@@ -714,19 +714,19 @@ const TaskBadge = styled.span<{ status: string }>`
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.status) {
-      case 'COMPLETED':
-      case 'APPROVED':
-        return 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
-      case 'IN_PROGRESS':
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
-      case 'PENDING':
-        return 'linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))';
-      case 'REJECTED':
-        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
+      case "COMPLETED":
+      case "APPROVED":
+        return "linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))";
+      case "IN_PROGRESS":
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
+      case "PENDING":
+        return "linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))";
+      case "REJECTED":
+        return "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))";
       default:
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
     }
   }};
   color: white;
@@ -778,8 +778,12 @@ const LoadingSpinner = styled.div`
   margin: 0 auto;
 
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 

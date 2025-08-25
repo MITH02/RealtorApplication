@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
-import { apiClient, Building, Task, User, BuildingCreateRequest, TaskCreateRequest } from '@/services/api';
+import {
+  apiClient,
+  Building,
+  Task,
+  User,
+  BuildingCreateRequest,
+  TaskCreateRequest,
+} from "@/services/api";
 
 interface BuilderDashboardProps {
   onLogout: () => void;
@@ -41,18 +48,22 @@ const fadeIn = keyframes`
 // Styled components
 const DashboardContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(to bottom right, 
-    hsl(214, 100%, 98%) 0%, 
-    hsl(214, 100%, 95%) 50%, 
-    hsl(214, 100%, 92%) 100%);
+  background: linear-gradient(
+    to bottom right,
+    hsl(214, 100%, 98%) 0%,
+    hsl(214, 100%, 95%) 50%,
+    hsl(214, 100%, 92%) 100%
+  );
   position: relative;
   overflow: hidden;
-  
+
   .dark & {
-    background: linear-gradient(to bottom right, 
-      hsl(214, 84%, 5%) 0%, 
-      hsl(214, 28%, 17%) 50%, 
-      hsl(214, 50%, 12%) 100%);
+    background: linear-gradient(
+      to bottom right,
+      hsl(214, 84%, 5%) 0%,
+      hsl(214, 28%, 17%) 50%,
+      hsl(214, 50%, 12%) 100%
+    );
   }
 `;
 
@@ -61,7 +72,7 @@ const FloatingElement = styled.div<{ delay?: string }>`
   border-radius: 50%;
   filter: blur(2rem);
   animation: ${floatAnimation} 6s ease-in-out infinite;
-  animation-delay: ${props => props.delay || '0s'};
+  animation-delay: ${(props) => props.delay || "0s"};
 `;
 
 const FloatingElement1 = styled(FloatingElement)`
@@ -69,9 +80,11 @@ const FloatingElement1 = styled(FloatingElement)`
   left: 5rem;
   width: 10rem;
   height: 10rem;
-  background: linear-gradient(to bottom right, 
-    hsla(214, 100%, 70%, 0.1), 
-    hsla(226, 100%, 70%, 0.1));
+  background: linear-gradient(
+    to bottom right,
+    hsla(214, 100%, 70%, 0.1),
+    hsla(226, 100%, 70%, 0.1)
+  );
 `;
 
 const FloatingElement2 = styled(FloatingElement)`
@@ -79,9 +92,11 @@ const FloatingElement2 = styled(FloatingElement)`
   right: 5rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(to bottom right, 
-    hsla(214, 100%, 70%, 0.15), 
-    hsla(226, 100%, 70%, 0.15));
+  background: linear-gradient(
+    to bottom right,
+    hsla(214, 100%, 70%, 0.15),
+    hsla(226, 100%, 70%, 0.15)
+  );
   filter: blur(1rem);
 `;
 
@@ -90,9 +105,11 @@ const FloatingElement3 = styled(FloatingElement)`
   left: 8rem;
   width: 7rem;
   height: 7rem;
-  background: linear-gradient(to bottom right, 
-    hsla(226, 100%, 70%, 0.1), 
-    hsla(214, 100%, 70%, 0.1));
+  background: linear-gradient(
+    to bottom right,
+    hsla(226, 100%, 70%, 0.1),
+    hsla(214, 100%, 70%, 0.1)
+  );
   filter: blur(0.75rem);
 `;
 
@@ -108,7 +125,7 @@ const Header = styled.header`
   backdrop-filter: blur(12px);
   border-bottom: 1px solid hsla(214, 100%, 100%, 0.5);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.8);
     border-bottom: 1px solid hsla(214, 28%, 17%, 0.5);
@@ -119,11 +136,11 @@ const HeaderContainer = styled.div`
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-  
+
   @media (min-width: 640px) {
     padding: 0 1.5rem;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 0 2rem;
   }
@@ -144,19 +161,23 @@ const HeaderLeft = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 900;
-  background: linear-gradient(to right, 
-    hsl(214, 100%, 50%), 
-    hsl(226, 100%, 50%), 
-    hsl(238, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(214, 100%, 50%),
+    hsl(226, 100%, 50%),
+    hsl(238, 100%, 50%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(214, 100%, 70%), 
-      hsl(226, 100%, 70%), 
-      hsl(238, 100%, 70%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 70%),
+      hsl(226, 100%, 70%),
+      hsl(238, 100%, 70%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -165,14 +186,18 @@ const Title = styled.h1`
 const RoleBadge = styled.span`
   margin-left: 1rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(to right, hsla(214, 100%, 50%, 0.2), hsla(226, 100%, 40%, 0.2));
+  background: linear-gradient(
+    to right,
+    hsla(214, 100%, 50%, 0.2),
+    hsla(226, 100%, 40%, 0.2)
+  );
   backdrop-filter: blur(4px);
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
   color: hsl(214, 100%, 50%);
   border: 1px solid hsla(214, 100%, 100%, 0.3);
-  
+
   .dark & {
     border: 1px solid hsla(214, 28%, 17%, 0.3);
     color: hsl(214, 100%, 70%);
@@ -196,23 +221,23 @@ const LogoutButton = styled.button`
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   border: 1px solid hsla(214, 100%, 100%, 0.5);
   color: hsl(214, 16%, 47%);
-  
+
   &:hover {
     background: hsla(214, 100%, 100%, 0.9);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     transform: scale(1.05);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.7);
     border: 1px solid hsla(214, 28%, 17%, 0.5);
     color: hsl(214, 20%, 65%);
-    
+
     &:hover {
       background: hsla(214, 28%, 17%, 0.9);
     }
   }
-  
+
   svg {
     width: 1rem;
     height: 1rem;
@@ -226,11 +251,11 @@ const Main = styled.main`
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-  
+
   @media (min-width: 640px) {
     padding: 2rem 1.5rem;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 2rem 2rem;
   }
@@ -244,18 +269,18 @@ const TitleSection = styled.div`
 const MainTitle = styled.h2`
   font-size: 2.25rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(214, 28%, 17%), 
-    hsl(214, 16%, 47%));
+  background: linear-gradient(to right, hsl(214, 28%, 17%), hsl(214, 16%, 47%));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1rem;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(214, 100%, 100%), 
-      hsl(214, 20%, 65%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 100%),
+      hsl(214, 20%, 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -269,16 +294,16 @@ const WelcomeBox = styled.div`
   border-radius: 9999px;
   border: 1px solid hsla(214, 100%, 100%, 0.5);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.8);
     border: 1px solid hsla(214, 28%, 17%, 0.5);
   }
-  
+
   p {
     color: hsl(214, 16%, 47%);
     font-weight: 600;
-    
+
     .dark & {
       color: hsl(214, 20%, 65%);
     }
@@ -290,11 +315,11 @@ const StatsGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  
+
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -308,13 +333,13 @@ const StatCard = styled.div<{ index: number }>`
   padding: 1.5rem;
   border: 1px solid hsla(214, 100%, 100%, 0.5);
   transition: all 0.5s ease;
-  animation: ${fadeIn} 0.5s ease ${props => props.index * 100}ms both;
-  
+  animation: ${fadeIn} 0.5s ease ${(props) => props.index * 100}ms both;
+
   &:hover {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     transform: scale(1.05) translateY(-0.5rem);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.9);
     border: 1px solid hsla(214, 28%, 17%, 0.5);
@@ -330,7 +355,7 @@ const StatIcon = styled.div`
   font-size: 2.25rem;
   margin-right: 1rem;
   transition: transform 0.3s ease;
-  
+
   ${StatCard}:hover & {
     transform: scale(1.1);
   }
@@ -339,17 +364,21 @@ const StatIcon = styled.div`
 const StatValue = styled.p`
   font-size: 1.875rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(214, 100%, 50%), 
-    hsl(226, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(214, 100%, 50%),
+    hsl(226, 100%, 50%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(214, 100%, 70%), 
-      hsl(226, 100%, 70%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 70%),
+      hsl(226, 100%, 70%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -359,7 +388,7 @@ const StatLabel = styled.p`
   color: hsl(214, 16%, 47%);
   font-size: 0.875rem;
   font-weight: 500;
-  
+
   .dark & {
     color: hsl(214, 20%, 65%);
   }
@@ -377,7 +406,7 @@ const TabsList = styled.div`
   padding: 0.25rem;
   border: 1px solid hsla(214, 100%, 100%, 0.3);
   margin-bottom: 2rem;
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border: 1px solid hsla(214, 28%, 17%, 0.3);
@@ -390,23 +419,21 @@ const Tab = styled.button<{ isActive: boolean }>`
   border-radius: 0.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  background: ${props => props.isActive 
-    ? 'linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))' 
-    : 'transparent'};
-  color: ${props => props.isActive 
-    ? 'white' 
-    : 'hsl(214, 16%, 47%)'};
-  
+  background: ${(props) =>
+    props.isActive
+      ? "linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))"
+      : "transparent"};
+  color: ${(props) => (props.isActive ? "white" : "hsl(214, 16%, 47%)")};
+
   &:hover {
-    background: ${props => props.isActive 
-      ? 'linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))' 
-      : 'hsla(214, 100%, 50%, 0.1)'};
+    background: ${(props) =>
+      props.isActive
+        ? "linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))"
+        : "hsla(214, 100%, 50%, 0.1)"};
   }
-  
+
   .dark & {
-    color: ${props => props.isActive 
-      ? 'white' 
-      : 'hsl(214, 20%, 65%)'};
+    color: ${(props) => (props.isActive ? "white" : "hsl(214, 20%, 65%)")};
   }
 `;
 
@@ -414,7 +441,7 @@ const ContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  
+
   @media (min-width: 1024px) {
     grid-template-columns: 2fr 1fr;
   }
@@ -427,7 +454,7 @@ const MainCard = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   padding: 2rem;
   border: 1px solid hsla(214, 100%, 100%, 0.5);
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.9);
     border: 1px solid hsla(214, 28%, 17%, 0.5);
@@ -441,7 +468,7 @@ const SidebarCard = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   padding: 2rem;
   border: 1px solid hsla(214, 100%, 100%, 0.5);
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.9);
     border: 1px solid hsla(214, 28%, 17%, 0.5);
@@ -451,18 +478,18 @@ const SidebarCard = styled.div`
 const SectionTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(214, 28%, 17%), 
-    hsl(214, 16%, 47%));
+  background: linear-gradient(to right, hsl(214, 28%, 17%), hsl(214, 16%, 47%));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1.5rem;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(214, 100%, 100%), 
-      hsl(214, 20%, 65%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 100%),
+      hsl(214, 20%, 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -472,18 +499,26 @@ const CreateButton = styled.button`
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(214, 100%, 50%),
+    hsl(226, 100%, 50%)
+  );
   color: white;
   border-radius: 0.75rem;
   font-weight: 600;
   transition: all 0.3s ease;
   margin-bottom: 1.5rem;
-  
+
   &:hover {
-    background: linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 45%),
+      hsl(226, 100%, 45%)
+    );
     transform: scale(1.05);
   }
-  
+
   svg {
     width: 1.25rem;
     height: 1.25rem;
@@ -499,16 +534,16 @@ const Card = styled.div`
   margin-bottom: 1rem;
   border: 1px solid hsla(214, 100%, 100%, 0.3);
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: hsla(214, 100%, 100%, 0.8);
     transform: scale(1.02);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border: 1px solid hsla(214, 28%, 17%, 0.3);
-    
+
     &:hover {
       background: hsla(214, 28%, 17%, 0.8);
     }
@@ -526,7 +561,7 @@ const CardTitle = styled.h4`
   font-size: 1.125rem;
   font-weight: 600;
   color: hsl(214, 28%, 17%);
-  
+
   .dark & {
     color: hsl(214, 20%, 65%);
   }
@@ -538,25 +573,28 @@ const CardMeta = styled.div`
   flex-wrap: wrap;
 `;
 
-const Badge = styled.span<{ variant: 'status' | 'priority' | 'type'; color: string }>`
+const Badge = styled.span<{
+  variant: "status" | "priority" | "type";
+  color: string;
+}>`
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.color) {
-      case 'green':
-        return 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
-      case 'yellow':
-        return 'linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))';
-      case 'red':
-        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
-      case 'blue':
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
-      case 'purple':
-        return 'linear-gradient(to right, hsl(271, 100%, 60%), hsl(271, 100%, 50%))';
+      case "green":
+        return "linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))";
+      case "yellow":
+        return "linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))";
+      case "red":
+        return "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))";
+      case "blue":
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
+      case "purple":
+        return "linear-gradient(to right, hsl(271, 100%, 60%), hsl(271, 100%, 50%))";
       default:
-        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+        return "linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))";
     }
   }};
   color: white;
@@ -566,7 +604,7 @@ const CardContent = styled.div`
   color: hsl(214, 16%, 47%);
   font-size: 0.875rem;
   line-height: 1.5;
-  
+
   .dark & {
     color: hsl(214, 20%, 65%);
   }
@@ -582,7 +620,7 @@ const ProgressLabel = styled.div`
   margin-bottom: 0.5rem;
   font-size: 0.75rem;
   color: hsl(214, 16%, 47%);
-  
+
   .dark & {
     color: hsl(214, 20%, 65%);
   }
@@ -593,7 +631,7 @@ const ProgressTrack = styled.div`
   background: hsla(214, 100%, 100%, 0.3);
   border-radius: 9999px;
   overflow: hidden;
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.3);
   }
@@ -601,8 +639,12 @@ const ProgressTrack = styled.div`
 
 const ProgressFill = styled.div<{ progress: number }>`
   height: 100%;
-  width: ${props => props.progress}%;
-  background: linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%));
+  width: ${(props) => props.progress}%;
+  background: linear-gradient(
+    to right,
+    hsl(214, 100%, 50%),
+    hsl(226, 100%, 50%)
+  );
   border-radius: 9999px;
   transition: width 0.5s ease;
 `;
@@ -613,63 +655,73 @@ const ActionButtons = styled.div`
   margin-top: 1rem;
 `;
 
-const ActionButton = styled.button<{ variant: 'primary' | 'secondary' | 'danger' }>`
+const ActionButton = styled.button<{
+  variant: "primary" | "secondary" | "danger";
+}>`
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.variant) {
-      case 'primary':
-        return 'linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))';
-      case 'secondary':
-        return 'hsla(214, 100%, 100%, 0.5)';
-      case 'danger':
-        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
+      case "primary":
+        return "linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))";
+      case "secondary":
+        return "hsla(214, 100%, 100%, 0.5)";
+      case "danger":
+        return "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))";
       default:
-        return 'hsla(214, 100%, 100%, 0.5)';
+        return "hsla(214, 100%, 100%, 0.5)";
     }
   }};
-  color: ${props => props.variant === 'secondary' ? 'hsl(214, 16%, 47%)' : 'white'};
-  border: ${props => props.variant === 'secondary' ? '1px solid hsla(214, 100%, 100%, 0.3)' : 'none'};
-  
+  color: ${(props) =>
+    props.variant === "secondary" ? "hsl(214, 16%, 47%)" : "white"};
+  border: ${(props) =>
+    props.variant === "secondary"
+      ? "1px solid hsla(214, 100%, 100%, 0.3)"
+      : "none"};
+
   &:hover {
     transform: scale(1.05);
-    background: ${props => {
+    background: ${(props) => {
       switch (props.variant) {
-        case 'primary':
-          return 'linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))';
-        case 'secondary':
-          return 'hsla(214, 100%, 100%, 0.8)';
-        case 'danger':
-          return 'linear-gradient(to right, hsl(0, 84%, 55%), hsl(0, 84%, 45%))';
+        case "primary":
+          return "linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))";
+        case "secondary":
+          return "hsla(214, 100%, 100%, 0.8)";
+        case "danger":
+          return "linear-gradient(to right, hsl(0, 84%, 55%), hsl(0, 84%, 45%))";
         default:
-          return 'hsla(214, 100%, 100%, 0.8)';
+          return "hsla(214, 100%, 100%, 0.8)";
       }
     }};
   }
-  
+
   .dark & {
-    color: ${props => props.variant === 'secondary' ? 'hsl(214, 20%, 65%)' : 'white'};
-    background: ${props => {
-      if (props.variant === 'secondary') {
-        return 'hsla(214, 28%, 17%, 0.5)';
+    color: ${(props) =>
+      props.variant === "secondary" ? "hsl(214, 20%, 65%)" : "white"};
+    background: ${(props) => {
+      if (props.variant === "secondary") {
+        return "hsla(214, 28%, 17%, 0.5)";
       }
-      return props.variant === 'danger' 
-        ? 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))'
-        : 'linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))';
+      return props.variant === "danger"
+        ? "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))"
+        : "linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%))";
     }};
-    border: ${props => props.variant === 'secondary' ? '1px solid hsla(214, 28%, 17%, 0.3)' : 'none'};
-    
+    border: ${(props) =>
+      props.variant === "secondary"
+        ? "1px solid hsla(214, 28%, 17%, 0.3)"
+        : "none"};
+
     &:hover {
-      background: ${props => {
-        if (props.variant === 'secondary') {
-          return 'hsla(214, 28%, 17%, 0.8)';
+      background: ${(props) => {
+        if (props.variant === "secondary") {
+          return "hsla(214, 28%, 17%, 0.8)";
         }
-        return props.variant === 'danger' 
-          ? 'linear-gradient(to right, hsl(0, 84%, 55%), hsl(0, 84%, 45%))'
-          : 'linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))';
+        return props.variant === "danger"
+          ? "linear-gradient(to right, hsl(0, 84%, 55%), hsl(0, 84%, 45%))"
+          : "linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%))";
       }};
     }
   }
@@ -679,7 +731,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   z-index: 50;
@@ -697,7 +749,7 @@ const ModalContent = styled.div`
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.95);
   }
@@ -707,7 +759,7 @@ const FormGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  
+
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -722,7 +774,7 @@ const Label = styled.label`
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: hsl(214, 16%, 47%);
-  
+
   .dark & {
     color: hsl(214, 20%, 65%);
   }
@@ -736,13 +788,13 @@ const Input = styled.input`
   background: hsla(214, 100%, 100%, 0.5);
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: hsl(214, 100%, 50%);
     box-shadow: 0 0 0 3px hsla(214, 100%, 50%, 0.1);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border-color: hsla(214, 28%, 17%, 0.3);
@@ -760,13 +812,13 @@ const Textarea = styled.textarea`
   transition: all 0.3s ease;
   min-height: 100px;
   resize: vertical;
-  
+
   &:focus {
     outline: none;
     border-color: hsl(214, 100%, 50%);
     box-shadow: 0 0 0 3px hsla(214, 100%, 50%, 0.1);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border-color: hsla(214, 28%, 17%, 0.3);
@@ -782,13 +834,13 @@ const Select = styled.select`
   background: hsla(214, 100%, 100%, 0.5);
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: hsl(214, 100%, 50%);
     box-shadow: 0 0 0 3px hsla(214, 100%, 50%, 0.1);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border-color: hsla(214, 28%, 17%, 0.3);
@@ -805,17 +857,25 @@ const ButtonGroup = styled.div`
 const SubmitButton = styled.button`
   flex: 1;
   padding: 0.75rem;
-  background: linear-gradient(to right, hsl(214, 100%, 50%), hsl(226, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(214, 100%, 50%),
+    hsl(226, 100%, 50%)
+  );
   color: white;
   border-radius: 0.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  
+
   &:hover {
-    background: linear-gradient(to right, hsl(214, 100%, 45%), hsl(226, 100%, 45%));
+    background: linear-gradient(
+      to right,
+      hsl(214, 100%, 45%),
+      hsl(226, 100%, 45%)
+    );
     transform: scale(1.05);
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -832,17 +892,17 @@ const CancelButton = styled.button`
   border-radius: 0.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: hsla(214, 100%, 100%, 0.8);
     transform: scale(1.05);
   }
-  
+
   .dark & {
     background: hsla(214, 28%, 17%, 0.5);
     border-color: hsla(214, 28%, 17%, 0.3);
     color: hsl(214, 20%, 65%);
-    
+
     &:hover {
       background: hsla(214, 28%, 17%, 0.8);
     }
@@ -866,88 +926,98 @@ const LoadingSpinner = styled.div`
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'COMPLETED':
-    case 'APPROVED':
-      return 'green';
-    case 'IN_PROGRESS':
-      return 'blue';
-    case 'PENDING':
-      return 'yellow';
-    case 'REJECTED':
-    case 'OVERDUE':
-      return 'red';
-    case 'ON_HOLD':
-      return 'purple';
+    case "COMPLETED":
+    case "APPROVED":
+      return "green";
+    case "IN_PROGRESS":
+      return "blue";
+    case "PENDING":
+      return "yellow";
+    case "REJECTED":
+    case "OVERDUE":
+      return "red";
+    case "ON_HOLD":
+      return "purple";
     default:
-      return 'blue';
+      return "blue";
   }
 };
 
 const getPriorityColor = (priority: string) => {
   switch (priority) {
-    case 'URGENT':
-      return 'red';
-    case 'HIGH':
-      return 'yellow';
-    case 'MEDIUM':
-      return 'blue';
-    case 'LOW':
-      return 'green';
+    case "URGENT":
+      return "red";
+    case "HIGH":
+      return "yellow";
+    case "MEDIUM":
+      return "blue";
+    case "LOW":
+      return "green";
     default:
-      return 'blue';
+      return "blue";
   }
 };
 
 export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'buildings' | 'tasks' | 'approvals'>('buildings');
+  const [activeTab, setActiveTab] = useState<
+    "buildings" | "tasks" | "approvals"
+  >("buildings");
   const [buildings, setBuildings] = useState<Building[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [pendingTasks, setPendingTasks] = useState<Task[]>([]);
   const [contractors, setContractors] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Modal states
   const [showBuildingModal, setShowBuildingModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
-  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
-  
+  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(
+    null,
+  );
+
   // Form data
-  const [buildingForm, setBuildingForm] = useState<Partial<BuildingCreateRequest>>({
-    name: '',
-    description: '',
-    address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: '',
-    type: 'RESIDENTIAL',
+  const [buildingForm, setBuildingForm] = useState<
+    Partial<BuildingCreateRequest>
+  >({
+    name: "",
+    description: "",
+    address: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    type: "RESIDENTIAL",
     totalFloors: 1,
     totalArea: 0,
     estimatedBudget: 0,
-    startDate: '',
-    expectedCompletionDate: '',
+    startDate: "",
+    expectedCompletionDate: "",
     projectManagerId: 0,
   });
-  
+
   const [taskForm, setTaskForm] = useState<Partial<TaskCreateRequest>>({
-    name: '',
-    description: '',
-    type: 'OTHER',
-    priority: 'MEDIUM',
+    name: "",
+    description: "",
+    type: "OTHER",
+    priority: "MEDIUM",
     estimatedDurationDays: 1,
     estimatedCost: 0,
-    startDate: '',
-    deadline: '',
+    startDate: "",
+    deadline: "",
     buildingId: 0,
     assignedContractorId: 0,
   });
@@ -967,22 +1037,27 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [buildingsData, tasksData, pendingData, contractorsData] = await Promise.all([
-        apiClient.getBuildings(),
-        apiClient.getAllAdminTasks(),
-        apiClient.getPendingApprovalTasks(),
-        apiClient.getContractors(),
-      ]);
-      
+      const [buildingsData, tasksData, pendingData, contractorsData] =
+        await Promise.all([
+          apiClient.getBuildings(),
+          apiClient.getAllAdminTasks(),
+          apiClient.getPendingApprovalTasks(),
+          apiClient.getContractors(),
+        ]);
+
       setBuildings(buildingsData);
       setTasks(tasksData);
       setPendingTasks(pendingData);
       setContractors(contractorsData);
-      
+
       // Calculate stats
-      const completedCount = buildingsData.filter(b => b.status === 'COMPLETED').length;
-      const activeTasksCount = tasksData.filter(t => t.status === 'IN_PROGRESS' || t.status === 'PENDING').length;
-      
+      const completedCount = buildingsData.filter(
+        (b) => b.status === "COMPLETED",
+      ).length;
+      const activeTasksCount = tasksData.filter(
+        (t) => t.status === "IN_PROGRESS" || t.status === "PENDING",
+      ).length;
+
       setStats({
         totalBuildings: buildingsData.length,
         activeTasks: activeTasksCount,
@@ -990,8 +1065,8 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
         completedProjects: completedCount,
       });
     } catch (err) {
-      setError('Failed to load data');
-      console.error('Error loading data:', err);
+      setError("Failed to load data");
+      console.error("Error loading data:", err);
     } finally {
       setLoading(false);
     }
@@ -1003,25 +1078,25 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       await apiClient.createBuilding(buildingForm as BuildingCreateRequest);
       setShowBuildingModal(false);
       setBuildingForm({
-        name: '',
-        description: '',
-        address: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: '',
-        type: 'RESIDENTIAL',
+        name: "",
+        description: "",
+        address: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        country: "",
+        type: "RESIDENTIAL",
         totalFloors: 1,
         totalArea: 0,
         estimatedBudget: 0,
-        startDate: '',
-        expectedCompletionDate: '',
+        startDate: "",
+        expectedCompletionDate: "",
         projectManagerId: 0,
       });
       await loadData();
     } catch (err) {
-      setError('Failed to create building');
-      console.error('Error creating building:', err);
+      setError("Failed to create building");
+      console.error("Error creating building:", err);
     } finally {
       setLoading(false);
     }
@@ -1033,21 +1108,21 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       await apiClient.createTask(taskForm as TaskCreateRequest);
       setShowTaskModal(false);
       setTaskForm({
-        name: '',
-        description: '',
-        type: 'OTHER',
-        priority: 'MEDIUM',
+        name: "",
+        description: "",
+        type: "OTHER",
+        priority: "MEDIUM",
         estimatedDurationDays: 1,
         estimatedCost: 0,
-        startDate: '',
-        deadline: '',
+        startDate: "",
+        deadline: "",
         buildingId: 0,
         assignedContractorId: 0,
       });
       await loadData();
     } catch (err) {
-      setError('Failed to create task');
-      console.error('Error creating task:', err);
+      setError("Failed to create task");
+      console.error("Error creating task:", err);
     } finally {
       setLoading(false);
     }
@@ -1058,8 +1133,8 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       await apiClient.approveTask(taskId);
       await loadData();
     } catch (err) {
-      setError('Failed to approve task');
-      console.error('Error approving task:', err);
+      setError("Failed to approve task");
+      console.error("Error approving task:", err);
     }
   };
 
@@ -1068,8 +1143,8 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       await apiClient.rejectTask(taskId, reason);
       await loadData();
     } catch (err) {
-      setError('Failed to reject task');
-      console.error('Error rejecting task:', err);
+      setError("Failed to reject task");
+      console.error("Error rejecting task:", err);
     }
   };
 
@@ -1077,11 +1152,16 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
     <>
       <CreateButton onClick={() => setShowBuildingModal(true)}>
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4v16m8-8H4"
+          />
         </svg>
         Create New Building
       </CreateButton>
-      
+
       {buildings.map((building) => (
         <Card key={building.id}>
           <CardHeader>
@@ -1096,8 +1176,13 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
             </CardMeta>
           </CardHeader>
           <CardContent>
-            <p><strong>Address:</strong> {building.address}, {building.city}</p>
-            <p><strong>Manager:</strong> {building.projectManager.firstName} {building.projectManager.lastName}</p>
+            <p>
+              <strong>Address:</strong> {building.address}, {building.city}
+            </p>
+            <p>
+              <strong>Manager:</strong> {building.projectManager.firstName}{" "}
+              {building.projectManager.lastName}
+            </p>
             {building.description && <p>{building.description}</p>}
           </CardContent>
           {building.completionPercentage !== undefined && (
@@ -1112,10 +1197,16 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
             </ProgressBar>
           )}
           <ActionButtons>
-            <ActionButton variant="primary" onClick={() => setSelectedBuilding(building)}>
+            <ActionButton
+              variant="primary"
+              onClick={() => setSelectedBuilding(building)}
+            >
               View Details
             </ActionButton>
-            <ActionButton variant="secondary" onClick={() => setShowTaskModal(true)}>
+            <ActionButton
+              variant="secondary"
+              onClick={() => setShowTaskModal(true)}
+            >
               Add Task
             </ActionButton>
           </ActionButtons>
@@ -1128,11 +1219,16 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
     <>
       <CreateButton onClick={() => setShowTaskModal(true)}>
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 4v16m8-8H4"
+          />
         </svg>
         Create New Task
       </CreateButton>
-      
+
       {tasks.map((task) => (
         <Card key={task.id}>
           <CardHeader>
@@ -1150,12 +1246,20 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
             </CardMeta>
           </CardHeader>
           <CardContent>
-            <p><strong>Building:</strong> {task.building.name}</p>
+            <p>
+              <strong>Building:</strong> {task.building.name}
+            </p>
             {task.assignedContractor && (
-              <p><strong>Contractor:</strong> {task.assignedContractor.firstName} {task.assignedContractor.lastName}</p>
+              <p>
+                <strong>Contractor:</strong> {task.assignedContractor.firstName}{" "}
+                {task.assignedContractor.lastName}
+              </p>
             )}
             {task.deadline && (
-              <p><strong>Deadline:</strong> {new Date(task.deadline).toLocaleDateString()}</p>
+              <p>
+                <strong>Deadline:</strong>{" "}
+                {new Date(task.deadline).toLocaleDateString()}
+              </p>
             )}
             {task.description && <p>{task.description}</p>}
           </CardContent>
@@ -1189,22 +1293,38 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
             </CardMeta>
           </CardHeader>
           <CardContent>
-            <p><strong>Building:</strong> {task.building.name}</p>
+            <p>
+              <strong>Building:</strong> {task.building.name}
+            </p>
             {task.assignedContractor && (
-              <p><strong>Contractor:</strong> {task.assignedContractor.firstName} {task.assignedContractor.lastName}</p>
+              <p>
+                <strong>Contractor:</strong> {task.assignedContractor.firstName}{" "}
+                {task.assignedContractor.lastName}
+              </p>
             )}
             {task.completionNotes && (
-              <p><strong>Completion Notes:</strong> {task.completionNotes}</p>
+              <p>
+                <strong>Completion Notes:</strong> {task.completionNotes}
+              </p>
             )}
             {task.completionDate && (
-              <p><strong>Completed:</strong> {new Date(task.completionDate).toLocaleDateString()}</p>
+              <p>
+                <strong>Completed:</strong>{" "}
+                {new Date(task.completionDate).toLocaleDateString()}
+              </p>
             )}
           </CardContent>
           <ActionButtons>
-            <ActionButton variant="primary" onClick={() => handleApproveTask(task.id)}>
+            <ActionButton
+              variant="primary"
+              onClick={() => handleApproveTask(task.id)}
+            >
               Approve
             </ActionButton>
-            <ActionButton variant="danger" onClick={() => handleRejectTask(task.id, 'Needs revision')}>
+            <ActionButton
+              variant="danger"
+              onClick={() => handleRejectTask(task.id, "Needs revision")}
+            >
               Reject
             </ActionButton>
           </ActionButtons>
@@ -1220,7 +1340,7 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
         <FloatingElement2 delay="1s" />
         <FloatingElement3 delay="2s" />
       </BackgroundElements>
-      
+
       <Header>
         <HeaderContainer>
           <HeaderContent>
@@ -1296,21 +1416,21 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
 
         <TabsContainer>
           <TabsList>
-            <Tab 
-              isActive={activeTab === 'buildings'}
-              onClick={() => setActiveTab('buildings')}
+            <Tab
+              isActive={activeTab === "buildings"}
+              onClick={() => setActiveTab("buildings")}
             >
               Buildings
             </Tab>
-            <Tab 
-              isActive={activeTab === 'tasks'}
-              onClick={() => setActiveTab('tasks')}
+            <Tab
+              isActive={activeTab === "tasks"}
+              onClick={() => setActiveTab("tasks")}
             >
               Tasks
             </Tab>
-            <Tab 
-              isActive={activeTab === 'approvals'}
-              onClick={() => setActiveTab('approvals')}
+            <Tab
+              isActive={activeTab === "approvals"}
+              onClick={() => setActiveTab("approvals")}
             >
               Approvals
             </Tab>
@@ -1320,22 +1440,22 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
         <ContentGrid>
           <MainCard>
             <SectionTitle>
-              {activeTab === 'buildings' && 'Building Management'}
-              {activeTab === 'tasks' && 'Task Management'}
-              {activeTab === 'approvals' && 'Pending Approvals'}
+              {activeTab === "buildings" && "Building Management"}
+              {activeTab === "tasks" && "Task Management"}
+              {activeTab === "approvals" && "Pending Approvals"}
             </SectionTitle>
-            
+
             {error && <ErrorMessage>{error}</ErrorMessage>}
 
             {loading ? (
-              <div style={{ textAlign: 'center', padding: '2rem' }}>
+              <div style={{ textAlign: "center", padding: "2rem" }}>
                 <LoadingSpinner />
               </div>
             ) : (
               <>
-                {activeTab === 'buildings' && renderBuildings()}
-                {activeTab === 'tasks' && renderTasks()}
-                {activeTab === 'approvals' && renderApprovals()}
+                {activeTab === "buildings" && renderBuildings()}
+                {activeTab === "tasks" && renderTasks()}
+                {activeTab === "approvals" && renderApprovals()}
               </>
             )}
           </MainCard>
@@ -1344,14 +1464,27 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
             <SectionTitle>Quick Stats</SectionTitle>
             <Card>
               <CardContent>
-                <p><strong>Overdue Tasks:</strong> {tasks.filter(t => t.isOverdue).length}</p>
-                <p><strong>This Week's Deadlines:</strong> {tasks.filter(t => {
-                  if (!t.deadline) return false;
-                  const deadline = new Date(t.deadline);
-                  const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-                  return deadline <= nextWeek;
-                }).length}</p>
-                <p><strong>Active Contractors:</strong> {contractors.filter(c => c.isActive).length}</p>
+                <p>
+                  <strong>Overdue Tasks:</strong>{" "}
+                  {tasks.filter((t) => t.isOverdue).length}
+                </p>
+                <p>
+                  <strong>This Week's Deadlines:</strong>{" "}
+                  {
+                    tasks.filter((t) => {
+                      if (!t.deadline) return false;
+                      const deadline = new Date(t.deadline);
+                      const nextWeek = new Date(
+                        Date.now() + 7 * 24 * 60 * 60 * 1000,
+                      );
+                      return deadline <= nextWeek;
+                    }).length
+                  }
+                </p>
+                <p>
+                  <strong>Active Contractors:</strong>{" "}
+                  {contractors.filter((c) => c.isActive).length}
+                </p>
               </CardContent>
             </Card>
           </SidebarCard>
@@ -1362,25 +1495,32 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       <Modal isOpen={showBuildingModal}>
         <ModalContent>
           <SectionTitle>Create New Building</SectionTitle>
-          
+
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Building Name</Label>
               <Input
                 type="text"
-                value={buildingForm.name || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, name: e.target.value })}
+                value={buildingForm.name || ""}
+                onChange={(e) =>
+                  setBuildingForm({ ...buildingForm, name: e.target.value })
+                }
                 placeholder="Enter building name"
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Type</Label>
               <Select
-                value={buildingForm.type || 'RESIDENTIAL'}
-                onChange={(e) => setBuildingForm({ ...buildingForm, type: e.target.value as any })}
+                value={buildingForm.type || "RESIDENTIAL"}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    type: e.target.value as any,
+                  })
+                }
               >
                 <option value="RESIDENTIAL">Residential</option>
                 <option value="COMMERCIAL">Commercial</option>
@@ -1389,105 +1529,143 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
               </Select>
             </FormGroup>
           </FormGrid>
-          
+
           <FormGroup>
             <Label>Description</Label>
             <Textarea
-              value={buildingForm.description || ''}
-              onChange={(e) => setBuildingForm({ ...buildingForm, description: e.target.value })}
+              value={buildingForm.description || ""}
+              onChange={(e) =>
+                setBuildingForm({
+                  ...buildingForm,
+                  description: e.target.value,
+                })
+              }
               placeholder="Enter building description"
             />
           </FormGroup>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Address</Label>
               <Input
                 type="text"
-                value={buildingForm.address || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, address: e.target.value })}
+                value={buildingForm.address || ""}
+                onChange={(e) =>
+                  setBuildingForm({ ...buildingForm, address: e.target.value })
+                }
                 placeholder="Enter address"
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>City</Label>
               <Input
                 type="text"
-                value={buildingForm.city || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, city: e.target.value })}
+                value={buildingForm.city || ""}
+                onChange={(e) =>
+                  setBuildingForm({ ...buildingForm, city: e.target.value })
+                }
                 placeholder="Enter city"
               />
             </FormGroup>
           </FormGrid>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>State</Label>
               <Input
                 type="text"
-                value={buildingForm.state || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, state: e.target.value })}
+                value={buildingForm.state || ""}
+                onChange={(e) =>
+                  setBuildingForm({ ...buildingForm, state: e.target.value })
+                }
                 placeholder="Enter state"
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Postal Code</Label>
               <Input
                 type="text"
-                value={buildingForm.postalCode || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, postalCode: e.target.value })}
+                value={buildingForm.postalCode || ""}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    postalCode: e.target.value,
+                  })
+                }
                 placeholder="Enter postal code"
               />
             </FormGroup>
           </FormGrid>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Total Floors</Label>
               <Input
                 type="number"
                 value={buildingForm.totalFloors || 1}
-                onChange={(e) => setBuildingForm({ ...buildingForm, totalFloors: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    totalFloors: parseInt(e.target.value),
+                  })
+                }
                 min="1"
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Total Area (sq ft)</Label>
               <Input
                 type="number"
-                value={buildingForm.totalArea || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, totalArea: parseFloat(e.target.value) })}
+                value={buildingForm.totalArea || ""}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    totalArea: parseFloat(e.target.value),
+                  })
+                }
               />
             </FormGroup>
           </FormGrid>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Start Date</Label>
               <Input
                 type="date"
-                value={buildingForm.startDate || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, startDate: e.target.value })}
+                value={buildingForm.startDate || ""}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    startDate: e.target.value,
+                  })
+                }
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Expected Completion</Label>
               <Input
                 type="date"
-                value={buildingForm.expectedCompletionDate || ''}
-                onChange={(e) => setBuildingForm({ ...buildingForm, expectedCompletionDate: e.target.value })}
+                value={buildingForm.expectedCompletionDate || ""}
+                onChange={(e) =>
+                  setBuildingForm({
+                    ...buildingForm,
+                    expectedCompletionDate: e.target.value,
+                  })
+                }
               />
             </FormGroup>
           </FormGrid>
-          
+
           <ButtonGroup>
-            <CancelButton onClick={() => setShowBuildingModal(false)}>Cancel</CancelButton>
+            <CancelButton onClick={() => setShowBuildingModal(false)}>
+              Cancel
+            </CancelButton>
             <SubmitButton onClick={handleCreateBuilding} disabled={loading}>
-              {loading ? <LoadingSpinner /> : 'Create Building'}
+              {loading ? <LoadingSpinner /> : "Create Building"}
             </SubmitButton>
           </ButtonGroup>
         </ModalContent>
@@ -1497,25 +1675,32 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
       <Modal isOpen={showTaskModal}>
         <ModalContent>
           <SectionTitle>Create New Task</SectionTitle>
-          
+
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Task Name</Label>
               <Input
                 type="text"
-                value={taskForm.name || ''}
-                onChange={(e) => setTaskForm({ ...taskForm, name: e.target.value })}
+                value={taskForm.name || ""}
+                onChange={(e) =>
+                  setTaskForm({ ...taskForm, name: e.target.value })
+                }
                 placeholder="Enter task name"
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Building</Label>
               <Select
-                value={taskForm.buildingId || ''}
-                onChange={(e) => setTaskForm({ ...taskForm, buildingId: parseInt(e.target.value) })}
+                value={taskForm.buildingId || ""}
+                onChange={(e) =>
+                  setTaskForm({
+                    ...taskForm,
+                    buildingId: parseInt(e.target.value),
+                  })
+                }
               >
                 <option value="">Select Building</option>
                 {buildings.map((building) => (
@@ -1526,22 +1711,26 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
               </Select>
             </FormGroup>
           </FormGrid>
-          
+
           <FormGroup>
             <Label>Description</Label>
             <Textarea
-              value={taskForm.description || ''}
-              onChange={(e) => setTaskForm({ ...taskForm, description: e.target.value })}
+              value={taskForm.description || ""}
+              onChange={(e) =>
+                setTaskForm({ ...taskForm, description: e.target.value })
+              }
               placeholder="Enter task description"
             />
           </FormGroup>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Type</Label>
               <Select
-                value={taskForm.type || 'OTHER'}
-                onChange={(e) => setTaskForm({ ...taskForm, type: e.target.value as any })}
+                value={taskForm.type || "OTHER"}
+                onChange={(e) =>
+                  setTaskForm({ ...taskForm, type: e.target.value as any })
+                }
               >
                 <option value="FOUNDATION">Foundation</option>
                 <option value="FRAMING">Framing</option>
@@ -1557,12 +1746,14 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
                 <option value="OTHER">Other</option>
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Priority</Label>
               <Select
-                value={taskForm.priority || 'MEDIUM'}
-                onChange={(e) => setTaskForm({ ...taskForm, priority: e.target.value as any })}
+                value={taskForm.priority || "MEDIUM"}
+                onChange={(e) =>
+                  setTaskForm({ ...taskForm, priority: e.target.value as any })
+                }
               >
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
@@ -1571,13 +1762,18 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
               </Select>
             </FormGroup>
           </FormGrid>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Assigned Contractor</Label>
               <Select
-                value={taskForm.assignedContractorId || ''}
-                onChange={(e) => setTaskForm({ ...taskForm, assignedContractorId: parseInt(e.target.value) })}
+                value={taskForm.assignedContractorId || ""}
+                onChange={(e) =>
+                  setTaskForm({
+                    ...taskForm,
+                    assignedContractorId: parseInt(e.target.value),
+                  })
+                }
               >
                 <option value="">Select Contractor</option>
                 {contractors.map((contractor) => (
@@ -1587,42 +1783,53 @@ export default function BuilderDashboard({ onLogout }: BuilderDashboardProps) {
                 ))}
               </Select>
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Duration (days)</Label>
               <Input
                 type="number"
                 value={taskForm.estimatedDurationDays || 1}
-                onChange={(e) => setTaskForm({ ...taskForm, estimatedDurationDays: parseInt(e.target.value) })}
+                onChange={(e) =>
+                  setTaskForm({
+                    ...taskForm,
+                    estimatedDurationDays: parseInt(e.target.value),
+                  })
+                }
                 min="1"
               />
             </FormGroup>
           </FormGrid>
-          
+
           <FormGrid>
             <FormGroup>
               <Label>Start Date</Label>
               <Input
                 type="date"
-                value={taskForm.startDate || ''}
-                onChange={(e) => setTaskForm({ ...taskForm, startDate: e.target.value })}
+                value={taskForm.startDate || ""}
+                onChange={(e) =>
+                  setTaskForm({ ...taskForm, startDate: e.target.value })
+                }
               />
             </FormGroup>
-            
+
             <FormGroup>
               <Label>Deadline</Label>
               <Input
                 type="date"
-                value={taskForm.deadline || ''}
-                onChange={(e) => setTaskForm({ ...taskForm, deadline: e.target.value })}
+                value={taskForm.deadline || ""}
+                onChange={(e) =>
+                  setTaskForm({ ...taskForm, deadline: e.target.value })
+                }
               />
             </FormGroup>
           </FormGrid>
-          
+
           <ButtonGroup>
-            <CancelButton onClick={() => setShowTaskModal(false)}>Cancel</CancelButton>
+            <CancelButton onClick={() => setShowTaskModal(false)}>
+              Cancel
+            </CancelButton>
             <SubmitButton onClick={handleCreateTask} disabled={loading}>
-              {loading ? <LoadingSpinner /> : 'Create Task'}
+              {loading ? <LoadingSpinner /> : "Create Task"}
             </SubmitButton>
           </ButtonGroup>
         </ModalContent>

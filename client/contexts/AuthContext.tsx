@@ -1,5 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { apiClient, User, LoginRequest } from '@/services/api';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { apiClient, User, LoginRequest } from "@/services/api";
 
 interface AuthContextType {
   user: User | null;
@@ -15,7 +21,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
@@ -34,20 +40,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const checkAuthStatus = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem("accessToken");
       if (token) {
         // Set the token in the API client
         apiClient.setToken(token);
-        
+
         // Try to get current user
         const userData = await apiClient.getCurrentUser();
         setUser(userData);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error("Auth check failed:", error);
       // Clear invalid token
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       apiClient.clearToken();
     } finally {
       setIsLoading(false);
@@ -60,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const response = await apiClient.login(credentials);
       setUser(response.user);
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -79,7 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const userData = await apiClient.getCurrentUser();
       setUser(userData);
     } catch (error) {
-      console.error('Failed to refetch user:', error);
+      console.error("Failed to refetch user:", error);
       logout();
     }
   };
@@ -93,9 +99,5 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     refetchUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

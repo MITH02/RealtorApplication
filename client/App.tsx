@@ -41,21 +41,26 @@ const AppContent = () => {
   // Show loading while authentication is being checked
   if (isLoading) {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))'
-      }}>
-        <div style={{
-          width: '3rem',
-          height: '3rem',
-          border: '4px solid hsla(214, 100%, 50%, 0.3)',
-          borderTop: '4px solid hsl(214, 100%, 50%)',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background:
+            "linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%))",
+        }}
+      >
+        <div
+          style={{
+            width: "3rem",
+            height: "3rem",
+            border: "4px solid hsla(214, 100%, 50%, 0.3)",
+            borderTop: "4px solid hsl(214, 100%, 50%)",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        />
         <style>{`
           @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -69,11 +74,11 @@ const AppContent = () => {
   // If user is authenticated, show appropriate dashboard
   if (isAuthenticated && user) {
     switch (user.role) {
-      case 'SUPER_ADMIN':
+      case "SUPER_ADMIN":
         return <AdminDashboard onLogout={logout} />;
-      case 'ADMIN':
+      case "ADMIN":
         return <BuilderDashboard onLogout={logout} />;
-      case 'CONTRACTOR':
+      case "CONTRACTOR":
         return <Dashboard role="contractor" onLogout={logout} />;
       default:
         // Unknown role, logout user

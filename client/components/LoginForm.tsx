@@ -466,8 +466,8 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
         onSuccess();
       }
     } catch (err: any) {
-      console.error('Authentication error:', err);
-      setError(err.message || 'Authentication failed. Please try again.');
+      console.error("Authentication error:", err);
+      setError(err.message || "Authentication failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -577,14 +577,16 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               )}
 
               {error && (
-                <div style={{
-                  padding: '0.75rem',
-                  background: 'hsla(0, 84%, 60%, 0.1)',
-                  border: '1px solid hsla(0, 84%, 60%, 0.3)',
-                  borderRadius: '0.5rem',
-                  color: 'hsl(0, 84%, 60%)',
-                  fontSize: '0.875rem'
-                }}>
+                <div
+                  style={{
+                    padding: "0.75rem",
+                    background: "hsla(0, 84%, 60%, 0.1)",
+                    border: "1px solid hsla(0, 84%, 60%, 0.3)",
+                    borderRadius: "0.5rem",
+                    color: "hsl(0, 84%, 60%)",
+                    fontSize: "0.875rem",
+                  }}
+                >
                   {error}
                 </div>
               )}
@@ -618,10 +620,12 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </ToggleText>
-              <ToggleButton onClick={() => {
-                setIsLogin(!isLogin);
-                setError(null);
-              }}>
+              <ToggleButton
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError(null);
+                }}
+              >
                 {isLogin ? "Create one now" : "Sign in instead"}
               </ToggleButton>
             </ToggleContainer>

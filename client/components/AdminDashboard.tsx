@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { useState, useEffect } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
-import { apiClient, User, SignupRequest } from '@/services/api';
+import { apiClient, User, SignupRequest } from "@/services/api";
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -41,18 +41,22 @@ const fadeIn = keyframes`
 // Styled components
 const DashboardContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(to bottom right, 
-    hsl(271, 91%, 98%) 0%, 
-    hsl(271, 91%, 95%) 50%, 
-    hsl(271, 91%, 92%) 100%);
+  background: linear-gradient(
+    to bottom right,
+    hsl(271, 91%, 98%) 0%,
+    hsl(271, 91%, 95%) 50%,
+    hsl(271, 91%, 92%) 100%
+  );
   position: relative;
   overflow: hidden;
-  
+
   .dark & {
-    background: linear-gradient(to bottom right, 
-      hsl(271, 84%, 5%) 0%, 
-      hsl(271, 28%, 17%) 50%, 
-      hsl(271, 50%, 12%) 100%);
+    background: linear-gradient(
+      to bottom right,
+      hsl(271, 84%, 5%) 0%,
+      hsl(271, 28%, 17%) 50%,
+      hsl(271, 50%, 12%) 100%
+    );
   }
 `;
 
@@ -61,7 +65,7 @@ const FloatingElement = styled.div<{ delay?: string }>`
   border-radius: 50%;
   filter: blur(2rem);
   animation: ${floatAnimation} 6s ease-in-out infinite;
-  animation-delay: ${props => props.delay || '0s'};
+  animation-delay: ${(props) => props.delay || "0s"};
 `;
 
 const FloatingElement1 = styled(FloatingElement)`
@@ -69,9 +73,11 @@ const FloatingElement1 = styled(FloatingElement)`
   left: 5rem;
   width: 10rem;
   height: 10rem;
-  background: linear-gradient(to bottom right, 
-    hsla(271, 100%, 70%, 0.1), 
-    hsla(280, 100%, 70%, 0.1));
+  background: linear-gradient(
+    to bottom right,
+    hsla(271, 100%, 70%, 0.1),
+    hsla(280, 100%, 70%, 0.1)
+  );
 `;
 
 const FloatingElement2 = styled(FloatingElement)`
@@ -79,9 +85,11 @@ const FloatingElement2 = styled(FloatingElement)`
   right: 5rem;
   width: 8rem;
   height: 8rem;
-  background: linear-gradient(to bottom right, 
-    hsla(271, 100%, 70%, 0.15), 
-    hsla(280, 100%, 70%, 0.15));
+  background: linear-gradient(
+    to bottom right,
+    hsla(271, 100%, 70%, 0.15),
+    hsla(280, 100%, 70%, 0.15)
+  );
   filter: blur(1rem);
 `;
 
@@ -90,9 +98,11 @@ const FloatingElement3 = styled(FloatingElement)`
   left: 8rem;
   width: 7rem;
   height: 7rem;
-  background: linear-gradient(to bottom right, 
-    hsla(280, 100%, 70%, 0.1), 
-    hsla(290, 100%, 70%, 0.1));
+  background: linear-gradient(
+    to bottom right,
+    hsla(280, 100%, 70%, 0.1),
+    hsla(290, 100%, 70%, 0.1)
+  );
   filter: blur(0.75rem);
 `;
 
@@ -108,7 +118,7 @@ const Header = styled.header`
   backdrop-filter: blur(12px);
   border-bottom: 1px solid hsla(271, 91%, 100%, 0.5);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.8);
     border-bottom: 1px solid hsla(271, 28%, 17%, 0.5);
@@ -119,11 +129,11 @@ const HeaderContainer = styled.div`
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-  
+
   @media (min-width: 640px) {
     padding: 0 1.5rem;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 0 2rem;
   }
@@ -144,19 +154,23 @@ const HeaderLeft = styled.div`
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 900;
-  background: linear-gradient(to right, 
-    hsl(271, 100%, 50%), 
-    hsl(280, 100%, 50%), 
-    hsl(290, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(271, 100%, 50%),
+    hsl(280, 100%, 50%),
+    hsl(290, 100%, 50%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(271, 100%, 70%), 
-      hsl(280, 100%, 70%), 
-      hsl(290, 100%, 70%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 100%, 70%),
+      hsl(280, 100%, 70%),
+      hsl(290, 100%, 70%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -165,14 +179,18 @@ const Title = styled.h1`
 const RoleBadge = styled.span`
   margin-left: 1rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(to right, hsla(271, 100%, 50%, 0.2), hsla(280, 100%, 40%, 0.2));
+  background: linear-gradient(
+    to right,
+    hsla(271, 100%, 50%, 0.2),
+    hsla(280, 100%, 40%, 0.2)
+  );
   backdrop-filter: blur(4px);
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
   color: hsl(271, 100%, 50%);
   border: 1px solid hsla(271, 91%, 100%, 0.3);
-  
+
   .dark & {
     border: 1px solid hsla(271, 28%, 17%, 0.3);
     color: hsl(271, 100%, 70%);
@@ -196,23 +214,23 @@ const LogoutButton = styled.button`
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   border: 1px solid hsla(271, 91%, 100%, 0.5);
   color: hsl(271, 16%, 47%);
-  
+
   &:hover {
     background: hsla(271, 91%, 100%, 0.9);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     transform: scale(1.05);
   }
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.7);
     border: 1px solid hsla(271, 28%, 17%, 0.5);
     color: hsl(271, 20%, 65%);
-    
+
     &:hover {
       background: hsla(271, 28%, 17%, 0.9);
     }
   }
-  
+
   svg {
     width: 1rem;
     height: 1rem;
@@ -226,11 +244,11 @@ const Main = styled.main`
   max-width: 80rem;
   margin: 0 auto;
   padding: 2rem 1rem;
-  
+
   @media (min-width: 640px) {
     padding: 2rem 1.5rem;
   }
-  
+
   @media (min-width: 1024px) {
     padding: 2rem 2rem;
   }
@@ -244,18 +262,18 @@ const TitleSection = styled.div`
 const MainTitle = styled.h2`
   font-size: 2.25rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(271, 28%, 17%), 
-    hsl(271, 16%, 47%));
+  background: linear-gradient(to right, hsl(271, 28%, 17%), hsl(271, 16%, 47%));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1rem;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(271, 91%, 100%), 
-      hsl(271, 20%, 65%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 91%, 100%),
+      hsl(271, 20%, 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -269,16 +287,16 @@ const WelcomeBox = styled.div`
   border-radius: 9999px;
   border: 1px solid hsla(271, 91%, 100%, 0.5);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.8);
     border: 1px solid hsla(271, 28%, 17%, 0.5);
   }
-  
+
   p {
     color: hsl(271, 16%, 47%);
     font-weight: 600;
-    
+
     .dark & {
       color: hsl(271, 20%, 65%);
     }
@@ -290,11 +308,11 @@ const StatsGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  
+
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -308,13 +326,13 @@ const StatCard = styled.div<{ index: number }>`
   padding: 1.5rem;
   border: 1px solid hsla(271, 91%, 100%, 0.5);
   transition: all 0.5s ease;
-  animation: ${fadeIn} 0.5s ease ${props => props.index * 100}ms both;
-  
+  animation: ${fadeIn} 0.5s ease ${(props) => props.index * 100}ms both;
+
   &:hover {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     transform: scale(1.05) translateY(-0.5rem);
   }
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.9);
     border: 1px solid hsla(271, 28%, 17%, 0.5);
@@ -330,7 +348,7 @@ const StatIcon = styled.div`
   font-size: 2.25rem;
   margin-right: 1rem;
   transition: transform 0.3s ease;
-  
+
   ${StatCard}:hover & {
     transform: scale(1.1);
   }
@@ -339,17 +357,21 @@ const StatIcon = styled.div`
 const StatValue = styled.p`
   font-size: 1.875rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(271, 100%, 50%), 
-    hsl(280, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(271, 100%, 50%),
+    hsl(280, 100%, 50%)
+  );
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(271, 100%, 70%), 
-      hsl(280, 100%, 70%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 100%, 70%),
+      hsl(280, 100%, 70%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -359,7 +381,7 @@ const StatLabel = styled.p`
   color: hsl(271, 16%, 47%);
   font-size: 0.875rem;
   font-weight: 500;
-  
+
   .dark & {
     color: hsl(271, 20%, 65%);
   }
@@ -369,7 +391,7 @@ const ContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 2rem;
-  
+
   @media (min-width: 1024px) {
     grid-template-columns: 2fr 1fr;
   }
@@ -382,7 +404,7 @@ const BuilderManagementCard = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   padding: 2rem;
   border: 1px solid hsla(271, 91%, 100%, 0.5);
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.9);
     border: 1px solid hsla(271, 28%, 17%, 0.5);
@@ -396,7 +418,7 @@ const SidebarCard = styled.div`
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   padding: 2rem;
   border: 1px solid hsla(271, 91%, 100%, 0.5);
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.9);
     border: 1px solid hsla(271, 28%, 17%, 0.5);
@@ -406,18 +428,18 @@ const SidebarCard = styled.div`
 const SectionTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(to right, 
-    hsl(271, 28%, 17%), 
-    hsl(271, 16%, 47%));
+  background: linear-gradient(to right, hsl(271, 28%, 17%), hsl(271, 16%, 47%));
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   margin-bottom: 1.5rem;
-  
+
   .dark & {
-    background: linear-gradient(to right, 
-      hsl(271, 91%, 100%), 
-      hsl(271, 20%, 65%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 91%, 100%),
+      hsl(271, 20%, 65%)
+    );
     background-clip: text;
     -webkit-background-clip: text;
   }
@@ -427,18 +449,26 @@ const CreateBuilderButton = styled.button`
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(to right, hsl(271, 100%, 50%), hsl(280, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(271, 100%, 50%),
+    hsl(280, 100%, 50%)
+  );
   color: white;
   border-radius: 0.75rem;
   font-weight: 600;
   transition: all 0.3s ease;
   margin-bottom: 1.5rem;
-  
+
   &:hover {
-    background: linear-gradient(to right, hsl(271, 100%, 45%), hsl(280, 100%, 45%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 100%, 45%),
+      hsl(280, 100%, 45%)
+    );
     transform: scale(1.05);
   }
-  
+
   svg {
     width: 1.25rem;
     height: 1.25rem;
@@ -461,7 +491,7 @@ const TableHeader = styled.th`
   font-weight: 600;
   color: hsl(271, 16%, 47%);
   border-bottom: 1px solid hsla(271, 91%, 100%, 0.3);
-  
+
   .dark & {
     color: hsl(271, 20%, 65%);
     border-bottom: 1px solid hsla(271, 28%, 17%, 0.3);
@@ -470,7 +500,7 @@ const TableHeader = styled.th`
 
 const TableRow = styled.tr`
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: hsla(271, 100%, 50%, 0.05);
   }
@@ -479,69 +509,72 @@ const TableRow = styled.tr`
 const TableCell = styled.td`
   padding: 1rem;
   border-bottom: 1px solid hsla(271, 91%, 100%, 0.1);
-  
+
   .dark & {
     border-bottom: 1px solid hsla(271, 28%, 17%, 0.1);
   }
 `;
 
-const StatusBadge = styled.span<{ status: 'active' | 'inactive' }>`
+const StatusBadge = styled.span<{ status: "active" | "inactive" }>`
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.75rem;
   font-weight: 600;
-  background: ${props => props.status === 'active' 
-    ? 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))' 
-    : 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))'};
+  background: ${(props) =>
+    props.status === "active"
+      ? "linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))"
+      : "linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))"};
   color: white;
 `;
 
-const ActionButton = styled.button<{ variant: 'edit' | 'deactivate' | 'activate' }>`
+const ActionButton = styled.button<{
+  variant: "edit" | "deactivate" | "activate";
+}>`
   padding: 0.5rem;
   border-radius: 0.5rem;
   margin: 0 0.25rem;
   transition: all 0.2s ease;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.variant) {
-      case 'edit':
-        return 'hsla(214, 100%, 50%, 0.1)';
-      case 'deactivate':
-        return 'hsla(0, 84%, 60%, 0.1)';
-      case 'activate':
-        return 'hsla(142, 76%, 36%, 0.1)';
+      case "edit":
+        return "hsla(214, 100%, 50%, 0.1)";
+      case "deactivate":
+        return "hsla(0, 84%, 60%, 0.1)";
+      case "activate":
+        return "hsla(142, 76%, 36%, 0.1)";
       default:
-        return 'hsla(214, 100%, 50%, 0.1)';
+        return "hsla(214, 100%, 50%, 0.1)";
     }
   }};
-  color: ${props => {
+  color: ${(props) => {
     switch (props.variant) {
-      case 'edit':
-        return 'hsl(214, 100%, 50%)';
-      case 'deactivate':
-        return 'hsl(0, 84%, 60%)';
-      case 'activate':
-        return 'hsl(142, 76%, 36%)';
+      case "edit":
+        return "hsl(214, 100%, 50%)";
+      case "deactivate":
+        return "hsl(0, 84%, 60%)";
+      case "activate":
+        return "hsl(142, 76%, 36%)";
       default:
-        return 'hsl(214, 100%, 50%)';
+        return "hsl(214, 100%, 50%)";
     }
   }};
-  
+
   &:hover {
-    background: ${props => {
+    background: ${(props) => {
       switch (props.variant) {
-        case 'edit':
-          return 'hsla(214, 100%, 50%, 0.2)';
-        case 'deactivate':
-          return 'hsla(0, 84%, 60%, 0.2)';
-        case 'activate':
-          return 'hsla(142, 76%, 36%, 0.2)';
+        case "edit":
+          return "hsla(214, 100%, 50%, 0.2)";
+        case "deactivate":
+          return "hsla(0, 84%, 60%, 0.2)";
+        case "activate":
+          return "hsla(142, 76%, 36%, 0.2)";
         default:
-          return 'hsla(214, 100%, 50%, 0.2)';
+          return "hsla(214, 100%, 50%, 0.2)";
       }
     }};
     transform: scale(1.1);
   }
-  
+
   svg {
     width: 1rem;
     height: 1rem;
@@ -552,7 +585,7 @@ const Modal = styled.div<{ isOpen: boolean }>`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  display: ${props => props.isOpen ? 'flex' : 'none'};
+  display: ${(props) => (props.isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
   z-index: 50;
@@ -568,7 +601,7 @@ const ModalContent = styled.div`
   max-width: 500px;
   width: 100%;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.95);
   }
@@ -583,7 +616,7 @@ const Label = styled.label`
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: hsl(271, 16%, 47%);
-  
+
   .dark & {
     color: hsl(271, 20%, 65%);
   }
@@ -597,13 +630,13 @@ const Input = styled.input`
   background: hsla(271, 91%, 100%, 0.5);
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: hsl(271, 100%, 50%);
     box-shadow: 0 0 0 3px hsla(271, 100%, 50%, 0.1);
   }
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.5);
     border-color: hsla(271, 28%, 17%, 0.3);
@@ -619,13 +652,13 @@ const Select = styled.select`
   background: hsla(271, 91%, 100%, 0.5);
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
-  
+
   &:focus {
     outline: none;
     border-color: hsl(271, 100%, 50%);
     box-shadow: 0 0 0 3px hsla(271, 100%, 50%, 0.1);
   }
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.5);
     border-color: hsla(271, 28%, 17%, 0.3);
@@ -642,17 +675,25 @@ const ButtonGroup = styled.div`
 const SubmitButton = styled.button`
   flex: 1;
   padding: 0.75rem;
-  background: linear-gradient(to right, hsl(271, 100%, 50%), hsl(280, 100%, 50%));
+  background: linear-gradient(
+    to right,
+    hsl(271, 100%, 50%),
+    hsl(280, 100%, 50%)
+  );
   color: white;
   border-radius: 0.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  
+
   &:hover {
-    background: linear-gradient(to right, hsl(271, 100%, 45%), hsl(280, 100%, 45%));
+    background: linear-gradient(
+      to right,
+      hsl(271, 100%, 45%),
+      hsl(280, 100%, 45%)
+    );
     transform: scale(1.05);
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -669,17 +710,17 @@ const CancelButton = styled.button`
   border-radius: 0.5rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: hsla(271, 91%, 100%, 0.8);
     transform: scale(1.05);
   }
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.5);
     border-color: hsla(271, 28%, 17%, 0.3);
     color: hsl(271, 20%, 65%);
-    
+
     &:hover {
       background: hsla(271, 28%, 17%, 0.8);
     }
@@ -703,10 +744,14 @@ const LoadingSpinner = styled.div`
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto;
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -717,25 +762,28 @@ const ActivityItem = styled.div`
   border-radius: 0.75rem;
   background: hsla(271, 91%, 100%, 0.5);
   margin-bottom: 1rem;
-  
+
   .dark & {
     background: hsla(271, 28%, 17%, 0.5);
   }
 `;
 
-const ActivityIcon = styled.div<{ color: 'green' | 'blue' | 'red'; delay?: string }>`
+const ActivityIcon = styled.div<{
+  color: "green" | "blue" | "red";
+  delay?: string;
+}>`
   width: 2.5rem;
   height: 2.5rem;
-  background: ${props => {
+  background: ${(props) => {
     switch (props.color) {
-      case 'green':
-        return 'linear-gradient(to bottom right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
-      case 'blue':
-        return 'linear-gradient(to bottom right, hsl(271, 100%, 70%), hsl(271, 100%, 50%))';
-      case 'red':
-        return 'linear-gradient(to bottom right, hsl(0, 84%, 70%), hsl(0, 84%, 50%))';
+      case "green":
+        return "linear-gradient(to bottom right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))";
+      case "blue":
+        return "linear-gradient(to bottom right, hsl(271, 100%, 70%), hsl(271, 100%, 50%))";
+      case "red":
+        return "linear-gradient(to bottom right, hsl(0, 84%, 70%), hsl(0, 84%, 50%))";
       default:
-        return 'linear-gradient(to bottom right, hsl(271, 100%, 70%), hsl(271, 100%, 50%))';
+        return "linear-gradient(to bottom right, hsl(271, 100%, 70%), hsl(271, 100%, 50%))";
     }
   }};
   border-radius: 50%;
@@ -743,14 +791,14 @@ const ActivityIcon = styled.div<{ color: 'green' | 'blue' | 'red'; delay?: strin
   align-items: center;
   justify-content: center;
   margin-right: 1rem;
-  
+
   div {
     width: 1rem;
     height: 1rem;
     background: white;
     border-radius: 50%;
     animation: ${pulseAnimation} 2s ease-in-out infinite;
-    animation-delay: ${props => props.delay || '0s'};
+    animation-delay: ${(props) => props.delay || "0s"};
   }
 `;
 
@@ -763,7 +811,7 @@ const ActivityTitle = styled.p`
   font-weight: 600;
   color: hsl(271, 28%, 17%);
   margin-bottom: 0.25rem;
-  
+
   .dark & {
     color: hsl(271, 20%, 65%);
   }
@@ -772,7 +820,7 @@ const ActivityTitle = styled.p`
 const ActivityTime = styled.p`
   font-size: 0.75rem;
   color: hsl(271, 16%, 47%);
-  
+
   .dark & {
     color: hsl(271, 20%, 65%);
   }
@@ -785,12 +833,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingBuilder, setEditingBuilder] = useState<User | null>(null);
   const [formData, setFormData] = useState<Partial<SignupRequest>>({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    role: 'ADMIN',
-    phoneNumber: '',
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    role: "ADMIN",
+    phoneNumber: "",
   });
 
   // Stats
@@ -809,14 +857,16 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     try {
       setLoading(true);
       const users = await apiClient.getUsers();
-      const builderUsers = users.filter(user => user.role === 'ADMIN'); // Backend uses ADMIN for builders
+      const builderUsers = users.filter((user) => user.role === "ADMIN"); // Backend uses ADMIN for builders
       setBuilders(builderUsers);
-      
+
       // Calculate stats
-      const activeCount = builderUsers.filter(builder => builder.isActive).length;
+      const activeCount = builderUsers.filter(
+        (builder) => builder.isActive,
+      ).length;
       const inactiveCount = builderUsers.length - activeCount;
-      const recentCount = builderUsers.filter(builder => {
-        const lastLogin = new Date(builder.lastLogin || '');
+      const recentCount = builderUsers.filter((builder) => {
+        const lastLogin = new Date(builder.lastLogin || "");
         const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
         return lastLogin > weekAgo;
       }).length;
@@ -828,8 +878,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         recentSignups: recentCount,
       });
     } catch (err) {
-      setError('Failed to load builders');
-      console.error('Error loading builders:', err);
+      setError("Failed to load builders");
+      console.error("Error loading builders:", err);
     } finally {
       setLoading(false);
     }
@@ -841,17 +891,17 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       await apiClient.createUser(formData as SignupRequest);
       setShowCreateModal(false);
       setFormData({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        role: 'ADMIN',
-        phoneNumber: '',
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        role: "ADMIN",
+        phoneNumber: "",
       });
       await loadBuilders();
     } catch (err) {
-      setError('Failed to create builder');
-      console.error('Error creating builder:', err);
+      setError("Failed to create builder");
+      console.error("Error creating builder:", err);
     } finally {
       setLoading(false);
     }
@@ -859,23 +909,23 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
   const handleUpdateBuilder = async () => {
     if (!editingBuilder) return;
-    
+
     try {
       setLoading(true);
       await apiClient.updateUser(editingBuilder.id, formData);
       setEditingBuilder(null);
       setFormData({
-        email: '',
-        password: '',
-        firstName: '',
-        lastName: '',
-        role: 'ADMIN',
-        phoneNumber: '',
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        role: "ADMIN",
+        phoneNumber: "",
       });
       await loadBuilders();
     } catch (err) {
-      setError('Failed to update builder');
-      console.error('Error updating builder:', err);
+      setError("Failed to update builder");
+      console.error("Error updating builder:", err);
     } finally {
       setLoading(false);
     }
@@ -886,8 +936,8 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       await apiClient.deactivateUser(builderId);
       await loadBuilders();
     } catch (err) {
-      setError('Failed to deactivate builder');
-      console.error('Error deactivating builder:', err);
+      setError("Failed to deactivate builder");
+      console.error("Error deactivating builder:", err);
     }
   };
 
@@ -897,7 +947,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       email: builder.email,
       firstName: builder.firstName,
       lastName: builder.lastName,
-      role: 'ADMIN',
+      role: "ADMIN",
       phoneNumber: builder.phoneNumber,
     });
   };
@@ -906,12 +956,12 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
     setShowCreateModal(false);
     setEditingBuilder(null);
     setFormData({
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      role: 'ADMIN',
-      phoneNumber: '',
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      role: "ADMIN",
+      phoneNumber: "",
     });
     setError(null);
   };
@@ -923,7 +973,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <FloatingElement2 delay="1s" />
         <FloatingElement3 delay="2s" />
       </BackgroundElements>
-      
+
       <Header>
         <HeaderContainer>
           <HeaderContent>
@@ -1000,10 +1050,15 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
         <ContentGrid>
           <BuilderManagementCard>
             <SectionTitle>Builder Management</SectionTitle>
-            
+
             <CreateBuilderButton onClick={() => setShowCreateModal(true)}>
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
               </svg>
               Create New Builder
             </CreateBuilderButton>
@@ -1012,7 +1067,7 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
 
             <BuilderTable>
               {loading ? (
-                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                <div style={{ textAlign: "center", padding: "2rem" }}>
                   <LoadingSpinner />
                 </div>
               ) : (
@@ -1030,33 +1085,79 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
                   <tbody>
                     {builders.map((builder) => (
                       <TableRow key={builder.id}>
-                        <TableCell>{builder.firstName} {builder.lastName}</TableCell>
-                        <TableCell>{builder.email}</TableCell>
-                        <TableCell>{builder.phoneNumber || 'N/A'}</TableCell>
                         <TableCell>
-                          <StatusBadge status={builder.isActive ? 'active' : 'inactive'}>
-                            {builder.isActive ? 'Active' : 'Inactive'}
+                          {builder.firstName} {builder.lastName}
+                        </TableCell>
+                        <TableCell>{builder.email}</TableCell>
+                        <TableCell>{builder.phoneNumber || "N/A"}</TableCell>
+                        <TableCell>
+                          <StatusBadge
+                            status={builder.isActive ? "active" : "inactive"}
+                          >
+                            {builder.isActive ? "Active" : "Inactive"}
                           </StatusBadge>
                         </TableCell>
                         <TableCell>
-                          {builder.lastLogin ? new Date(builder.lastLogin).toLocaleDateString() : 'Never'}
+                          {builder.lastLogin
+                            ? new Date(builder.lastLogin).toLocaleDateString()
+                            : "Never"}
                         </TableCell>
                         <TableCell>
-                          <ActionButton variant="edit" onClick={() => openEditModal(builder)}>
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          <ActionButton
+                            variant="edit"
+                            onClick={() => openEditModal(builder)}
+                          >
+                            <svg
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                              />
                             </svg>
                           </ActionButton>
                           {builder.isActive ? (
-                            <ActionButton variant="deactivate" onClick={() => handleDeactivateBuilder(builder.id)}>
-                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
+                            <ActionButton
+                              variant="deactivate"
+                              onClick={() =>
+                                handleDeactivateBuilder(builder.id)
+                              }
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728"
+                                />
                               </svg>
                             </ActionButton>
                           ) : (
-                            <ActionButton variant="activate" onClick={() => handleDeactivateBuilder(builder.id)}>
-                              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            <ActionButton
+                              variant="activate"
+                              onClick={() =>
+                                handleDeactivateBuilder(builder.id)
+                              }
+                            >
+                              <svg
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
                               </svg>
                             </ActionButton>
                           )}
@@ -1106,70 +1207,88 @@ export default function AdminDashboard({ onLogout }: AdminDashboardProps) {
       <Modal isOpen={showCreateModal || !!editingBuilder}>
         <ModalContent>
           <SectionTitle>
-            {editingBuilder ? 'Edit Builder' : 'Create New Builder'}
+            {editingBuilder ? "Edit Builder" : "Create New Builder"}
           </SectionTitle>
-          
+
           {error && <ErrorMessage>{error}</ErrorMessage>}
-          
+
           <FormGroup>
             <Label>First Name</Label>
             <Input
               type="text"
-              value={formData.firstName || ''}
-              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              value={formData.firstName || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, firstName: e.target.value })
+              }
               placeholder="Enter first name"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Label>Last Name</Label>
             <Input
               type="text"
-              value={formData.lastName || ''}
-              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              value={formData.lastName || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, lastName: e.target.value })
+              }
               placeholder="Enter last name"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <Label>Email</Label>
             <Input
               type="email"
-              value={formData.email || ''}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              value={formData.email || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               placeholder="Enter email address"
             />
           </FormGroup>
-          
+
           {!editingBuilder && (
             <FormGroup>
               <Label>Password</Label>
               <Input
                 type="password"
-                value={formData.password || ''}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                value={formData.password || ""}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 placeholder="Enter password"
               />
             </FormGroup>
           )}
-          
+
           <FormGroup>
             <Label>Phone Number</Label>
             <Input
               type="tel"
-              value={formData.phoneNumber || ''}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              value={formData.phoneNumber || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }
               placeholder="Enter phone number"
             />
           </FormGroup>
-          
+
           <ButtonGroup>
             <CancelButton onClick={closeModal}>Cancel</CancelButton>
-            <SubmitButton 
-              onClick={editingBuilder ? handleUpdateBuilder : handleCreateBuilder}
+            <SubmitButton
+              onClick={
+                editingBuilder ? handleUpdateBuilder : handleCreateBuilder
+              }
               disabled={loading}
             >
-              {loading ? <LoadingSpinner /> : (editingBuilder ? 'Update' : 'Create')}
+              {loading ? (
+                <LoadingSpinner />
+              ) : editingBuilder ? (
+                "Update"
+              ) : (
+                "Create"
+              )}
             </SubmitButton>
           </ButtonGroup>
         </ModalContent>
