@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import apiService from "@/services/api";
 
 // Animations
 const fadeIn = keyframes`
