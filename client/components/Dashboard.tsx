@@ -667,6 +667,122 @@ const PlaceholderDescription = styled.p`
   }
 `;
 
+// Task-specific components
+const TaskCard = styled.div`
+  background: hsla(25, 100%, 100%, 0.5);
+  backdrop-filter: blur(4px);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid hsla(25, 100%, 100%, 0.3);
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+
+  &:hover {
+    background: hsla(25, 100%, 100%, 0.8);
+    transform: scale(1.02);
+  }
+
+  .dark & {
+    background: hsla(25, 28%, 17%, 0.5);
+    border: 1px solid hsla(25, 28%, 17%, 0.3);
+
+    &:hover {
+      background: hsla(25, 28%, 17%, 0.8);
+    }
+  }
+`;
+
+const TaskHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+`;
+
+const TaskTitle = styled.h4`
+  font-size: 1rem;
+  font-weight: 600;
+  color: hsl(25, 28%, 17%);
+
+  .dark & {
+    color: hsl(25, 20%, 65%);
+  }
+`;
+
+const TaskBadge = styled.span<{ status: string }>`
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: ${props => {
+    switch (props.status) {
+      case 'COMPLETED':
+      case 'APPROVED':
+        return 'linear-gradient(to right, hsl(142, 76%, 36%), hsl(142, 76%, 26%))';
+      case 'IN_PROGRESS':
+        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+      case 'PENDING':
+        return 'linear-gradient(to right, hsl(45, 100%, 51%), hsl(45, 100%, 41%))';
+      case 'REJECTED':
+        return 'linear-gradient(to right, hsl(0, 84%, 60%), hsl(0, 84%, 50%))';
+      default:
+        return 'linear-gradient(to right, hsl(214, 100%, 60%), hsl(214, 100%, 50%))';
+    }
+  }};
+  color: white;
+`;
+
+const TaskContent = styled.div`
+  color: hsl(25, 16%, 47%);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+
+  .dark & {
+    color: hsl(25, 20%, 65%);
+  }
+
+  p {
+    margin-bottom: 0.25rem;
+  }
+`;
+
+const TaskActions = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+`;
+
+const TaskActionButton = styled.button`
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: linear-gradient(to right, hsl(25, 95%, 53%), hsl(25, 95%, 43%));
+  color: white;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(to right, hsl(25, 95%, 48%), hsl(25, 95%, 38%));
+    transform: scale(1.05);
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid hsla(25, 100%, 50%, 0.3);
+  border-top: 2px solid hsl(25, 100%, 50%);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 export default function Dashboard({ role, onLogout }: DashboardProps) {
   const roleColors = {
     builder: "blue",
