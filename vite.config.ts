@@ -1,5 +1,5 @@
 import { defineConfig, Plugin } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import path from "path";
 import { createServer } from "./server";
 
@@ -19,18 +19,9 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react({
       jsxImportSource: "@emotion/react",
-      plugins: [
-        [
-          "@swc/plugin-emotion",
-          {
-            // Options for the emotion plugin
-            sourceMap: true,
-            autoLabel: "dev-only",
-            labelFormat: "[local]",
-            cssPropOptimization: true,
-          },
-        ],
-      ],
+      babel: {
+        plugins: ["@emotion/babel-plugin"],
+      },
     }),
     expressPlugin(),
   ],
