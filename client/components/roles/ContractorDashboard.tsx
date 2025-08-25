@@ -669,10 +669,23 @@ export default function ContractorDashboard({
     if (!selectedTask) return;
 
     try {
+      // Mark task as completed first
       await apiService.markTaskAsCompleted(selectedTask.id, completionNotes);
+
+      // Add completion media if uploaded
+      if (uploadedMediaUrls.length > 0) {
+        await apiService.addTaskUpdate(
+          selectedTask.id,
+          completionNotes || "Task completed with media",
+          "COMPLETION",
+          uploadedMediaUrls
+        );
+      }
+
       setShowCompleteModal(false);
       setSelectedTask(null);
       setCompletionNotes("");
+      clearUploadedMedia();
       await fetchTasks();
     } catch (error) {
       console.error("Failed to mark task as completed:", error);
