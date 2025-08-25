@@ -554,6 +554,128 @@ class ApiService {
     return this.makeRequest<MessageResponse>(`/notifications/${id}`, "DELETE");
   }
 
+  // Media Upload APIs
+  async uploadSingleFile(file: File, onProgress?: (progress: number) => void): Promise<MediaUploadResponse> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      if (onProgress) {
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            const progress = Math.round((e.loaded / e.total) * 100);
+            onProgress(progress);
+          }
+        });
+      }
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response);
+          } catch (error) {
+            reject(new Error("Invalid JSON response"));
+          }
+        } else {
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
+          } catch {
+            reject(new Error(`HTTP error! status: ${xhr.status}`));
+          }
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        reject(new Error("Network error during upload"));
+      });
+
+      xhr.addEventListener("timeout", () => {
+        reject(new Error("Upload timeout"));
+      });
+
+      xhr.open("POST", `${this.baseURL}/media/upload`);
+      if (this.token) {
+        xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
+      }
+
+      xhr.timeout = 5 * 60 * 1000; // 5 minutes timeout
+      xhr.send(formData);
+    });
+  }
+
+  async uploadMultipleFiles(
+    files: File[],
+    onProgress?: (progress: number) => void
+  ): Promise<MediaUploadResponse[]> {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      if (onProgress) {
+        xhr.upload.addEventListener("progress", (e) => {
+          if (e.lengthComputable) {
+            const progress = Math.round((e.loaded / e.total) * 100);
+            onProgress(progress);
+          }
+        });
+      }
+
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const response = JSON.parse(xhr.responseText);
+            resolve(response);
+          } catch (error) {
+            reject(new Error("Invalid JSON response"));
+          }
+        } else {
+          try {
+            const errorResponse = JSON.parse(xhr.responseText);
+            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
+          } catch {
+            reject(new Error(`HTTP error! status: ${xhr.status}`));
+          }
+        }
+      });
+
+      xhr.addEventListener("error", () => {
+        reject(new Error("Network error during upload"));
+      });
+
+      xhr.addEventListener("timeout", () => {
+        reject(new Error("Upload timeout"));
+      });
+
+      xhr.open("POST", `${this.baseURL}/media/upload-multiple`);
+      if (this.token) {
+        xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
+      }
+
+      xhr.timeout = 10 * 60 * 1000; // 10 minutes timeout for multiple files
+      xhr.send(formData);
+    });
+  }
+
+  async deleteMediaFile(filename: string): Promise<MessageResponse> {
+    return this.makeRequest<MessageResponse>(`/media/files/${filename}`, "DELETE");
+  }
+
+  async getMediaFileInfo(filename: string): Promise<MediaFileInfo> {
+    return this.makeRequest<MediaFileInfo>(`/media/info/${filename}`);
+  }
+
+  async getMediaHealth(): Promise<MediaHealthResponse> {
+    return this.makeRequest<MediaHealthResponse>("/media/health");
+  }
+
   // Building-Contractor Assignment APIs
   async assignContractorToBuilding(
     assignmentData: BuildingContractorAssignRequest,
