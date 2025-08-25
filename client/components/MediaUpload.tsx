@@ -506,7 +506,7 @@ export default function MediaUpload({
         .filter((file) => !file.uploaded)
         .map(async (file) => {
           try {
-            const url = await simulateUpload(file);
+            const url = await uploadToDatabase(file);
             setMediaFiles((prev) =>
               prev.map((f) =>
                 f.id === file.id
@@ -516,10 +516,11 @@ export default function MediaUpload({
             );
             return url;
           } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Upload failed";
             setMediaFiles((prev) =>
               prev.map((f) =>
                 f.id === file.id
-                  ? { ...f, error: "Upload failed", uploadProgress: 0 }
+                  ? { ...f, error: errorMessage, uploadProgress: 0 }
                   : f,
               ),
             );
