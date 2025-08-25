@@ -1,4 +1,12 @@
 import { CSSObject } from "@emotion/react";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+// Legacy utility function for remaining TailwindCSS components
+// This will be removed once all components are converted to Emotion CSS
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
 
 // Utility function to merge emotion styles
 export function mergeStyles(
@@ -8,7 +16,7 @@ export function mergeStyles(
 }
 
 // Helper for handling class names (for cases where we still need className)
-export function clsx(
+export function clsxUtil(
   ...classes: (string | undefined | null | false)[]
 ): string {
   return classes.filter(Boolean).join(" ");
