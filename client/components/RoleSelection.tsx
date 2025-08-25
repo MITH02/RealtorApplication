@@ -534,6 +534,11 @@ function ImageWithLoading({ src, alt, placeholder }: ImageWithLoadingProps) {
 }
 
 export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
+  const handleRoleClick = (roleId: "admin" | "builder" | "contractor") => {
+    // Navigate to the login page for the selected role
+    window.location.href = `/login/${roleId}`;
+  };
+
   // Optimized images with smaller sizes and WebP format where possible
   const roles = [
     {
@@ -633,7 +638,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
               <RoleCard
                 key={role.id}
                 index={index}
-                onClick={() => onRoleSelect(role.id)}
+                onClick={() => handleRoleClick(role.id)}
               >
                 <RoleCardInner>
                   <RoleCardContent>
