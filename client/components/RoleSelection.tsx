@@ -360,24 +360,14 @@ const ImageContainer = styled.div`
 const ImageSkeleton = styled.div<{ isLoaded: boolean }>`
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    #f0f0f0 25%,
-    #e0e0e0 50%,
-    #f0f0f0 75%
-  );
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200px 100%;
   animation: ${shimmer} 2s infinite;
-  opacity: ${props => props.isLoaded ? 0 : 1};
+  opacity: ${(props) => (props.isLoaded ? 0 : 1)};
   transition: opacity 0.3s ease;
 
   .dark & {
-    background: linear-gradient(
-      90deg,
-      #374151 25%,
-      #4b5563 50%,
-      #374151 75%
-    );
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
   }
 `;
 
@@ -386,7 +376,7 @@ const OptimizedImage = styled.img<{ isLoaded: boolean }>`
   height: 100%;
   object-fit: cover;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: ${props => props.isLoaded ? 1 : 0};
+  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
 
   ${RoleCard}:hover & {
     transform: scale(1.05);
@@ -533,9 +523,9 @@ function ImageWithLoading({ src, alt, placeholder }: ImageWithLoadingProps) {
   return (
     <ImageContainer>
       <ImageSkeleton isLoaded={isLoaded} />
-      <OptimizedImage 
-        src={imgSrc} 
-        alt={alt} 
+      <OptimizedImage
+        src={imgSrc}
+        alt={alt}
         isLoaded={isLoaded}
         loading="lazy"
       />
@@ -553,7 +543,8 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
         "Manage building projects and oversee construction development",
       image:
         "https://images.pexels.com/photos/2219024/pexels-photo-2219024.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
-      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNzQgMTI1SDIyNlYxNzVIMTc0VjEyNVoiIGZpbGw9IiNEMUQ1REIiLz4KPC9zdmc+",
+      placeholder:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNzQgMTI1SDIyNlYxNzVIMTc0VjEyNVoiIGZpbGw9IiNEMUQ1REIiLz4KPC9zdmc+",
     },
     {
       id: "contractor" as const,
@@ -561,7 +552,8 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       description: "Execute tasks and report project progress efficiently",
       image:
         "https://images.pexels.com/photos/834892/pexels-photo-834892.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
-      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNjAgMTI1SDE4MFYxNDVIMTYwVjEyNVpNMjIwIDEyNUgyNDBWMTQ1SDIyMFYxMjVaTTE2MCA1NUgxODBWMTc1SDE2MFY1NVpNMjIwIDE1NUgyNDBWMTc1SDIyMFYxNTVaIiBmaWxsPSIjRDFENURCIi8+Cjwvc3ZnPg==",
+      placeholder:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0xNjAgMTI1SDE4MFYxNDVIMTYwVjEyNVpNMjIwIDEyNUgyNDBWMTQ1SDIyMFYxMjVaTTE2MCA1NUgxODBWMTc1SDE2MFY1NVpNMjIwIDE1NUgyNDBWMTc1SDIyMFYxNTVaIiBmaWxsPSIjRDFENURCIi8+Cjwvc3ZnPg==",
     },
     {
       id: "admin" as const,
@@ -569,7 +561,8 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
       description: "System administration and comprehensive user management",
       image:
         "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop&crop=center",
-      placeholder: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjEyNSIgcj0iMjUiIGZpbGw9IiNEMUQ1REIiLz4KPHBhdGggZD0iTTE1MCAyMDBIMjUwVjE4MEgyMDAuNUMxNzUuNSAxODAgMTUwIDE5MiAxNTAgMjAwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4=",
+      placeholder:
+        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxjaXJjbGUgY3g9IjIwMCIgY3k9IjEyNSIgcj0iMjUiIGZpbGw9IiNEMUQ1REIiLz4KPHBhdGggZD0iTTE1MCAyMDBIMjUwVjE4MEgyMDAuNUMxNzUuNSAxODAgMTUwIDE5MiAxNTAgMjAwWiIgZmlsbD0iI0QxRDVEQiIvPgo8L3N2Zz4=",
     },
   ];
 
@@ -584,7 +577,7 @@ export default function RoleSelection({ onRoleSelect }: RoleSelectionProps) {
 
   // Preload images on component mount
   useEffect(() => {
-    roles.forEach(role => {
+    roles.forEach((role) => {
       const img = new Image();
       img.src = role.image;
     });

@@ -362,28 +362,18 @@ const VideoWrapper = styled.div`
 const VideoPlaceholder = styled.div<{ isVisible: boolean }>`
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    #f0f0f0 25%,
-    #e0e0e0 50%,
-    #f0f0f0 75%
-  );
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200px 100%;
   animation: ${shimmer} 2s infinite;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 4rem;
-  opacity: ${props => props.isVisible ? 1 : 0};
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
   transition: opacity 0.5s ease;
 
   .dark & {
-    background: linear-gradient(
-      90deg,
-      #374151 25%,
-      #4b5563 50%,
-      #374151 75%
-    );
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
   }
 `;
 
@@ -391,7 +381,7 @@ const Video = styled.video<{ isLoaded: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: ${props => props.isLoaded ? 1 : 0};
+  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
   transition: opacity 0.5s ease;
 `;
 
@@ -782,7 +772,7 @@ export default function VideoLoaderScreen({
                 <VideoPlaceholder isVisible={!videoLoaded && !videoError}>
                   🏗️
                 </VideoPlaceholder>
-                
+
                 {!videoError && (
                   <Video
                     ref={videoRef}
@@ -803,11 +793,7 @@ export default function VideoLoaderScreen({
                   </Video>
                 )}
 
-                {videoError && (
-                  <VideoFallback>
-                    🏗️
-                  </VideoFallback>
-                )}
+                {videoError && <VideoFallback>🏗️</VideoFallback>}
               </VideoWrapper>
             </VideoCard>
           </VideoContainer>
