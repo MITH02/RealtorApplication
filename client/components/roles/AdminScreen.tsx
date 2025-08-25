@@ -1,3 +1,5 @@
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
 
 interface AdminScreenProps {
@@ -6,33 +8,491 @@ interface AdminScreenProps {
   onBack: () => void;
 }
 
+// Animations
+const float = keyframes`
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+`;
+
+const pulse = keyframes`
+  50% {
+    opacity: 0.5;
+  }
+`;
+
+// Styled components
+const Container = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  .dark & {
+    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+  }
+`;
+
+const BackgroundElements = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const FloatingElement1 = styled.div`
+  position: absolute;
+  top: 5rem;
+  left: 4rem;
+  width: 8rem;
+  height: 8rem;
+  background: linear-gradient(135deg, hsl(271 91% 65% / 0.15), hsl(221 83% 65% / 0.15));
+  border-radius: 50%;
+  filter: blur(32px);
+  animation: ${float} 3s ease-in-out infinite;
+`;
+
+const FloatingElement2 = styled.div`
+  position: absolute;
+  top: 10rem;
+  right: 4rem;
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(135deg, hsl(217 91% 60% / 0.2), hsl(271 91% 65% / 0.2));
+  border-radius: 50%;
+  filter: blur(24px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 1s;
+`;
+
+const FloatingElement3 = styled.div`
+  position: absolute;
+  bottom: 8rem;
+  left: 6rem;
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(135deg, hsl(221 83% 65% / 0.15), hsl(196 100% 60% / 0.15));
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 2s;
+`;
+
+const HeaderContainer = styled.div`
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+
+  @media (min-width: 640px) {
+    padding: 1.5rem;
+  }
+`;
+
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  color: hsl(210 40% 28%);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-weight: 500;
+
+  .dark & {
+    color: hsl(210 40% 78%);
+    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    color: hsl(271 91% 60%);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    transform: scale(1.05);
+
+    .dark & {
+      color: hsl(271 91% 65%);
+    }
+  }
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+  }
+`;
+
+const ContentContainer = styled.div`
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem 2rem;
+`;
+
+const AdminCardContainer = styled.div`
+  text-align: center;
+  margin-bottom: 1.5rem;
+`;
+
+const AdminCard = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const CardBackground = styled.div`
+  position: absolute;
+  inset: -0.5rem;
+  background: linear-gradient(to right, hsl(271 91% 60% / 0.2), hsl(221 83% 60% / 0.2), hsl(217 91% 60% / 0.2));
+  border-radius: 1.5rem;
+  filter: blur(24px);
+  opacity: 0.75;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+  ${AdminCard}:hover & {
+    opacity: 1;
+  }
+`;
+
+const GradientAccent = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0.5rem;
+  background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+`;
+
+const AdminImage = styled.img`
+  width: 100%;
+  height: 13rem;
+  object-fit: cover;
+  transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  ${AdminCard}:hover & {
+    transform: scale(1.1);
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 2.25rem;
+  font-weight: 900;
+  background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1rem;
+
+  .dark & {
+    background: linear-gradient(to right, hsl(271 91% 65%), hsl(221 83% 65%), hsl(217 91% 65%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+
+  @media (min-width: 640px) {
+    font-size: 3rem;
+  }
+`;
+
+const Subtitle = styled.div`
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: rgba(51, 65, 85, 0.6);
+  }
+
+  p {
+    color: hsl(210 40% 28%);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0;
+
+    .dark & {
+      color: hsl(210 40% 78%);
+    }
+
+    @media (min-width: 640px) {
+      font-size: 1rem;
+    }
+  }
+`;
+
+const FeaturesCard = styled.div`
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.9);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.3);
+  }
+`;
+
+const FeaturesTitle = styled.h3`
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(to right, hsl(215 28% 17%), hsl(215 16% 47%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 1.5rem;
+
+  .dark & {
+    background: linear-gradient(to right, hsl(210 40% 98%), hsl(210 40% 78%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const FeaturesList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const FeatureItem = styled.li`
+  display: flex;
+  align-items: flex-start;
+  color: hsl(210 40% 28%);
+  font-size: 0.875rem;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    color: hsl(210 40% 78%);
+  }
+`;
+
+const FeatureIcon = styled.div`
+  padding: 0.375rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, hsl(271 91% 60% / 0.2), hsl(221 83% 60% / 0.2));
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  ${FeatureItem}:hover & {
+    background: linear-gradient(to right, hsl(271 91% 60% / 0.4), hsl(221 83% 60% / 0.4));
+  }
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: hsl(271 91% 60%);
+
+    .dark & {
+      color: hsl(271 91% 65%);
+    }
+  }
+`;
+
+const FeatureText = styled.span`
+  font-weight: 500;
+`;
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 28rem;
+  margin: 0 auto;
+  width: 100%;
+`;
+
+const PrimaryButtonWrapper = styled.div`
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -0.25rem;
+    background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+    border-radius: 1rem;
+    filter: blur(4px);
+    opacity: 0.6;
+    transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+`;
+
+const PrimaryButton = styled.button`
+  position: relative;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 700;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 1.125rem;
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.95);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.3);
+    transform: scale(1.05) translateY(-0.25rem);
+  }
+
+  span {
+    background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%), hsl(217 91% 60%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+`;
+
+const SecondaryButton = styled.button`
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  color: hsl(210 40% 28%);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  cursor: pointer;
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.8);
+    color: hsl(210 40% 78%);
+    border-color: rgba(51, 65, 85, 0.6);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: hsl(271 91% 70%);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    transform: scale(1.05);
+
+    .dark & {
+      background: rgba(51, 65, 85, 0.95);
+      border-color: hsl(271 91% 65%);
+    }
+  }
+`;
+
+const Footer = styled.div`
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0 1rem;
+`;
+
+const FooterBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.6);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+`;
+
+const FooterDot = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(to right, hsl(271 91% 60%), hsl(221 83% 60%));
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+`;
+
+const FooterText = styled.p`
+  font-size: 0.75rem;
+  color: hsl(215 16% 47%);
+  font-weight: 500;
+  margin: 0;
+
+  .dark & {
+    color: hsl(215 20% 65%);
+  }
+`;
+
 export default function AdminScreen({
   onLogin,
   onSignup,
   onBack,
 }: AdminScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 flex flex-col relative overflow-hidden">
+    <Container>
       {/* Floating background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-16 w-32 h-32 bg-gradient-to-br from-purple-400/15 to-indigo-400/15 rounded-full blur-2xl animate-float"></div>
-        <div
-          className="absolute top-40 right-16 w-24 h-24 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-xl animate-float"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute bottom-32 left-24 w-20 h-20 bg-gradient-to-br from-indigo-400/15 to-cyan-400/15 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
-      </div>
+      <BackgroundElements>
+        <FloatingElement1 />
+        <FloatingElement2 />
+        <FloatingElement3 />
+      </BackgroundElements>
+
       {/* Header with Back Button */}
-      <div className="relative z-10 flex items-center justify-between p-4 sm:p-6">
-        <button
-          onClick={onBack}
-          className="flex items-center text-slate-700 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 p-3 rounded-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm border border-white/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl hover:scale-105"
-        >
+      <HeaderContainer>
+        <BackButton onClick={onBack}>
           <svg
-            className="w-5 h-5 mr-2"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -44,50 +504,37 @@ export default function AdminScreen({
               d="M15 19l-7-7 7-7"
             />
           </svg>
-          <span className="font-medium">Back</span>
-        </button>
+          <span>Back</span>
+        </BackButton>
         <SimpleThemeToggle />
-      </div>
+      </HeaderContainer>
 
       {/* Content */}
-      <div className="relative z-10 flex-1 flex flex-col px-4 pb-8">
+      <ContentContainer>
         {/* Admin Card */}
-        <div className="text-center mb-6">
-          <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl mb-6 border border-white/50 dark:border-slate-700/50 relative overflow-hidden max-w-sm mx-auto group hover:scale-105 transition-all duration-700">
-            {/* Floating background element */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-purple-400/20 via-indigo-400/20 to-blue-400/20 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity duration-700 animate-pulse"></div>
-
-            {/* Gradient accent */}
-            <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500"></div>
-
-            {/* Full Image */}
-            <img
+        <AdminCardContainer>
+          <AdminCard>
+            <CardBackground />
+            <GradientAccent />
+            <AdminImage
               src="https://cdn.builder.io/api/v1/image/assets%2Fd218cd4c1f4249d689f1834e5336e992%2Fef4d01b439c041bc9a1546a4ea50eb7f?format=webp&width=800"
               alt="Admin"
-              className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-700"
             />
-          </div>
+          </AdminCard>
 
-          <h1 className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 dark:from-purple-400 dark:via-indigo-400 dark:to-blue-400 bg-clip-text text-transparent mb-4">
-            Admin Portal
-          </h1>
-          <div className="inline-block px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-white/60 dark:border-slate-700/60 shadow-lg">
-            <p className="text-slate-700 dark:text-slate-300 text-sm sm:text-base font-semibold">
-              System administration and comprehensive management
-            </p>
-          </div>
-        </div>
+          <Title>Admin Portal</Title>
+          <Subtitle>
+            <p>System administration and comprehensive management</p>
+          </Subtitle>
+        </AdminCardContainer>
 
         {/* Features List */}
-        <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl shadow-2xl p-6 mb-8 border border-white/50 dark:border-slate-700/50 max-w-md mx-auto w-full hover:shadow-3xl transition-all duration-500">
-          <h3 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-6">
-            Admin Capabilities:
-          </h3>
-          <ul className="space-y-4">
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+        <FeaturesCard>
+          <FeaturesTitle>Admin Capabilities:</FeaturesTitle>
+          <FeaturesList>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -97,13 +544,12 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">Create and manage buildings</span>
-            </li>
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+              </FeatureIcon>
+              <FeatureText>Create and manage buildings</FeatureText>
+            </FeatureItem>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -113,13 +559,12 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">Assign tasks to contractors</span>
-            </li>
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+              </FeatureIcon>
+              <FeatureText>Assign tasks to contractors</FeatureText>
+            </FeatureItem>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -129,13 +574,12 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">Set deadlines and milestones</span>
-            </li>
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+              </FeatureIcon>
+              <FeatureText>Set deadlines and milestones</FeatureText>
+            </FeatureItem>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -145,13 +589,12 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">Approve task completions</span>
-            </li>
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+              </FeatureIcon>
+              <FeatureText>Approve task completions</FeatureText>
+            </FeatureItem>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -161,15 +604,12 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">
-                Monitor project alerts and deadlines
-              </span>
-            </li>
-            <li className="flex items-start text-slate-700 dark:text-slate-300 text-sm group">
-              <div className="p-1.5 rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 mr-3 mt-0.5 group-hover:from-purple-500/40 group-hover:to-indigo-500/40 transition-all duration-300">
+              </FeatureIcon>
+              <FeatureText>Monitor project alerts and deadlines</FeatureText>
+            </FeatureItem>
+            <FeatureItem>
+              <FeatureIcon>
                 <svg
-                  className="w-3 h-3 text-purple-600 dark:text-purple-400"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -179,46 +619,32 @@ export default function AdminScreen({
                     clipRule="evenodd"
                   />
                 </svg>
-              </div>
-              <span className="font-medium">
-                Generate comprehensive reports
-              </span>
-            </li>
-          </ul>
-        </div>
+              </FeatureIcon>
+              <FeatureText>Generate comprehensive reports</FeatureText>
+            </FeatureItem>
+          </FeaturesList>
+        </FeaturesCard>
 
         {/* Action Buttons */}
-        <div className="space-y-4 max-w-md mx-auto w-full">
-          {/* Primary Button */}
-          <div className="relative">
-            <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-700"></div>
-            <button
-              onClick={onLogin}
-              className="relative w-full bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl py-4 px-8 rounded-2xl font-bold transition-all duration-500 shadow-2xl hover:shadow-3xl border border-white/50 dark:border-slate-700/50 hover:scale-105 hover:-translate-y-1 group"
-            >
-              <span className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent text-lg">
-                Login to Admin Panel
-              </span>
-            </button>
-          </div>
+        <ButtonsContainer>
+          <PrimaryButtonWrapper>
+            <PrimaryButton onClick={onLogin}>
+              <span>Login to Admin Panel</span>
+            </PrimaryButton>
+          </PrimaryButtonWrapper>
 
-          <button
-            onClick={onSignup}
-            className="w-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-700 dark:text-slate-300 py-4 px-8 rounded-2xl font-semibold border-2 border-white/60 dark:border-slate-700/60 hover:bg-white/95 dark:hover:bg-slate-800/95 hover:border-purple-300 dark:hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
-          >
+          <SecondaryButton onClick={onSignup}>
             Request Admin Access
-          </button>
-        </div>
+          </SecondaryButton>
+        </ButtonsContainer>
 
-        <div className="mt-8 text-center px-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 animate-pulse"></div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-              Complete system control and project oversight
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Footer>
+          <FooterBadge>
+            <FooterDot />
+            <FooterText>Complete system control and project oversight</FooterText>
+          </FooterBadge>
+        </Footer>
+      </ContentContainer>
+    </Container>
   );
 }
