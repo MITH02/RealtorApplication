@@ -1,8 +1,234 @@
 import { DemoResponse } from "@shared/api";
 import { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+
+// Define keyframes for animations
+const float = keyframes`
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+`;
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const ping = keyframes`
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+`;
+
+const pulse = keyframes`
+  50% {
+    opacity: 0.5;
+  }
+`;
+
+// Styled components
+const Container = styled.div`
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, hsl(210 40% 98%), hsl(217 91% 95%), hsl(221 83% 92%));
+  position: relative;
+  overflow: hidden;
+
+  .dark & {
+    background: linear-gradient(135deg, hsl(222 84% 5%), hsl(217 91% 10%), hsl(221 83% 12%));
+  }
+`;
+
+const BackgroundElements = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const FloatingElement1 = styled.div`
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+  width: 8rem;
+  height: 8rem;
+  background: linear-gradient(135deg, hsl(217 91% 60% / 0.15), hsl(271 91% 65% / 0.15));
+  border-radius: 50%;
+  filter: blur(32px);
+  animation: ${float} 3s ease-in-out infinite;
+`;
+
+const FloatingElement2 = styled.div`
+  position: absolute;
+  top: 10rem;
+  right: 5rem;
+  width: 6rem;
+  height: 6rem;
+  background: linear-gradient(135deg, hsl(196 100% 60% / 0.2), hsl(221 83% 65% / 0.2));
+  border-radius: 50%;
+  filter: blur(24px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 1s;
+`;
+
+const FloatingElement3 = styled.div`
+  position: absolute;
+  bottom: 8rem;
+  left: 8rem;
+  width: 5rem;
+  height: 5rem;
+  background: linear-gradient(135deg, hsl(271 91% 65% / 0.15), hsl(314 100% 75% / 0.15));
+  border-radius: 50%;
+  filter: blur(16px);
+  animation: ${float} 3s ease-in-out infinite;
+  animation-delay: 2s;
+`;
+
+const GeometricAccent1 = styled.div`
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 0.25rem;
+  height: 3rem;
+  background: linear-gradient(to bottom, hsl(217 91% 60% / 0.3), transparent);
+  transform: rotate(12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+`;
+
+const GeometricAccent2 = styled.div`
+  position: absolute;
+  bottom: 25%;
+  right: 25%;
+  width: 3rem;
+  height: 0.25rem;
+  background: linear-gradient(to right, hsl(271 91% 60% / 0.3), transparent);
+  transform: rotate(-12deg);
+  animation: ${pulse} 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 1s;
+`;
+
+const ContentContainer = styled.div`
+  text-align: center;
+  position: relative;
+  z-index: 10;
+`;
+
+const Card = styled.div`
+  display: inline-block;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 700ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.8);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 1.875rem;
+  font-weight: 700;
+  background: linear-gradient(to right, hsl(217 91% 60%), hsl(271 91% 65%), hsl(221 83% 60%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  .dark & {
+    background: linear-gradient(to right, hsl(217 91% 65%), hsl(271 91% 70%), hsl(221 83% 65%));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+`;
+
+const IconContainer = styled.div`
+  position: relative;
+`;
+
+const SpinningIcon = styled.svg`
+  height: 2.5rem;
+  width: 2.5rem;
+  color: hsl(217 91% 60%);
+  animation: ${spin} 1s linear infinite;
+`;
+
+const SpinningCircle1 = styled.circle`
+  opacity: 0.2;
+`;
+
+const SpinningCircle2 = styled.circle`
+  color: hsl(271 91% 60%);
+`;
+
+const PingEffect = styled.div`
+  position: absolute;
+  inset: 0;
+  animation: ${ping} 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+
+  div {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(to right, hsl(217 91% 65% / 0.3), hsl(271 91% 65% / 0.3));
+  }
+`;
+
+const NotificationCard = styled.div`
+  margin-top: 1.5rem;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  .dark & {
+    background: rgba(51, 65, 85, 0.7);
+    border-color: rgba(51, 65, 85, 0.4);
+  }
+`;
+
+const NotificationText = styled.p`
+  color: hsl(210 40% 28%);
+  max-width: 28rem;
+  font-weight: 500;
+  margin: 0;
+
+  .dark & {
+    color: hsl(210 40% 78%);
+  }
+`;
+
+const HiddenText = styled.p`
+  margin-top: 1rem;
+  max-width: 28rem;
+  display: none;
+`;
 
 export default function Index() {
   const [exampleFromServer, setExampleFromServer] = useState("");
+  
   // Fetch users on component mount
   useEffect(() => {
     fetchDemo();
@@ -20,38 +246,25 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
+    <Container>
       {/* Floating background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-br from-blue-400/15 to-purple-400/15 rounded-full blur-2xl animate-float"></div>
-        <div
-          className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-cyan-400/20 to-indigo-400/20 rounded-full blur-xl animate-float"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute bottom-32 left-32 w-20 h-20 bg-gradient-to-br from-purple-400/15 to-pink-400/15 rounded-full blur-lg animate-float"
-          style={{ animationDelay: "2s" }}
-        ></div>
+      <BackgroundElements>
+        <FloatingElement1 />
+        <FloatingElement2 />
+        <FloatingElement3 />
 
         {/* Geometric accents */}
-        <div className="absolute top-1/4 left-1/4 w-1 h-12 bg-gradient-to-b from-blue-500/30 to-transparent rotate-12 animate-pulse"></div>
-        <div
-          className="absolute bottom-1/4 right-1/4 w-12 h-1 bg-gradient-to-r from-purple-500/30 to-transparent -rotate-12 animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-      </div>
+        <GeometricAccent1 />
+        <GeometricAccent2 />
+      </BackgroundElements>
 
-      <div className="text-center relative z-10">
+      <ContentContainer>
         {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <div className="inline-block p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 dark:border-slate-700/50 hover:scale-105 transition-all duration-700">
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent flex items-center justify-center gap-4 mb-4">
-            <div className="relative">
-              <svg
-                className="animate-spin h-10 w-10 text-blue-500"
-                viewBox="0 0 50 50"
-              >
-                <circle
-                  className="opacity-20"
+        <Card>
+          <Title>
+            <IconContainer>
+              <SpinningIcon viewBox="0 0 50 50">
+                <SpinningCircle1
                   cx="25"
                   cy="25"
                   r="20"
@@ -59,8 +272,7 @@ export default function Index() {
                   strokeWidth="4"
                   fill="none"
                 />
-                <circle
-                  className="text-purple-500"
+                <SpinningCircle2
                   cx="25"
                   cy="25"
                   r="20"
@@ -70,22 +282,22 @@ export default function Index() {
                   strokeDasharray="100"
                   strokeDashoffset="75"
                 />
-              </svg>
-              <div className="absolute inset-0 animate-ping">
-                <div className="w-full h-full rounded-full bg-gradient-to-r from-blue-400/30 to-purple-400/30"></div>
-              </div>
-            </div>
+              </SpinningIcon>
+              <PingEffect>
+                <div />
+              </PingEffect>
+            </IconContainer>
             Generating your app...
-          </h1>
-        </div>
-        <div className="mt-6 inline-block px-6 py-3 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-full border border-white/40 dark:border-slate-700/40">
-          <p className="text-slate-700 dark:text-slate-300 max-w-md font-medium">
+          </Title>
+        </Card>
+        <NotificationCard>
+          <NotificationText>
             Watch the chat on the left for updates that might need your
             attention to finish generating
-          </p>
-        </div>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
-    </div>
+          </NotificationText>
+        </NotificationCard>
+        <HiddenText>{exampleFromServer}</HiddenText>
+      </ContentContainer>
+    </Container>
   );
 }
