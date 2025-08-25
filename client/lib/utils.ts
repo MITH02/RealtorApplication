@@ -7,14 +7,14 @@ export function mergeStyles(
   return Object.assign({}, ...styles.filter(Boolean));
 }
 
-// Utility function to conditionally merge styles
-export function cn(
-  ...styles: (CSSObject | undefined | null | false)[]
-): CSSObject {
-  return mergeStyles(...styles);
+// Simple className concatenation utility
+// This is a temporary utility for components that haven't been converted to Emotion yet
+// It simply joins class names without any Tailwind-specific logic
+export function cn(...classes: (string | undefined | null | false)[]): string {
+  return classes.filter(Boolean).join(" ");
 }
 
-// Helper for handling class names (for cases where we still need className)
+// Helper for handling class names
 export function clsx(
   ...classes: (string | undefined | null | false)[]
 ): string {
