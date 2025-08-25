@@ -47,16 +47,6 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
     padding: "1.5rem",
     boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
     transition: "all 150ms ease-in-out",
-    
-    "&[data-state='open']": {
-      animationDuration: "500ms",
-      animationFillMode: "forwards",
-    },
-    
-    "&[data-state='closed']": {
-      animationDuration: "300ms",
-      animationFillMode: "forwards",
-    },
   };
 
   const variants = {
@@ -66,11 +56,13 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
       top: 0,
       borderBottom: "1px solid hsl(var(--border))",
       "&[data-state='closed']": {
-        ...baseStyles["&[data-state='closed']"],
+        animationDuration: "300ms",
+        animationFillMode: "forwards",
         animationName: "slideOutToTop",
       },
       "&[data-state='open']": {
-        ...baseStyles["&[data-state='open']"],
+        animationDuration: "500ms",
+        animationFillMode: "forwards",
         animationName: "slideInFromTop",
       },
     },
@@ -80,11 +72,13 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
       bottom: 0,
       borderTop: "1px solid hsl(var(--border))",
       "&[data-state='closed']": {
-        ...baseStyles["&[data-state='closed']"],
+        animationDuration: "300ms",
+        animationFillMode: "forwards",
         animationName: "slideOutToBottom",
       },
       "&[data-state='open']": {
-        ...baseStyles["&[data-state='open']"],
+        animationDuration: "500ms",
+        animationFillMode: "forwards",
         animationName: "slideInFromBottom",
       },
     },
@@ -99,11 +93,13 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
         maxWidth: "24rem",
       },
       "&[data-state='closed']": {
-        ...baseStyles["&[data-state='closed']"],
+        animationDuration: "300ms",
+        animationFillMode: "forwards",
         animationName: "slideOutToLeft",
       },
       "&[data-state='open']": {
-        ...baseStyles["&[data-state='open']"],
+        animationDuration: "500ms",
+        animationFillMode: "forwards",
         animationName: "slideInFromLeft",
       },
     },
@@ -118,11 +114,13 @@ const getSheetContentStyles = (side: SheetContentProps["side"]): CSSObject => {
         maxWidth: "24rem",
       },
       "&[data-state='closed']": {
-        ...baseStyles["&[data-state='closed']"],
+        animationDuration: "300ms",
+        animationFillMode: "forwards",
         animationName: "slideOutToRight",
       },
       "&[data-state='open']": {
-        ...baseStyles["&[data-state='open']"],
+        animationDuration: "500ms",
+        animationFillMode: "forwards",
         animationName: "slideInFromRight",
       },
     },
