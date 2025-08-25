@@ -2,6 +2,8 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/contexts/AuthContext";
+import { apiClient } from "@/services/api";
 
 interface LoginFormProps {
   role: "builder" | "contractor" | "admin";
@@ -405,27 +407,34 @@ const FeaturesList = styled.ul`
 `;
 
 export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
+  const { login } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const roleConfig = {
     builder: {
       gradient: "hsl(217 91% 60%), hsl(217 91% 70%), hsl(217 91% 80%)",
       icon: "🏗️",
       title: "Builder Portal",
+      backendRole: "ADMIN" as const, // Backend uses ADMIN for builders
     },
     contractor: {
       gradient: "hsl(25 95% 53%), hsl(25 95% 63%), hsl(25 95% 73%)",
       icon: "👷",
       title: "Contractor Portal",
+      backendRole: "CONTRACTOR" as const,
     },
     admin: {
       gradient: "hsl(271 91% 65%), hsl(271 91% 75%), hsl(271 91% 85%)",
       icon: "⚙️",
       title: "Admin Portal",
+      backendRole: "SUPER_ADMIN" as const, // Backend uses SUPER_ADMIN for admins
     },
   };
 
@@ -434,12 +443,34 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      if (isLogin) {
+        // Login
+        await login({ email, password });
+        onSuccess();
+      } else {
+        // Register
+        await apiClient.register({
+          email,
+          password,
+          firstName,
+          lastName,
+          role: config.backendRole,
+          phoneNumber: phoneNumber || undefined,
+        });
+
+        // After successful registration, automatically log in
+        await login({ email, password });
+        onSuccess();
+      }
+    } catch (err: any) {
+      console.error('Authentication error:', err);
+      setError(err.message || 'Authentication failed. Please try again.');
+    } finally {
       setIsLoading(false);
-      onSuccess();
-    }, 1500);
+    }
   };
 
   return (
@@ -478,16 +509,37 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
           <FormCard>
             <Form onSubmit={handleSubmit}>
               {!isLogin && (
-                <InputGroup>
-                  <Label>Full Name</Label>
-                  <Input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your full name"
-                    required
-                  />
-                </InputGroup>
+                <>
+                  <InputGroup>
+                    <Label>First Name</Label>
+                    <Input
+                      type="text"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="Enter your first name"
+                      required
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <Label>Last Name</Label>
+                    <Input
+                      type="text"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Enter your last name"
+                      required
+                    />
+                  </InputGroup>
+                  <InputGroup>
+                    <Label>Phone Number (Optional)</Label>
+                    <Input
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      placeholder="Enter your phone number"
+                    />
+                  </InputGroup>
+                </>
               )}
 
               <InputGroup>
@@ -524,6 +576,19 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                 </CheckboxContainer>
               )}
 
+              {error && (
+                <div style={{
+                  padding: '0.75rem',
+                  background: 'hsla(0, 84%, 60%, 0.1)',
+                  border: '1px solid hsla(0, 84%, 60%, 0.3)',
+                  borderRadius: '0.5rem',
+                  color: 'hsl(0, 84%, 60%)',
+                  fontSize: '0.875rem'
+                }}>
+                  {error}
+                </div>
+              )}
+
               <SubmitButton
                 type="submit"
                 disabled={isLoading}
@@ -553,7 +618,10 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
                   ? "Don't have an account?"
                   : "Already have an account?"}
               </ToggleText>
-              <ToggleButton onClick={() => setIsLogin(!isLogin)}>
+              <ToggleButton onClick={() => {
+                setIsLogin(!isLogin);
+                setError(null);
+              }}>
                 {isLogin ? "Create one now" : "Sign in instead"}
               </ToggleButton>
             </ToggleContainer>
@@ -565,9 +633,9 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
             <FeaturesList>
               {role === "admin" && (
                 <>
-                  <li>• Complete project oversight</li>
-                  <li>• Task assignment & approval</li>
-                  <li>• Real-time progress tracking</li>
+                  <li>• Manage builder accounts</li>
+                  <li>• System administration</li>
+                  <li>• User access control</li>
                 </>
               )}
               {role === "contractor" && (
@@ -579,9 +647,9 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
               )}
               {role === "builder" && (
                 <>
-                  <li>• Project creation tools</li>
-                  <li>• Team coordination</li>
-                  <li>• Progress analytics</li>
+                  <li>• Building project management</li>
+                  <li>• Task assignment & approval</li>
+                  <li>• Contractor coordination</li>
                 </>
               )}
             </FeaturesList>
