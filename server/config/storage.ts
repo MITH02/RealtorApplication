@@ -69,13 +69,13 @@ export const defaultStorageConfig: StorageConfig = {
 export abstract class StorageProvider {
   abstract upload(
     file: Express.Multer.File,
-    options?: any
+    options?: any,
   ): Promise<UploadResult>;
-  
+
   abstract delete(fileName: string): Promise<boolean>;
-  
+
   abstract getFileInfo(fileName: string): Promise<any>;
-  
+
   abstract getFileUrl(fileName: string): string;
 }
 
@@ -104,9 +104,9 @@ export class LocalStorageProvider extends StorageProvider {
 
   async upload(file: Express.Multer.File): Promise<UploadResult> {
     const id = randomUUID();
-    const ext = file.originalname.split('.').pop();
+    const ext = file.originalname.split(".").pop();
     const fileName = `${id}.${ext}`;
-    
+
     return {
       id,
       url: `${this.config.baseUrl}/api/media/files/${fileName}`,
@@ -145,7 +145,7 @@ export class S3StorageProvider extends StorageProvider {
 
   async upload(file: Express.Multer.File): Promise<UploadResult> {
     const id = randomUUID();
-    const ext = file.originalname.split('.').pop();
+    const ext = file.originalname.split(".").pop();
     const fileName = `constructpro/${id}.${ext}`;
 
     // TODO: Implement S3 upload when AWS SDK is added
@@ -186,14 +186,14 @@ export class CloudinaryStorageProvider extends StorageProvider {
 
   async upload(file: Express.Multer.File): Promise<UploadResult> {
     const id = randomUUID();
-    
+
     // TODO: Implement Cloudinary upload when SDK is added
     const url = `https://res.cloudinary.com/${this.config.cloudName}/image/upload/v1/${this.config.folder}/${id}`;
 
     return {
       id,
       url,
-      fileName: `${id}.${file.originalname.split('.').pop()}`,
+      fileName: `${id}.${file.originalname.split(".").pop()}`,
       originalName: file.originalname,
       mimeType: file.mimetype,
       size: file.size,
@@ -225,7 +225,7 @@ export class GCSStorageProvider extends StorageProvider {
 
   async upload(file: Express.Multer.File): Promise<UploadResult> {
     const id = randomUUID();
-    const ext = file.originalname.split('.').pop();
+    const ext = file.originalname.split(".").pop();
     const fileName = `constructpro/${id}.${ext}`;
 
     // TODO: Implement GCS upload when SDK is added
@@ -266,12 +266,16 @@ export function validateStorageConfig(config: StorageConfig): string[] {
     case "s3":
       if (!config.s3?.bucket) errors.push("AWS_S3_BUCKET is required");
       if (!config.s3?.accessKeyId) errors.push("AWS_ACCESS_KEY_ID is required");
-      if (!config.s3?.secretAccessKey) errors.push("AWS_SECRET_ACCESS_KEY is required");
+      if (!config.s3?.secretAccessKey)
+        errors.push("AWS_SECRET_ACCESS_KEY is required");
       break;
     case "cloudinary":
-      if (!config.cloudinary?.cloudName) errors.push("CLOUDINARY_CLOUD_NAME is required");
-      if (!config.cloudinary?.apiKey) errors.push("CLOUDINARY_API_KEY is required");
-      if (!config.cloudinary?.apiSecret) errors.push("CLOUDINARY_API_SECRET is required");
+      if (!config.cloudinary?.cloudName)
+        errors.push("CLOUDINARY_CLOUD_NAME is required");
+      if (!config.cloudinary?.apiKey)
+        errors.push("CLOUDINARY_API_KEY is required");
+      if (!config.cloudinary?.apiSecret)
+        errors.push("CLOUDINARY_API_SECRET is required");
       break;
     case "gcs":
       if (!config.gcs?.projectId) errors.push("GCP_PROJECT_ID is required");

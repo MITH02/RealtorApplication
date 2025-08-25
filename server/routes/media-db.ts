@@ -43,7 +43,7 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: any) => {
   const allowedTypes = [
     // Images
     "image/jpeg",
-    "image/jpg", 
+    "image/jpg",
     "image/png",
     "image/gif",
     "image/webp",
@@ -63,7 +63,12 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: any) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error(`File type ${file.mimetype} is not allowed. Please upload images or videos only.`), false);
+    cb(
+      new Error(
+        `File type ${file.mimetype} is not allowed. Please upload images or videos only.`,
+      ),
+      false,
+    );
   }
 };
 
@@ -79,7 +84,7 @@ const upload = multer({
 
 // Helper function to convert buffer to base64
 function bufferToBase64(buffer: Buffer): string {
-  return buffer.toString('base64');
+  return buffer.toString("base64");
 }
 
 // Helper function to get file type
@@ -117,7 +122,7 @@ export const uploadSingleFile: RequestHandler = async (req, res) => {
       const file = req.file;
       const fileId = randomUUID();
       const base64Data = bufferToBase64(file.buffer);
-      
+
       // Create media record
       const mediaRecord: MediaRecord = {
         id: fileId,
@@ -163,7 +168,8 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
         if (err instanceof multer.MulterError) {
           if (err.code === "LIMIT_FILE_SIZE") {
             return res.status(400).json({
-              message: "One or more files are too large. Maximum size is 50MB per file.",
+              message:
+                "One or more files are too large. Maximum size is 50MB per file.",
               code: "FILE_TOO_LARGE",
             } as MediaUploadError);
           }
@@ -193,7 +199,7 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
       files.forEach((file) => {
         const fileId = randomUUID();
         const base64Data = bufferToBase64(file.buffer);
-        
+
         const mediaRecord: MediaRecord = {
           id: fileId,
           fileName: `${fileId}_${file.originalname}`,
@@ -234,7 +240,7 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
 export const serveMedia: RequestHandler = async (req, res) => {
   try {
     const { mediaId } = req.params;
-    
+
     if (!mediaId) {
       return res.status(400).json({
         message: "Media ID is required",
@@ -243,7 +249,7 @@ export const serveMedia: RequestHandler = async (req, res) => {
     }
 
     const mediaRecord = mediaDatabase.get(mediaId);
-    
+
     if (!mediaRecord) {
       return res.status(404).json({
         message: "Media not found",
@@ -252,13 +258,16 @@ export const serveMedia: RequestHandler = async (req, res) => {
     }
 
     // Convert base64 back to buffer
-    const buffer = Buffer.from(mediaRecord.data, 'base64');
-    
+    const buffer = Buffer.from(mediaRecord.data, "base64");
+
     // Set appropriate headers
     res.setHeader("Content-Type", mediaRecord.mimeType);
     res.setHeader("Content-Length", buffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000"); // Cache for 1 year
-    res.setHeader("Content-Disposition", `inline; filename="${mediaRecord.originalName}"`);
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="${mediaRecord.originalName}"`,
+    );
 
     // Handle range requests for video streaming
     const range = req.headers.range;
@@ -266,13 +275,13 @@ export const serveMedia: RequestHandler = async (req, res) => {
       const parts = range.replace(/bytes=/, "").split("-");
       const start = parseInt(parts[0], 10);
       const end = parts[1] ? parseInt(parts[1], 10) : buffer.length - 1;
-      const chunksize = (end - start) + 1;
-      
+      const chunksize = end - start + 1;
+
       res.status(206);
       res.setHeader("Content-Range", `bytes ${start}-${end}/${buffer.length}`);
       res.setHeader("Accept-Ranges", "bytes");
       res.setHeader("Content-Length", chunksize);
-      
+
       const chunk = buffer.slice(start, end + 1);
       res.end(chunk);
     } else {
@@ -292,7 +301,7 @@ export const serveMedia: RequestHandler = async (req, res) => {
 export const deleteMedia: RequestHandler = async (req, res) => {
   try {
     const { mediaId } = req.params;
-    
+
     if (!mediaId) {
       return res.status(400).json({
         message: "Media ID is required",
@@ -301,7 +310,7 @@ export const deleteMedia: RequestHandler = async (req, res) => {
     }
 
     const deleted = mediaDatabase.delete(mediaId);
-    
+
     if (!deleted) {
       return res.status(404).json({
         message: "Media not found",
@@ -326,7 +335,7 @@ export const deleteMedia: RequestHandler = async (req, res) => {
 export const getMediaInfo: RequestHandler = async (req, res) => {
   try {
     const { mediaId } = req.params;
-    
+
     if (!mediaId) {
       return res.status(400).json({
         message: "Media ID is required",
@@ -335,7 +344,7 @@ export const getMediaInfo: RequestHandler = async (req, res) => {
     }
 
     const mediaRecord = mediaDatabase.get(mediaId);
-    
+
     if (!mediaRecord) {
       return res.status(404).json({
         message: "Media not found",
@@ -371,28 +380,29 @@ export const listMedia: RequestHandler = async (req, res) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 20;
     const type = req.query.type as string; // 'image' or 'video'
-    
+
     let mediaArray = Array.from(mediaDatabase.values());
-    
+
     // Filter by type if specified
     if (type) {
-      mediaArray = mediaArray.filter(media => 
-        getFileType(media.mimeType) === type
+      mediaArray = mediaArray.filter(
+        (media) => getFileType(media.mimeType) === type,
       );
     }
-    
+
     // Sort by upload date (newest first)
-    mediaArray.sort((a, b) => 
-      new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+    mediaArray.sort(
+      (a, b) =>
+        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime(),
     );
-    
+
     // Pagination
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
     const paginatedMedia = mediaArray.slice(startIndex, endIndex);
-    
+
     const result = {
-      media: paginatedMedia.map(media => ({
+      media: paginatedMedia.map((media) => ({
         id: media.id,
         fileName: media.fileName,
         originalName: media.originalName,
@@ -410,7 +420,7 @@ export const listMedia: RequestHandler = async (req, res) => {
         totalPages: Math.ceil(mediaArray.length / limit),
         hasNextPage: endIndex < mediaArray.length,
         hasPrevPage: page > 1,
-      }
+      },
     };
 
     res.json(result);
@@ -427,15 +437,25 @@ export const listMedia: RequestHandler = async (req, res) => {
 export const getStorageStats: RequestHandler = async (req, res) => {
   try {
     const mediaArray = Array.from(mediaDatabase.values());
-    
+
     const stats = {
       totalFiles: mediaArray.length,
       totalSize: mediaArray.reduce((sum, media) => sum + media.size, 0),
-      imageCount: mediaArray.filter(media => getFileType(media.mimeType) === "image").length,
-      videoCount: mediaArray.filter(media => getFileType(media.mimeType) === "video").length,
+      imageCount: mediaArray.filter(
+        (media) => getFileType(media.mimeType) === "image",
+      ).length,
+      videoCount: mediaArray.filter(
+        (media) => getFileType(media.mimeType) === "video",
+      ).length,
       storageType: "database",
-      lastUpload: mediaArray.length > 0 ? 
-        Math.max(...mediaArray.map(media => new Date(media.uploadedAt).getTime())) : null,
+      lastUpload:
+        mediaArray.length > 0
+          ? Math.max(
+              ...mediaArray.map((media) =>
+                new Date(media.uploadedAt).getTime(),
+              ),
+            )
+          : null,
     };
 
     res.json(stats);
@@ -452,8 +472,10 @@ export const getStorageStats: RequestHandler = async (req, res) => {
 export const healthCheck: RequestHandler = async (req, res) => {
   try {
     const mediaCount = mediaDatabase.size;
-    const totalSize = Array.from(mediaDatabase.values())
-      .reduce((sum, media) => sum + media.size, 0);
+    const totalSize = Array.from(mediaDatabase.values()).reduce(
+      (sum, media) => sum + media.size,
+      0,
+    );
 
     res.json({
       status: "healthy",

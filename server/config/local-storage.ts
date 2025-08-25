@@ -14,11 +14,18 @@ export const defaultConfig: LocalStorageConfig = {
   baseUploadDir: "uploads",
   maxFileSize: 50 * 1024 * 1024, // 50MB
   allowedTypes: [
-    "image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp",
-    "video/mp4", "video/mpeg", "video/quicktime", "video/webm"
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "video/mp4",
+    "video/mpeg",
+    "video/quicktime",
+    "video/webm",
   ],
   enableBackup: true,
-  backupDir: "uploads/backup"
+  backupDir: "uploads/backup",
 };
 
 export class LocalMediaStorage {
@@ -29,7 +36,7 @@ export class LocalMediaStorage {
   constructor(config: LocalStorageConfig = defaultConfig) {
     this.config = config;
     this.mediaDir = path.join(process.cwd(), config.baseUploadDir, "media");
-    
+
     if (config.enableBackup && config.backupDir) {
       this.backupDir = path.join(process.cwd(), config.backupDir);
     }
@@ -50,7 +57,7 @@ export class LocalMediaStorage {
 
     // Create subdirectories for organization
     const subdirs = ["images", "videos", "thumbnails"];
-    subdirs.forEach(subdir => {
+    subdirs.forEach((subdir) => {
       const dirPath = path.join(this.mediaDir, subdir);
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
@@ -85,7 +92,7 @@ export class LocalMediaStorage {
       fileName,
       filePath,
       url: relativeUrl,
-      type: isVideo ? "video" : "image"
+      type: isVideo ? "video" : "image",
     };
   }
 
@@ -131,17 +138,17 @@ export class LocalMediaStorage {
     let videoCount = 0;
 
     const subdirs = ["images", "videos"];
-    
-    subdirs.forEach(subdir => {
+
+    subdirs.forEach((subdir) => {
       const dirPath = path.join(this.mediaDir, subdir);
       if (fs.existsSync(dirPath)) {
         const files = fs.readdirSync(dirPath);
-        files.forEach(file => {
+        files.forEach((file) => {
           const filePath = path.join(dirPath, file);
           const stats = fs.statSync(filePath);
           totalFiles++;
           totalSize += stats.size;
-          
+
           if (subdir === "images") imageCount++;
           if (subdir === "videos") videoCount++;
         });
@@ -159,18 +166,18 @@ export class LocalMediaStorage {
   async cleanupOldFiles(daysOld: number = 30): Promise<number> {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
-    
+
     let deletedCount = 0;
     const subdirs = ["images", "videos"];
 
-    subdirs.forEach(subdir => {
+    subdirs.forEach((subdir) => {
       const dirPath = path.join(this.mediaDir, subdir);
       if (fs.existsSync(dirPath)) {
         const files = fs.readdirSync(dirPath);
-        files.forEach(file => {
+        files.forEach((file) => {
           const filePath = path.join(dirPath, file);
           const stats = fs.statSync(filePath);
-          
+
           if (stats.mtime < cutoffDate) {
             fs.unlinkSync(filePath);
             deletedCount++;

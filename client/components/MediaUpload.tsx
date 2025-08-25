@@ -63,8 +63,8 @@ const UploadContainer = styled.div<{ isDragOver: boolean; disabled: boolean }>`
       props.isDragOver
         ? "hsl(217 91% 60%)"
         : props.disabled
-        ? "hsl(214 31% 91%)"
-        : "hsl(214 31% 91%)"};
+          ? "hsl(214 31% 91%)"
+          : "hsl(214 31% 91%)"};
   border-radius: 1rem;
   padding: 2rem;
   text-align: center;
@@ -72,8 +72,8 @@ const UploadContainer = styled.div<{ isDragOver: boolean; disabled: boolean }>`
     props.isDragOver
       ? "rgba(59, 130, 246, 0.05)"
       : props.disabled
-      ? "hsl(210 40% 98%)"
-      : "rgba(255, 255, 255, 0.5)"};
+        ? "hsl(210 40% 98%)"
+        : "rgba(255, 255, 255, 0.5)"};
   transition: all 0.3s ease;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   position: relative;
@@ -99,14 +99,14 @@ const UploadContainer = styled.div<{ isDragOver: boolean; disabled: boolean }>`
       props.isDragOver
         ? "rgba(59, 130, 246, 0.1)"
         : props.disabled
-        ? "hsl(217 32% 15%)"
-        : "rgba(30, 41, 59, 0.5)"};
+          ? "hsl(217 32% 15%)"
+          : "rgba(30, 41, 59, 0.5)"};
     border-color: ${(props) =>
       props.isDragOver
         ? "hsl(217 91% 60%)"
         : props.disabled
-        ? "hsl(217 32% 20%)"
-        : "hsl(217 32% 25%)"};
+          ? "hsl(217 32% 20%)"
+          : "hsl(217 32% 25%)"};
   }
 `;
 
@@ -433,12 +433,15 @@ export default function MediaUpload({
     [mediaFiles.length, maxFiles, maxSizeM, acceptedTypes, disabled],
   );
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    if (!disabled) {
-      setIsDragOver(true);
-    }
-  }, [disabled]);
+  const handleDragOver = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      if (!disabled) {
+        setIsDragOver(true);
+      }
+    },
+    [disabled],
+  );
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -587,9 +590,7 @@ export default function MediaUpload({
         onDrop={handleDrop}
         onClick={() => !disabled && fileInputRef.current?.click()}
       >
-        <UploadIcon disabled={disabled}>
-          📸
-        </UploadIcon>
+        <UploadIcon disabled={disabled}>📸</UploadIcon>
         <UploadText disabled={disabled}>{contextText.title}</UploadText>
         <UploadSubtext disabled={disabled}>
           {contextText.subtitle}
@@ -649,8 +650,12 @@ export default function MediaUpload({
 
                 {file.error && (
                   <ProgressOverlay uploading={false}>
-                    <div style={{ color: "hsl(0 84% 60%)", textAlign: "center" }}>
-                      <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>
+                    <div
+                      style={{ color: "hsl(0 84% 60%)", textAlign: "center" }}
+                    >
+                      <div
+                        style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}
+                      >
                         ⚠️
                       </div>
                       <div style={{ fontSize: "0.75rem" }}>{file.error}</div>
@@ -662,7 +667,11 @@ export default function MediaUpload({
           </MediaPreviewGrid>
 
           <ActionButtons>
-            <Button variant="secondary" onClick={clearAll} disabled={isUploading}>
+            <Button
+              variant="secondary"
+              onClick={clearAll}
+              disabled={isUploading}
+            >
               Clear All
             </Button>
             {!allUploaded && (
@@ -673,7 +682,9 @@ export default function MediaUpload({
               >
                 {isUploading ? (
                   <>
-                    <ProgressSpinner style={{ width: "16px", height: "16px", margin: 0 }} />
+                    <ProgressSpinner
+                      style={{ width: "16px", height: "16px", margin: 0 }}
+                    />
                     Uploading...
                   </>
                 ) : (

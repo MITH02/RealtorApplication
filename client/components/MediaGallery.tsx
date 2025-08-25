@@ -219,10 +219,9 @@ const ActionButtons = styled.div`
 
 const ActionButton = styled.button<{ variant?: "danger" | "primary" }>`
   background: ${(props) =>
-    props.variant === "danger"
-      ? "hsl(0 84% 60%)"
-      : "rgba(255, 255, 255, 0.9)"};
-  color: ${(props) => (props.variant === "danger" ? "white" : "hsl(222 84% 4.9%)")};
+    props.variant === "danger" ? "hsl(0 84% 60%)" : "rgba(255, 255, 255, 0.9)"};
+  color: ${(props) =>
+    props.variant === "danger" ? "white" : "hsl(222 84% 4.9%)"};
   border: none;
   border-radius: 0.375rem;
   width: 32px;
@@ -435,7 +434,10 @@ export default function MediaGallery({
 
   const handleDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    if (onDelete && window.confirm("Are you sure you want to delete this media?")) {
+    if (
+      onDelete &&
+      window.confirm("Are you sure you want to delete this media?")
+    ) {
       onDelete(id);
     }
   };
@@ -494,11 +496,7 @@ export default function MediaGallery({
               )}
 
               <MediaOverlay>
-                {item.type === "video" && (
-                  <PlayButton>
-                    ▶️
-                  </PlayButton>
-                )}
+                {item.type === "video" && <PlayButton>▶️</PlayButton>}
               </MediaOverlay>
             </MediaWrapper>
 
@@ -522,20 +520,31 @@ export default function MediaGallery({
             <CloseButton onClick={closeModal}>×</CloseButton>
 
             {selectedItem.type === "image" ? (
-              <ModalMedia src={selectedItem.url} alt={selectedItem.caption || "Media"} />
+              <ModalMedia
+                src={selectedItem.url}
+                alt={selectedItem.caption || "Media"}
+              />
             ) : (
               <ModalVideo src={selectedItem.url} controls autoPlay />
             )}
 
-            {(selectedItem.caption || selectedItem.uploadedBy || selectedItem.uploadedAt) && (
+            {(selectedItem.caption ||
+              selectedItem.uploadedBy ||
+              selectedItem.uploadedAt) && (
               <ModalInfo>
                 {selectedItem.caption && (
                   <ModalTitle>{selectedItem.caption}</ModalTitle>
                 )}
                 <ModalMeta>
-                  {selectedItem.uploadedBy && <span>Uploaded by {selectedItem.uploadedBy}</span>}
-                  {selectedItem.uploadedAt && selectedItem.uploadedBy && <span> • </span>}
-                  {selectedItem.uploadedAt && <span>{formatDate(selectedItem.uploadedAt)}</span>}
+                  {selectedItem.uploadedBy && (
+                    <span>Uploaded by {selectedItem.uploadedBy}</span>
+                  )}
+                  {selectedItem.uploadedAt && selectedItem.uploadedBy && (
+                    <span> • </span>
+                  )}
+                  {selectedItem.uploadedAt && (
+                    <span>{formatDate(selectedItem.uploadedAt)}</span>
+                  )}
                   {selectedItem.size && (
                     <>
                       <span> • </span>

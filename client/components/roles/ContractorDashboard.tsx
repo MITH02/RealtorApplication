@@ -519,7 +519,9 @@ export default function ContractorDashboard({
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Task media (existing images/videos from task updates)
-  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>({});
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>(
+    {},
+  );
 
   const fetchTasks = async () => {
     try {
@@ -544,7 +546,11 @@ export default function ContractorDashboard({
           updates.forEach((update) => {
             if (update.imageUrls && update.imageUrls.length > 0) {
               update.imageUrls.forEach((url, index) => {
-                const isVideo = url.includes('.mp4') || url.includes('.mov') || url.includes('.avi') || url.includes('.webm');
+                const isVideo =
+                  url.includes(".mp4") ||
+                  url.includes(".mov") ||
+                  url.includes(".avi") ||
+                  url.includes(".webm");
                 media.push({
                   id: `${update.id}-${index}`,
                   url,
@@ -648,7 +654,7 @@ export default function ContractorDashboard({
           selectedTask.id,
           progressNotes || `Progress update: ${progressValue}%`,
           "PROGRESS_UPDATE",
-          uploadedMediaUrls
+          uploadedMediaUrls,
         );
       }
 
@@ -678,7 +684,7 @@ export default function ContractorDashboard({
           selectedTask.id,
           completionNotes || "Task completed with media",
           "COMPLETION",
-          uploadedMediaUrls
+          uploadedMediaUrls,
         );
       }
 
@@ -985,18 +991,22 @@ export default function ContractorDashboard({
               <Label>Upload Progress Photos & Videos</Label>
               <MediaUpload
                 onUploadComplete={handleMediaUploadComplete}
-                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
                 onError={handleMediaUploadError}
                 context="task_progress"
                 maxFiles={5}
                 maxSizeM={25}
               />
               {uploadError && (
-                <div style={{
-                  color: "hsl(0 84% 60%)",
-                  fontSize: "0.875rem",
-                  marginTop: "0.5rem"
-                }}>
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {uploadError}
                 </div>
               )}
@@ -1042,18 +1052,22 @@ export default function ContractorDashboard({
               <Label>Upload Completion Photos & Videos</Label>
               <MediaUpload
                 onUploadComplete={handleMediaUploadComplete}
-                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
                 onError={handleMediaUploadError}
                 context="task_completion"
                 maxFiles={8}
                 maxSizeM={30}
               />
               {uploadError && (
-                <div style={{
-                  color: "hsl(0 84% 60%)",
-                  fontSize: "0.875rem",
-                  marginTop: "0.5rem"
-                }}>
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {uploadError}
                 </div>
               )}

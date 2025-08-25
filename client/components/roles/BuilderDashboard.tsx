@@ -569,8 +569,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   // Project media (for buildings and tasks)
-  const [buildingMedia, setBuildingMedia] = useState<{ [buildingId: number]: MediaItem[] }>({});
-  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>({});
+  const [buildingMedia, setBuildingMedia] = useState<{
+    [buildingId: number]: MediaItem[];
+  }>({});
+  const [taskMedia, setTaskMedia] = useState<{ [taskId: number]: MediaItem[] }>(
+    {},
+  );
 
   const fetchBuildings = async () => {
     try {
@@ -603,7 +607,11 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
           updates.forEach((update) => {
             if (update.imageUrls && update.imageUrls.length > 0) {
               update.imageUrls.forEach((url, index) => {
-                const isVideo = url.includes('.mp4') || url.includes('.mov') || url.includes('.avi') || url.includes('.webm');
+                const isVideo =
+                  url.includes(".mp4") ||
+                  url.includes(".mov") ||
+                  url.includes(".avi") ||
+                  url.includes(".webm");
                 media.push({
                   id: `${update.id}-${index}`,
                   url,
@@ -706,7 +714,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
           createdTask.id,
           "Task created with reference materials",
           "STATUS_CHANGE",
-          uploadedMediaUrls
+          uploadedMediaUrls,
         );
       }
 
@@ -1084,18 +1092,22 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               <Label>Project Documentation (Optional)</Label>
               <MediaUpload
                 onUploadComplete={handleMediaUploadComplete}
-                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
                 onError={handleMediaUploadError}
                 context="building_documentation"
                 maxFiles={8}
                 maxSizeM={30}
               />
               {uploadError && (
-                <div style={{
-                  color: "hsl(0 84% 60%)",
-                  fontSize: "0.875rem",
-                  marginTop: "0.5rem"
-                }}>
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {uploadError}
                 </div>
               )}
@@ -1275,18 +1287,22 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               <Label>Reference Photos & Videos (Optional)</Label>
               <MediaUpload
                 onUploadComplete={handleMediaUploadComplete}
-                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onUploadProgress={(progress) =>
+                  console.log("Upload progress:", progress)
+                }
                 onError={handleMediaUploadError}
                 context="building_documentation"
                 maxFiles={5}
                 maxSizeM={20}
               />
               {uploadError && (
-                <div style={{
-                  color: "hsl(0 84% 60%)",
-                  fontSize: "0.875rem",
-                  marginTop: "0.5rem"
-                }}>
+                <div
+                  style={{
+                    color: "hsl(0 84% 60%)",
+                    fontSize: "0.875rem",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {uploadError}
                 </div>
               )}

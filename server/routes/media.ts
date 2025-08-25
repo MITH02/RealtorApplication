@@ -45,7 +45,7 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: any) => {
   const allowedTypes = [
     // Images
     "image/jpeg",
-    "image/jpg", 
+    "image/jpg",
     "image/png",
     "image/gif",
     "image/webp",
@@ -65,7 +65,12 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: any) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error(`File type ${file.mimetype} is not allowed. Please upload images or videos only.`), false);
+    cb(
+      new Error(
+        `File type ${file.mimetype} is not allowed. Please upload images or videos only.`,
+      ),
+      false,
+    );
   }
 };
 
@@ -95,7 +100,7 @@ export const uploadSingleFile: RequestHandler = async (req, res) => {
           if (err.code === "LIMIT_UNEXPECTED_FILE") {
             return res.status(400).json({
               message: "Unexpected field name. Use 'file' field for uploads.",
-              code: "INVALID_FIELD_NAME", 
+              code: "INVALID_FIELD_NAME",
             } as MediaUploadError);
           }
         }
@@ -147,7 +152,8 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
         if (err instanceof multer.MulterError) {
           if (err.code === "LIMIT_FILE_SIZE") {
             return res.status(400).json({
-              message: "One or more files are too large. Maximum size is 50MB per file.",
+              message:
+                "One or more files are too large. Maximum size is 50MB per file.",
               code: "FILE_TOO_LARGE",
             } as MediaUploadError);
           }
@@ -189,7 +195,7 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
     console.error("Unexpected multiple upload error:", error);
     res.status(500).json({
       message: "Internal server error during upload",
-      code: "INTERNAL_ERROR", 
+      code: "INTERNAL_ERROR",
       details: error,
     } as MediaUploadError);
   }
@@ -199,9 +205,14 @@ export const uploadMultipleFiles: RequestHandler = async (req, res) => {
 export const serveFile: RequestHandler = async (req, res) => {
   try {
     const { filename } = req.params;
-    
+
     // Validate filename to prevent directory traversal
-    if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+    if (
+      !filename ||
+      filename.includes("..") ||
+      filename.includes("/") ||
+      filename.includes("\\")
+    ) {
       return res.status(400).json({
         message: "Invalid filename",
         code: "INVALID_FILENAME",
@@ -209,7 +220,7 @@ export const serveFile: RequestHandler = async (req, res) => {
     }
 
     const filePath = path.join(uploadsDir, filename);
-    
+
     // Check if file exists
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({
@@ -220,7 +231,7 @@ export const serveFile: RequestHandler = async (req, res) => {
 
     // Get file stats for content length
     const stats = fs.statSync(filePath);
-    
+
     // Set appropriate headers
     const ext = path.extname(filename).toLowerCase();
     const mimeTypes: { [key: string]: string } = {
@@ -242,7 +253,7 @@ export const serveFile: RequestHandler = async (req, res) => {
     };
 
     const mimeType = mimeTypes[ext] || "application/octet-stream";
-    
+
     res.setHeader("Content-Type", mimeType);
     res.setHeader("Content-Length", stats.size);
     res.setHeader("Cache-Control", "public, max-age=31536000"); // Cache for 1 year
@@ -254,13 +265,13 @@ export const serveFile: RequestHandler = async (req, res) => {
       const parts = range.replace(/bytes=/, "").split("-");
       const start = parseInt(parts[0], 10);
       const end = parts[1] ? parseInt(parts[1], 10) : stats.size - 1;
-      const chunksize = (end - start) + 1;
-      
+      const chunksize = end - start + 1;
+
       res.status(206);
       res.setHeader("Content-Range", `bytes ${start}-${end}/${stats.size}`);
       res.setHeader("Accept-Ranges", "bytes");
       res.setHeader("Content-Length", chunksize);
-      
+
       const stream = fs.createReadStream(filePath, { start, end });
       stream.pipe(res);
     } else {
@@ -282,9 +293,14 @@ export const serveFile: RequestHandler = async (req, res) => {
 export const deleteFile: RequestHandler = async (req, res) => {
   try {
     const { filename } = req.params;
-    
+
     // Validate filename
-    if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+    if (
+      !filename ||
+      filename.includes("..") ||
+      filename.includes("/") ||
+      filename.includes("\\")
+    ) {
       return res.status(400).json({
         message: "Invalid filename",
         code: "INVALID_FILENAME",
@@ -292,7 +308,7 @@ export const deleteFile: RequestHandler = async (req, res) => {
     }
 
     const filePath = path.join(uploadsDir, filename);
-    
+
     // Check if file exists
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({
@@ -303,7 +319,7 @@ export const deleteFile: RequestHandler = async (req, res) => {
 
     // Delete file
     fs.unlinkSync(filePath);
-    
+
     res.json({
       message: "File deleted successfully",
       filename,
@@ -322,9 +338,14 @@ export const deleteFile: RequestHandler = async (req, res) => {
 export const getFileInfo: RequestHandler = async (req, res) => {
   try {
     const { filename } = req.params;
-    
+
     // Validate filename
-    if (!filename || filename.includes("..") || filename.includes("/") || filename.includes("\\")) {
+    if (
+      !filename ||
+      filename.includes("..") ||
+      filename.includes("/") ||
+      filename.includes("\\")
+    ) {
       return res.status(400).json({
         message: "Invalid filename",
         code: "INVALID_FILENAME",
@@ -332,7 +353,7 @@ export const getFileInfo: RequestHandler = async (req, res) => {
     }
 
     const filePath = path.join(uploadsDir, filename);
-    
+
     // Check if file exists
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({
@@ -344,11 +365,28 @@ export const getFileInfo: RequestHandler = async (req, res) => {
     // Get file stats
     const stats = fs.statSync(filePath);
     const ext = path.extname(filename).toLowerCase();
-    
+
     // Determine file type
-    const imageExts = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp", ".tiff"];
-    const videoExts = [".mp4", ".mpeg", ".mov", ".avi", ".wmv", ".webm", ".3gp", ".flv"];
-    
+    const imageExts = [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".webp",
+      ".bmp",
+      ".tiff",
+    ];
+    const videoExts = [
+      ".mp4",
+      ".mpeg",
+      ".mov",
+      ".avi",
+      ".wmv",
+      ".webm",
+      ".3gp",
+      ".flv",
+    ];
+
     let fileType = "unknown";
     if (imageExts.includes(ext)) {
       fileType = "image";
@@ -382,9 +420,16 @@ export const healthCheck: RequestHandler = async (req, res) => {
   try {
     // Check if uploads directory is accessible
     const uploadsExists = fs.existsSync(uploadsDir);
-    const uploadsWritable = fs.accessSync ? 
-      (() => { try { fs.accessSync(uploadsDir, fs.constants.W_OK); return true; } catch { return false; } })() : 
-      true;
+    const uploadsWritable = fs.accessSync
+      ? (() => {
+          try {
+            fs.accessSync(uploadsDir, fs.constants.W_OK);
+            return true;
+          } catch {
+            return false;
+          }
+        })()
+      : true;
 
     res.json({
       status: "healthy",
