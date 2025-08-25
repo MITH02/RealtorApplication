@@ -14,24 +14,27 @@ import java.util.Optional;
 @Repository
 public interface BuildingContractorRepository extends JpaRepository<BuildingContractor, Long> {
     
-    List<BuildingContractor> findByBuilding(Building building);
-    
-    List<BuildingContractor> findByContractor(User contractor);
-    
     List<BuildingContractor> findByBuildingAndIsActiveTrue(Building building);
     
     List<BuildingContractor> findByContractorAndIsActiveTrue(User contractor);
     
+    List<BuildingContractor> findByBuilding(Building building);
+    
+    List<BuildingContractor> findByContractor(User contractor);
+    
     Optional<BuildingContractor> findByBuildingAndContractorAndIsActiveTrue(Building building, User contractor);
     
-    boolean existsByBuildingAndContractorAndIsActiveTrue(Building building, User contractor);
+    @Query("SELECT bc FROM BuildingContractor bc WHERE bc.building.id = :buildingId AND bc.isActive = true")
+    List<BuildingContractor> findActiveBuildingContractors(@Param("buildingId") Long buildingId);
     
-    @Query("SELECT bc FROM BuildingContractor bc WHERE bc.assignedBy = :admin ORDER BY bc.assignedAt DESC")
-    List<BuildingContractor> findAssignmentsByAdmin(@Param("admin") User admin);
+    @Query("SELECT bc FROM BuildingContractor bc WHERE bc.contractor.id = :contractorId AND bc.isActive = true")
+    List<BuildingContractor> findActiveContractorBuildings(@Param("contractorId") Long contractorId);
+    
+    @Query("SELECT COUNT(bc) FROM BuildingContractor bc WHERE bc.building = :building AND bc.isActive = true")
+    long countActiveContractorsByBuilding(@Param("building") Building building);
     
     @Query("SELECT COUNT(bc) FROM BuildingContractor bc WHERE bc.contractor = :contractor AND bc.isActive = true")
     long countActiveBuildingsByContractor(@Param("contractor") User contractor);
     
-    @Query("SELECT COUNT(bc) FROM BuildingContractor bc WHERE bc.building = :building AND bc.isActive = true")
-    long countActiveContractorsByBuilding(@Param("building") Building building);
+    boolean existsByBuildingAndContractorAndIsActiveTrue(Building building, User contractor);
 }
