@@ -526,9 +526,68 @@ export default function ContractorDashboard({
       const tasksData = await apiService.getMyTasks();
       setTasks(tasksData);
       setFilteredTasks(tasksData);
+
+      // Fetch media for each task
+      await fetchTasksMedia(tasksData);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
     }
+  };
+
+  const fetchTasksMedia = async (tasks: Task[]) => {
+    try {
+      const mediaPromises = tasks.map(async (task) => {
+        try {
+          const updates = await apiService.getTaskUpdates(task.id);
+          const media: MediaItem[] = [];
+
+          updates.forEach((update) => {
+            if (update.imageUrls && update.imageUrls.length > 0) {
+              update.imageUrls.forEach((url, index) => {
+                const isVideo = url.includes('.mp4') || url.includes('.mov') || url.includes('.avi') || url.includes('.webm');
+                media.push({
+                  id: `${update.id}-${index}`,
+                  url,
+                  type: isVideo ? "video" : "image",
+                  caption: update.message,
+                  uploadedAt: update.createdAt,
+                  uploadedBy: `${update.createdBy.firstName} ${update.createdBy.lastName}`,
+                });
+              });
+            }
+          });
+
+          return { taskId: task.id, media };
+        } catch (error) {
+          console.error(`Failed to fetch media for task ${task.id}:`, error);
+          return { taskId: task.id, media: [] };
+        }
+      });
+
+      const results = await Promise.all(mediaPromises);
+      const mediaMap: { [taskId: number]: MediaItem[] } = {};
+      results.forEach(({ taskId, media }) => {
+        mediaMap[taskId] = media;
+      });
+
+      setTaskMedia(mediaMap);
+    } catch (error) {
+      console.error("Failed to fetch tasks media:", error);
+    }
+  };
+
+  const handleMediaUploadComplete = (urls: string[]) => {
+    setUploadedMediaUrls((prev) => [...prev, ...urls]);
+    setUploadError(null);
+  };
+
+  const handleMediaUploadError = (error: string) => {
+    setUploadError(error);
+  };
+
+  const clearUploadedMedia = () => {
+    setUploadedMediaUrls([]);
+    setUploadError(null);
   };
 
   useEffect(() => {
