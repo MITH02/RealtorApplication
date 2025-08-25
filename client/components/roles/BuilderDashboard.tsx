@@ -1246,6 +1246,27 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               />
             </FormGroup>
 
+            <FormGroup>
+              <Label>Reference Photos & Videos (Optional)</Label>
+              <MediaUpload
+                onUploadComplete={handleMediaUploadComplete}
+                onUploadProgress={(progress) => console.log("Upload progress:", progress)}
+                onError={handleMediaUploadError}
+                context="building_documentation"
+                maxFiles={5}
+                maxSizeM={20}
+              />
+              {uploadError && (
+                <div style={{
+                  color: "hsl(0 84% 60%)",
+                  fontSize: "0.875rem",
+                  marginTop: "0.5rem"
+                }}>
+                  {uploadError}
+                </div>
+              )}
+            </FormGroup>
+
             <FormActions>
               <Button
                 type="button"
@@ -1257,8 +1278,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="primary">
-                Create Task
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={isUploadingMedia}
+              >
+                {isUploadingMedia ? "Uploading..." : "Create Task"}
               </Button>
             </FormActions>
           </Form>
