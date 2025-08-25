@@ -35,14 +35,8 @@ type AppState =
   | "builder-dashboard"
   | "admin-dashboard";
 
-const AppContent = () => {
-  const [appState, setAppState] = useState<AppState>("video-loader");
+const AuthenticatedAppContent = () => {
   const { isAuthenticated, user, isLoading } = useAuth();
-
-  // If user is authenticated, go directly to dashboard
-  if (isAuthenticated && user && !appState.includes("-dashboard")) {
-    setAppState(`${user.role.toLowerCase()}-dashboard` as AppState);
-  }
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -58,6 +52,18 @@ const AppContent = () => {
       </div>
     );
   }
+
+  // If user is authenticated, show their dashboard directly
+  if (isAuthenticated && user) {
+    return <Dashboard role={user.role.toLowerCase() as "admin" | "builder" | "contractor"} onLogout={() => window.location.reload()} />;
+  }
+
+  // If not authenticated, show the normal app flow
+  return <AppContent />;
+};
+
+const AppContent = () => {
+  const [appState, setAppState] = useState<AppState>("video-loader");
 
   const handleGetStarted = () => {
     setAppState("role-selection");
@@ -191,7 +197,7 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<AppContent />} />
+                <Route path="/" element={<AuthenticatedAppContent />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
