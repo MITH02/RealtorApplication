@@ -24,7 +24,9 @@ const Breadcrumb = React.forwardRef<
   React.ComponentPropsWithoutRef<"nav"> & {
     separator?: React.ComponentType<any>;
   }
->(({ ...props }, ref) => <StyledBreadcrumbNav ref={ref} aria-label="breadcrumb" {...props} />);
+>(({ ...props }, ref) => (
+  <StyledBreadcrumbNav ref={ref} aria-label="breadcrumb" {...props} />
+));
 Breadcrumb.displayName = "Breadcrumb";
 
 const StyledBreadcrumbList = styled.ol`
@@ -39,9 +41,7 @@ const StyledBreadcrumbList = styled.ol`
 const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
   React.ComponentPropsWithoutRef<"ol">
->(({ ...props }, ref) => (
-  <StyledBreadcrumbList ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledBreadcrumbList ref={ref} {...props} />);
 BreadcrumbList.displayName = "BreadcrumbList";
 
 const StyledBreadcrumbItem = styled.li`
@@ -53,9 +53,7 @@ const StyledBreadcrumbItem = styled.li`
 const BreadcrumbItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<"li">
->(({ ...props }, ref) => (
-  <StyledBreadcrumbItem ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledBreadcrumbItem ref={ref} {...props} />);
 BreadcrumbItem.displayName = "BreadcrumbItem";
 
 const StyledBreadcrumbLink = styled.a`
@@ -106,12 +104,11 @@ const StyledBreadcrumbSeparator = styled.li`
   }
 `;
 
-const BreadcrumbSeparator = ({ children, ...props }: React.ComponentProps<"li">) => (
-  <StyledBreadcrumbSeparator
-    role="presentation"
-    aria-hidden="true"
-    {...props}
-  >
+const BreadcrumbSeparator = ({
+  children,
+  ...props
+}: React.ComponentProps<"li">) => (
+  <StyledBreadcrumbSeparator role="presentation" aria-hidden="true" {...props}>
     {children ?? <ChevronRight />}
   </StyledBreadcrumbSeparator>
 );
@@ -130,16 +127,24 @@ const StyledBreadcrumbEllipsis = styled.span`
   }
 `;
 
-const BreadcrumbEllipsis = ({
-  ...props
-}: React.ComponentProps<"span">) => (
-  <StyledBreadcrumbEllipsis
-    role="presentation"
-    aria-hidden="true"
-    {...props}
-  >
+const BreadcrumbEllipsis = ({ ...props }: React.ComponentProps<"span">) => (
+  <StyledBreadcrumbEllipsis role="presentation" aria-hidden="true" {...props}>
     <MoreHorizontal />
-    <span style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>More</span>
+    <span
+      style={{
+        position: "absolute",
+        width: "1px",
+        height: "1px",
+        padding: 0,
+        margin: "-1px",
+        overflow: "hidden",
+        clip: "rect(0, 0, 0, 0)",
+        whiteSpace: "nowrap",
+        border: 0,
+      }}
+    >
+      More
+    </span>
   </StyledBreadcrumbEllipsis>
 );
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";

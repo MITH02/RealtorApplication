@@ -4,21 +4,29 @@ import { cn, mergeStyles, clsx, createVariant, combineStyles } from "./utils";
 describe("utils", () => {
   describe("cn (legacy class utility)", () => {
     it("should merge classes correctly", () => {
-      expect(cn("text-red-500", "bg-blue-500")).toBe("text-red-500 bg-blue-500");
+      expect(cn("text-red-500", "bg-blue-500")).toBe(
+        "text-red-500 bg-blue-500",
+      );
     });
 
     it("should handle conditional classes", () => {
       const isActive = true;
-      expect(cn("base-class", isActive && "active-class")).toBe("base-class active-class");
+      expect(cn("base-class", isActive && "active-class")).toBe(
+        "base-class active-class",
+      );
     });
 
     it("should filter out falsy values", () => {
       const isActive = false;
-      expect(cn("base-class", isActive && "active-class", null)).toBe("base-class");
+      expect(cn("base-class", isActive && "active-class", null)).toBe(
+        "base-class",
+      );
     });
 
     it("should work with object notation", () => {
-      expect(cn("base", { conditional: true, "not-included": false })).toBe("base conditional");
+      expect(cn("base", { conditional: true, "not-included": false })).toBe(
+        "base conditional",
+      );
     });
   });
 
@@ -27,18 +35,18 @@ describe("utils", () => {
       const style1 = { color: "red", fontSize: "16px" };
       const style2 = { backgroundColor: "blue", fontSize: "18px" };
       const result = mergeStyles(style1, style2);
-      
+
       expect(result).toEqual({
         color: "red",
         fontSize: "18px", // Should override
-        backgroundColor: "blue"
+        backgroundColor: "blue",
       });
     });
 
     it("should filter out falsy values", () => {
       const style1 = { color: "red" };
       const result = mergeStyles(style1, null, undefined, false);
-      
+
       expect(result).toEqual({ color: "red" });
     });
   });
@@ -49,7 +57,9 @@ describe("utils", () => {
     });
 
     it("should filter out falsy values", () => {
-      expect(clsx("class1", null, undefined, false, "class2")).toBe("class1 class2");
+      expect(clsx("class1", null, undefined, false, "class2")).toBe(
+        "class1 class2",
+      );
     });
   });
 
@@ -57,11 +67,11 @@ describe("utils", () => {
     it("should create variant function", () => {
       const variants = {
         primary: { backgroundColor: "blue", color: "white" },
-        secondary: { backgroundColor: "gray", color: "black" }
+        secondary: { backgroundColor: "gray", color: "black" },
       };
-      
+
       const getVariant = createVariant(variants);
-      
+
       expect(getVariant("primary")).toEqual(variants.primary);
       expect(getVariant("secondary")).toEqual(variants.secondary);
     });
@@ -69,7 +79,7 @@ describe("utils", () => {
     it("should return empty object for unknown variant", () => {
       const variants = { primary: { color: "blue" } };
       const getVariant = createVariant(variants);
-      
+
       expect(getVariant("unknown" as any)).toEqual({});
     });
   });
@@ -79,14 +89,14 @@ describe("utils", () => {
       const base = { padding: "8px", margin: "4px" };
       const variant = { backgroundColor: "blue", padding: "16px" };
       const override = { color: "white" };
-      
+
       const result = combineStyles(base, variant, override);
-      
+
       expect(result).toEqual({
         padding: "16px", // Overridden by variant
         margin: "4px",
         backgroundColor: "blue",
-        color: "white"
+        color: "white",
       });
     });
   });

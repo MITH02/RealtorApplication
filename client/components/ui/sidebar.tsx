@@ -52,7 +52,8 @@ const SidebarProviderWrapper = styled.div<{
   display: flex;
   min-height: 100svh;
   width: 100%;
-  background: ${props => props.hasInsetVariant ? 'hsl(var(--sidebar-background))' : 'inherit'};
+  background: ${(props) =>
+    props.hasInsetVariant ? "hsl(var(--sidebar-background))" : "inherit"};
 
   --sidebar-width: ${SIDEBAR_WIDTH};
   --sidebar-width-icon: ${SIDEBAR_WIDTH_ICON};
@@ -148,18 +149,18 @@ const SidebarProvider = React.forwardRef<
 
     const hasInsetVariant = React.useMemo(() => {
       const checkForInset = (element: React.ReactElement): boolean => {
-        if (element?.props?.['data-variant'] === 'inset') return true;
-        if (element?.props?.variant === 'inset') return true;
+        if (element?.props?.["data-variant"] === "inset") return true;
+        if (element?.props?.variant === "inset") return true;
         if (React.Children.count(element?.props?.children) > 0) {
           return React.Children.toArray(element.props.children).some((child) =>
-            React.isValidElement(child) ? checkForInset(child) : false
+            React.isValidElement(child) ? checkForInset(child) : false,
           );
         }
         return false;
       };
-      
+
       return React.Children.toArray(children).some((child) =>
-        React.isValidElement(child) ? checkForInset(child) : false
+        React.isValidElement(child) ? checkForInset(child) : false,
       );
     }, [children]);
 
@@ -202,19 +203,19 @@ const SidebarWrapper = styled.div<{
     display: block;
   }
 
-  &[data-state="${props => props.state}"] {
+  &[data-state="${(props) => props.state}"] {
     /* State is managed via data attributes */
   }
 
-  &[data-collapsible="${props => props.collapsible}"] {
+  &[data-collapsible="${(props) => props.collapsible}"] {
     /* Collapsible state */
   }
 
-  &[data-variant="${props => props.variant}"] {
+  &[data-variant="${(props) => props.variant}"] {
     /* Variant styling */
   }
 
-  &[data-side="${props => props.side}"] {
+  &[data-side="${(props) => props.side}"] {
     /* Side positioning */
   }
 `;
@@ -231,19 +232,32 @@ const SidebarGap = styled.div<{
   background: transparent;
   transition: width 200ms ease-linear;
 
-  ${props => props.collapsible === "offcanvas" && props.state === "collapsed" && `
+  ${(props) =>
+    props.collapsible === "offcanvas" &&
+    props.state === "collapsed" &&
+    `
     width: 0;
   `}
 
-  ${props => props.side === "right" && `
+  ${(props) =>
+    props.side === "right" &&
+    `
     transform: rotate(180deg);
   `}
 
-  ${props => (props.variant === "floating" || props.variant === "inset") && props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    (props.variant === "floating" || props.variant === "inset") &&
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     width: calc(var(--sidebar-width-icon) + 1rem);
   `}
 
-  ${props => props.variant === "sidebar" && props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.variant === "sidebar" &&
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     width: var(--sidebar-width-icon);
   `}
 `;
@@ -261,45 +275,76 @@ const SidebarContainer = styled.div<{
   display: none;
   height: 100svh;
   width: var(--sidebar-width);
-  transition: left 200ms ease-linear, right 200ms ease-linear, width 200ms ease-linear;
+  transition:
+    left 200ms ease-linear,
+    right 200ms ease-linear,
+    width 200ms ease-linear;
 
   @media (min-width: 768px) {
     display: flex;
   }
 
-  ${props => props.side === "left" && `
+  ${(props) =>
+    props.side === "left" &&
+    `
     left: 0;
   `}
 
-  ${props => props.side === "right" && `
+  ${(props) =>
+    props.side === "right" &&
+    `
     right: 0;
   `}
 
-  ${props => props.side === "left" && props.collapsible === "offcanvas" && props.state === "collapsed" && `
+  ${(props) =>
+    props.side === "left" &&
+    props.collapsible === "offcanvas" &&
+    props.state === "collapsed" &&
+    `
     left: calc(var(--sidebar-width) * -1);
   `}
 
-  ${props => props.side === "right" && props.collapsible === "offcanvas" && props.state === "collapsed" && `
+  ${(props) =>
+    props.side === "right" &&
+    props.collapsible === "offcanvas" &&
+    props.state === "collapsed" &&
+    `
     right: calc(var(--sidebar-width) * -1);
   `}
 
-  ${props => (props.variant === "floating" || props.variant === "inset") && `
+  ${(props) =>
+    (props.variant === "floating" || props.variant === "inset") &&
+    `
     padding: 0.5rem;
   `}
 
-  ${props => (props.variant === "floating" || props.variant === "inset") && props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    (props.variant === "floating" || props.variant === "inset") &&
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     width: calc(var(--sidebar-width-icon) + 1rem + 2px);
   `}
 
-  ${props => props.variant === "sidebar" && props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.variant === "sidebar" &&
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     width: var(--sidebar-width-icon);
   `}
 
-  ${props => props.variant === "sidebar" && props.side === "left" && `
+  ${(props) =>
+    props.variant === "sidebar" &&
+    props.side === "left" &&
+    `
     border-right: 1px solid hsl(var(--border));
   `}
 
-  ${props => props.variant === "sidebar" && props.side === "right" && `
+  ${(props) =>
+    props.variant === "sidebar" &&
+    props.side === "right" &&
+    `
     border-left: 1px solid hsl(var(--border));
   `}
 `;
@@ -313,7 +358,9 @@ const SidebarInner = styled.div<{
   flex-direction: column;
   background: hsl(var(--sidebar-background));
 
-  ${props => props.variant === "floating" && `
+  ${(props) =>
+    props.variant === "floating" &&
+    `
     border-radius: calc(var(--radius) + 2px);
     border: 1px solid hsl(var(--sidebar-border));
     box-shadow: 
@@ -376,7 +423,14 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
-            <div style={{ display: "flex", height: "100%", width: "100%", flexDirection: "column" }}>
+            <div
+              style={{
+                display: "flex",
+                height: "100%",
+                width: "100%",
+                flexDirection: "column",
+              }}
+            >
               {children}
             </div>
           </SheetContent>
@@ -409,10 +463,7 @@ const Sidebar = React.forwardRef<
           side={side}
           {...props}
         >
-          <SidebarInner
-            variant={variant}
-            data-sidebar="sidebar"
-          >
+          <SidebarInner variant={variant} data-sidebar="sidebar">
             {children}
           </SidebarInner>
         </SidebarContainer>
@@ -480,7 +531,7 @@ const StyledSidebarRail = styled.button<{
   background: transparent;
   border: none;
   padding: 0;
-  cursor: ${props => {
+  cursor: ${(props) => {
     if (props.side === "left") {
       return props.state === "collapsed" ? "e-resize" : "w-resize";
     } else {
@@ -494,27 +545,41 @@ const StyledSidebarRail = styled.button<{
     display: flex;
   }
 
-  ${props => props.side === "left" && `
+  ${(props) =>
+    props.side === "left" &&
+    `
     right: -1rem;
   `}
 
-  ${props => props.side === "right" && `
+  ${(props) =>
+    props.side === "right" &&
+    `
     left: 0;
   `}
 
-  ${props => props.collapsible === "offcanvas" && `
+  ${(props) =>
+    props.collapsible === "offcanvas" &&
+    `
     transform: translateX(0);
   `}
 
-  ${props => props.collapsible === "offcanvas" && props.side === "left" && `
+  ${(props) =>
+    props.collapsible === "offcanvas" &&
+    props.side === "left" &&
+    `
     right: -0.5rem;
   `}
 
-  ${props => props.collapsible === "offcanvas" && props.side === "right" && `
+  ${(props) =>
+    props.collapsible === "offcanvas" &&
+    props.side === "right" &&
+    `
     left: -0.5rem;
   `}
 
-  ${props => props.collapsible === "offcanvas" && `
+  ${(props) =>
+    props.collapsible === "offcanvas" &&
+    `
     &:hover {
       background: hsl(var(--sidebar-background));
     }
@@ -530,7 +595,9 @@ const StyledSidebarRail = styled.button<{
     background: transparent;
     transition: background-color 200ms ease-linear;
 
-    ${props => props.collapsible === "offcanvas" && `
+    ${(props) =>
+      props.collapsible === "offcanvas" &&
+      `
       left: 100%;
     `}
   }
@@ -575,7 +642,9 @@ const StyledSidebarInset = styled.main<{
   flex-direction: column;
   background: hsl(var(--background));
 
-  ${props => props.variant === "inset" && `
+  ${(props) =>
+    props.variant === "inset" &&
+    `
     min-height: calc(100svh - 1rem);
 
     @media (min-width: 768px) {
@@ -590,11 +659,14 @@ const StyledSidebarInset = styled.main<{
       margin-left: 0;
     }
 
-    ${props.state === "collapsed" && `
+    ${
+      props.state === "collapsed" &&
+      `
       @media (min-width: 768px) {
         margin-left: 0.5rem;
       }
-    `}
+    `
+    }
   `}
 `;
 
@@ -605,14 +677,9 @@ const SidebarInset = React.forwardRef<
   }
 >(({ variant, ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
-    <StyledSidebarInset
-      ref={ref}
-      variant={variant}
-      state={state}
-      {...props}
-    />
+    <StyledSidebarInset ref={ref} variant={variant} state={state} {...props} />
   );
 });
 SidebarInset.displayName = "SidebarInset";
@@ -633,13 +700,7 @@ const SidebarInput = React.forwardRef<
   React.ElementRef<typeof Input>,
   React.ComponentProps<typeof Input>
 >(({ ...props }, ref) => {
-  return (
-    <StyledSidebarInput
-      ref={ref}
-      data-sidebar="input"
-      {...props}
-    />
-  );
+  return <StyledSidebarInput ref={ref} data-sidebar="input" {...props} />;
 });
 SidebarInput.displayName = "SidebarInput";
 
@@ -672,11 +733,7 @@ const SidebarSeparator = React.forwardRef<
   React.ComponentProps<typeof Separator>
 >(({ ...props }, ref) => {
   return (
-    <StyledSidebarSeparator
-      ref={ref}
-      data-sidebar="separator"
-      {...props}
-    />
+    <StyledSidebarSeparator ref={ref} data-sidebar="separator" {...props} />
   );
 });
 SidebarSeparator.displayName = "SidebarSeparator";
@@ -692,7 +749,10 @@ const SidebarContent = styled.div<{
   gap: 0.5rem;
   overflow: auto;
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     overflow: hidden;
   `}
 `;
@@ -723,7 +783,9 @@ const StyledSidebarGroupLabel = styled.div<{
   font-weight: 500;
   color: hsl(var(--sidebar-foreground) / 0.7);
   outline: none;
-  transition: margin 200ms ease-linear, opacity 200ms ease-linear;
+  transition:
+    margin 200ms ease-linear,
+    opacity 200ms ease-linear;
 
   &:focus-visible {
     box-shadow: 0 0 0 2px hsl(var(--sidebar-ring));
@@ -735,7 +797,10 @@ const StyledSidebarGroupLabel = styled.div<{
     flex-shrink: 0;
   }
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     margin-top: -2rem;
     opacity: 0;
   `}
@@ -808,7 +873,10 @@ const StyledSidebarGroupAction = styled.button<{
     }
   }
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     display: none;
   `}
 `;
@@ -937,7 +1005,7 @@ const getSidebarMenuButtonStyles = ({
   if (variant === "outline") {
     baseStyles.background = "hsl(var(--background))";
     baseStyles.boxShadow = "0 0 0 1px hsl(var(--sidebar-border))";
-    
+
     baseStyles["&:hover"] = {
       background: "hsl(var(--sidebar-accent))",
       color: "hsl(var(--sidebar-accent-foreground))",
@@ -966,9 +1034,12 @@ const StyledSidebarMenuButton = styled.button<
     collapsible?: "icon";
   }
 >`
-  ${props => getSidebarMenuButtonStyles(props)}
+  ${(props) => getSidebarMenuButtonStyles(props)}
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     width: 2rem !important;
     height: 2rem !important;
     padding: 0.5rem !important;
@@ -1085,11 +1156,16 @@ const StyledSidebarMenuAction = styled.button<{
     }
   }
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     display: none;
   `}
 
-  ${props => props.showOnHover && `
+  ${(props) =>
+    props.showOnHover &&
+    `
     opacity: 0;
     
     .group:focus-within &,
@@ -1149,7 +1225,10 @@ const StyledSidebarMenuBadge = styled.div<{
   user-select: none;
   pointer-events: none;
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     display: none;
   `}
 `;
@@ -1159,7 +1238,7 @@ const SidebarMenuBadge = React.forwardRef<
   React.ComponentProps<"div">
 >(({ ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
     <StyledSidebarMenuBadge
       ref={ref}
@@ -1201,14 +1280,18 @@ const SidebarMenuSkeleton = React.forwardRef<
     >
       {showIcon && (
         <Skeleton
-          style={{ width: "1rem", height: "1rem", borderRadius: "calc(var(--radius))" }}
+          style={{
+            width: "1rem",
+            height: "1rem",
+            borderRadius: "calc(var(--radius))",
+          }}
           data-sidebar="menu-skeleton-icon"
         />
       )}
       <Skeleton
-        style={{ 
-          height: "1rem", 
-          flex: 1, 
+        style={{
+          height: "1rem",
+          flex: 1,
           maxWidth: width,
         }}
         data-sidebar="menu-skeleton-text"
@@ -1237,7 +1320,10 @@ const StyledSidebarMenuSub = styled.ul<{
   margin-top: 0;
   margin-bottom: 0;
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     display: none;
   `}
 `;
@@ -1247,7 +1333,7 @@ const SidebarMenuSub = React.forwardRef<
   React.ComponentProps<"ul">
 >(({ ...props }, ref) => {
   const { state } = useSidebar();
-  
+
   return (
     <StyledSidebarMenuSub
       ref={ref}
@@ -1306,7 +1392,7 @@ const StyledSidebarMenuSubButton = styled.a<{
     opacity: 0.5;
   }
 
-  &[aria-disabled='true'] {
+  &[aria-disabled="true"] {
     pointer-events: none;
     opacity: 0.5;
   }
@@ -1324,20 +1410,27 @@ const StyledSidebarMenuSubButton = styled.a<{
     color: hsl(var(--sidebar-accent-foreground));
   }
 
-  &[data-active='true'] {
+  &[data-active="true"] {
     background: hsl(var(--sidebar-accent));
     color: hsl(var(--sidebar-accent-foreground));
   }
 
-  ${props => props.size === "sm" && `
+  ${(props) =>
+    props.size === "sm" &&
+    `
     font-size: 0.75rem;
   `}
 
-  ${props => props.size === "md" && `
+  ${(props) =>
+    props.size === "md" &&
+    `
     font-size: 0.875rem;
   `}
 
-  ${props => props.state === "collapsed" && props.collapsible === "icon" && `
+  ${(props) =>
+    props.state === "collapsed" &&
+    props.collapsible === "icon" &&
+    `
     display: none;
   `}
 `;

@@ -68,7 +68,7 @@ const StyledDropdownMenuSubContent = styled(DropdownMenuPrimitive.SubContent)`
   background: hsl(var(--popover));
   padding: 0.25rem;
   color: hsl(var(--popover-foreground));
-  box-shadow: 
+  box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition: all 150ms;
@@ -123,9 +123,7 @@ const StyledDropdownMenuSubContent = styled(DropdownMenuPrimitive.SubContent)`
 const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
->(({ ...props }, ref) => (
-  <StyledDropdownMenuSubContent ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDropdownMenuSubContent ref={ref} {...props} />);
 DropdownMenuSubContent.displayName =
   DropdownMenuPrimitive.SubContent.displayName;
 
@@ -138,7 +136,7 @@ const StyledDropdownMenuContent = styled(DropdownMenuPrimitive.Content)`
   background: hsl(var(--popover));
   padding: 0.25rem;
   color: hsl(var(--popover-foreground));
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
   transition: all 150ms;
@@ -252,7 +250,9 @@ const ItemIndicatorSpan = styled.span`
   }
 `;
 
-const StyledDropdownMenuCheckboxItem = styled(DropdownMenuPrimitive.CheckboxItem)`
+const StyledDropdownMenuCheckboxItem = styled(
+  DropdownMenuPrimitive.CheckboxItem,
+)`
   position: relative;
   display: flex;
   cursor: default;
@@ -366,9 +366,7 @@ const StyledDropdownMenuSeparator = styled(DropdownMenuPrimitive.Separator)`
 const DropdownMenuSeparator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
->(({ ...props }, ref) => (
-  <StyledDropdownMenuSeparator ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDropdownMenuSeparator ref={ref} {...props} />);
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 const DropdownMenuShortcut = styled.span`

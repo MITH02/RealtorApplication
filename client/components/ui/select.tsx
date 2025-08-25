@@ -126,7 +126,7 @@ const StyledSelectContent = styled(SelectPrimitive.Content)<{
   border: 1px solid hsl(var(--border));
   background: hsl(var(--popover));
   color: hsl(var(--popover-foreground));
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
   transition: all 150ms;
@@ -177,7 +177,9 @@ const StyledSelectContent = styled(SelectPrimitive.Content)<{
     transform-origin: bottom;
   }
 
-  ${props => props.position === "popper" && `
+  ${(props) =>
+    props.position === "popper" &&
+    `
     &[data-side="bottom"] {
       transform: translateY(0.25rem);
     }
@@ -201,7 +203,9 @@ const StyledSelectViewport = styled(SelectPrimitive.Viewport)<{
 }>`
   padding: 0.25rem;
 
-  ${props => props.position === "popper" && `
+  ${(props) =>
+    props.position === "popper" &&
+    `
     height: var(--radix-select-trigger-height);
     width: 100%;
     min-width: var(--radix-select-trigger-width);
@@ -234,9 +238,7 @@ const StyledSelectLabel = styled(SelectPrimitive.Label)`
 const SelectLabel = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ ...props }, ref) => (
-  <StyledSelectLabel ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSelectLabel ref={ref} {...props} />);
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 const ItemIndicatorSpan = styled.span`
@@ -304,9 +306,7 @@ const StyledSelectSeparator = styled(SelectPrimitive.Separator)`
 const SelectSeparator = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ ...props }, ref) => (
-  <StyledSelectSeparator ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledSelectSeparator ref={ref} {...props} />);
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
 
 export {

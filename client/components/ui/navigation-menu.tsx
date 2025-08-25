@@ -39,52 +39,50 @@ const StyledNavigationMenuList = styled(NavigationMenuPrimitive.List)`
 const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>
->(({ ...props }, ref) => (
-  <StyledNavigationMenuList ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledNavigationMenuList ref={ref} {...props} />);
 NavigationMenuList.displayName = NavigationMenuPrimitive.List.displayName;
 
 const NavigationMenuItem = NavigationMenuPrimitive.Item;
 
 // Trigger styles using Emotion instead of cva
 const navigationMenuTriggerStyles: CSSObject = {
-  display: 'inline-flex',
-  height: '2.5rem',
-  width: 'max-content',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 'calc(var(--radius))',
-  background: 'hsl(var(--background))',
-  padding: '0.5rem 1rem',
-  fontSize: '0.875rem',
-  fontWeight: '500',
-  transition: 'colors 150ms',
-  cursor: 'pointer',
-  border: 'none',
-  color: 'hsl(var(--foreground))',
+  display: "inline-flex",
+  height: "2.5rem",
+  width: "max-content",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "calc(var(--radius))",
+  background: "hsl(var(--background))",
+  padding: "0.5rem 1rem",
+  fontSize: "0.875rem",
+  fontWeight: "500",
+  transition: "colors 150ms",
+  cursor: "pointer",
+  border: "none",
+  color: "hsl(var(--foreground))",
 
-  '&:hover': {
-    background: 'hsl(var(--accent))',
-    color: 'hsl(var(--accent-foreground))',
+  "&:hover": {
+    background: "hsl(var(--accent))",
+    color: "hsl(var(--accent-foreground))",
   },
 
-  '&:focus': {
-    background: 'hsl(var(--accent))',
-    color: 'hsl(var(--accent-foreground))',
-    outline: 'none',
+  "&:focus": {
+    background: "hsl(var(--accent))",
+    color: "hsl(var(--accent-foreground))",
+    outline: "none",
   },
 
-  '&:disabled': {
-    pointerEvents: 'none',
+  "&:disabled": {
+    pointerEvents: "none",
     opacity: 0.5,
   },
 
-  '&[data-active]': {
-    background: 'hsl(var(--accent) / 0.5)',
+  "&[data-active]": {
+    background: "hsl(var(--accent) / 0.5)",
   },
 
   '&[data-state="open"]': {
-    background: 'hsl(var(--accent) / 0.5)',
+    background: "hsl(var(--accent) / 0.5)",
   },
 };
 
@@ -217,9 +215,7 @@ const StyledNavigationMenuContent = styled(NavigationMenuPrimitive.Content)`
 const NavigationMenuContent = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>
->(({ ...props }, ref) => (
-  <StyledNavigationMenuContent ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledNavigationMenuContent ref={ref} {...props} />);
 NavigationMenuContent.displayName = NavigationMenuPrimitive.Content.displayName;
 
 const NavigationMenuLink = NavigationMenuPrimitive.Link;
@@ -243,7 +239,7 @@ const StyledNavigationMenuViewport = styled(NavigationMenuPrimitive.Viewport)`
   border: 1px solid hsl(var(--border));
   background: hsl(var(--popover));
   color: hsl(var(--popover-foreground));
-  box-shadow: 
+  box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
   transition: all 200ms;
@@ -339,7 +335,7 @@ const IndicatorShape = styled.div`
   transform: rotate(45deg);
   border-radius: 2px 0 0 0;
   background: hsl(var(--border));
-  box-shadow: 
+  box-shadow:
     0 4px 6px -1px rgb(0 0 0 / 0.1),
     0 2px 4px -2px rgb(0 0 0 / 0.1);
 `;

@@ -1,15 +1,17 @@
 import { CSSObject } from "@emotion/react";
 
 // Basic class name utility (replacement for clsx without dependency)
-function clsxBasic(...classes: (string | undefined | null | false | Record<string, boolean>)[]): string {
+function clsxBasic(
+  ...classes: (string | undefined | null | false | Record<string, boolean>)[]
+): string {
   const result: string[] = [];
-  
+
   for (const cls of classes) {
     if (!cls) continue;
-    
-    if (typeof cls === 'string') {
+
+    if (typeof cls === "string") {
       result.push(cls);
-    } else if (typeof cls === 'object') {
+    } else if (typeof cls === "object") {
       for (const [key, value] of Object.entries(cls)) {
         if (value) {
           result.push(key);
@@ -17,13 +19,15 @@ function clsxBasic(...classes: (string | undefined | null | false | Record<strin
       }
     }
   }
-  
-  return result.join(' ');
+
+  return result.join(" ");
 }
 
 // Legacy utility function for remaining components that haven't been converted
 // This provides basic class merging without TailwindCSS dependency
-export function cn(...inputs: (string | undefined | null | false | Record<string, boolean>)[]): string {
+export function cn(
+  ...inputs: (string | undefined | null | false | Record<string, boolean>)[]
+): string {
   return clsxBasic(...inputs);
 }
 
@@ -48,7 +52,7 @@ export function when<T>(condition: boolean, value: T): T | undefined {
 
 // Utility function to create variant styles
 export function createVariant<T extends Record<string, CSSObject>>(
-  variants: T
+  variants: T,
 ): (variant: keyof T) => CSSObject {
   return (variant) => variants[variant] || {};
 }
@@ -57,7 +61,7 @@ export function createVariant<T extends Record<string, CSSObject>>(
 export function combineStyles(
   base: CSSObject,
   variant?: CSSObject,
-  override?: CSSObject
+  override?: CSSObject,
 ): CSSObject {
   return mergeStyles(base, variant, override);
 }

@@ -48,9 +48,7 @@ const StyledDialogOverlay = styled(DialogPrimitive.Overlay)`
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ ...props }, ref) => (
-  <StyledDialogOverlay ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledDialogOverlay ref={ref} {...props} />);
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const StyledDialogContent = styled(DialogPrimitive.Content)`
@@ -66,7 +64,7 @@ const StyledDialogContent = styled(DialogPrimitive.Content)`
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background));
   padding: 1.5rem;
-  box-shadow: 
+  box-shadow:
     0 25px 50px -12px rgb(0 0 0 / 0.25),
     0 0 0 1px rgb(255 255 255 / 0.05);
   transition: all 200ms;

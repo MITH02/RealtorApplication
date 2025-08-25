@@ -18,9 +18,7 @@ const StyledTabsList = styled(TabsPrimitive.List)`
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ ...props }, ref) => (
-  <StyledTabsList ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTabsList ref={ref} {...props} />);
 TabsList.displayName = TabsPrimitive.List.displayName;
 
 const StyledTabsTrigger = styled(TabsPrimitive.Trigger)`
@@ -53,7 +51,7 @@ const StyledTabsTrigger = styled(TabsPrimitive.Trigger)`
   &[data-state="active"] {
     background: hsl(var(--background));
     color: hsl(var(--foreground));
-    box-shadow: 
+    box-shadow:
       0 1px 3px 0 rgb(0 0 0 / 0.1),
       0 1px 2px -1px rgb(0 0 0 / 0.1);
   }
@@ -62,9 +60,7 @@ const StyledTabsTrigger = styled(TabsPrimitive.Trigger)`
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ ...props }, ref) => (
-  <StyledTabsTrigger ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTabsTrigger ref={ref} {...props} />);
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName;
 
 const StyledTabsContent = styled(TabsPrimitive.Content)`
@@ -81,9 +77,7 @@ const StyledTabsContent = styled(TabsPrimitive.Content)`
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>
->(({ ...props }, ref) => (
-  <StyledTabsContent ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTabsContent ref={ref} {...props} />);
 TabsContent.displayName = TabsPrimitive.Content.displayName;
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };

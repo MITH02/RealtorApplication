@@ -80,22 +80,27 @@ const Button = styled.button`
 `;
 
 // Dynamic styled component with props
-const Card = styled.div<{ variant?: 'default' | 'outlined' }>`
+const Card = styled.div<{ variant?: "default" | "outlined" }>`
   padding: 1rem;
   border-radius: calc(var(--radius));
-  
-  ${props => props.variant === 'outlined' && `
+
+  ${(props) =>
+    props.variant === "outlined" &&
+    `
     border: 1px solid hsl(var(--border));
     background: hsl(var(--card));
   `}
 `;
 
 // Using utility functions for style composition
-import { mergeStyles, createVariant } from '@/lib/utils';
+import { mergeStyles, createVariant } from "@/lib/utils";
 
 const buttonVariants = createVariant({
-  default: { background: 'hsl(var(--primary))' },
-  outline: { background: 'transparent', border: '1px solid hsl(var(--border))' }
+  default: { background: "hsl(var(--primary))" },
+  outline: {
+    background: "transparent",
+    border: "1px solid hsl(var(--border))",
+  },
 });
 ```
 
@@ -106,16 +111,20 @@ const buttonVariants = createVariant({
 - **API endpoints**: Prefixed with `/api/`
 
 #### Example API Routes
+
 - `GET /api/ping` - Simple ping api
-- `GET /api/demo` - Demo endpoint  
+- `GET /api/demo` - Demo endpoint
 
 ### Shared Types
+
 Import consistent types in both client and server:
+
 ```typescript
-import { DemoResponse } from '@shared/api';
+import { DemoResponse } from "@shared/api";
 ```
 
 Path aliases:
+
 - `@shared/*` - Shared folder
 - `@/*` - Client folder
 
@@ -136,7 +145,9 @@ pnpm test          # Run Vitest tests
 Open `client/styles/GlobalStyles.tsx` and add new CSS custom properties to the theme variables.
 
 ### New API Route
+
 1. **Optional**: Create a shared interface in `shared/api.ts`:
+
 ```typescript
 export interface MyRouteResponse {
   message: string;
@@ -145,19 +156,21 @@ export interface MyRouteResponse {
 ```
 
 2. Create a new route handler in `server/routes/my-route.ts`:
+
 ```typescript
 import { RequestHandler } from "express";
 import { MyRouteResponse } from "@shared/api"; // Optional: for type safety
 
 export const handleMyRoute: RequestHandler = (req, res) => {
   const response: MyRouteResponse = {
-    message: 'Hello from my endpoint!'
+    message: "Hello from my endpoint!",
   };
   res.json(response);
 };
 ```
 
 3. Register the route in `server/index.ts`:
+
 ```typescript
 import { handleMyRoute } from "./routes/my-route";
 
@@ -166,16 +179,19 @@ app.get("/api/my-endpoint", handleMyRoute);
 ```
 
 4. Use in React components with type safety:
-```typescript
-import { MyRouteResponse } from '@shared/api'; // Optional: for type safety
 
-const response = await fetch('/api/my-endpoint');
+```typescript
+import { MyRouteResponse } from "@shared/api"; // Optional: for type safety
+
+const response = await fetch("/api/my-endpoint");
 const data: MyRouteResponse = await response.json();
 ```
 
 ### New Page Route
+
 1. Create component in `client/pages/MyPage.tsx`
 2. Add route in `client/App.tsx`:
+
 ```typescript
 <Route path="/my-page" element={<MyPage />} />
 ```
@@ -191,12 +207,12 @@ const StyledComponent = styled.div`
   /* CSS styles here */
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  
+
   /* Responsive styles */
   @media (min-width: 768px) {
     padding: 1rem;
   }
-  
+
   /* Pseudo selectors */
   &:hover {
     background: hsl(var(--accent));
@@ -211,16 +227,19 @@ export const MyComponent = ({ children }) => {
 For complex variant handling:
 
 ```typescript
-import { createVariant, combineStyles } from '@/lib/utils';
+import { createVariant, combineStyles } from "@/lib/utils";
 
 const variants = createVariant({
-  default: { background: 'hsl(var(--primary))' },
-  secondary: { background: 'hsl(var(--secondary))' },
-  outline: { background: 'transparent', border: '1px solid hsl(var(--border))' }
+  default: { background: "hsl(var(--primary))" },
+  secondary: { background: "hsl(var(--secondary))" },
+  outline: {
+    background: "transparent",
+    border: "1px solid hsl(var(--border))",
+  },
 });
 
 const StyledButton = styled.button<{ variant?: keyof typeof variants }>`
-  ${props => variants(props.variant || 'default')}
+  ${(props) => variants(props.variant || "default")}
 `;
 ```
 

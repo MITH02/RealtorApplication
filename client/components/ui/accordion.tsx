@@ -12,9 +12,7 @@ const StyledAccordionItem = styled(AccordionPrimitive.Item)`
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ ...props }, ref) => (
-  <StyledAccordionItem ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAccordionItem ref={ref} {...props} />);
 AccordionItem.displayName = "AccordionItem";
 
 const StyledAccordionTrigger = styled(AccordionPrimitive.Trigger)`

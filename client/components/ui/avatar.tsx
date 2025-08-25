@@ -15,9 +15,7 @@ const StyledAvatarRoot = styled(AvatarPrimitive.Root)`
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ ...props }, ref) => (
-  <StyledAvatarRoot ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAvatarRoot ref={ref} {...props} />);
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 const StyledAvatarImage = styled(AvatarPrimitive.Image)`
@@ -30,9 +28,7 @@ const StyledAvatarImage = styled(AvatarPrimitive.Image)`
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ ...props }, ref) => (
-  <StyledAvatarImage ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAvatarImage ref={ref} {...props} />);
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 const StyledAvatarFallback = styled(AvatarPrimitive.Fallback)`
@@ -51,9 +47,7 @@ const StyledAvatarFallback = styled(AvatarPrimitive.Fallback)`
 const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ ...props }, ref) => (
-  <StyledAvatarFallback ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledAvatarFallback ref={ref} {...props} />);
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
 export { Avatar, AvatarImage, AvatarFallback };

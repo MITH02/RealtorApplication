@@ -45,9 +45,7 @@ const StyledTableBody = styled.tbody`
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ ...props }, ref) => (
-  <StyledTableBody ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableBody ref={ref} {...props} />);
 TableBody.displayName = "TableBody";
 
 const StyledTableFooter = styled.tfoot`
@@ -63,9 +61,7 @@ const StyledTableFooter = styled.tfoot`
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
->(({ ...props }, ref) => (
-  <StyledTableFooter ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableFooter ref={ref} {...props} />);
 TableFooter.displayName = "TableFooter";
 
 const StyledTableRow = styled.tr`
@@ -84,9 +80,7 @@ const StyledTableRow = styled.tr`
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
->(({ ...props }, ref) => (
-  <StyledTableRow ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableRow ref={ref} {...props} />);
 TableRow.displayName = "TableRow";
 
 const StyledTableHead = styled.th`
@@ -106,9 +100,7 @@ const StyledTableHead = styled.th`
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
->(({ ...props }, ref) => (
-  <StyledTableHead ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableHead ref={ref} {...props} />);
 TableHead.displayName = "TableHead";
 
 const StyledTableCell = styled.td`
@@ -123,9 +115,7 @@ const StyledTableCell = styled.td`
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
->(({ ...props }, ref) => (
-  <StyledTableCell ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableCell ref={ref} {...props} />);
 TableCell.displayName = "TableCell";
 
 const StyledTableCaption = styled.caption`
@@ -137,9 +127,7 @@ const StyledTableCaption = styled.caption`
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>
->(({ ...props }, ref) => (
-  <StyledTableCaption ref={ref} {...props} />
-));
+>(({ ...props }, ref) => <StyledTableCaption ref={ref} {...props} />);
 TableCaption.displayName = "TableCaption";
 
 export {

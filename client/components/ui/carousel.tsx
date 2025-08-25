@@ -49,14 +49,7 @@ const Carousel = React.forwardRef<
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
 >(
   (
-    {
-      orientation = "horizontal",
-      opts,
-      setApi,
-      plugins,
-      children,
-      ...props
-    },
+    { orientation = "horizontal", opts, setApi, plugins, children, ...props },
     ref,
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
@@ -159,11 +152,15 @@ const StyledCarouselContent = styled.div<{
 }>`
   display: flex;
 
-  ${props => props.orientation === "horizontal" && `
+  ${(props) =>
+    props.orientation === "horizontal" &&
+    `
     margin-left: -1rem;
   `}
 
-  ${props => props.orientation === "vertical" && `
+  ${(props) =>
+    props.orientation === "vertical" &&
+    `
     margin-top: -1rem;
     flex-direction: column;
   `}
@@ -191,11 +188,15 @@ const StyledCarouselItem = styled.div<{
   flex-grow: 0;
   flex-basis: 100%;
 
-  ${props => props.orientation === "horizontal" && `
+  ${(props) =>
+    props.orientation === "horizontal" &&
+    `
     padding-left: 1rem;
   `}
 
-  ${props => props.orientation === "vertical" && `
+  ${(props) =>
+    props.orientation === "vertical" &&
+    `
     padding-top: 1rem;
   `}
 `;
@@ -227,25 +228,37 @@ const StyledCarouselButton = styled(Button)<{
   width: 2rem;
   border-radius: 50%;
 
-  ${props => props.orientation === "horizontal" && props.direction === "previous" && `
+  ${(props) =>
+    props.orientation === "horizontal" &&
+    props.direction === "previous" &&
+    `
     left: -3rem;
     top: 50%;
     transform: translateY(-50%);
   `}
 
-  ${props => props.orientation === "horizontal" && props.direction === "next" && `
+  ${(props) =>
+    props.orientation === "horizontal" &&
+    props.direction === "next" &&
+    `
     right: -3rem;
     top: 50%;
     transform: translateY(-50%);
   `}
 
-  ${props => props.orientation === "vertical" && props.direction === "previous" && `
+  ${(props) =>
+    props.orientation === "vertical" &&
+    props.direction === "previous" &&
+    `
     top: -3rem;
     left: 50%;
     transform: translateX(-50%) rotate(90deg);
   `}
 
-  ${props => props.orientation === "vertical" && props.direction === "next" && `
+  ${(props) =>
+    props.orientation === "vertical" &&
+    props.direction === "next" &&
+    `
     bottom: -3rem;
     left: 50%;
     transform: translateX(-50%) rotate(90deg);
@@ -273,7 +286,11 @@ const CarouselPrevious = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation = "horizontal", scrollPrev, canScrollPrev } = useCarousel();
+  const {
+    orientation = "horizontal",
+    scrollPrev,
+    canScrollPrev,
+  } = useCarousel();
 
   return (
     <StyledCarouselButton
@@ -297,7 +314,11 @@ const CarouselNext = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<typeof Button>
 >(({ variant = "outline", size = "icon", ...props }, ref) => {
-  const { orientation = "horizontal", scrollNext, canScrollNext } = useCarousel();
+  const {
+    orientation = "horizontal",
+    scrollNext,
+    canScrollNext,
+  } = useCarousel();
 
   return (
     <StyledCarouselButton
