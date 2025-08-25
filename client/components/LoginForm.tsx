@@ -447,7 +447,11 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
       } else {
         // For signup, we'll need to implement registration
         // For now, just show a message
-        alert("Registration not implemented yet. Please contact admin.");
+        toast({
+          title: "Registration Not Available",
+          description: "Registration not implemented yet. Please contact admin.",
+          variant: "destructive",
+        });
       }
     } catch (error: any) {
       console.error("Authentication error:", error);
