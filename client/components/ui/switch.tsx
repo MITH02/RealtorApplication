@@ -1,26 +1,68 @@
 import * as React from "react";
 import * as SwitchPrimitives from "@radix-ui/react-switch";
+import styled from "@emotion/styled";
 
-import { cn } from "@/lib/utils";
+const StyledSwitchRoot = styled(SwitchPrimitives.Root)`
+  display: inline-flex;
+  height: 1.5rem;
+  width: 2.75rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  transition: colors 150ms;
+  background: hsl(var(--input));
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring));
+    ring-offset-width: 2px;
+    ring-offset-color: hsl(var(--background));
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &[data-state="checked"] {
+    background: hsl(var(--primary));
+  }
+
+  &[data-state="unchecked"] {
+    background: hsl(var(--input));
+  }
+`;
+
+const StyledSwitchThumb = styled(SwitchPrimitives.Thumb)`
+  pointer-events: none;
+  display: block;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  background: hsl(var(--background));
+  box-shadow: 
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  transition: transform 150ms;
+
+  &[data-state="checked"] {
+    transform: translateX(1.25rem);
+  }
+
+  &[data-state="unchecked"] {
+    transform: translateX(0);
+  }
+`;
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => (
-  <SwitchPrimitives.Root
-    className={cn(
-      "peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
-      className,
-    )}
-    {...props}
-    ref={ref}
-  >
-    <SwitchPrimitives.Thumb
-      className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0",
-      )}
-    />
-  </SwitchPrimitives.Root>
+>(({ ...props }, ref) => (
+  <StyledSwitchRoot ref={ref} {...props}>
+    <StyledSwitchThumb />
+  </StyledSwitchRoot>
 ));
 Switch.displayName = SwitchPrimitives.Root.displayName;
 
