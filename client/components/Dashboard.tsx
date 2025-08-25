@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
+import { apiClient, Task, Building, Notification } from "@/services/api";
 
 interface DashboardProps {
   role: "builder" | "contractor" | "admin";
