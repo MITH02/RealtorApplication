@@ -53,10 +53,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 ### Styling System
 
-- **Primary**: TailwindCSS 3 utility classes
-- **Theme and design tokens**: Configure in `client/global.css` 
-- **UI components**: Pre-built library in `client/components/ui/`
-- **Utility**: `cn()` function combines `clsx` + `tailwind-merge` for conditional classes
+- **Primary**: Emotion CSS with styled components
+- **Theme and design tokens**: Configure in `client/global.css` and `client/styles/theme.ts`
+- **UI components**: Pre-built library in `client/components/ui/` using Emotion styled components
+- **Utility**: `cn()` function for simple className concatenation, `mergeStyles()` for Emotion CSS objects
 
 ```typescript
 // cn utility usage
