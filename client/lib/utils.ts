@@ -7,16 +7,30 @@ export function mergeStyles(
   return Object.assign({}, ...styles.filter(Boolean));
 }
 
-// Utility function to conditionally merge styles
-export function cn(
-  ...styles: (CSSObject | undefined | null | false)[]
-): CSSObject {
-  return mergeStyles(...styles);
-}
-
 // Helper for handling class names (for cases where we still need className)
 export function clsx(
   ...classes: (string | undefined | null | false)[]
 ): string {
   return classes.filter(Boolean).join(" ");
+}
+
+// Utility function for conditional rendering
+export function when<T>(condition: boolean, value: T): T | undefined {
+  return condition ? value : undefined;
+}
+
+// Utility function to create variant styles
+export function createVariant<T extends Record<string, CSSObject>>(
+  variants: T
+): (variant: keyof T) => CSSObject {
+  return (variant) => variants[variant] || {};
+}
+
+// Utility function to combine base styles with variant styles
+export function combineStyles(
+  base: CSSObject,
+  variant?: CSSObject,
+  override?: CSSObject
+): CSSObject {
+  return mergeStyles(base, variant, override);
 }
