@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,15 @@ const gradient = keyframes`
   }
   50% {
     background-position: 100% 50%;
+  }
+`;
+
+const shimmer = keyframes`
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
   }
 `;
 
@@ -344,11 +353,36 @@ const VideoCard = styled.div`
   }
 `;
 
-const Video = styled.video`
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+const VideoWrapper = styled.div`
+  position: relative;
   aspect-ratio: 16/18;
+  overflow: hidden;
+`;
+
+const VideoPlaceholder = styled.div<{ isVisible: boolean }>`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: ${shimmer} 2s infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  transition: opacity 0.5s ease;
+
+  .dark & {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  }
+`;
+
+const Video = styled.video<{ isLoaded: boolean }>`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: ${(props) => (props.isLoaded ? 1 : 0)};
+  transition: opacity 0.5s ease;
 `;
 
 const VideoFallback = styled.div`
@@ -359,6 +393,10 @@ const VideoFallback = styled.div`
   justify-content: center;
   background: linear-gradient(135deg, hsl(217 91% 95%), hsl(196 100% 95%));
   font-size: 4rem;
+
+  .dark & {
+    background: linear-gradient(135deg, hsl(222 84% 15%), hsl(217 91% 20%));
+  }
 `;
 
 const BottomSection = styled.div`
@@ -639,6 +677,9 @@ export default function VideoLoaderScreen({
 }: VideoLoaderScreenProps) {
   const [progress, setProgress] = useState(0);
   const [showContent, setShowContent] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     // Show content immediately
@@ -651,14 +692,23 @@ export default function VideoLoaderScreen({
           clearInterval(progressTimer);
           return 100;
         }
-        return prev + 1.5;
+        return prev + 2; // Slightly faster progress
       });
-    }, 60);
+    }, 50); // Faster updates
 
     return () => {
       clearInterval(progressTimer);
     };
   }, []);
+
+  const handleVideoLoad = () => {
+    setVideoLoaded(true);
+  };
+
+  const handleVideoError = () => {
+    setVideoError(true);
+    setVideoLoaded(false);
+  };
 
   // Generate random stars
   const stars = Array.from({ length: 12 }, (_, i) => ({
@@ -718,19 +768,33 @@ export default function VideoLoaderScreen({
           <VideoContainer>
             <VideoBackground />
             <VideoCard>
-              <div style={{ position: "relative" }}>
-                <Video autoPlay muted loop playsInline>
-                  <source
-                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
-                    type="video/mov"
-                  />
-                  <source
-                    src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
-                    type="video/mp4"
-                  />
-                  <VideoFallback>🏗️</VideoFallback>
-                </Video>
-              </div>
+              <VideoWrapper>
+                <VideoPlaceholder isVisible={!videoLoaded && !videoError}>
+                  🏗️
+                </VideoPlaceholder>
+
+                {!videoError && (
+                  <Video
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    isLoaded={videoLoaded}
+                    onLoadedData={handleVideoLoad}
+                    onError={handleVideoError}
+                    poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjcyMCIgdmlld0JveD0iMCAwIDY0MCA3MjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iNzIwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNzAgMzAwSDM3MFY0MDBIMjcwVjMwMFoiIGZpbGw9IiNEMUQ1REIiLz4KPHN2ZyB4PSIzMjAiIHk9IjM2MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjOTM5M0EzIj4KICA8cG9seWdvbiBwb2ludHM9IjMwLDIwIDMwLDYwIDYwLDQwIi8+Cjwvc3ZnPgo8L3N2Zz4="
+                  >
+                    <source
+                      src="https://cdn.builder.io/o/assets%2Fa08533bde27b41f399eb46012fabe83e%2Fe1974c25c994466b97e22c1c6d68b271?alt=media&token=57a2dd46-0eae-4d4e-afcc-2cc9fb4c7a29&apiKey=a08533bde27b41f399eb46012fabe83e"
+                      type="video/mp4"
+                    />
+                  </Video>
+                )}
+
+                {videoError && <VideoFallback>🏗️</VideoFallback>}
+              </VideoWrapper>
             </VideoCard>
           </VideoContainer>
         </VideoSection>
