@@ -174,6 +174,25 @@ export interface TaskUpdate {
   createdAt: string;
 }
 
+export interface BuildingContractor {
+  id: number;
+  building: Building;
+  contractor: User;
+  assignedBy: User;
+  isActive: boolean;
+  roleInProject?: string;
+  notes?: string;
+  assignedAt: string;
+  removedAt?: string;
+}
+
+export interface BuildingContractorAssignRequest {
+  buildingId: number;
+  contractorId: number;
+  roleInProject?: string;
+  notes?: string;
+}
+
 export interface Notification {
   id: number;
   user: User;
@@ -533,6 +552,45 @@ class ApiService {
 
   async deleteNotification(id: number): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(`/notifications/${id}`, "DELETE");
+  }
+
+  // Building-Contractor Assignment APIs
+  async assignContractorToBuilding(
+    assignmentData: BuildingContractorAssignRequest,
+  ): Promise<BuildingContractor> {
+    return this.makeRequest<BuildingContractor>(
+      "/building-contractors/assign",
+      "POST",
+      assignmentData,
+    );
+  }
+
+  async unassignContractorFromBuilding(
+    buildingId: number,
+    contractorId: number,
+  ): Promise<MessageResponse> {
+    return this.makeRequest<MessageResponse>(
+      `/building-contractors/unassign?buildingId=${buildingId}&contractorId=${contractorId}`,
+      "DELETE",
+    );
+  }
+
+  async getBuildingContractors(buildingId: number): Promise<BuildingContractor[]> {
+    return this.makeRequest<BuildingContractor[]>(
+      `/building-contractors/building/${buildingId}`,
+    );
+  }
+
+  async getContractorBuildings(contractorId: number): Promise<BuildingContractor[]> {
+    return this.makeRequest<BuildingContractor[]>(
+      `/building-contractors/contractor/${contractorId}`,
+    );
+  }
+
+  async getAllBuildingContractors(buildingId: number): Promise<BuildingContractor[]> {
+    return this.makeRequest<BuildingContractor[]>(
+      `/building-contractors/building/${buildingId}/all`,
+    );
   }
 }
 
