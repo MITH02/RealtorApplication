@@ -749,6 +749,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       setSelectedBuildingForTask(building);
       setTaskForm((prev) => ({ ...prev, buildingId: building.id }));
     }
+    clearUploadedMedia();
     setShowTaskModal(true);
   };
 
@@ -769,6 +770,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       expectedCompletionDate: "",
     });
     setEditingBuilding(null);
+    clearUploadedMedia();
   };
 
   const resetTaskForm = () => {
@@ -785,6 +787,7 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
       contractorId: 0,
     });
     setSelectedBuildingForTask(null);
+    clearUploadedMedia();
   };
 
   const stats = {
