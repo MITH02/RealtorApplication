@@ -10,7 +10,7 @@ import { ThemeProvider as EmotionThemeProvider } from "@emotion/react";
 import { GlobalStyles } from "@/styles/GlobalStyles";
 import { theme } from "@/styles/theme";
 import { useState } from "react";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import VideoLoaderScreen from "./components/VideoLoaderScreen";
 import RoleSelection from "./components/RoleSelection";
 import ContractorScreen from "./components/roles/ContractorScreen";
@@ -37,6 +37,27 @@ type AppState =
 
 const AppContent = () => {
   const [appState, setAppState] = useState<AppState>("video-loader");
+  const { isAuthenticated, user, isLoading } = useAuth();
+
+  // If user is authenticated, go directly to dashboard
+  if (isAuthenticated && user && !appState.includes("-dashboard")) {
+    setAppState(`${user.role.toLowerCase()}-dashboard` as AppState);
+  }
+
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        fontSize: '1.2rem'
+      }}>
+        Loading...
+      </div>
+    );
+  }
 
   const handleGetStarted = () => {
     setAppState("role-selection");
@@ -50,8 +71,9 @@ const AppContent = () => {
     setAppState(`${role}-login` as AppState);
   };
 
-  const handleLoginSuccess = (role: "builder" | "contractor" | "admin") => {
-    setAppState(`${role}-dashboard` as AppState);
+  const handleLoginSuccess = () => {
+    // The useAuth hook will handle the redirect automatically
+    // This is kept for backward compatibility with the component interface
   };
 
   const handleBack = () => {
@@ -119,7 +141,7 @@ const AppContent = () => {
           <LoginForm
             role="contractor"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("contractor")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -128,7 +150,7 @@ const AppContent = () => {
           <LoginForm
             role="builder"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("builder")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
@@ -137,7 +159,7 @@ const AppContent = () => {
           <LoginForm
             role="admin"
             onBack={handleBack}
-            onSuccess={() => handleLoginSuccess("admin")}
+            onSuccess={handleLoginSuccess}
           />
         );
 
