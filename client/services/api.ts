@@ -587,10 +587,7 @@ class ApiService {
   }
 
   // Media Upload APIs
-  async uploadSingleFile(
-    file: File,
-    onProgress?: (progress: number) => void,
-  ): Promise<MediaUploadResponse> {
+  async uploadSingleFile(file: File, onProgress?: (progress: number) => void): Promise<MediaUploadResponse> {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -617,11 +614,7 @@ class ApiService {
         } else {
           try {
             const errorResponse = JSON.parse(xhr.responseText);
-            reject(
-              new Error(
-                errorResponse.message || `HTTP error! status: ${xhr.status}`,
-              ),
-            );
+            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
           } catch {
             reject(new Error(`HTTP error! status: ${xhr.status}`));
           }
@@ -648,7 +641,7 @@ class ApiService {
 
   async uploadMultipleFiles(
     files: File[],
-    onProgress?: (progress: number) => void,
+    onProgress?: (progress: number) => void
   ): Promise<MediaUploadResponse[]> {
     const formData = new FormData();
     files.forEach((file) => {
@@ -678,11 +671,7 @@ class ApiService {
         } else {
           try {
             const errorResponse = JSON.parse(xhr.responseText);
-            reject(
-              new Error(
-                errorResponse.message || `HTTP error! status: ${xhr.status}`,
-              ),
-            );
+            reject(new Error(errorResponse.message || `HTTP error! status: ${xhr.status}`));
           } catch {
             reject(new Error(`HTTP error! status: ${xhr.status}`));
           }
@@ -707,15 +696,29 @@ class ApiService {
     });
   }
 
-  async deleteMediaFile(filename: string): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(
-      `/media/files/${filename}`,
-      "DELETE",
-    );
+  async deleteMediaFile(mediaId: string): Promise<MessageResponse> {
+    return this.makeRequest<MessageResponse>(`/media/${mediaId}`, "DELETE");
   }
 
-  async getMediaFileInfo(filename: string): Promise<MediaFileInfo> {
-    return this.makeRequest<MediaFileInfo>(`/media/info/${filename}`);
+  async getMediaFileInfo(mediaId: string): Promise<MediaFileInfo> {
+    return this.makeRequest<MediaFileInfo>(`/media/info/${mediaId}`);
+  }
+
+  async listMedia(page: number = 1, limit: number = 20, type?: "image" | "video"): Promise<MediaListResponse> {
+    const params = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+    });
+
+    if (type) {
+      params.append("type", type);
+    }
+
+    return this.makeRequest<MediaListResponse>(`/media/list?${params.toString()}`);
+  }
+
+  async getStorageStats(): Promise<StorageStatsResponse> {
+    return this.makeRequest<StorageStatsResponse>("/media/stats");
   }
 
   async getMediaHealth(): Promise<MediaHealthResponse> {
