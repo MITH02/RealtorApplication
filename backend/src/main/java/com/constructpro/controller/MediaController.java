@@ -163,7 +163,7 @@ public class MediaController {
             Optional<Media> mediaOpt = mediaService.getMedia(mediaId);
             
             if (mediaOpt.isEmpty()) {
-                return ResponseEntity.notFound()
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new MessageResponse("Media not found"));
             }
 

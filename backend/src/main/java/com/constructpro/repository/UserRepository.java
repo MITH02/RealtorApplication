@@ -13,7 +13,12 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     
     Optional<User> findByEmail(String email);
-    
+
+    // Username is typically the email in this system
+    default Optional<User> findByUsername(String username) {
+        return findByEmail(username);
+    }
+
     List<User> findByRole(User.Role role);
     
     List<User> findByRoleAndIsActiveTrue(User.Role role);
