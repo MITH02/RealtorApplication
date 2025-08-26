@@ -248,7 +248,7 @@ const SidebarFixed = styled.div<{
           `}
         `}
 
-  ${({ variant, collapsible, state }) =>
+  ${({ variant, collapsible, state, side }) =>
     variant === "floating" || variant === "inset"
       ? css`
           padding: 0.5rem;
