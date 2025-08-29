@@ -4,6 +4,7 @@ import com.constructpro.dto.request.LoginRequest;
 import com.constructpro.dto.request.SignupRequest;
 import com.constructpro.dto.response.JwtResponse;
 import com.constructpro.dto.response.MessageResponse;
+import com.constructpro.entity.CustomUserDetails;
 import com.constructpro.entity.User;
 import com.constructpro.repository.UserRepository;
 import com.constructpro.security.JwtUtils;
@@ -32,43 +33,45 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
-    
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-            );
-            
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtUtils.generateJwtToken(authentication);
-            
-            User userDetails = (User) authentication.getPrincipal();
-            
-            // Update last login time
-            userDetails.setLastLogin(LocalDateTime.now());
-            userRepository.save(userDetails);
-            
-            String refreshToken = jwtUtils.generateRefreshToken(userDetails.getEmail());
-            
-            return ResponseEntity.ok(new JwtResponse(
-                jwt,
-                refreshToken,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getFirstName(),
-                userDetails.getLastName(),
-                userDetails.getRole().name()
-            ));
-            
-        } catch (Exception e) {
-            log.error("Authentication failed for user: {}", loginRequest.getEmail(), e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new MessageResponse("Error: Invalid credentials"));
-        }
-    }
-    
-    @PostMapping("/register")
+
+	@PostMapping("/login")
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+			);
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			String jwt = jwtUtils.generateJwtToken(authentication);
+
+			CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+			User user = userDetails.getUser();
+
+			// Update last login time properly
+			user.setLastLogin(LocalDateTime.now());
+			userRepository.save(user);
+
+			String refreshToken = jwtUtils.generateRefreshToken(user.getEmail());
+
+			return ResponseEntity.ok(new JwtResponse(
+					jwt,
+					refreshToken,
+					user.getId(),
+					user.getEmail(),
+					user.getFirstName(),
+					user.getLastName(),
+					user.getRole().name()
+			));
+
+		} catch (Exception e) {
+			log.error("Authentication failed for user: {}", loginRequest.getEmail(), e);
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+								 .body(new MessageResponse("Error: Invalid credentials"));
+		}
+	}
+
+
+	@PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
             if (userRepository.existsByEmail(signUpRequest.getEmail())) {

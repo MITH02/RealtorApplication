@@ -102,9 +102,8 @@ public class BuildingController {
             return ResponseEntity.ok(building);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
-        } catch (Exception e) {
+        }
+		catch (Exception e) {
             log.error("Error updating building", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new MessageResponse("Error: Failed to update building"));
@@ -148,9 +147,8 @@ public class BuildingController {
             return ResponseEntity.ok(new MessageResponse("Building deleted successfully"));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
-        } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
-        } catch (Exception e) {
+        }
+		catch (Exception e) {
             log.error("Error deleting building", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new MessageResponse("Error: Failed to delete building"));

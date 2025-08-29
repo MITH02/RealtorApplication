@@ -1,8 +1,7 @@
 package com.constructpro.config;
 
-import com.constructpro.security.AuthEntryPointJwt;
-import com.constructpro.security.AuthTokenFilter;
-import com.constructpro.security.UserDetailsServiceImpl;
+import com.constructpro.security.*;
+import com.constructpro.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,12 +31,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     
-    private final UserDetailsServiceImpl userDetailsService;
-    private final AuthEntryPointJwt unauthorizedHandler;
+	private final CustomUserDetailsService userDetailsService;
+	private final JwtAuthFilter jwtAuthFilter;
+	private final AuthEntryPointJwt unauthorizedHandler;
     
     @Value("${app.cors.allowed-origins}")
     private String allowedOrigins;
-    
+
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -60,46 +60,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(AbstractHttpConfigurer::disable)
-            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/public/**").permitAll()
-                    .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                    .requestMatchers("/actuator/health").permitAll()
-                    
-                    // Admin endpoints
-                    .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/api/buildings/**").hasAnyRole("ADMIN", "BUILDER")
-                    .requestMatchers("/api/tasks/approve/**").hasAnyRole("ADMIN", "BUILDER")
-                    .requestMatchers("/api/tasks/assign/**").hasAnyRole("ADMIN", "BUILDER")
-                    .requestMatchers("/api/contractors/assign/**").hasAnyRole("ADMIN", "BUILDER")
-                    
-                    // Contractor endpoints
-                    .requestMatchers("/api/contractor/**").hasRole("CONTRACTOR")
-                    .requestMatchers("/api/tasks/my-tasks").hasRole("CONTRACTOR")
-                    .requestMatchers("/api/tasks/update/**").hasRole("CONTRACTOR")
-                    .requestMatchers("/api/tasks/complete/**").hasRole("CONTRACTOR")
-                    
-                    // Common authenticated endpoints
-                    .requestMatchers("/api/tasks/view/**").authenticated()
-                    .requestMatchers("/api/notifications/**").authenticated()
-                    .requestMatchers("/api/profile/**").authenticated()
-                    
-                    .anyRequest().authenticated()
-            );
-        
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        
-        return http.build();
-    }
-    
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -118,4 +79,17 @@ public class SecurityConfig {
         
         return source;
     }
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+			.authorizeHttpRequests(auth -> auth
+												   .requestMatchers("/api/auth/**").permitAll() // login, signup open
+												   .anyRequest().authenticated()
+			)
+			.authenticationProvider(authenticationProvider())
+			.addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+
+		return http.build();
+	}
 }

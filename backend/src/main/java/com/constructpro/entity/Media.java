@@ -31,10 +31,10 @@ public class Media {
     
     @Column(name = "file_size", nullable = false)
     private Long fileSize;
-    
-    @Lob
-    @Column(name = "file_data", nullable = false, columnDefinition = "LONGTEXT")
-    private String fileData; // Base64 encoded file data
+
+	@Lob
+	@Column(name = "file_data", nullable = false)
+	private String fileData;
     
     @Column(name = "uploaded_at", nullable = false)
     private LocalDateTime uploadedAt;

@@ -37,7 +37,8 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    
+
+
     @GetMapping("/builders/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getBuilderById(@PathVariable Long id) {
@@ -54,8 +55,44 @@ public class AdminController {
                 .body(new MessageResponse("Error: Failed to fetch builder"));
         }
     }
-    
-    @PostMapping("/builders")
+
+
+	@PostMapping("/admins")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> createAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
+		try {
+			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+				return ResponseEntity.badRequest()
+									 .body(new MessageResponse("Error: Email is already in use!"));
+			}
+
+			// Force role to ADMIN
+			User admin = new User(
+					signUpRequest.getEmail(),
+					encoder.encode(signUpRequest.getPassword()),
+					signUpRequest.getFirstName(),
+					signUpRequest.getLastName(),
+					User.Role.ADMIN
+			);
+
+			if (signUpRequest.getPhoneNumber() != null) {
+				admin.setPhoneNumber(signUpRequest.getPhoneNumber());
+			}
+
+			userRepository.save(admin);
+
+			return ResponseEntity.status(HttpStatus.CREATED)
+								 .body(new MessageResponse("Admin account created successfully!"));
+
+		} catch (Exception e) {
+			log.error("Error creating admin account", e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+								 .body(new MessageResponse("Error: Failed to create admin account"));
+		}
+	}
+
+
+	@PostMapping("/builders")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> createBuilder(@Valid @RequestBody SignupRequest signUpRequest) {
         try {
