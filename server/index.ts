@@ -23,10 +23,11 @@ export function createServer() {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
     exposedHeaders: ["Content-Length"],
+    optionsSuccessStatus: 204,
   };
 
-  app.use(cors(corsOptions));
-  app.options("*", cors(corsOptions));
+  app.use("/api", cors(corsOptions));
+  // Preflight handled by cors middleware; no explicit app.options route (Express 5 path-to-regexp v6)
   app.use(express.json({ limit: "60mb" })); // Increased for base64 encoded files
   app.use(express.urlencoded({ extended: true, limit: "60mb" }));
 
