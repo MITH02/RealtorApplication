@@ -26,7 +26,7 @@ export function createServer() {
   };
 
   app.use(cors(corsOptions));
-  app.options("*", cors(corsOptions));
+  app.options("/api/*", cors(corsOptions));
   app.use(express.json({ limit: "60mb" })); // Increased for base64 encoded files
   app.use(express.urlencoded({ extended: true, limit: "60mb" }));
 
