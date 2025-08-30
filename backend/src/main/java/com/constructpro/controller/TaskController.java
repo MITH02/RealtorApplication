@@ -24,7 +24,6 @@ import java.util.Map;
 @RequestMapping("/api/tasks")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class TaskController {
     
     private final TaskService taskService;

@@ -38,6 +38,14 @@ public class SecurityConfig {
 	@Value("${app.cors.allowed-origins}")
 	private String allowedOrigins;
 
+	@Value("${app.cors.allowed-methods}")
+	private String allowedMethods;
+
+	@Value("${app.cors.allowed-headers}")
+	private String allowedHeaders;
+
+	@Value("${app.cors.allow-credentials}")
+	private boolean allowCredentials;
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -60,14 +68,26 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-
+		
 		// Parse allowed origins from application properties
 		List<String> origins = Arrays.asList(allowedOrigins.split(","));
 		configuration.setAllowedOrigins(origins);
-
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-		configuration.setAllowedHeaders(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
+		
+		// Parse allowed methods
+		List<String> methods = Arrays.asList(allowedMethods.split(","));
+		configuration.setAllowedMethods(methods);
+		
+		// Set allowed headers - handle wildcard properly
+		if ("*".equals(allowedHeaders)) {
+			configuration.setAllowedHeaders(Arrays.asList("*"));
+		} else {
+			configuration.setAllowedHeaders(Arrays.asList(allowedHeaders.split(",")));
+		}
+		
+		// Set exposed headers for frontend access
+		configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Length", "Content-Type"));
+		
+		configuration.setAllowCredentials(allowCredentials);
 		configuration.setMaxAge(3600L);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -78,14 +98,23 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.cors(cors -> {})
+		http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 			.csrf(csrf -> csrf.disable())
+			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 			.authorizeHttpRequests(auth -> auth
-												   .requestMatchers("/api/auth/**").permitAll() // login, signup open
-												   .anyRequest().authenticated()
+				.requestMatchers("/api/auth/**").permitAll()
+				.requestMatchers("/api/ping").permitAll()
+				.requestMatchers("/api/demo").permitAll()
+				.requestMatchers("/api/test/**").permitAll()
+				.requestMatchers("/api-docs/**").permitAll()
+				.requestMatchers("/swagger-ui/**").permitAll()
+				.requestMatchers("/swagger-ui.html").permitAll()
+				.requestMatchers("/actuator/health").permitAll()
+				.anyRequest().authenticated()
 			)
 			.authenticationProvider(authenticationProvider())
-			.addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}

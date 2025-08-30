@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class NotificationController {
     
     private final NotificationService notificationService;

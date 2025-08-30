@@ -2,6 +2,7 @@ import { DemoResponse } from "@shared/api";
 import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
+import ConnectionTest from "../components/ConnectionTest";
 
 // Define keyframes for animations
 const float = keyframes`
@@ -333,6 +334,9 @@ export default function Index() {
           </NotificationText>
         </NotificationCard>
         <HiddenText>{exampleFromServer}</HiddenText>
+        
+        {/* Connection Test Component */}
+        <ConnectionTest />
       </ContentContainer>
     </Container>
   );

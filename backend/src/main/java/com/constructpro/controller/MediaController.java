@@ -28,7 +28,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/media")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class MediaController {
 
     @Autowired

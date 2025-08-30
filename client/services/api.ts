@@ -291,12 +291,8 @@ class ApiService {
   private token: string | null = null;
 
   constructor() {
-    this.coreApiBase =
-      import.meta.env.VITE_CORE_API_URL ||
-      import.meta.env.VITE_API_URL ||
-      "/api";
-    this.mediaApiBase =
-      import.meta.env.VITE_MEDIA_API_URL || "/api";
+    this.coreApiBase = "http://localhost:8082/api";
+    this.mediaApiBase = "http://localhost:8082/api";
     this.token = localStorage.getItem("accessToken");
   }
 
@@ -317,11 +313,19 @@ class ApiService {
     method: string = "GET",
     body?: any,
   ): Promise<T> {
-    const response = await fetch(`${this.coreApiBase}${endpoint}`, {
+    const url = `${this.coreApiBase}${endpoint}`;
+    const options: RequestInit = {
       method,
       headers: this.getHeaders(),
+      credentials: 'include', // Include credentials for CORS
       body: body ? JSON.stringify(body) : undefined,
-    });
+    };
+
+    console.log(`Making ${method} request to: ${url}`);
+    
+    const response = await fetch(url, options);
+
+    console.log(`Response status: ${response.status} for ${url}`);
 
     if (!response.ok) {
       const errorData = await response
@@ -340,11 +344,19 @@ class ApiService {
     method: string = "GET",
     body?: any,
   ): Promise<T> {
-    const response = await fetch(`${this.mediaApiBase}${endpoint}`, {
+    const url = `${this.mediaApiBase}${endpoint}`;
+    const options: RequestInit = {
       method,
       headers: this.getHeaders(),
+      credentials: 'include', // Include credentials for CORS
       body: body ? JSON.stringify(body) : undefined,
-    });
+    };
+
+    console.log(`Making media ${method} request to: ${url}`);
+    
+    const response = await fetch(url, options);
+
+    console.log(`Media response status: ${response.status} for ${url}`);
 
     if (!response.ok) {
       const errorData = await response
@@ -646,6 +658,19 @@ class ApiService {
 
   async deleteNotification(id: number): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(`/notifications/${id}`, "DELETE");
+  }
+
+  // Test APIs
+  async testPing(): Promise<any> {
+    return this.makeRequest<any>("/test/ping");
+  }
+
+  async testHealth(): Promise<any> {
+    return this.makeRequest<any>("/test/health");
+  }
+
+  async testCors(): Promise<any> {
+    return this.makeRequest<any>("/test/cors-test");
   }
 
   // Media Upload APIs

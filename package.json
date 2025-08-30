@@ -2,20 +2,10 @@
   "name": "fusion-starter",
   "private": true,
   "type": "module",
-  "pkg": {
-    "assets": [
-      "dist/spa/*"
-    ],
-    "scripts": [
-      "dist/server/**/*.js"
-    ]
-  },
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build",
-    "build:server": "vite build --config vite.config.server.ts",
-    "start": "node dist/server/node-build.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "typecheck": "tsc"
@@ -25,8 +15,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "multer": "^2.0.2",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -63,9 +51,6 @@
     "@react-three/fiber": "^8.18.0",
     "@swc/core": "^1.13.3",
     "@tanstack/react-query": "^5.84.2",
-    "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
@@ -73,7 +58,6 @@
     "@vitejs/plugin-react": "^5.0.1",
     "@vitejs/plugin-react-swc": "^4.0.0",
     "cmdk": "^1.1.1",
-    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
@@ -89,7 +73,6 @@
     "react-resizable-panels": "^3.0.4",
     "react-router-dom": "^6.30.1",
     "recharts": "^2.12.7",
-    "serverless-http": "^3.2.0",
     "sonner": "^1.7.4",
     "three": "^0.176.0",
     "tsx": "^4.20.3",
