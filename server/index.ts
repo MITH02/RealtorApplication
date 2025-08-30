@@ -8,7 +8,10 @@ export function createServer() {
   const app = express();
 
   // Middleware
-  const allowedOrigins = (process.env.CORS_ALLOWED_ORIGINS ?? "http://localhost:3000,http://localhost:5173,http://localhost:8080,http://localhost:8081").split(",");
+  const allowedOrigins = (
+    process.env.CORS_ALLOWED_ORIGINS ??
+    "http://localhost:3000,http://localhost:5173,http://localhost:8080,http://localhost:8081"
+  ).split(",");
 
   const corsOptions: cors.CorsOptions = {
     origin: (origin, callback) => {
