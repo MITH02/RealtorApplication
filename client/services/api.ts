@@ -291,8 +291,8 @@ class ApiService {
   private token: string | null = null;
 
   constructor() {
-    this.coreApiBase = "http://localhost:8082/api";
-    this.mediaApiBase = "http://localhost:8082/api";
+    this.coreApiBase = "http://localhost:8082";
+    this.mediaApiBase = "http://localhost:8082";
     this.token = localStorage.getItem("accessToken");
   }
 
@@ -383,7 +383,7 @@ class ApiService {
   // Authentication APIs
   async login(credentials: LoginRequest): Promise<JwtResponse> {
     const response = await this.makeRequest<JwtResponse>(
-      "/auth/login",
+      "/api/auth/login",
       "POST",
       credentials,
     );
@@ -393,7 +393,7 @@ class ApiService {
 
   async register(userData: SignupRequest): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      "/auth/register",
+      "/api/auth/register",
       "POST",
       userData,
     );
@@ -401,7 +401,7 @@ class ApiService {
 
   async refreshToken(refreshToken: string): Promise<JwtResponse> {
     const response = await this.makeRequest<JwtResponse>(
-      "/auth/refresh-token",
+      "/api/auth/refresh-token",
       "POST",
       refreshToken,
     );
@@ -411,7 +411,7 @@ class ApiService {
 
   async logout(): Promise<MessageResponse> {
     const response = await this.makeRequest<MessageResponse>(
-      "/auth/logout",
+      "/api/auth/logout",
       "POST",
     );
     this.clearToken();
@@ -419,21 +419,21 @@ class ApiService {
   }
 
   async getCurrentUser(): Promise<JwtResponse> {
-    return this.makeRequest<JwtResponse>("/auth/me");
+    return this.makeRequest<JwtResponse>("/api/auth/me");
   }
 
   // Admin APIs
   async getAllBuilders(): Promise<User[]> {
-    return this.makeRequest<User[]>("/admin/builders");
+    return this.makeRequest<User[]>("/api/admin/builders");
   }
 
   async getBuilderById(id: number): Promise<User> {
-    return this.makeRequest<User>(`/admin/builders/${id}`);
+    return this.makeRequest<User>(`/api/admin/builders/${id}`);
   }
 
   async createBuilder(builderData: SignupRequest): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      "/admin/builders",
+      "/api/admin/builders",
       "POST",
       builderData,
     );
@@ -444,7 +444,7 @@ class ApiService {
     builderData: SignupRequest,
   ): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      `/admin/builders/${id}`,
+      `/api/admin/builders/${id}`,
       "PUT",
       builderData,
     );
@@ -455,17 +455,17 @@ class ApiService {
     active: boolean,
   ): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      `/admin/builders/${id}/status?active=${active}`,
+      `/api/admin/builders/${id}/status?active=${active}`,
       "PATCH",
     );
   }
 
   async deleteBuilder(id: number): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(`/admin/builders/${id}`, "DELETE");
+    return this.makeRequest<MessageResponse>(`/api/admin/builders/${id}`, "DELETE");
   }
 
   async getAllContractors(): Promise<User[]> {
-    return this.makeRequest<User[]>("/admin/contractors");
+    return this.makeRequest<User[]>("/api/admin/contractors");
   }
 
   async getUserCounts(): Promise<{
@@ -477,95 +477,95 @@ class ApiService {
       builders: number;
       contractors: number;
       admins: number;
-    }>("/admin/stats/user-counts");
+    }>("/api/admin/stats/user-counts");
   }
 
   // Building APIs
   async createBuilding(buildingData: BuildingCreateRequest): Promise<Building> {
-    return this.makeRequest<Building>("/buildings", "POST", buildingData);
+    return this.makeRequest<Building>("/api/buildings", "POST", buildingData);
   }
 
   async getAllBuildings(): Promise<Building[]> {
-    return this.makeRequest<Building[]>("/buildings");
+    return this.makeRequest<Building[]>("/api/buildings");
   }
 
   async getBuildingById(id: number): Promise<Building> {
-    return this.makeRequest<Building>(`/buildings/${id}`);
+    return this.makeRequest<Building>(`/api/buildings/${id}`);
   }
 
   async updateBuilding(
     id: number,
     buildingData: BuildingCreateRequest,
   ): Promise<Building> {
-    return this.makeRequest<Building>(`/buildings/${id}`, "PUT", buildingData);
+    return this.makeRequest<Building>(`/api/buildings/${id}`, "PUT", buildingData);
   }
 
   async updateBuildingStatus(id: number, status: string): Promise<Building> {
     return this.makeRequest<Building>(
-      `/buildings/${id}/status?status=${status}`,
+      `/api/buildings/${id}/status?status=${status}`,
       "PATCH",
     );
   }
 
   async deleteBuilding(id: number): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(`/buildings/${id}`, "DELETE");
+    return this.makeRequest<MessageResponse>(`/api/buildings/${id}`, "DELETE");
   }
 
   async getMyBuildings(): Promise<Building[]> {
-    return this.makeRequest<Building[]>("/buildings/my-buildings");
+    return this.makeRequest<Building[]>("/api/buildings/my-buildings");
   }
 
   async getOverdueBuildings(): Promise<Building[]> {
-    return this.makeRequest<Building[]>("/buildings/overdue");
+    return this.makeRequest<Building[]>("/api/buildings/overdue");
   }
 
   async getActiveBuildings(): Promise<Building[]> {
-    return this.makeRequest<Building[]>("/buildings/active");
+    return this.makeRequest<Building[]>("/api/buildings/active");
   }
 
   async searchBuildings(query: string): Promise<Building[]> {
     return this.makeRequest<Building[]>(
-      `/buildings/search?q=${encodeURIComponent(query)}`,
+      `/api/buildings/search?q=${encodeURIComponent(query)}`,
     );
   }
 
   async getBuildingCountByStatus(status: string): Promise<number> {
     return this.makeRequest<number>(
-      `/buildings/stats/count-by-status?status=${status}`,
+      `/api/buildings/stats/count-by-status?status=${status}`,
     );
   }
 
   // Task APIs
   async createTask(taskData: TaskCreateRequest): Promise<Task> {
-    return this.makeRequest<Task>("/tasks", "POST", taskData);
+    return this.makeRequest<Task>("/api/tasks", "POST", taskData);
   }
 
   async getTaskById(id: number): Promise<Task> {
-    return this.makeRequest<Task>(`/tasks/${id}`);
+    return this.makeRequest<Task>(`/api/tasks/${id}`);
   }
 
   async getMyTasks(): Promise<Task[]> {
-    return this.makeRequest<Task[]>("/tasks/my-tasks");
+    return this.makeRequest<Task[]>("/api/tasks/my-tasks");
   }
 
   async getMyActiveTasks(): Promise<Task[]> {
-    return this.makeRequest<Task[]>("/tasks/my-tasks/active");
+    return this.makeRequest<Task[]>("/api/tasks/my-tasks/active");
   }
 
   async getTasksByBuilding(buildingId: number): Promise<Task[]> {
-    return this.makeRequest<Task[]>(`/tasks/building/${buildingId}`);
+    return this.makeRequest<Task[]>(`/api/tasks/building/${buildingId}`);
   }
 
   async getBuilderTasks(): Promise<Task[]> {
-    return this.makeRequest<Task[]>("/tasks/builder/all");
+    return this.makeRequest<Task[]>("/api/tasks/builder/all");
   }
 
   async getTasksPendingApproval(): Promise<Task[]> {
-    return this.makeRequest<Task[]>("/tasks/pending-approval");
+    return this.makeRequest<Task[]>("/api/tasks/pending-approval");
   }
 
   async getOverdueTasks(): Promise<Task[]> {
-    return this.makeRequest<Task[]>("/tasks/overdue");
+    return this.makeRequest<Task[]>("/api/tasks/overdue");
   }
 
   async updateTaskProgress(
@@ -573,7 +573,7 @@ class ApiService {
     progress: number,
     notes?: string,
   ): Promise<Task> {
-    return this.makeRequest<Task>(`/tasks/${id}/progress`, "PATCH", {
+    return this.makeRequest<Task>(`/api/tasks/${id}/progress`, "PATCH", {
       progress,
       notes,
     });
@@ -583,24 +583,24 @@ class ApiService {
     id: number,
     completionNotes?: string,
   ): Promise<Task> {
-    return this.makeRequest<Task>(`/tasks/${id}/complete`, "PATCH", {
+    return this.makeRequest<Task>(`/api/tasks/${id}/complete`, "PATCH", {
       completionNotes,
     });
   }
 
   async approveTask(id: number): Promise<Task> {
-    return this.makeRequest<Task>(`/tasks/${id}/approve`, "PATCH");
+    return this.makeRequest<Task>(`/api/tasks/${id}/approve`, "PATCH");
   }
 
   async rejectTask(id: number, rejectionReason: string): Promise<Task> {
-    return this.makeRequest<Task>(`/tasks/${id}/reject`, "PATCH", {
+    return this.makeRequest<Task>(`/api/tasks/${id}/reject`, "PATCH", {
       rejectionReason,
     });
   }
 
   async updateTaskStatus(id: number, status: string): Promise<Task> {
     return this.makeRequest<Task>(
-      `/tasks/${id}/status?status=${status}`,
+      `/api/tasks/${id}/status?status=${status}`,
       "PATCH",
     );
   }
@@ -611,7 +611,7 @@ class ApiService {
     updateType: string,
     imageUrls?: string[],
   ): Promise<TaskUpdate> {
-    return this.makeRequest<TaskUpdate>(`/tasks/${id}/updates`, "POST", {
+    return this.makeRequest<TaskUpdate>(`/api/tasks/${id}/updates`, "POST", {
       message,
       updateType,
       imageUrls,
@@ -619,62 +619,62 @@ class ApiService {
   }
 
   async getTaskUpdates(id: number): Promise<TaskUpdate[]> {
-    return this.makeRequest<TaskUpdate[]>(`/tasks/${id}/updates`);
+    return this.makeRequest<TaskUpdate[]>(`/api/tasks/${id}/updates`);
   }
 
   async deleteTask(id: number): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(`/tasks/${id}`, "DELETE");
+    return this.makeRequest<MessageResponse>(`/api/tasks/${id}`, "DELETE");
   }
 
   async getTaskCountByStatus(status: string): Promise<number> {
     return this.makeRequest<number>(
-      `/tasks/stats/count-by-status?status=${status}`,
+      `/api/tasks/stats/count-by-status?status=${status}`,
     );
   }
 
   // Notification APIs
   async getUserNotifications(): Promise<Notification[]> {
-    return this.makeRequest<Notification[]>("/notifications");
+    return this.makeRequest<Notification[]>("/api/notifications");
   }
 
   async getUnreadNotifications(): Promise<Notification[]> {
-    return this.makeRequest<Notification[]>("/notifications/unread");
+    return this.makeRequest<Notification[]>("/api/notifications/unread");
   }
 
   async getUnreadNotificationCount(): Promise<number> {
-    return this.makeRequest<number>("/notifications/unread/count");
+    return this.makeRequest<number>("/api/notifications/unread/count");
   }
 
   async markNotificationAsRead(id: number): Promise<Notification> {
-    return this.makeRequest<Notification>(`/notifications/${id}/read`, "PATCH");
+    return this.makeRequest<Notification>(`/api/notifications/${id}/read`, "PATCH");
   }
 
   async markAllNotificationsAsRead(): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      "/notifications/mark-all-read",
+      "/api/notifications/mark-all-read",
       "PATCH",
     );
   }
 
   async deleteNotification(id: number): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(`/notifications/${id}`, "DELETE");
+    return this.makeRequest<MessageResponse>(`/api/notifications/${id}`, "DELETE");
   }
 
   // Test APIs
   async testPing(): Promise<any> {
-    return this.makeRequest<any>("/test/ping");
+    return this.makeRequest<any>("/api/test/ping");
   }
 
   async testHealth(): Promise<any> {
-    return this.makeRequest<any>("/test/health");
+    return this.makeRequest<any>("/api/test/health");
   }
 
   async testCors(): Promise<any> {
-    return this.makeRequest<any>("/test/cors-test");
+    return this.makeRequest<any>("/api/test/cors-test");
   }
 
   async testAuth(): Promise<any> {
-    return this.makeRequest<any>("/test/auth-test");
+    return this.makeRequest<any>("/api/test/auth-test");
   }
 
   // Media Upload APIs
@@ -727,7 +727,7 @@ class ApiService {
         reject(new Error("Upload timeout"));
       });
 
-      xhr.open("POST", `${this.mediaApiBase}/media/upload`);
+      xhr.open("POST", `${this.mediaApiBase}/api/media/upload`);
       if (this.token) {
         xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
       }
@@ -788,7 +788,7 @@ class ApiService {
         reject(new Error("Upload timeout"));
       });
 
-      xhr.open("POST", `${this.mediaApiBase}/media/upload-multiple`);
+      xhr.open("POST", `${this.mediaApiBase}/api/media/upload-multiple`);
       if (this.token) {
         xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
       }
@@ -800,13 +800,13 @@ class ApiService {
 
   async deleteMediaFile(mediaId: string): Promise<MessageResponse> {
     return this.makeMediaRequest<MessageResponse>(
-      `/media/${mediaId}`,
+      `/api/media/${mediaId}`,
       "DELETE",
     );
   }
 
   async getMediaFileInfo(mediaId: string): Promise<MediaFileInfo> {
-    return this.makeMediaRequest<MediaFileInfo>(`/media/info/${mediaId}`);
+    return this.makeMediaRequest<MediaFileInfo>(`/api/media/info/${mediaId}`);
   }
 
   async listMedia(
@@ -824,16 +824,16 @@ class ApiService {
     }
 
     return this.makeMediaRequest<MediaListResponse>(
-      `/media/list?${params.toString()}`,
+      `/api/media/list?${params.toString()}`,
     );
   }
 
   async getStorageStats(): Promise<StorageStatsResponse> {
-    return this.makeMediaRequest<StorageStatsResponse>("/media/stats");
+    return this.makeMediaRequest<StorageStatsResponse>("/api/media/stats");
   }
 
   async getMediaHealth(): Promise<MediaHealthResponse> {
-    return this.makeMediaRequest<MediaHealthResponse>("/media/health");
+    return this.makeMediaRequest<MediaHealthResponse>("/api/media/health");
   }
 
   // Building-Contractor Assignment APIs
