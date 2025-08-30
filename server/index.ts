@@ -26,7 +26,7 @@ export function createServer() {
   };
 
   app.use(cors(corsOptions));
-  app.options("/api/*", cors(corsOptions));
+  // Preflight handled by cors middleware; no explicit app.options route (Express 5 path-to-regexp v6)
   app.use(express.json({ limit: "60mb" })); // Increased for base64 encoded files
   app.use(express.urlencoded({ extended: true, limit: "60mb" }));
 
