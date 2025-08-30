@@ -1,6 +1,6 @@
 package com.constructpro.controller;
 
-import com.constructpro.dto.MessageResponse;
+import com.constructpro.dto.response.MessageResponse;
 import com.constructpro.entity.BuildingContractor;
 import com.constructpro.entity.User;
 import com.constructpro.service.BuildingContractorService;

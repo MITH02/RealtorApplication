@@ -8,7 +8,7 @@ import com.constructpro.service.MediaService;
 import com.constructpro.dto.MediaUploadResponse;
 import com.constructpro.dto.MediaListResponse;
 import com.constructpro.dto.StorageStatsResponse;
-import com.constructpro.dto.MessageResponse;
+import com.constructpro.dto.response.MessageResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
