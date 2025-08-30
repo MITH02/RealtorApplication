@@ -286,11 +286,17 @@ export interface StorageStatsResponse {
 }
 
 class ApiService {
-  private baseURL: string;
+  private coreApiBase: string;
+  private mediaApiBase: string;
   private token: string | null = null;
 
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+    this.coreApiBase =
+      import.meta.env.VITE_CORE_API_URL ||
+      import.meta.env.VITE_API_URL ||
+      "/api";
+    this.mediaApiBase =
+      import.meta.env.VITE_MEDIA_API_URL || "/api";
     this.token = localStorage.getItem("accessToken");
   }
 
@@ -311,7 +317,30 @@ class ApiService {
     method: string = "GET",
     body?: any,
   ): Promise<T> {
-    const response = await fetch(`${this.baseURL}${endpoint}`, {
+    const response = await fetch(`${this.coreApiBase}${endpoint}`, {
+      method,
+      headers: this.getHeaders(),
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    if (!response.ok) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: "Network error" }));
+      throw new Error(
+        errorData.message || `HTTP error! status: ${response.status}`,
+      );
+    }
+
+    return response.json();
+  }
+
+  private async makeMediaRequest<T>(
+    endpoint: string,
+    method: string = "GET",
+    body?: any,
+  ): Promise<T> {
+    const response = await fetch(`${this.mediaApiBase}${endpoint}`, {
       method,
       headers: this.getHeaders(),
       body: body ? JSON.stringify(body) : undefined,
@@ -669,7 +698,7 @@ class ApiService {
         reject(new Error("Upload timeout"));
       });
 
-      xhr.open("POST", `${this.baseURL}/media/upload`);
+      xhr.open("POST", `${this.mediaApiBase}/media/upload`);
       if (this.token) {
         xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
       }
@@ -730,7 +759,7 @@ class ApiService {
         reject(new Error("Upload timeout"));
       });
 
-      xhr.open("POST", `${this.baseURL}/media/upload-multiple`);
+      xhr.open("POST", `${this.mediaApiBase}/media/upload-multiple`);
       if (this.token) {
         xhr.setRequestHeader("Authorization", `Bearer ${this.token}`);
       }
@@ -741,11 +770,14 @@ class ApiService {
   }
 
   async deleteMediaFile(mediaId: string): Promise<MessageResponse> {
-    return this.makeRequest<MessageResponse>(`/media/${mediaId}`, "DELETE");
+    return this.makeMediaRequest<MessageResponse>(
+      `/media/${mediaId}`,
+      "DELETE",
+    );
   }
 
   async getMediaFileInfo(mediaId: string): Promise<MediaFileInfo> {
-    return this.makeRequest<MediaFileInfo>(`/media/info/${mediaId}`);
+    return this.makeMediaRequest<MediaFileInfo>(`/media/info/${mediaId}`);
   }
 
   async listMedia(
@@ -762,17 +794,17 @@ class ApiService {
       params.append("type", type);
     }
 
-    return this.makeRequest<MediaListResponse>(
+    return this.makeMediaRequest<MediaListResponse>(
       `/media/list?${params.toString()}`,
     );
   }
 
   async getStorageStats(): Promise<StorageStatsResponse> {
-    return this.makeRequest<StorageStatsResponse>("/media/stats");
+    return this.makeMediaRequest<StorageStatsResponse>("/media/stats");
   }
 
   async getMediaHealth(): Promise<MediaHealthResponse> {
-    return this.makeRequest<MediaHealthResponse>("/media/health");
+    return this.makeMediaRequest<MediaHealthResponse>("/media/health");
   }
 
   // Building-Contractor Assignment APIs
