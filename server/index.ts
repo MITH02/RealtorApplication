@@ -8,7 +8,22 @@ export function createServer() {
   const app = express();
 
   // Middleware
-  app.use(cors());
+  const allowedOrigins = (process.env.CORS_ALLOWED_ORIGINS ?? "http://localhost:3000,http://localhost:5173,http://localhost:8080,http://localhost:8081").split(",");
+
+  const corsOptions: cors.CorsOptions = {
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow non-browser or same-origin requests
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+    exposedHeaders: ["Content-Length"],
+  };
+
+  app.use(cors(corsOptions));
+  app.options("*", cors(corsOptions));
   app.use(express.json({ limit: "60mb" })); // Increased for base64 encoded files
   app.use(express.urlencoded({ extended: true, limit: "60mb" }));
 
