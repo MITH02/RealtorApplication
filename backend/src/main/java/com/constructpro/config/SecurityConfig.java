@@ -1,7 +1,7 @@
 package com.constructpro.config;
 
 import com.constructpro.security.*;
-import com.constructpro.service.CustomUserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     
-	private final CustomUserDetailsService userDetailsService;
+	private final UserDetailsService userDetailsService;
 	private final JwtAuthFilter jwtAuthFilter;
 	private final AuthEntryPointJwt unauthorizedHandler;
     
