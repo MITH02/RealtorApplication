@@ -20,7 +20,10 @@ public class ConstructProApplication {
 	CommandLineRunner createAdmin(UserRepository userRepository, PasswordEncoder encoder) {
 		return args -> {
 			String email = "admin@example.com";
+			System.out.println("Checking if admin user exists: " + email);
+			
 			if (!userRepository.existsByEmail(email)) {
+				System.out.println("Admin user not found, creating...");
 				User admin = new User(
 						email,
 						encoder.encode("Admin@123"), // temporary password
@@ -31,6 +34,8 @@ public class ConstructProApplication {
 				admin.setIsActive(true);
 				userRepository.save(admin);
 				System.out.println("Admin user created with email: " + email + " and password: Admin@123");
+			} else {
+				System.out.println("Admin user already exists: " + email);
 			}
 		};
 	}

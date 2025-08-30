@@ -673,6 +673,10 @@ class ApiService {
     return this.makeRequest<any>("/test/cors-test");
   }
 
+  async testAuth(): Promise<any> {
+    return this.makeRequest<any>("/test/auth-test");
+  }
+
   // Media Upload APIs
   async uploadSingleFile(
     file: File,

@@ -35,6 +35,15 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		try {
+			log.info("Login attempt for user: {}", loginRequest.getEmail());
+			
+			// Check if user exists first
+			if (!userRepository.existsByEmail(loginRequest.getEmail())) {
+				log.warn("Login failed: User not found with email: {}", loginRequest.getEmail());
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+								 .body(new MessageResponse("Error: Invalid credentials"));
+			}
+			
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
 			);
@@ -49,6 +58,8 @@ public class AuthController {
 			userRepository.save(user);
 
 			String refreshToken = jwtUtils.generateRefreshToken(user.getEmail());
+
+			log.info("Login successful for user: {}", loginRequest.getEmail());
 
 			return ResponseEntity.ok(new JwtResponse(
 					jwt,

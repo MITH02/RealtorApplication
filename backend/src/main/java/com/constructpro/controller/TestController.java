@@ -19,6 +19,16 @@ public class TestController {
         response.put("message", "pong");
         response.put("timestamp", LocalDateTime.now().toString());
         response.put("status", "success");
+        response.put("backend", "running");
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/auth-test")
+    public ResponseEntity<Map<String, Object>> authTest() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Auth endpoint is accessible");
+        response.put("timestamp", LocalDateTime.now().toString());
+        response.put("status", "success");
         return ResponseEntity.ok(response);
     }
 
