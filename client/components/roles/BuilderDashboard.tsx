@@ -319,6 +319,17 @@ const StatusBadge = styled.span<{ status: TaskStatus }>`
     STATUS_COLORS[props.status] || STATUS_COLORS.ASSIGNED};
 `;
 
+const UserStatusBadge = styled.span<{ active: boolean }>`
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  background: ${(props) =>
+    props.active ? "hsl(142 76% 36%)" : "hsl(0 84% 60%)"};
+`;
+
 const CardActions = styled.div`
   display: flex;
   gap: 0.5rem;
@@ -529,9 +540,16 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
   // Modal states
   const [showBuildingModal, setShowBuildingModal] = useState(false);
   const [showTaskModal, setShowTaskModal] = useState(false);
+  const [showContractorModal, setShowContractorModal] = useState(false);
   const [editingBuilding, setEditingBuilding] = useState<Building | null>(null);
   const [selectedBuildingForTask, setSelectedBuildingForTask] =
     useState<Building | null>(null);
+  const [showBuildingDetailsModal, setShowBuildingDetailsModal] = useState(false);
+  const [selectedBuildingForDetails, setSelectedBuildingForDetails] =
+    useState<Building | null>(null);
+  const [showTaskDetailsModal, setShowTaskDetailsModal] = useState(false);
+  const [selectedTaskForDetails, setSelectedTaskForDetails] =
+    useState<Task | null>(null);
 
   // Form states
   const [buildingForm, setBuildingForm] = useState<BuildingFormData>({
@@ -561,6 +579,17 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     deadline: "",
     buildingId: 0,
     contractorId: 0,
+  });
+
+  const [contractorFormData, setContractorFormData] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    specialization: "",
+    yearsOfExperience: 0,
+    certificationDetails: "",
   });
 
   // Media upload states
@@ -668,7 +697,9 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
 
   const fetchContractors = async () => {
     try {
-      const contractorsData = await apiService.getAllContractors();
+      console.log("Fetching contractors...");
+      const contractorsData = await apiService.getAvailableContractors();
+      console.log("Contractors fetched:", contractorsData);
       setContractors(contractorsData);
     } catch (error) {
       console.error("Failed to fetch contractors:", error);
@@ -752,6 +783,49 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     }
   };
 
+  // Contractor management functions
+  const handleCreateContractor = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await apiService.registerUserByRole({
+        ...contractorFormData,
+        role: "CONTRACTOR",
+      });
+
+      setShowContractorModal(false);
+      setContractorFormData({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        specialization: "",
+        yearsOfExperience: 0,
+        certificationDetails: "",
+      });
+
+      await fetchContractors();
+    } catch (error) {
+      console.error("Failed to create contractor:", error);
+      alert("Failed to create contractor. Please try again.");
+    }
+  };
+
+  const closeContractorModal = () => {
+    setShowContractorModal(false);
+    setContractorFormData({
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      specialization: "",
+      yearsOfExperience: 0,
+      certificationDetails: "",
+    });
+  };
+
   const openTaskModal = (building?: Building) => {
     if (building) {
       setSelectedBuildingForTask(building);
@@ -759,6 +833,26 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
     }
     clearUploadedMedia();
     setShowTaskModal(true);
+  };
+
+  const openBuildingDetailsModal = (building: Building) => {
+    setSelectedBuildingForDetails(building);
+    setShowBuildingDetailsModal(true);
+  };
+
+  const openTaskDetailsModal = (task: Task) => {
+    setSelectedTaskForDetails(task);
+    setShowTaskDetailsModal(true);
+  };
+
+  const closeBuildingDetailsModal = () => {
+    setShowBuildingDetailsModal(false);
+    setSelectedBuildingForDetails(null);
+  };
+
+  const closeTaskDetailsModal = () => {
+    setShowTaskDetailsModal(false);
+    setSelectedTaskForDetails(null);
   };
 
   const resetBuildingForm = () => {
@@ -857,6 +951,12 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
             All Tasks
           </Tab>
           <Tab
+            active={activeTab === "contractors"}
+            onClick={() => setActiveTab("contractors")}
+          >
+            Contractors
+          </Tab>
+          <Tab
             active={activeTab === "approvals"}
             onClick={() => setActiveTab("approvals")}
           >
@@ -903,7 +1003,9 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                   >
                     Add Task
                   </SmallButton>
-                  <SmallButton variant="secondary">View Details</SmallButton>
+                  <SmallButton variant="secondary" onClick={() => openBuildingDetailsModal(building)}>
+                    View Details
+                  </SmallButton>
                 </CardActions>
               </Card>
             ))}
@@ -1021,6 +1123,59 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
             </Card>
           ))}
         </ItemsGrid>
+      )}
+
+      {activeTab === "contractors" && (
+        <>
+          <ActionSection>
+            <ActionButtons>
+              <Button
+                variant="primary"
+                onClick={() => setShowContractorModal(true)}
+              >
+                + Create New Contractor
+              </Button>
+              <Button variant="secondary" onClick={fetchContractors}>
+                Refresh
+              </Button>
+            </ActionButtons>
+          </ActionSection>
+
+          <ItemsGrid>
+            {contractors.map((contractor) => (
+              <Card key={contractor.id}>
+                <CardTitle>
+                  {contractor.firstName} {contractor.lastName}
+                </CardTitle>
+                <CardInfo>
+                  📧 {contractor.email}
+                  <br />
+                  {contractor.phoneNumber && (
+                    <>
+                      📞 {contractor.phoneNumber}
+                      <br />
+                    </>
+                  )}
+                  {contractor.specialization && (
+                    <>
+                      🔧 {contractor.specialization}
+                      <br />
+                    </>
+                  )}
+                  {contractor.yearsOfExperience && (
+                    <>
+                      ⏱️ {contractor.yearsOfExperience} years experience
+                      <br />
+                    </>
+                  )}
+                  <UserStatusBadge active={contractor.isActive}>
+                    {contractor.isActive ? "Active" : "Inactive"}
+                  </UserStatusBadge>
+                </CardInfo>
+              </Card>
+            ))}
+          </ItemsGrid>
+        </>
       )}
 
       {/* Building Modal */}
@@ -1325,6 +1480,179 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
                 disabled={isUploadingMedia}
               >
                 {isUploadingMedia ? "Uploading..." : "Create Task"}
+              </Button>
+            </FormActions>
+          </Form>
+        </ModalContent>
+      </Modal>
+
+      {/* Building Details Modal */}
+      <Modal isOpen={showBuildingDetailsModal}>
+        <ModalContent>
+          <ModalTitle>Building Details</ModalTitle>
+          {selectedBuildingForDetails && (
+            <div>
+              <h3>{selectedBuildingForDetails.name}</h3>
+              <p><strong>Description:</strong> {selectedBuildingForDetails.description || 'N/A'}</p>
+              <p><strong>Address:</strong> {selectedBuildingForDetails.address}</p>
+              <p><strong>Type:</strong> {selectedBuildingForDetails.type}</p>
+              <p><strong>Status:</strong> {selectedBuildingForDetails.status}</p>
+              <p><strong>Total Floors:</strong> {selectedBuildingForDetails.totalFloors || 'N/A'}</p>
+              <p><strong>Estimated Budget:</strong> {selectedBuildingForDetails.estimatedBudget || 'N/A'}</p>
+              <p><strong>Start Date:</strong> {selectedBuildingForDetails.startDate || 'N/A'}</p>
+              <p><strong>Expected Completion:</strong> {selectedBuildingForDetails.expectedCompletionDate || 'N/A'}</p>
+            </div>
+          )}
+          <Button onClick={closeBuildingDetailsModal}>Close</Button>
+        </ModalContent>
+      </Modal>
+
+      {/* Task Details Modal */}
+      <Modal isOpen={showTaskDetailsModal}>
+        <ModalContent>
+          <ModalTitle>Task Details</ModalTitle>
+          {selectedTaskForDetails && (
+            <div>
+              <h3>{selectedTaskForDetails.name}</h3>
+              <p><strong>Description:</strong> {selectedTaskForDetails.description || 'N/A'}</p>
+              <p><strong>Building:</strong> {selectedTaskForDetails.building.name}</p>
+              <p><strong>Contractor:</strong> {selectedTaskForDetails.assignedContractor.firstName} {selectedTaskForDetails.assignedContractor.lastName}</p>
+              <p><strong>Type:</strong> {selectedTaskForDetails.type}</p>
+              <p><strong>Priority:</strong> {selectedTaskForDetails.priority}</p>
+              <p><strong>Status:</strong> {selectedTaskForDetails.status}</p>
+              <p><strong>Progress:</strong> {selectedTaskForDetails.progressPercentage}%</p>
+              <p><strong>Start Date:</strong> {selectedTaskForDetails.startDate}</p>
+              <p><strong>Deadline:</strong> {selectedTaskForDetails.deadline}</p>
+              <p><strong>Estimated Duration:</strong> {selectedTaskForDetails.estimatedDurationDays || 'N/A'} days</p>
+              <p><strong>Estimated Cost:</strong> {selectedTaskForDetails.estimatedCost || 'N/A'}</p>
+            </div>
+          )}
+          <Button onClick={closeTaskDetailsModal}>Close</Button>
+        </ModalContent>
+      </Modal>
+
+      {/* Contractor Modal */}
+      <Modal isOpen={showContractorModal}>
+        <ModalContent>
+          <ModalTitle>Create New Contractor</ModalTitle>
+
+          <Form onSubmit={handleCreateContractor}>
+            <FormGroup>
+              <Label>Email</Label>
+              <Input
+                type="email"
+                value={contractorFormData.email}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Password</Label>
+              <Input
+                type="password"
+                value={contractorFormData.password}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, password: e.target.value }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                value={contractorFormData.firstName}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    firstName: e.target.value,
+                  }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Last Name</Label>
+              <Input
+                type="text"
+                value={contractorFormData.lastName}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Phone Number (Optional)</Label>
+              <Input
+                type="tel"
+                value={contractorFormData.phoneNumber}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    phoneNumber: e.target.value,
+                  }))
+                }
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Specialization</Label>
+              <Input
+                type="text"
+                value={contractorFormData.specialization}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    specialization: e.target.value,
+                  }))
+                }
+                placeholder="e.g., Electrical, Plumbing, HVAC"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Years of Experience</Label>
+              <Input
+                type="number"
+                value={contractorFormData.yearsOfExperience}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    yearsOfExperience: parseInt(e.target.value) || 0,
+                  }))
+                }
+                min="0"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Certification Details (Optional)</Label>
+              <Input
+                type="text"
+                value={contractorFormData.certificationDetails}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    certificationDetails: e.target.value,
+                  }))
+                }
+                placeholder="e.g., Licensed Electrician, Certified Plumber"
+              />
+            </FormGroup>
+
+            <FormActions>
+              <Button type="button" variant="secondary" onClick={closeContractorModal}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="primary">
+                Create Contractor
               </Button>
             </FormActions>
           </Form>

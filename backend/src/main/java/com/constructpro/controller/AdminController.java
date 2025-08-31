@@ -231,6 +231,22 @@ public class AdminController {
         }
     }
     
+    // Add this new endpoint for builders and admins
+    @GetMapping("/contractors/available")
+    @PreAuthorize("hasAnyRole('ADMIN', 'BUILDER')")
+    public ResponseEntity<List<User>> getAvailableContractors() {
+        try {
+            log.info("getAvailableContractors endpoint called");
+            // Temporarily return all contractors for debugging
+            List<User> contractors = userRepository.findByRole(User.Role.CONTRACTOR);
+            log.info("Found {} contractors", contractors.size());
+            return ResponseEntity.ok(contractors);
+        } catch (Exception e) {
+            log.error("Error fetching available contractors", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    
     @GetMapping("/stats/user-counts")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getUserCounts() {

@@ -31,6 +31,9 @@ type AppState =
   | "contractor-login"
   | "builder-login"
   | "admin-login"
+  | "contractor-register"
+  | "builder-register"
+  | "admin-register"
   | "contractor-dashboard"
   | "builder-dashboard"
   | "admin-dashboard";
@@ -84,6 +87,10 @@ const AppContent = () => {
     setAppState(`${role}-login` as AppState);
   };
 
+  const handleRegister = (role: "builder" | "contractor" | "admin") => {
+    setAppState(`${role}-register` as AppState);
+  };
+
   const handleLoginSuccess = () => {
     // The useAuth hook will handle the redirect automatically
     // This is kept for backward compatibility with the component interface
@@ -126,7 +133,7 @@ const AppContent = () => {
         return (
           <ContractorScreen
             onLogin={() => handleLogin("contractor")}
-            onSignup={() => handleLogin("contractor")}
+            onSignup={() => handleRegister("contractor")}
             onBack={handleBack}
           />
         );
@@ -135,7 +142,7 @@ const AppContent = () => {
         return (
           <BuilderScreen
             onLogin={() => handleLogin("builder")}
-            onSignup={() => handleLogin("builder")}
+            onSignup={() => handleRegister("builder")}
             onBack={handleBack}
           />
         );
@@ -144,7 +151,7 @@ const AppContent = () => {
         return (
           <AdminScreen
             onLogin={() => handleLogin("admin")}
-            onSignup={() => handleLogin("admin")}
+            onSignup={() => handleRegister("admin")}
             onBack={handleBack}
           />
         );
@@ -168,6 +175,33 @@ const AppContent = () => {
         );
 
       case "admin-login":
+        return (
+          <LoginForm
+            role="admin"
+            onBack={handleBack}
+            onSuccess={handleLoginSuccess}
+          />
+        );
+
+      case "contractor-register":
+        return (
+          <LoginForm
+            role="contractor"
+            onBack={handleBack}
+            onSuccess={handleLoginSuccess}
+          />
+        );
+
+      case "builder-register":
+        return (
+          <LoginForm
+            role="builder"
+            onBack={handleBack}
+            onSuccess={handleLoginSuccess}
+          />
+        );
+
+      case "admin-register":
         return (
           <LoginForm
             role="admin"

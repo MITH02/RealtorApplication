@@ -407,6 +407,7 @@ interface AdminDashboardProps {
 
 export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [builders, setBuilders] = useState<User[]>([]);
+  const [contractors, setContractors] = useState<User[]>([]);
   const [stats, setStats] = useState({
     builders: 0,
     contractors: 0,
@@ -414,13 +415,25 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showContractorModal, setShowContractorModal] = useState(false);
   const [editingBuilder, setEditingBuilder] = useState<User | null>(null);
+  const [editingContractor, setEditingContractor] = useState<User | null>(null);
   const [formData, setFormData] = useState<BuilderFormData>({
     email: "",
     password: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
+  });
+  const [contractorFormData, setContractorFormData] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    specialization: "",
+    yearsOfExperience: 0,
+    certificationDetails: "",
   });
 
   const fetchBuilders = async () => {
@@ -429,6 +442,15 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       setBuilders(buildersData);
     } catch (error) {
       console.error("Failed to fetch builders:", error);
+    }
+  };
+
+  const fetchContractors = async () => {
+    try {
+      const contractorsData = await apiService.getAllContractors();
+      setContractors(contractorsData);
+    } catch (error) {
+      console.error("Failed to fetch contractors:", error);
     }
   };
 
@@ -444,7 +466,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      await Promise.all([fetchBuilders(), fetchStats()]);
+      await Promise.all([fetchBuilders(), fetchContractors(), fetchStats()]);
       setIsLoading(false);
     };
 
@@ -560,6 +582,127 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     });
   };
 
+  // Contractor management functions
+  const handleCreateContractor = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await apiService.registerUserByRole({
+        ...contractorFormData,
+        role: "CONTRACTOR",
+      });
+
+      setShowContractorModal(false);
+      setContractorFormData({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        specialization: "",
+        yearsOfExperience: 0,
+        certificationDetails: "",
+      });
+
+      await fetchContractors();
+      await fetchStats();
+    } catch (error) {
+      console.error("Failed to create contractor:", error);
+      alert("Failed to create contractor. Please try again.");
+    }
+  };
+
+  const handleUpdateContractor = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!editingContractor) return;
+
+    try {
+      await apiService.updateBuilder(editingContractor.id, {
+        ...contractorFormData,
+        role: "CONTRACTOR",
+      });
+
+      setEditingContractor(null);
+      setContractorFormData({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        specialization: "",
+        yearsOfExperience: 0,
+        certificationDetails: "",
+      });
+
+      await fetchContractors();
+    } catch (error) {
+      console.error("Failed to update contractor:", error);
+      alert("Failed to update contractor. Please try again.");
+    }
+  };
+
+  const handleToggleContractorStatus = async (
+    contractorId: number,
+    currentStatus: boolean,
+  ) => {
+    try {
+      await apiService.updateBuilderStatus(contractorId, !currentStatus);
+      await fetchContractors();
+    } catch (error) {
+      console.error("Failed to update contractor status:", error);
+      alert("Failed to update contractor status. Please try again.");
+    }
+  };
+
+  const handleDeleteContractor = async (contractorId: number) => {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this contractor? This action cannot be undone.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      await apiService.deleteBuilder(contractorId);
+      await fetchContractors();
+      await fetchStats();
+    } catch (error) {
+      console.error("Failed to delete contractor:", error);
+      alert("Failed to delete contractor. Please try again.");
+    }
+  };
+
+  const openContractorEditModal = (contractor: User) => {
+    setEditingContractor(contractor);
+    setContractorFormData({
+      email: contractor.email,
+      password: "",
+      firstName: contractor.firstName,
+      lastName: contractor.lastName,
+      phoneNumber: contractor.phoneNumber || "",
+      specialization: contractor.specialization || "",
+      yearsOfExperience: contractor.yearsOfExperience || 0,
+      certificationDetails: contractor.certificationDetails || "",
+    });
+  };
+
+  const closeContractorModal = () => {
+    setShowContractorModal(false);
+    setEditingContractor(null);
+    setContractorFormData({
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      specialization: "",
+      yearsOfExperience: 0,
+      certificationDetails: "",
+    });
+  };
+
   if (isLoading) {
     return (
       <DashboardContainer>
@@ -635,6 +778,63 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               <SmallButton
                 variant="danger"
                 onClick={() => handleDeleteBuilder(builder.id)}
+              >
+                Delete
+              </SmallButton>
+            </BuilderActions>
+          </BuilderCard>
+        ))}
+      </BuildersGrid>
+
+      {/* Contractor Management Section */}
+      <ActionSection>
+        <ActionButtons>
+          <Button variant="primary" onClick={() => setShowContractorModal(true)}>
+            + Create New Contractor
+          </Button>
+          <Button variant="secondary" onClick={fetchContractors}>
+            Refresh Contractors
+          </Button>
+        </ActionButtons>
+      </ActionSection>
+
+      <BuildersGrid>
+        {contractors.map((contractor) => (
+          <BuilderCard key={contractor.id}>
+            <BuilderInfo>
+              <BuilderName>
+                {contractor.firstName} {contractor.lastName}
+              </BuilderName>
+              <BuilderEmail>{contractor.email}</BuilderEmail>
+              {contractor.phoneNumber && (
+                <BuilderPhone>📞 {contractor.phoneNumber}</BuilderPhone>
+              )}
+              {contractor.specialization && (
+                <BuilderPhone>🔧 {contractor.specialization}</BuilderPhone>
+              )}
+              <StatusBadge active={contractor.isActive}>
+                {contractor.isActive ? "Active" : "Inactive"}
+              </StatusBadge>
+            </BuilderInfo>
+
+            <BuilderActions>
+              <SmallButton
+                variant="primary"
+                onClick={() => openContractorEditModal(contractor)}
+              >
+                Edit
+              </SmallButton>
+              <SmallButton
+                variant="secondary"
+                onClick={() =>
+                  handleToggleContractorStatus(contractor.id, contractor.isActive)
+                }
+              >
+                {contractor.isActive ? "Deactivate" : "Activate"}
+              </SmallButton>
+              <SmallButton
+                variant="danger"
+                onClick={() => handleDeleteContractor(contractor.id)}
               >
                 Delete
               </SmallButton>
@@ -728,6 +928,142 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               </Button>
               <Button type="submit" variant="primary">
                 {editingBuilder ? "Update Builder" : "Create Builder"}
+              </Button>
+            </FormActions>
+          </Form>
+        </ModalContent>
+      </Modal>
+
+      {/* Contractor Create/Edit Modal */}
+      <Modal isOpen={showContractorModal || !!editingContractor}>
+        <ModalContent>
+          <ModalTitle>
+            {editingContractor ? "Edit Contractor" : "Create New Contractor"}
+          </ModalTitle>
+
+          <Form
+            onSubmit={
+              editingContractor ? handleUpdateContractor : handleCreateContractor
+            }
+          >
+            <FormGroup>
+              <Label>Email</Label>
+              <Input
+                type="email"
+                value={contractorFormData.email}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>
+                Password {editingContractor && "(leave blank to keep current)"}
+              </Label>
+              <Input
+                type="password"
+                value={contractorFormData.password}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, password: e.target.value }))
+                }
+                required={!editingContractor}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>First Name</Label>
+              <Input
+                type="text"
+                value={contractorFormData.firstName}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    firstName: e.target.value,
+                  }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Last Name</Label>
+              <Input
+                type="text"
+                value={contractorFormData.lastName}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({ ...prev, lastName: e.target.value }))
+                }
+                required
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Phone Number (Optional)</Label>
+              <Input
+                type="tel"
+                value={contractorFormData.phoneNumber}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    phoneNumber: e.target.value,
+                  }))
+                }
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Specialization</Label>
+              <Input
+                type="text"
+                value={contractorFormData.specialization}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    specialization: e.target.value,
+                  }))
+                }
+                placeholder="e.g., Electrical, Plumbing, HVAC"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Years of Experience</Label>
+              <Input
+                type="number"
+                value={contractorFormData.yearsOfExperience}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    yearsOfExperience: parseInt(e.target.value) || 0,
+                  }))
+                }
+                min="0"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Label>Certification Details (Optional)</Label>
+              <Input
+                type="text"
+                value={contractorFormData.certificationDetails}
+                onChange={(e) =>
+                  setContractorFormData((prev) => ({
+                    ...prev,
+                    certificationDetails: e.target.value,
+                  }))
+                }
+                placeholder="e.g., Licensed Electrician, Certified Plumber"
+              />
+            </FormGroup>
+
+            <FormActions>
+              <Button type="button" variant="secondary" onClick={closeContractorModal}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="primary">
+                {editingContractor ? "Update Contractor" : "Create Contractor"}
               </Button>
             </FormActions>
           </Form>

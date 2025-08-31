@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 import { useAuth } from "@/contexts/AuthContext";
 import { SimpleThemeToggle } from "@/components/theme-toggle";
+import apiService from "@/services/api";
 
 interface LoginFormProps {
   role: "builder" | "contractor" | "admin";
@@ -443,9 +444,28 @@ export default function LoginForm({ role, onBack, onSuccess }: LoginFormProps) {
         await login(email, password);
         onSuccess();
       } else {
-        // For signup, we'll need to implement registration
-        // For now, just show a message
-        alert("Registration not implemented yet. Please contact admin.");
+        // Implement registration
+        const signupData = {
+          email,
+          password,
+          firstName: name.split(' ')[0] || name,
+          lastName: name.split(' ').slice(1).join(' ') || '',
+          role: role.toUpperCase(),
+        };
+        
+        try {
+          await apiService.register(signupData);
+          alert("Registration successful! Please login with your credentials.");
+          // Switch to login mode after successful registration
+          setIsLogin(true);
+        } catch (error: any) {
+          // If registration fails due to role restrictions, show appropriate message
+          if (error.message && error.message.includes("Only contractor registration is allowed")) {
+            alert("Only contractor registration is available publicly. For other roles, please contact an administrator.");
+          } else {
+            throw error; // Re-throw other errors
+          }
+        }
       }
     } catch (error: any) {
       console.error("Authentication error:", error);

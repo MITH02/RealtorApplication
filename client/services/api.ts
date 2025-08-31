@@ -399,6 +399,14 @@ class ApiService {
     );
   }
 
+  async registerUserByRole(userData: SignupRequest): Promise<MessageResponse> {
+    return this.makeRequest<MessageResponse>(
+      "/api/auth/register-user",
+      "POST",
+      userData,
+    );
+  }
+
   async refreshToken(refreshToken: string): Promise<JwtResponse> {
     const response = await this.makeRequest<JwtResponse>(
       "/api/auth/refresh-token",
@@ -466,6 +474,11 @@ class ApiService {
 
   async getAllContractors(): Promise<User[]> {
     return this.makeRequest<User[]>("/api/admin/contractors");
+  }
+
+  // Add this new method for builders
+  async getAvailableContractors(): Promise<User[]> {
+    return this.makeRequest<User[]>("/api/admin/contractors/available");
   }
 
   async getUserCounts(): Promise<{

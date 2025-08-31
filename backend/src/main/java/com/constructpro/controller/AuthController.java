@@ -96,6 +96,13 @@ public class AuthController {
                     .body(new MessageResponse("Error: Invalid role specified"));
             }
             
+            // Check if the role is allowed for public registration
+            // Only CONTRACTOR role is allowed for public registration
+            if (role != User.Role.CONTRACTOR) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: Only contractor registration is allowed. Please contact admin for other roles."));
+            }
+            
             // Create new user account
             User user = new User(
                 signUpRequest.getEmail(),
@@ -119,7 +126,7 @@ public class AuthController {
             
             userRepository.save(user);
             
-            return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+            return ResponseEntity.ok(new MessageResponse("Contractor registered successfully!"));
             
         } catch (Exception e) {
             log.error("Registration failed for user: {}", signUpRequest.getEmail(), e);
@@ -164,6 +171,83 @@ public class AuthController {
         // In a more sophisticated implementation, you might want to blacklist the JWT token
         // For now, we'll just return a success message as the client should remove the token
         return ResponseEntity.ok(new MessageResponse("User logged out successfully!"));
+    }
+    
+    @PostMapping("/register-user")
+    public ResponseEntity<?> registerUserByRole(@Valid @RequestBody SignupRequest signUpRequest, 
+                                               Authentication authentication) {
+        try {
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new MessageResponse("Error: Authentication required"));
+            }
+            
+            User currentUser = (User) authentication.getPrincipal();
+            
+            if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+            }
+            
+            // Validate role
+            User.Role role;
+            try {
+                role = User.Role.valueOf(signUpRequest.getRole().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: Invalid role specified"));
+            }
+            
+            // Check role-based permissions
+            boolean canRegister = false;
+            String allowedRoles = "";
+            
+            if (currentUser.getRole() == User.Role.ADMIN) {
+                // Admin can register builders and contractors
+                canRegister = (role == User.Role.BUILDER || role == User.Role.CONTRACTOR);
+                allowedRoles = "BUILDER or CONTRACTOR";
+            } else if (currentUser.getRole() == User.Role.BUILDER) {
+                // Builder can only register contractors
+                canRegister = (role == User.Role.CONTRACTOR);
+                allowedRoles = "CONTRACTOR";
+            }
+            
+            if (!canRegister) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Error: You can only register " + allowedRoles + " users."));
+            }
+            
+            // Create new user account
+            User user = new User(
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getFirstName(),
+                signUpRequest.getLastName(),
+                role
+            );
+            
+            // Set additional fields if provided
+            if (signUpRequest.getPhoneNumber() != null) {
+                user.setPhoneNumber(signUpRequest.getPhoneNumber());
+            }
+            
+            // Contractor-specific fields
+            if (role == User.Role.CONTRACTOR) {
+                user.setSpecialization(signUpRequest.getSpecialization());
+                user.setYearsOfExperience(signUpRequest.getYearsOfExperience());
+                user.setCertificationDetails(signUpRequest.getCertificationDetails());
+            }
+            
+            userRepository.save(user);
+            
+            String roleName = role.name().toLowerCase();
+            return ResponseEntity.ok(new MessageResponse(roleName.substring(0, 1).toUpperCase() + roleName.substring(1) + " registered successfully!"));
+            
+        } catch (Exception e) {
+            log.error("Role-based registration failed for user: {}", signUpRequest.getEmail(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new MessageResponse("Error: Registration failed"));
+        }
     }
     
     @GetMapping("/me")
