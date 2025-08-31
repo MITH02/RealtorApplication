@@ -50,4 +50,67 @@ public class TestController {
         response.put("corsEnabled", true);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/building-validation-test")
+    public ResponseEntity<?> testBuildingValidation() {
+        try {
+            // Test building type validation
+            String[] validTypes = {"RESIDENTIAL", "COMMERCIAL", "INDUSTRIAL", "MIXED_USE", "INFRASTRUCTURE"};
+            Map<String, Object> response = new HashMap<>();
+            response.put("validBuildingTypes", validTypes);
+            response.put("message", "Building validation test endpoint");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/test-building-creation")
+    public ResponseEntity<?> testBuildingCreation(@RequestBody BuildingCreateRequest request) {
+        try {
+            log.info("Testing building creation with data: {}", request);
+            
+            // Validate required fields
+            if (request.getName() == null || request.getName().trim().isEmpty()) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Building name is required"));
+            }
+            
+            if (request.getAddress() == null || request.getAddress().trim().isEmpty()) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Address is required"));
+            }
+            
+            if (request.getType() == null || request.getType().trim().isEmpty()) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Building type is required"));
+            }
+            
+            // Validate building type
+            try {
+                Building.BuildingType.valueOf(request.getType().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Invalid building type: " + request.getType() + 
+                           ". Valid types are: RESIDENTIAL, COMMERCIAL, INDUSTRIAL, MIXED_USE, INFRASTRUCTURE"));
+            }
+            
+            // Validate numeric fields
+            if (request.getTotalFloors() != null && request.getTotalFloors() <= 0) {
+                return ResponseEntity.badRequest()
+                    .body(new MessageResponse("Total floors must be positive"));
+            }
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Building validation passed");
+            response.put("validatedData", request);
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            log.error("Error testing building creation", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new MessageResponse("Error: " + e.getMessage()));
+        }
+    }
 }

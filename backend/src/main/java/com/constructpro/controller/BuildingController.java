@@ -1,6 +1,7 @@
 package com.constructpro.controller;
 
 import com.constructpro.dto.request.BuildingCreateRequest;
+import com.constructpro.dto.response.BuildingResponse;
 import com.constructpro.dto.response.MessageResponse;
 import com.constructpro.entity.Building;
 import com.constructpro.entity.User;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/buildings")
@@ -32,7 +34,7 @@ public class BuildingController {
             User currentUser = (User) authentication.getPrincipal();
             Building building = buildingService.createBuilding(request, currentUser);
             
-            return ResponseEntity.status(HttpStatus.CREATED).body(building);
+            return ResponseEntity.status(HttpStatus.CREATED).body(BuildingResponse.fromBuilding(building));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: " + e.getMessage()));
         } catch (Exception e) {
@@ -44,14 +46,16 @@ public class BuildingController {
     
     @GetMapping
     @PreAuthorize("hasRole('BUILDER')")
-    public ResponseEntity<List<Building>> getAllBuildings(Authentication authentication) {
+    public ResponseEntity<List<BuildingResponse>> getAllBuildings(Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
             
-            List<Building> buildings;
-            buildings = buildingService.getBuildingsByUser(currentUser);
+            List<Building> buildings = buildingService.getBuildingsByUser(currentUser);
+            List<BuildingResponse> responses = buildings.stream()
+                .map(BuildingResponse::fromBuilding)
+                .collect(Collectors.toList());
             
-            return ResponseEntity.ok(buildings);
+            return ResponseEntity.ok(responses);
         } catch (Exception e) {
             log.error("Error fetching buildings", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -79,7 +83,7 @@ public class BuildingController {
                 }
             }
             
-            return ResponseEntity.ok(building);
+            return ResponseEntity.ok(BuildingResponse.fromBuilding(building));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -98,7 +102,7 @@ public class BuildingController {
             User currentUser = (User) authentication.getPrincipal();
             Building building = buildingService.updateBuilding(id, request, currentUser);
             
-            return ResponseEntity.ok(building);
+            return ResponseEntity.ok(BuildingResponse.fromBuilding(building));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -126,7 +130,7 @@ public class BuildingController {
             }
             
             Building building = buildingService.updateBuildingStatus(id, projectStatus, currentUser);
-            return ResponseEntity.ok(building);
+            return ResponseEntity.ok(BuildingResponse.fromBuilding(building));
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
@@ -156,12 +160,16 @@ public class BuildingController {
     
     @GetMapping("/my-buildings")
     @PreAuthorize("hasRole('CONTRACTOR')")
-    public ResponseEntity<List<Building>> getMyBuildings(Authentication authentication) {
+    public ResponseEntity<List<BuildingResponse>> getMyBuildings(Authentication authentication) {
         try {
             User currentUser = (User) authentication.getPrincipal();
             List<Building> buildings = buildingService.getBuildingsByContractor(currentUser);
             
-            return ResponseEntity.ok(buildings);
+            List<BuildingResponse> responses = buildings.stream()
+                .map(BuildingResponse::fromBuilding)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(responses);
         } catch (Exception e) {
             log.error("Error fetching contractor buildings", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -170,10 +178,14 @@ public class BuildingController {
     
     @GetMapping("/overdue")
     @PreAuthorize("hasRole('BUILDER')")
-    public ResponseEntity<List<Building>> getOverdueBuildings() {
+    public ResponseEntity<List<BuildingResponse>> getOverdueBuildings() {
         try {
             List<Building> buildings = buildingService.getOverdueBuildings();
-            return ResponseEntity.ok(buildings);
+            List<BuildingResponse> responses = buildings.stream()
+                .map(BuildingResponse::fromBuilding)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(responses);
         } catch (Exception e) {
             log.error("Error fetching overdue buildings", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -182,10 +194,14 @@ public class BuildingController {
     
     @GetMapping("/active")
     @PreAuthorize("hasRole('BUILDER')")
-    public ResponseEntity<List<Building>> getActiveBuildingsOrderByDeadline() {
+    public ResponseEntity<List<BuildingResponse>> getActiveBuildingsOrderByDeadline() {
         try {
             List<Building> buildings = buildingService.getActiveBuildingsOrderByDeadline();
-            return ResponseEntity.ok(buildings);
+            List<BuildingResponse> responses = buildings.stream()
+                .map(BuildingResponse::fromBuilding)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(responses);
         } catch (Exception e) {
             log.error("Error fetching active buildings", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -194,10 +210,14 @@ public class BuildingController {
     
     @GetMapping("/search")
     @PreAuthorize("hasRole('BUILDER')")
-    public ResponseEntity<List<Building>> searchBuildings(@RequestParam String q) {
+    public ResponseEntity<List<BuildingResponse>> searchBuildings(@RequestParam String q) {
         try {
             List<Building> buildings = buildingService.searchBuildings(q);
-            return ResponseEntity.ok(buildings);
+            List<BuildingResponse> responses = buildings.stream()
+                .map(BuildingResponse::fromBuilding)
+                .collect(Collectors.toList());
+            
+            return ResponseEntity.ok(responses);
         } catch (Exception e) {
             log.error("Error searching buildings", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -82,10 +82,12 @@ public class Building {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by_user_id", nullable = false)
+    @JsonIgnore
     private User createdBy;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_manager_id")
+    @JsonIgnore
     private User projectManager;
     
     @OneToMany(mappedBy = "building", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
