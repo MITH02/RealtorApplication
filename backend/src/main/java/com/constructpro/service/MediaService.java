@@ -44,6 +44,45 @@ public class MediaService {
             User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+            // Validate user access to task/building
+            if (taskId != null) {
+                Task task = taskRepository.findById(taskId)
+                    .orElseThrow(() -> new RuntimeException("Task not found"));
+                
+                // Contractors can only upload to their own tasks
+                if (user.getRole() == User.Role.CONTRACTOR && 
+                    !task.getAssignedContractor().getId().equals(user.getId())) {
+                    throw new RuntimeException("You can only upload media to your own tasks");
+                }
+                
+                // Builders can only upload to tasks in buildings they created
+                if (user.getRole() == User.Role.BUILDER && 
+                    !task.getBuilding().getCreatedBy().getId().equals(user.getId())) {
+                    throw new RuntimeException("You can only upload media to tasks in buildings you created");
+                }
+            }
+
+            if (buildingId != null) {
+                Building building = buildingRepository.findById(buildingId)
+                    .orElseThrow(() -> new RuntimeException("Building not found"));
+                
+                // Only builders can upload to buildings they created
+                if (user.getRole() == User.Role.BUILDER && 
+                    !building.getCreatedBy().getId().equals(user.getId())) {
+                    throw new RuntimeException("You can only upload media to buildings you created");
+                }
+                
+                // Contractors can only upload to buildings they're assigned to
+                if (user.getRole() == User.Role.CONTRACTOR) {
+                    // Check if contractor is assigned to this building
+                    boolean isAssigned = building.getTasks().stream()
+                        .anyMatch(task -> task.getAssignedContractor().getId().equals(user.getId()));
+                    if (!isAssigned) {
+                        throw new RuntimeException("You can only upload media to buildings you're assigned to");
+                    }
+                }
+            }
+
             // Generate unique ID
             String mediaId = UUID.randomUUID().toString();
 
@@ -102,12 +141,34 @@ public class MediaService {
         return mediaRepository.findById(mediaId);
     }
 
-    public boolean deleteMedia(String mediaId) {
-        if (mediaRepository.existsById(mediaId)) {
-            mediaRepository.deleteById(mediaId);
-            return true;
+    public boolean deleteMedia(String mediaId, User requestingUser) {
+        Media media = mediaRepository.findById(mediaId)
+            .orElseThrow(() -> new RuntimeException("Media not found"));
+        
+        // Validate user access
+        if (requestingUser.getRole() == User.Role.ADMIN) {
+            // Admins can delete any media
+        } else if (requestingUser.getRole() == User.Role.BUILDER) {
+            // Builders can only delete media from buildings they created
+            if (media.getBuilding() != null && 
+                !media.getBuilding().getCreatedBy().getId().equals(requestingUser.getId())) {
+                throw new RuntimeException("You can only delete media from buildings you created");
+            }
+            if (media.getTask() != null && 
+                !media.getTask().getBuilding().getCreatedBy().getId().equals(requestingUser.getId())) {
+                throw new RuntimeException("You can only delete media from tasks in buildings you created");
+            }
+        } else if (requestingUser.getRole() == User.Role.CONTRACTOR) {
+            // Contractors can only delete their own media
+            if (!media.getUploadedBy().getId().equals(requestingUser.getId())) {
+                throw new RuntimeException("You can only delete your own media");
+            }
+        } else {
+            throw new RuntimeException("Access denied");
         }
-        return false;
+        
+        mediaRepository.deleteById(mediaId);
+        return true;
     }
 
     public MediaListResponse listMedia(Pageable pageable, String type, Long taskId, Long buildingId) {

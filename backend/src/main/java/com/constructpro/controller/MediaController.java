@@ -4,6 +4,7 @@
 package com.constructpro.controller;
 
 import com.constructpro.entity.Media;
+import com.constructpro.entity.User;
 import com.constructpro.service.MediaService;
 import com.constructpro.dto.MediaUploadResponse;
 import com.constructpro.dto.MediaListResponse;
@@ -139,10 +140,11 @@ public class MediaController {
 
     // Delete media
     @DeleteMapping("/{mediaId}")
-    @PreAuthorize("hasRole('BUILDER') or hasRole('ADMIN')")
-    public ResponseEntity<MessageResponse> deleteMedia(@PathVariable String mediaId) {
+    @PreAuthorize("hasRole('BUILDER') or hasRole('ADMIN') or hasRole('CONTRACTOR')")
+    public ResponseEntity<MessageResponse> deleteMedia(@PathVariable String mediaId, Authentication authentication) {
         try {
-            boolean deleted = mediaService.deleteMedia(mediaId);
+            User currentUser = (User) authentication.getPrincipal();
+            boolean deleted = mediaService.deleteMedia(mediaId, currentUser);
             
             if (deleted) {
                 return ResponseEntity.ok(new MessageResponse("Media deleted successfully"));

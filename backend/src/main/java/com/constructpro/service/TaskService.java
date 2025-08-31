@@ -35,9 +35,19 @@ public class TaskService {
     public Task createTask(TaskCreateRequest request, User createdBy) {
         log.info("Creating new task: {} by user: {}", request.getName(), createdBy.getEmail());
         
+        // Validate user role
+        if (createdBy.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can create tasks");
+        }
+        
         // Validate building
         Building building = buildingRepository.findById(request.getBuildingId())
             .orElseThrow(() -> new RuntimeException("Building not found"));
+        
+        // Validate building ownership
+        if (!building.getCreatedBy().getId().equals(createdBy.getId())) {
+            throw new IllegalArgumentException("You can only create tasks for buildings you created");
+        }
         
         // Validate contractor
         User contractor = userRepository.findById(request.getContractorId())
@@ -148,6 +158,11 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
         
+        // Validate user role
+        if (updatedBy.getRole() != User.Role.CONTRACTOR) {
+            throw new IllegalArgumentException("Only contractors can update task progress");
+        }
+        
         // Verify contractor ownership
         if (!task.getAssignedContractor().getId().equals(updatedBy.getId())) {
             throw new RuntimeException("Access denied: You can only update your own tasks");
@@ -185,6 +200,11 @@ public class TaskService {
     public Task markTaskAsCompleted(Long taskId, String completionNotes, User contractor) {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
+        
+        // Validate user role
+        if (contractor.getRole() != User.Role.CONTRACTOR) {
+            throw new IllegalArgumentException("Only contractors can mark tasks as completed");
+        }
         
         // Verify contractor ownership
         if (!task.getAssignedContractor().getId().equals(contractor.getId())) {
@@ -230,6 +250,16 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
         
+        // Validate user role
+        if (admin.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can approve tasks");
+        }
+        
+        // Verify building ownership
+        if (!task.getBuilding().getCreatedBy().getId().equals(admin.getId())) {
+            throw new IllegalArgumentException("You can only approve tasks for buildings you created");
+        }
+        
         // Verify task is completed
         if (task.getStatus() != Task.TaskStatus.COMPLETED) {
             throw new IllegalStateException("Task must be completed to approve");
@@ -261,6 +291,16 @@ public class TaskService {
     public Task rejectTask(Long taskId, String rejectionReason, User admin) {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
+        
+        // Validate user role
+        if (admin.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can reject tasks");
+        }
+        
+        // Verify building ownership
+        if (!task.getBuilding().getCreatedBy().getId().equals(admin.getId())) {
+            throw new IllegalArgumentException("You can only reject tasks for buildings you created");
+        }
         
         // Verify task is completed
         if (task.getStatus() != Task.TaskStatus.COMPLETED) {
@@ -300,6 +340,16 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
         
+        // Validate user role
+        if (updatedBy.getRole() != User.Role.CONTRACTOR) {
+            throw new IllegalArgumentException("Only contractors can update task status");
+        }
+        
+        // Verify contractor ownership
+        if (!task.getAssignedContractor().getId().equals(updatedBy.getId())) {
+            throw new IllegalArgumentException("You can only update your own tasks");
+        }
+        
         Task.TaskStatus oldStatus = task.getStatus();
         task.setStatus(status);
         
@@ -329,6 +379,21 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
         
+        // Validate user role and access
+        if (updatedBy.getRole() == User.Role.CONTRACTOR) {
+            // Contractors can only update their own tasks
+            if (!task.getAssignedContractor().getId().equals(updatedBy.getId())) {
+                throw new IllegalArgumentException("You can only add updates to your own tasks");
+            }
+        } else if (updatedBy.getRole() == User.Role.BUILDER) {
+            // Builders can only update tasks for buildings they created
+            if (!task.getBuilding().getCreatedBy().getId().equals(updatedBy.getId())) {
+                throw new IllegalArgumentException("You can only add updates to tasks for buildings you created");
+            }
+        } else {
+            throw new IllegalArgumentException("Only builders and contractors can add task updates");
+        }
+        
         TaskUpdate taskUpdate = new TaskUpdate(task, updatedBy, updateType, message);
         
         if (imageUrls != null && !imageUrls.isEmpty()) {
@@ -342,9 +407,24 @@ public class TaskService {
     }
     
     @Transactional(readOnly = true)
-    public List<TaskUpdate> getTaskUpdates(Long taskId) {
+    public List<TaskUpdate> getTaskUpdates(Long taskId, User requestingUser) {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
+        
+        // Validate user access
+        if (requestingUser.getRole() == User.Role.CONTRACTOR) {
+            // Contractors can only view updates for their own tasks
+            if (!task.getAssignedContractor().getId().equals(requestingUser.getId())) {
+                throw new IllegalArgumentException("You can only view updates for your own tasks");
+            }
+        } else if (requestingUser.getRole() == User.Role.BUILDER) {
+            // Builders can only view updates for tasks in buildings they created
+            if (!task.getBuilding().getCreatedBy().getId().equals(requestingUser.getId())) {
+                throw new IllegalArgumentException("You can only view updates for tasks in buildings you created");
+            }
+        } else if (requestingUser.getRole() != User.Role.ADMIN) {
+            throw new IllegalArgumentException("Access denied");
+        }
         
         return taskUpdateRepository.findTaskUpdatesOrderByCreatedAtDesc(task);
     }
@@ -362,6 +442,16 @@ public class TaskService {
     public void deleteTask(Long taskId, User deletedBy) {
         Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found"));
+        
+        // Validate user role
+        if (deletedBy.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can delete tasks");
+        }
+        
+        // Verify building ownership
+        if (!task.getBuilding().getCreatedBy().getId().equals(deletedBy.getId())) {
+            throw new IllegalArgumentException("You can only delete tasks for buildings you created");
+        }
         
         if (task.getStatus() == Task.TaskStatus.IN_PROGRESS || task.getStatus() == Task.TaskStatus.COMPLETED) {
             throw new IllegalStateException("Cannot delete task that is in progress or completed");

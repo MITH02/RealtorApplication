@@ -299,18 +299,7 @@ public class TaskController {
         try {
             User currentUser = (User) authentication.getPrincipal();
             
-            // Check task access for contractors
-            if (currentUser.getRole() == User.Role.CONTRACTOR) {
-                Task task = taskService.getTaskById(id)
-                    .orElseThrow(() -> new RuntimeException("Task not found"));
-                
-                if (!task.getAssignedContractor().getId().equals(currentUser.getId())) {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body(new MessageResponse("Access denied: You can only view updates for your own tasks"));
-                }
-            }
-            
-            List<TaskUpdate> updates = taskService.getTaskUpdates(id);
+            List<TaskUpdate> updates = taskService.getTaskUpdates(id, currentUser);
             return ResponseEntity.ok(updates);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();

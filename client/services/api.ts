@@ -841,7 +841,7 @@ class ApiService {
     assignmentData: BuildingContractorAssignRequest,
   ): Promise<BuildingContractor> {
     return this.makeRequest<BuildingContractor>(
-      "/building-contractors/assign",
+      "/api/building-contractors/assign",
       "POST",
       assignmentData,
     );
@@ -852,7 +852,7 @@ class ApiService {
     contractorId: number,
   ): Promise<MessageResponse> {
     return this.makeRequest<MessageResponse>(
-      `/building-contractors/unassign?buildingId=${buildingId}&contractorId=${contractorId}`,
+      `/api/building-contractors/unassign?buildingId=${buildingId}&contractorId=${contractorId}`,
       "DELETE",
     );
   }
@@ -861,7 +861,7 @@ class ApiService {
     buildingId: number,
   ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
-      `/building-contractors/building/${buildingId}`,
+      `/api/building-contractors/building/${buildingId}`,
     );
   }
 
@@ -869,7 +869,7 @@ class ApiService {
     contractorId: number,
   ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
-      `/building-contractors/contractor/${contractorId}`,
+      `/api/building-contractors/contractor/${contractorId}`,
     );
   }
 
@@ -877,7 +877,7 @@ class ApiService {
     buildingId: number,
   ): Promise<BuildingContractor[]> {
     return this.makeRequest<BuildingContractor[]>(
-      `/building-contractors/building/${buildingId}/all`,
+      `/api/building-contractors/building/${buildingId}/all`,
     );
   }
 }

@@ -27,6 +27,11 @@ public class BuildingService {
     public Building createBuilding(BuildingCreateRequest request, User createdBy) {
         log.info("Creating new building: {} by user: {}", request.getName(), createdBy.getEmail());
         
+        // Validate user role
+        if (createdBy.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can create buildings");
+        }
+        
         Building building = new Building();
         building.setName(request.getName());
         building.setDescription(request.getDescription());
@@ -153,6 +158,15 @@ public class BuildingService {
         Building building = buildingRepository.findById(buildingId)
             .orElseThrow(() -> new RuntimeException("Building not found"));
         
+        // Validate user role and ownership
+        if (updatedBy.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can update buildings");
+        }
+        
+        if (!building.getCreatedBy().getId().equals(updatedBy.getId())) {
+            throw new IllegalArgumentException("You can only update buildings you created");
+        }
+        
         // Update basic information
         building.setName(request.getName());
         building.setDescription(request.getDescription());
@@ -210,6 +224,15 @@ public class BuildingService {
     public void deleteBuilding(Long buildingId, User deletedBy) {
         Building building = buildingRepository.findById(buildingId)
             .orElseThrow(() -> new RuntimeException("Building not found"));
+        
+        // Validate user role and ownership
+        if (deletedBy.getRole() != User.Role.BUILDER) {
+            throw new IllegalArgumentException("Only builders can delete buildings");
+        }
+        
+        if (!building.getCreatedBy().getId().equals(deletedBy.getId())) {
+            throw new IllegalArgumentException("You can only delete buildings you created");
+        }
         
         // Check if building has active tasks
         if (!building.getTasks().isEmpty()) {
