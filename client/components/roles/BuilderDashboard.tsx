@@ -741,16 +741,22 @@ export default function BuilderDashboard({ user }: BuilderDashboardProps) {
 
       // Add media if uploaded
       if (uploadedMediaUrls.length > 0) {
-        await apiService.addTaskUpdate(
-          createdTask.id,
-          "Task created with reference materials",
-          "STATUS_CHANGE",
-          uploadedMediaUrls,
-        );
+        try {
+          await apiService.addTaskUpdate(
+            createdTask.id,
+            "Task created with reference materials",
+            "PROGRESS_UPDATE",
+            uploadedMediaUrls,
+          );
+        } catch (updateError) {
+          console.warn("Failed to add task update, but task was created:", updateError);
+          // Don't fail the entire operation if the update fails
+        }
       }
 
       setShowTaskModal(false);
       resetTaskForm();
+      clearUploadedMedia();
       await fetchTasks();
     } catch (error) {
       console.error("Failed to create task:", error);

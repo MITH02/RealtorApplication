@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import mediaDbRoutes from "./routes/media-db";
+import * as userRoutes from "./routes/users";
+import * as buildingRoutes from "./routes/buildings";
+import * as taskRoutes from "./routes/tasks";
 
 export function createServer() {
   const app = express();
@@ -38,6 +41,30 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // User management routes
+  app.get("/api/admin/contractors", userRoutes.getAllContractors);
+  app.get("/api/admin/contractors/available", userRoutes.getAvailableContractors);
+  app.get("/api/admin/stats/user-counts", userRoutes.getUserCounts);
+
+  // Building management routes
+  app.post("/api/buildings", buildingRoutes.createBuilding);
+  app.get("/api/buildings", buildingRoutes.getAllBuildings);
+  app.get("/api/buildings/:id", buildingRoutes.getBuildingById);
+  app.put("/api/buildings/:id", buildingRoutes.updateBuilding);
+  app.patch("/api/buildings/:id/status", buildingRoutes.updateBuildingStatus);
+  app.delete("/api/buildings/:id", buildingRoutes.deleteBuilding);
+  app.get("/api/buildings/my-buildings", buildingRoutes.getMyBuildings);
+
+  // Task management routes
+  app.post("/api/tasks", taskRoutes.createTask);
+  app.get("/api/tasks/:id", taskRoutes.getTaskById);
+  app.get("/api/tasks/builder/all", taskRoutes.getBuilderTasks);
+  app.get("/api/tasks/building/:buildingId", taskRoutes.getTasksByBuilding);
+  app.patch("/api/tasks/:id/approve", taskRoutes.approveTask);
+  app.patch("/api/tasks/:id/reject", taskRoutes.rejectTask);
+  app.post("/api/tasks/:id/updates", taskRoutes.addTaskUpdate);
+  app.get("/api/tasks/:id/updates", taskRoutes.getTaskUpdates);
 
   // Database-based media routes
   app.post("/api/media/upload", mediaDbRoutes.uploadSingleFile);
